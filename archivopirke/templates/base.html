@@ -1,0 +1,29 @@
+{% load cms_tags staticfiles sekizai_tags menu_tags %}
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}{% endblock title %}</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        {% block meta %}{% endblock meta %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}semantic_ui/semantic.css">
+        <link rel="stylesheet" href="{{ STATIC_URL }}archivopirke/archivopirke.css">
+        {% render_block "css" %}
+        {% block head_styles %}{% endblock head_styles %}
+    </head>
+    <body>
+        {% cms_toolbar %}
+        
+        {% include "particles/header.html" %}
+
+        <div class="cmp-container">
+            {% block content %}{% endblock content %}
+        </div>
+
+        {% include "particles/footer.html" %}
+        
+        <script src="{{ STATIC_URL }}jquery/jquery-3.4.1.min.js"></script>
+        <script src="{{ STATIC_URL }}semantic_ui/semantic.js"></script>
+        {% render_block "js" %}
+    </body>
+</html>

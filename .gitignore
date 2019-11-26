@@ -1,0 +1,9 @@
+*.pyc
+*~
+__pycache__
+venv
+project.db
+media
+private
+.DS_Store
+migrations

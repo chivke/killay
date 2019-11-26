@@ -1,0 +1,19 @@
+{% load i18n menu_tags cache %}
+{% load sekizai_tags %}
+
+{% for child in children %}
+    {% if child.children %}
+        {% show_menu from_level to_level extra_inactive extra_active template "" "" child %}
+    {% else %}
+        <a class="{% if child.selected %}active {% endif %}item" href="{{ child.get_absolute_url }}">
+            <span class="text">{{ child.get_menu_title }}{{child.subtitle}}</span>
+            {% if child.subtitle %}
+            <span class="description">{{child.subtitle}}</span>
+            {% endif%}
+        </a>
+    {% endif %}
+    {% if class and forloop.last and not forloop.parentloop %}{% endif %}
+{% endfor %}
+{% addtoblock "js" %}<script type="text/javascript">
+$('.ui.dropdown') .dropdown() ;
+</script>{% endaddtoblock %}

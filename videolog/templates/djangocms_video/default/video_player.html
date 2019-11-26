@@ -1,0 +1,37 @@
+{% load i18n cms_tags %}
+{% load sekizai_tags %}
+{% if instance.embed_link %}
+    {# show iframe if embed_link is provided #}
+    <iframe src="{{ instance.embed_link_with_parameters }}" {{ instance.attributes_str }} frameborder="0" allowfullscreen="true"></iframe>
+    {% with disabled=instance.embed_link %}
+        {% for plugin in instance.child_plugin_instances %}
+            {% render_plugin plugin %}
+        {% endfor %}
+    {% endwith %}
+{% else %}
+    {# render <source> or <track> plugins #}
+    <figure class="ui segment"id="video-track-container">
+        <video id="video-chapters" controls {{ instance.attributes_str }} onload="displayChapters(trackElement)"
+            {% if instance.poster %} poster="{{ instance.poster.url }}"{% endif %}>
+            {% for plugin in instance.child_plugin_instances %}
+                {% render_plugin plugin %}
+            {% endfor %}
+            {% trans "Your browser doesn't support this video format." %}
+        </video>
+            <figcaption>
+                <div class="ui inverted secondary vertical fluid menu" id="chapters"></div>
+            </figcaption>
+    </figure>
+    {% addtoblock "js" %}<script type="text/javascript" src="{{ STATIC_URL }}djangocms_video/video_chapters.js"></script>{% endaddtoblock %}
+    {% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}djangocms_video/video_chapters.css">{% endaddtoblock %}
+
+{% endif %}
+
+{% comment %}
+    # Available variables:
+    {{ instance.template }}
+    {{ instance.label }}
+    {{ instance.embed_link }}
+    {{ instance.poster }}
+    {{ instance.attributes_str }}
+{% endcomment %}

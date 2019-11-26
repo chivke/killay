@@ -1,0 +1,93 @@
+{% extends "videolog/base.html" %}
+{% load videolog_tags %}
+{% load cms_tags %}
+{% load sekizai_tags %}
+
+{% block videolog_meta %}
+    <meta name="description" content="{{ entry.title }}">
+    <meta name="author" content="{{ entry.author.get_short_name }}">
+{% endblock videolog_meta %}
+
+{% block videolog_title %}{{ entry.title }}{% endblock %}
+
+{% block videolog_content %}
+
+<h1 class="ui header video-post-title">
+    {{ entry.title }}
+    {% if not entry.is_published %} <span class="ui horizontal label">(Borrador)</span>{% endif %}
+</h1>
+
+<div style="margin:2rem;margin-bottom:4rem;" class="ui two column justified grid">
+    <div class="column">
+        <div class="ui vertical inverted segment" id="vlog-player"> 
+            <video id="video-chapters" preload="none" poster="{{ entry.video_thumb.url }}" controls>
+                <source src="{% if entry.video_file %}{{ entry.video_file.url }}{% endif %}" type="video/mp4">
+                <track id='chapters-track' kind="chapters" src="{% if entry.track_chapters %}{{ entry.track_chapters.url }}{% endif %}">
+                Your browser doesn't support this video format.
+            </video>
+            <figcaption id="chapters-container" data-content="Navegar por secuencias">
+                <div class="ui secondary inverted vertical fluid menu" id="chapters-menu">
+                    <div class="item loading"><i class="spinner loading icon"></i></div>
+                    
+                </div>
+                {% addtoblock "js" %}<script type="text/javascript">$('#chapters-container') .popup({ on: 'hover' });</script>{% endaddtoblock %}
+            </figcaption>
+            {% addtoblock "js" %}
+            <script src="{{ STATIC_URL }}videolog/js/videolog_chapters.js"></script>
+            {% endaddtoblock %}
+            {% addtoblock "css" %}
+            <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}videolog/css/videolog_chapters.css">
+            {% endaddtoblock %}
+        </div>
+        <div class="ui grey inverted segment">
+            <h4 class="ui header">FICHA</h4>
+            <div class="ui divider"></div>
+            <ul class="ui list">
+                <li><b>N° de referencia: </b>{{ entry.video_code }}</li>
+                <li><b>Lugar (localidad/comuna/región/país): </b>{{ entry.location }}</li>
+                <li><b>Fecha de registro: </b>{{ entry.register_date }}</li>
+                <li><b>Personas: </b>{% for pp in entry.people.all %}{{ pp }}, {% endfor %}</li>
+                <li><b>Tema(s): </b>{% for cat in entry.category.all %}{{ cat.title }}{% endfor %}</li>
+                <li><b>Palabras clave o «keywords»: </b>{% for kw in entry.keywords.all %}{{ kw }}, {% endfor %}</li>
+                <li><b>Registro audiovisual: </b>{{ entry.register_author }}</li>
+                <li><b>Productor corporativo: </b>{{ entry.productor }}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="column">
+        <div class="ui justified vlog-description">
+            {{ entry.description }}
+        </div>
+        <div class="ui justified vlog-secuencia">
+            <div class="ui black horizontal medium label">
+                SECUENCIA <span id='sec-num'></span>
+            </div>
+            <div id="entry-desc-chap" class="ui justified">
+                <div class="ui center aligned container">
+                    
+                </div>
+            </div>
+        </div>
+        <div class="ui two column grid vlog-search">
+            <div class="column">
+                <h4 class="ui header">PALABRAS CLAVE</h4>
+                <div class="ui justified">Busca otros videos en relación a sus palabras clave.</div>
+                <div class="ui divider"></div>
+                {% for kw in entry.keywords.all %}
+                    <a href="{{ kw.get_absolute_url }}">{{ kw }}</a> / 
+                {% endfor %}
+            </div>
+            <div class="column">
+                <h4 class="ui header">PERSONAS</h4>
+                <div class="ui justified">Busca otros videos en relación a las personas que aparecen.</div>
+                <div class="ui divider"></div>
+                {% for pp in entry.people.all %}
+                    <a href="{{ pp.get_absolute_url }}" >{{ pp }}</a> / 
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

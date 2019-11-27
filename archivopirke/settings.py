@@ -130,7 +130,10 @@ TEMPLATES = [
     },
 ]
 
-X_FRAME_OPTIONS = 'DENY'
+#X_FRAME_OPTIONS = 'DENY'
+#SECURE_CONTENT_TYPE_NOSNIFF = True
+#SECURE_BROWSER_XSS_FILTER = True
+
 
 MIDDLEWARE = [
     'cms.middleware.utils.ApphookReloadMiddleware',

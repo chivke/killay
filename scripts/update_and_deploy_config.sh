@@ -1,4 +1,5 @@
 #!/bin/bash
+# 
 cd /srv/cmpirque
 git stash drop 
 git pull

@@ -58,7 +58,7 @@ else:
         DATABASES = {
             'default': {
                 'CONN_MAX_AGE': 0,
-                'ENGINE': 'django.db.postgresql',
+                'ENGINE': 'django.db.backends.postgresql',
                 'NAME': 'cmpirque',
                 'HOST': 'localhost',
                 'PASSWORD': f.read().strip(),

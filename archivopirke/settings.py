@@ -51,11 +51,12 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+#MEDIA_URL = '../data/media/'
 MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'archivopirke', 'static'),
+    os.path.join(BASE_DIR, 'archivopirke', 'videlog', 'static'),
 )
 SITE_ID = 1
 
@@ -128,7 +129,6 @@ INSTALLED_APPS = [
     'djangocms_snippet',
     'djangocms_googlemap',
     'archivopirke',
-    #'djangocms_videolog',
     'videolog',
     'djangocms_video',
 ]
@@ -182,12 +182,12 @@ DATABASES = {
         'CONN_MAX_AGE': 0,
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'project.db',
-#        'ENGINE': 'django.db.backends.mysql',
+#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'HOST': 'localhost',
-#        'NAME': 'djangopirke',
- #       'PASSWORD': 'P1rK3P4ssW0rD',
-        'PORT': '',
-  #      'USER': 'pirke'
+#        'NAME': 'cmpirque',
+ #       'PASSWORD': '',
+        'PORT': '', # 5432
+  #      'USER': 'cmpirke'
     }
 }
 

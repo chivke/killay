@@ -130,6 +130,7 @@ TEMPLATES = [
     },
 ]
 
+X_FRAME_OPTIONS = 'DENY'
 
 MIDDLEWARE = [
     'cms.middleware.utils.ApphookReloadMiddleware',
@@ -139,6 +140,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',

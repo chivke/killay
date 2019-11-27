@@ -12,7 +12,7 @@ sed -i 's/#X_FRAME_OPTIONS/X_FRAME_OPTIONS/g' /srv/cmpirque/archivopirke/setting
 sed -i 's/#SECURE_CONTENT_TYPE_NOSNIFF/SECURE_CONTENT_TYPE_NOSNIFF/g' /srv/cmpirque/archivopirke/settings.py
 sed -i 's/#SECURE_BROWSER_XSS_FILTER/SECURE_BROWSER_XSS_FILTER/g' /srv/cmpirque/archivopirke/settings.py
 echo 'Deploy configuration:'
-cat /srv/cmpirque/archivopirke/settings.py | grep "SECRET_DEPLOY"
+cat /srv/cmpirque/archivopirke/settings.py | grep "^SECRET_DEPLOY"
 cat /srv/cmpirque/archivopirke/settings.py | grep "^DEBUG"
 cat /srv/cmpirque/archivopirke/settings.py | grep "^DB_DEBUG"
 cat /srv/cmpirque/archivopirke/settings.py | grep "^CSRF_COOKIE_SECURE"

@@ -99,7 +99,7 @@ MEDIA_ROOT = os.path.join(DATA_DIR, 'media')
 STATIC_ROOT = os.path.join(DATA_DIR, 'static')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'archivopirke', 'videlog', 'static'),
+    os.path.join(BASE_DIR, 'archivopirke', 'static'),
 )
 SITE_ID = 1
 

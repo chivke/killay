@@ -24,13 +24,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 #$ pwgen 45 1 > secretkey.txt
 #
-#with open('secretkey.txt') as f:
-#   SECRET_KEY = f.read().strip()
 #
-SECRET_KEY = '0r$(2w%t!b4dub)(n45*(td09$ffwn14w-6c%ec+^4=zgypm7='
+#   
+#
 
-# SECURITY WARNING: don't run with debug turned on in production!
-#$ sed -i 's/DEBUG = True/DEBUG=False/g' settings.py
+SECRET_DEPLOY = False
+
+if not SECRET_DEPLOY:
+    SECRET_KEY = '0r$(2w%t!b4dub)(n45*(td09$ffwn14w-6c%ec+^4=zgypm7='
+else:
+    with open('secretkey.txt') as f:
+        SECRET_KEY = f.read().strip()
+
 DEBUG = True
 
 # Database in dev (true) or deploy (false)

@@ -22,12 +22,50 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+#$ pwgen 45 1 > secretkey.txt
+#
+#with open('secretkey.txt') as f:
+#   SECRET_KEY = f.read().strip()
+#
 SECRET_KEY = '0r$(2w%t!b4dub)(n45*(td09$ffwn14w-6c%ec+^4=zgypm7='
 
 # SECURITY WARNING: don't run with debug turned on in production!
+#$ sed -i 's/DEBUG = True/DEBUG=False/g' settings.py
 DEBUG = True
 
+# Database in dev (true) or deploy (false)
+#$ sed -i 's/DB_DEBUG = True/DB_DEBUG= False/g' settings.py
+DB_DEBUG = True
+
+if DB_DEBUG:
+    DATABASES = {
+        'default': {
+            'CONN_MAX_AGE': 0,
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'project.db',
+            'HOST': 'localhost',
+            'PORT': '',
+        }
+    }
+else:
+#$ postgres user password in secretkey_db.txt
+    with open('secretkey_db.txt') as f:
+        DATABASES = {
+            'default': {
+                'CONN_MAX_AGE': 0,
+                'ENGINE': 'django.db.postgresql_psycopg2',
+                'NAME': 'cmpirque',
+                'HOST': 'localhost',
+                'PASSWORD': f.read().strip(),
+                'PORT': '5432',  
+                'USER': 'cmpirke'
+            }
+        }
+
 ALLOWED_HOSTS = []
+#CSRF_COOKIE_SECURE = True
+#SESSION_COOKIE_SECURE = True
+
 
 # Application definition
 
@@ -177,19 +215,6 @@ CMS_PLACEHOLDER_CONF = {
         ]
     }
 }
-DATABASES = {
-    'default': {
-        'CONN_MAX_AGE': 0,
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'project.db',
-#        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'HOST': 'localhost',
-#        'NAME': 'cmpirque',
- #       'PASSWORD': '',
-        'PORT': '', # 5432
-  #      'USER': 'cmpirke'
-    }
-}
 
 MIGRATION_MODULES = {
     
@@ -204,8 +229,3 @@ THUMBNAIL_PROCESSORS = (
 
 LOGIN_REDIRECT_URL = '/admin'
 LOGOUT_REDIRECT_URL = '/'
-
-SOCIALMEDIA_FACEBOOK = 'https://www.facebook.com/MemoriaAudiovisualPirque/'
-SOCIALMEDIA_TWITTER = ''
-SOCIALMEDIA_INSTAGRAM = 'https://www.instagram.com/memoria.audiovisual.pirque/'
-SOCIALMEDIA_YOUTUBE = 'https://www.youtube.com/channel/UCY2Y9R41NVFGfwbnFOv63uw'

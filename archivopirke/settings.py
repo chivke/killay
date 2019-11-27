@@ -63,7 +63,7 @@ else:
                 'HOST': 'localhost',
                 'PASSWORD': f.read().strip(),
                 'PORT': '5432',  
-                'USER': 'cmpirke'
+                'USER': 'cmpirque'
             }
         }
 

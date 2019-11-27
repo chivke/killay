@@ -1,5 +1,5 @@
 #!/bin/bash
-git stash
+git stash /srv/cmpirque
 git pull /srv/cmpirque
 sed -i 's/SECRET_DEPLOY = False/SECRET_DEPLOY = True/g' /srv/cmpirque/archivopirke/settings.py
 sed -i 's/DEBUG = True/DEBUG = False/g' /srv/cmpirque/archivopirke/settings.py

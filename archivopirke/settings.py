@@ -58,7 +58,7 @@ else:
         DATABASES = {
             'default': {
                 'CONN_MAX_AGE': 0,
-                'ENGINE': 'django.db.postgresql_psycopg2',
+                'ENGINE': 'django.db.postgresql',
                 'NAME': 'cmpirque',
                 'HOST': 'localhost',
                 'PASSWORD': f.read().strip(),
@@ -67,7 +67,7 @@ else:
             }
         }
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
 #CSRF_COOKIE_SECURE = True
 #SESSION_COOKIE_SECURE = True
 

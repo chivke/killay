@@ -14,10 +14,10 @@ sed -i 's/#SECURE_BROWSER_XSS_FILTER/SECURE_BROWSER_XSS_FILTER/g' /srv/cmpirque/
 echo 'Deploy configuration:'
 cat /srv/cmpirque/archivopirke/settings.py | grep "SECRET_DEPLOY"
 cat /srv/cmpirque/archivopirke/settings.py | grep "^DEBUG"
-cat /srv/cmpirque/archivopirke/settings.py | grep "DB_DEBUG"
-cat /srv/cmpirque/archivopirke/settings.py | grep "CSRF_COOKIE_SECURE"
-cat /srv/cmpirque/archivopirke/settings.py | grep "SESSION_COOKIE_SECURE"
-cat /srv/cmpirque/archivopirke/settings.py | grep "X_FRAME_OPTIONS"
-cat /srv/cmpirque/archivopirke/settings.py | grep "SECURE_CONTENT_TYPE_NOSNIFF"
-cat /srv/cmpirque/archivopirke/settings.py | grep "SECURE_BROWSER_XSS_FILTER"
+cat /srv/cmpirque/archivopirke/settings.py | grep "^DB_DEBUG"
+cat /srv/cmpirque/archivopirke/settings.py | grep "^CSRF_COOKIE_SECURE"
+cat /srv/cmpirque/archivopirke/settings.py | grep "^SESSION_COOKIE_SECURE"
+cat /srv/cmpirque/archivopirke/settings.py | grep "^X_FRAME_OPTIONS"
+cat /srv/cmpirque/archivopirke/settings.py | grep "^SECURE_CONTENT_TYPE_NOSNIFF"
+cat /srv/cmpirque/archivopirke/settings.py | grep "^SECURE_BROWSER_XSS_FILTER"
 echo 'updted and secure deployment in settings file.'

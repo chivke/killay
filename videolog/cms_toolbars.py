@@ -3,7 +3,8 @@ from cms.toolbar_pool import toolbar_pool
 from cms.toolbar_base import CMSToolbar
 from cms.extensions.toolbar import ExtensionToolbar
 from cms.utils.urlutils import admin_reverse
-from videolog.models import (VideoEntry, HeaderExtension, VideoCategory, VideoPeople, VideoKeywords)
+from videolog.models import (VideoEntry, VideoCategory, VideoPeople, VideoKeywords)
+from archivopirke.models import HeaderExtension
 
 class VideoEntryToolbar(CMSToolbar):
     supported_apps = (

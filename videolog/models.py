@@ -350,23 +350,23 @@ class VideoEntry(models.Model):
 # djangoCMS Plugin Models for VideoLog
 # ---------------------------------------
 # ..
-# class VideoEntryPluginModel(CMSPlugin):
-#     entry = models.ForeignKey(VideoEntry)
-#     def __unicode__(self):
-#         return self.title
+class VideoEntryPluginModel(CMSPlugin):
+    entry = models.ForeignKey(VideoEntry)
+    def __unicode__(self):
+        return self.title
 
-# class HeaderExtension(PageExtension):
-#     header_image = FilerFileField(
-#         help_text="Page header image/ imagen de cabecera para página ",
-#         related_name="header_image_headerextension",
-#         blank=True,
-#         null=True,
-#         )
-#     subheader_image = FilerFileField(
-#         help_text="Page subheader image/ imagen de subcabecera para página ",
-#         related_name="subheader_image_headerextension",
-#         blank=True,
-#         null=True,
-#         )
+class HeaderExtension(PageExtension):
+    header_image = FilerFileField(
+        help_text="Page header image/ imagen de cabecera para página ",
+        related_name="header_image_headerextension",
+        blank=True,
+        null=True,
+        )
+    subheader_image = FilerFileField(
+        help_text="Page subheader image/ imagen de subcabecera para página ",
+        related_name="subheader_image_headerextension",
+        blank=True,
+        null=True,
+        )
 
-# extension_pool.register(HeaderExtension)
+extension_pool.register(HeaderExtension)

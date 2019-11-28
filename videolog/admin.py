@@ -6,7 +6,7 @@ from django.contrib.auth import get_user_model
 from cms.admin.placeholderadmin import PlaceholderAdminMixin
 from cms.extensions import PageExtensionAdmin
 # models:
-from .models import (VideoEntry, VideoPeople, VideoKeywords, VideoCategory,HeaderExtension)
+from .models import (VideoEntry, VideoPeople, VideoKeywords, VideoCategory)
 
 class VideoCategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug":("title",)}
@@ -32,11 +32,10 @@ class VideoEntryAdmin(PlaceholderAdminMixin, admin.ModelAdmin):
             kwargs['initial'] = request.user.id
         return super(VideoEntryAdmin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
-class HeaderExtensionAdmin(PageExtensionAdmin):
-	pass
+
 
 admin.site.register(VideoCategory, VideoCategoryAdmin)
 admin.site.register(VideoPeople, VideoPeopleAdmin)
 admin.site.register(VideoKeywords, VideoKeywordsAdmin)
 admin.site.register(VideoEntry, VideoEntryAdmin)
-admin.site.register(HeaderExtension, HeaderExtensionAdmin)
+

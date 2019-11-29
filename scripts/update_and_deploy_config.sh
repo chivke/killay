@@ -11,6 +11,8 @@ sed -i 's/DB_DEBUG = True/DB_DEBUG = False/g' /srv/cmpirque/archivopirke/setting
 #sed -i 's/#X_FRAME_OPTIONS/X_FRAME_OPTIONS/g' /srv/cmpirque/archivopirke/settings.py
 #sed -i 's/#SECURE_CONTENT_TYPE_NOSNIFF/SECURE_CONTENT_TYPE_NOSNIFF/g' /srv/cmpirque/archivopirke/settings.py
 #sed -i 's/#SECURE_BROWSER_XSS_FILTER/SECURE_BROWSER_XSS_FILTER/g' /srv/cmpirque/archivopirke/settings.py
+sed -i "s/^#MEDIA_ROOT/MEDIA_ROOT/g" /srv/cmpirque/archivopirke/settings.py
+sed -i 's/^MEDIA_ROOT = os/#MEDIA_ROOT = os/g' /srv/cmpirque/archivopirke/settings.py
 echo 'Deploy configuration:'
 cat /srv/cmpirque/archivopirke/settings.py | grep "^SECRET_DEPLOY"
 cat /srv/cmpirque/archivopirke/settings.py | grep "^DEBUG"

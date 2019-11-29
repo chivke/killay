@@ -1,6 +1,8 @@
 # README: Centro de Memoria Audiovisual de Pirque
 
 ![preview](docs/preview1.png)
+![preview](docs/preview0.png)
+![preview](docs/preview2.png)
 
 ### Sobre el proyecto
 
@@ -26,7 +28,7 @@ Fundación Origen
 Escuela Agroecológica de Pirque
 FONDART
 
-### Despliegue
+### Notas despliegue técnico
 
 1. Clonar este repositorio en el directorio donde se implementará (ej: /srv/).
 2. Configurar base de datos PostgreSQL de nombre 'cmpirque' y usuario de igual nombre. Establecer contraseña y guardarla en texto plano en archivo 'secretkey_db.txt'.

@@ -1,4 +1,4 @@
-Django==1.11.26
+Django==1.11.29
 django-category==2.0.1
 django-classy-tags==0.9.0
 django-cms==3.6.0

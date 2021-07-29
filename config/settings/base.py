@@ -183,7 +183,7 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # Slack's app token
 
-SLACK_BOT_TOKEN = env('SLACK_BOT_TOKEN')
+#SLACK_BOT_TOKEN = env('SLACK_BOT_TOKEN')
 
 
 # Time limit to prefer plate from the menu

@@ -3,7 +3,7 @@ import pytest
 from cmpirque.users.models import User
 from cmpirque.users.tests.factories import UserFactory, UserAdminFactory
 from cmpirque.pages.models import Page
-from cmpirque.pages.tests.factories import PageFactory
+from cmpirque.pages.tests.factories import PageFactory, HomePageFactory
 
 
 @pytest.fixture(autouse=True)
@@ -24,3 +24,9 @@ def admin_user() -> User:
 @pytest.fixture
 def page() -> Page:
     return PageFactory()
+
+
+@pytest.fixture
+def home_page() -> Page:
+    return HomePageFactory()
+

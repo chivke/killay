@@ -13,3 +13,7 @@ class PageFactory(DjangoModelFactory):
     class Meta:
         model = Page
         django_get_or_create = ['slug']
+
+
+class HomePageFactory(PageFactory):
+    slug = "home"

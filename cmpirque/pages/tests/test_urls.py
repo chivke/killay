@@ -12,3 +12,8 @@ def test_detail(page: Page):
         == f'/pages/{page.slug}/'
     )
     assert resolve(f'/pages/{page.slug}/').view_name == 'pages:detail'
+
+
+def test_home():
+    assert reverse("home") == "/"
+    assert resolve("/").view_name == "home"

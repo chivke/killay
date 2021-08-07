@@ -1,1 +1,9 @@
 {% extends "base.html" %}
+
+{% block content %}
+	{% if home_page %}
+		<h1>{{ home_page }}</h1>
+	{% else %}
+		<h1>Centro de Memoria Pirque</h1>
+	{% endif %}
+{% endblock content %}

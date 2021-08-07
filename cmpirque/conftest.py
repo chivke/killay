@@ -1,7 +1,9 @@
 import pytest
 
 from cmpirque.users.models import User
-from cmpirque.users.tests.factories import UserFactory
+from cmpirque.users.tests.factories import UserFactory, UserAdminFactory
+from cmpirque.pages.models import Page
+from cmpirque.pages.tests.factories import PageFactory
 
 
 @pytest.fixture(autouse=True)
@@ -12,3 +14,13 @@ def media_storage(settings, tmpdir):
 @pytest.fixture
 def user() -> User:
     return UserFactory()
+
+
+@pytest.fixture
+def admin_user() -> User:
+    return UserAdminFactory()
+
+
+@pytest.fixture
+def page() -> Page:
+    return PageFactory()

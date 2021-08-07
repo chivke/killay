@@ -5,6 +5,7 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
+    path('pages/', include('cmpirque.pages.urls', namespace='pages')),
     path('users/', include('cmpirque.users.urls', namespace='users')),
     path('accounts/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,14 +4,13 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}Centro de Memoria Pirque{% endblock title %}</title>
+    <title>{% block title %}{{ site_name }}{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="chivke">
     <!--[if lt IE 9]>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
     {% block css %}
-    <!-- Latest compiled and minified Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css" rel="stylesheet">
     <link href="{% static 'css/project.min.css' %}" rel="stylesheet">
     {% endblock %}
@@ -20,7 +19,7 @@
     <div class="mb-1">
       {% include 'components/navbar.html' %}
     </div>
-    <div class="container">
+    <div class="cmp-container">
 
       {% if messages %}
           {% for message in messages %}
@@ -33,6 +32,7 @@
       {% endblock content %}
 
     </div> <!-- /container -->
+    {% include 'components/footer.html' %}
 
     {% block modal %}{% endblock modal %}
 

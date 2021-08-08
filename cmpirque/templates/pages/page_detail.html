@@ -8,7 +8,7 @@
 
   <h1>{{ object.title }}</h1>
 
-  {% autoescape on %}{{ object.body }}{% endautoescape %}
+  {% autoescape off %}{{ object.body }}{% endautoescape %}
 
 </div>
 {% endblock content %}

@@ -12,6 +12,8 @@ class Page(models.Model):
         return f"{self.title} <{self.slug}>"
 
     def get_absolute_url(self):
+        if self.slug == "home":
+            return reverse("home")
         return reverse("pages:detail", kwargs={"slug": self.slug})
 
     class Meta:

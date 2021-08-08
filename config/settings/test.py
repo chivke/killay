@@ -6,7 +6,7 @@ SECRET_KEY = env('DJANGO_SECRET_KEY',
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
-CACHES = {'default': {'BACKEND': 'django.core.cache.cmpirques'
+CACHES = {'default': {'BACKEND': 'django.core.cache.backends'
                                  '.locmem.LocMemCache',
                       'LOCATION': ''}}
 

@@ -3,8 +3,12 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.conf.urls.static import static
 
+from cmpirque.pages.views import home_page_view
+
 
 urlpatterns = [
+    path('', view=home_page_view, name="home"),
+    path('pages/', include('cmpirque.pages.urls', namespace='pages')),
     path('users/', include('cmpirque.users.urls', namespace='users')),
     path('accounts/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

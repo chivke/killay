@@ -35,3 +35,124 @@ $red: #b94a48;
   border-color: $dark-pink;
   color: $red;
 }
+
+@font-face {
+  font-family: "BrandonBlack";
+  src: url("../fonts/BrandonGrotesque-Black.otf");
+}
+@font-face {
+  font-family: "BrandonRegular";
+  src: url("../fonts/BrandonGrotesque-Regular.otf");
+}
+@font-face {
+  font-family: "BrandonLight";
+  src: url("../fonts/BrandonGrotesque-Light.otf");
+}
+
+html {
+  font-family: "BrandonRegular";
+}
+
+.cmp-container {
+  margin-bottom: 150px;
+  padding: 0;
+  height: auto;
+  padding-top: 1rem;
+  font-family: "BrandonRegular";
+}
+
+
+.cmp-footer {
+  position: fixed;
+  bottom: 0;
+  z-index: 9999;
+  max-height: 150px;
+  display: flex;
+  font-family: "BrandonRegular";
+  padding: 1rem;
+  background-color: #dedede;
+  width: 100%;
+  max-height: 150px;
+
+  .footer-left,
+  .footer-right {
+    display: flex;
+    width:50%;
+    align-items: center;
+  }
+  .footer-right {
+    justify-content: flex-end;
+
+    .link {
+      color: black;
+      font-size: 1.5rem;
+    }
+    .text {
+      padding-right: 1rem;
+    }
+    
+  }
+  .footer-left {
+    justify-content: left;
+
+    .footer-logo {
+      height: 4rem;
+      width: auto;
+      padding: 0 1rem;
+      margin:0 !important;
+    }
+  }
+}
+
+
+/*
+  Menu de navegación
+*/
+
+#cmp-menu {
+  margin-top: 0;
+  border-radius:0;
+  background: #000;
+  font-family: "BrandonRegular";
+  .text {
+    font-size: 1.2rem !important;
+    text-transform: uppercase;
+  }
+  .vertical.segment {
+    padding:0; width:100%;
+  }
+  .item,
+  .item .text {
+    font-size: 1.2rem;
+  }
+  #cmp-head-menu {
+    border-bottom: solid 1px white;
+  }
+  #cmp-subhead-menu {
+    justify-content: space-between;
+
+    .item {
+      border-right: solid 1px white;
+      width: 12.5%;
+      justify-content: center;
+    }
+  }
+  #cmp-search-item {
+    border-left: solid 1px white;
+
+  }
+  #searchbox {
+    color:#fff;
+    margin-left: .5rem;
+  }
+  .administrator {
+    border-left: 1px white solid;
+    text-transform: uppercase;
+  }
+  ::placeholder {
+    color: #fff;
+    opacity: 1;
+    font-size: 1rem;
+  }
+}
+

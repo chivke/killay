@@ -1,1 +1,21 @@
 {% extends "base.html" %}
+
+{% block title %}
+  {% if home_page %} {{ home_page.title }} - {% endif %}{{ site_name }}
+{% endblock title %}
+
+{% block content %}
+  {% if home_page and home_page.header_image %}
+    <img id="home-img" class="ui image fluid" src="{{ home_page.header_image.url }}">
+    {{ home_page.header_image.url }}
+  {% endif %}
+  <div class="ui vertical segment">
+    <div id="home-container" class="txt">
+      {% if  home_page %}
+        {% autoescape off %}
+          {{ home_page.body }}
+        {% endautoescape %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock content %}

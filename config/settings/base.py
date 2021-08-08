@@ -16,6 +16,7 @@ TIME_ZONE = 'America/Santiago'
 LANGUAGE_CODE = 'en-us'
 SITE_ID = 1
 USE_TZ = True
+SITE_NAME = "Centro de Memoria Audiovisual de Pirque"
 
 # Database
 
@@ -104,6 +105,11 @@ MEDIA_URL = '/media/'
 
 # Template
 
+CUSTOM_CONTEXT_PROCESSORS = [
+    'cmpirque.pages.context_processors.site_context',
+    'cmpirque.pages.context_processors.pages_context',
+]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -120,6 +126,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                *CUSTOM_CONTEXT_PROCESSORS,
             ],
         },
     }
@@ -181,10 +188,3 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_TIME_LIMIT = 5 * 60
 CELERY_TASK_SOFT_TIME_LIMIT = 60
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
-
-
-
-
-# Time limit to prefer plate from the menu
-
-MEALS_PREFERENCE_LIMIT = env('MEALS_PREFERENCE_LIMIT', default='11:00')

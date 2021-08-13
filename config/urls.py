@@ -11,6 +11,7 @@ urlpatterns = [
     path('', view=home_page_view, name="home"),
     path('pages/', include('cmpirque.pages.urls', namespace='pages')),
     path('users/', include('cmpirque.users.urls', namespace='users')),
+    path('videos/', include('cmpirque.videos.urls', namespace='videos')),
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

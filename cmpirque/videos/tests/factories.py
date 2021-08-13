@@ -18,6 +18,17 @@ from cmpirque.videos.models import (
 class VideoMetaFactory(DjangoModelFactory):
     class Meta:
         model = VideoMeta
+    title = factory.Faker("name")
+    description = factory.Faker("text")
+
+
+class VideoFactory(DjangoModelFactory):
+    code = factory.Faker('slug')
+    meta = VideoMetaFactory
+
+    class Meta:
+        model = Video
+        django_get_or_create = ['code']
 
 
 class VideoCategoryFactory(DjangoModelFactory):
@@ -33,15 +44,6 @@ class VideoPersonFactory(DjangoModelFactory):
 class VideoKeywordFactory(DjangoModelFactory):
     class Meta:
         model = VideoKeyword
-
-
-class VideoFactory(DjangoModelFactory):
-    code = factory.Faker('slug')
-    meta = VideoMetaFactory
-
-    class Meta:
-        model = Video
-        django_get_or_create = ['code']
 
 
 class VideoCategorizationFactory(DjangoModelFactory):

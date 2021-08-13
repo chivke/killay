@@ -12,7 +12,7 @@ def pages_context(request):
     resolve_from_path = resolve(request.path)
     selected_map = {"home": True if resolve_from_path.url_name == "home" else False}
     if (
-        resolve_from_path.view_name == "page:detail"
+        resolve_from_path.view_name == "pages:detail"
         and "slug" in resolve_from_path.kwargs
     ):
         selected_map[resolve_from_path.kwargs["slug"]] = True

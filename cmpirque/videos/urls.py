@@ -1,8 +1,8 @@
 from django.urls import path
 
 
-from cmpirque.videos.views import (
-    video_detail_view,
+from cmpirque.videos.views.video_public import video_detail_view
+from cmpirque.videos.views.video_admin import (
     video_delete_view,
     video_create_view,
     video_update_view,

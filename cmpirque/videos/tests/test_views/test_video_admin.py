@@ -1,15 +1,13 @@
 import pytest
 
 from django.contrib.auth.models import AnonymousUser
-from django.http.response import Http404
 from django.test import RequestFactory
 
 from cmpirque.videos.models import Video
-from cmpirque.videos.views import (
+from cmpirque.videos.views.video_admin import (
     AdminRequiredMixin,
     video_create_view,
     video_delete_view,
-    video_detail_view,
     video_update_view,
 )
 from cmpirque.users.models import User
@@ -42,20 +40,6 @@ class TestAdminRequiredMixin:
             attribute_error = error
             mixin.dispatch(request)
         assert "dispatch" in attribute_error.value.args[0]
-
-
-class TestVideoDetailView:
-    def test_get_video(self, video: Video, rf: RequestFactory):
-        request = rf.get(f"/videos/{video.code}/")
-        response = video_detail_view(request, slug=video.code)
-        assert response.status_code == 200
-        assert response.render()
-        assert video.meta.title in str(response.content)
-
-    def test_not_found(self, rf: RequestFactory):
-        request = rf.get("/videos/-")
-        with pytest.raises(Http404):
-            video_detail_view(request, slug="wrong-code")
 
 
 class TestVideoCreateView:

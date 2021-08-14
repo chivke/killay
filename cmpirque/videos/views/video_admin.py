@@ -3,18 +3,12 @@ from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
     DeleteView,
-    DetailView,
     UpdateView,
 )
 
 
 from cmpirque.videos.forms import VideoForm, VideoMetaForm
 from cmpirque.videos.models import Video
-
-
-class VideoMixin:
-    model = Video
-    slug_field = "code"
 
 
 class AdminRequiredMixin(AccessMixin):
@@ -27,7 +21,9 @@ class AdminRequiredMixin(AccessMixin):
         return super().dispatch(request, *args, **kwargs)
 
 
-class VideoAdminMixin(VideoMixin, AdminRequiredMixin):
+class VideoAdminMixin(AdminRequiredMixin):
+    model = Video
+    slug_field = "code"
     form_class = VideoForm
     meta_form_class = VideoMetaForm
 
@@ -60,13 +56,6 @@ class VideoAdminMixin(VideoMixin, AdminRequiredMixin):
         )
         context["meta_form"] = self.meta_form_class(**metaform_kwargs)
         return context
-
-
-class VideoDetailView(VideoMixin, DetailView):
-    pass
-
-
-video_detail_view = VideoDetailView.as_view()
 
 
 class VideoDeleteView(VideoAdminMixin, DeleteView):

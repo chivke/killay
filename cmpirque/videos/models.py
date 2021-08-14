@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
 
@@ -10,7 +11,7 @@ class Video(models.Model):
     is_visible = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    thumb = models.ImageField(null=True)
+    thumb = models.ImageField(null=True, blank=True)
     meta = models.OneToOneField(
         "VideoMeta",
         on_delete=models.CASCADE,
@@ -24,14 +25,17 @@ class Video(models.Model):
     def __str__(self):
         return f"Video <{self.code}>"
 
+    def get_absolute_url(self):
+        return reverse("videos:detail", kwargs={"slug": self.code})
+
 
 class VideoMeta(models.Model):
-    title = models.CharField(max_length=500, null=True, blank=True)
+    title = models.CharField(max_length=500)
     description = models.TextField(null=True, blank=True)
-    description_date = models.DateField(null=True)
+    description_date = models.DateField(null=True, blank=True)
     location = models.CharField(max_length=500, null=True, blank=True)
     duration = models.TimeField(null=True, blank=True)
-    register_date = models.DateField(null=True)
+    register_date = models.DateField(null=True, blank=True)
     register_author = models.CharField(max_length=500, null=True, blank=True)
     productor = models.CharField(max_length=500, null=True, blank=True)
     status = models.TextField(null=True, blank=True)

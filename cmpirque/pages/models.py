@@ -7,6 +7,7 @@ class Page(models.Model):
     title = models.CharField(max_length=100, null=False, blank=False)
     slug = models.SlugField(null=False, blank=False)
     body = models.TextField(null=True, blank=True)
+    header_image = models.ImageField(null=True)
 
     def __str__(self):
         return f"{self.title} <{self.slug}>"
@@ -19,3 +20,4 @@ class Page(models.Model):
     class Meta:
         verbose_name = 'page'
         verbose_name_plural = 'pages'
+

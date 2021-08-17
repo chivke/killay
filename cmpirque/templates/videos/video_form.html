@@ -1,12 +1,117 @@
 {% extends "base.html" %}
 
-
 {% block content %}
-  <form method="post">{% csrf_token %}
-    {{ form.as_p }}
-    {{ meta_form.as_p }}
-    <input type="submit" value="Save">
-  </form>
+  <div id="video-admin-container" class="ui segment">
+    <form id="video-admin-main-segment" class="ui form" method="post">
+      <h1 class="ui dividing header">{{object.code}}</h1>
+      <div class="fields">
+        <div class="field">
+          <label>Title:</label> {{object.meta.title}}
+        </div>
+        <div class="field">
+          <label>Created at:</label> {{object.created_at}}  
+        </div>
+        <div class="field">
+          <label>Updated at:</label> {{object.created_at}}  
+        </div>
+      </div>
+      <div class="field">
+        <input type="submit" class="ui button" value="Save">
+      </div>
+      {% csrf_token %}
+      <div id="video-form" class="">
+        <h4 class="ui dividing header">System fields</h4>      
+        {{ form.managment_form }}
+          {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+        {% for field in form.visible_fields %}
+
+          <div class="field {% if field.errors %}error{% endif %}">
+            {% if field.name == "is_visible" %}
+              <div class="ui slider checkbox">
+                <label>{{field.label}}</label>
+                {{field}}
+              </div>
+            {% else %}
+              <label>{{field.label}}</label>
+              {{field}}
+            {% endif %}
+            {% if field.errors %}
+                <div class="ui error message">{{field.errors}}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      <div class="ui segment" id="video-providers-formset-container">
+        <h4 class="ui dividing header">Video Providers</h4>    
+        {{ providers_formset.management_form }}
+        <table class="ui celled table">
+          <thead>
+            <tr id="video-providers-head-fields">
+              {% for form in providers_formset %}
+                {% if forloop.first %}
+                  {% for field in form.visible_fields %}
+                    <th>{{field.label}}</th>
+                  {% endfor %}
+                {% endif %}
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody id="video-providers-tbody">
+            {% for form in providers_formset %}
+              <tr>
+                {% for hidden in form.hidden_fields %}
+                  {{ hidden }}
+                {% endfor %}
+                {% for field in form.visible_fields %}
+                  <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
+                    {% if field.name == "DELETE" %}
+                      <div class="ui checkbox">
+                        {{field}}
+                      </div>
+                    {% else %}
+                      {{ field }}
+                    {% endif %}
+                    {% if field.errors %}
+                      <div class="ui error message">{{field.errors}}</div>
+                    {% endif %}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div id="video-meta-form" class="ui segment">
+        <h4 class="ui dividing header">Meta fields</h4>      
+        {{ meta_form.managment_form }}
+          {% for hidden in meta_form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+        {% for field in meta_form.visible_fields %}
+          <div class="field {% if field.errors %}error{% endif %}">
+            <label>{{field.label}}</label>
+            {{field}}
+            {% if field.errors %}
+              <div class="ui error message">{{field.errors}}</div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      <input type="submit" class="ui button" value="Save">
+    </form>
+  </div>
+  
+  
+
 {% endblock content %}
 
-
+{% block extra_js %}
+<script type="text/javascript">
+  $('.ui.checkbox')
+    .checkbox()
+  ;
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Video Keywords
+{% endblock title %}
+
+{% block content %}
+  <form class="ui form segment" style="margin: 2rem 10%;" method="post">
+    {% csrf_token %}
+    <h1 class="ui dividing header">Video Keywords</h1>
+    <div class="inline fields">
+      <div class="field">
+        <label>Total:</label> {{object_list|length }}  
+      </div>
+    </div>
+
+    {{formset.management_form}}
+    <input type="submit" class="ui button" value="Save">
+    <table class="ui celled table">
+      <thead>
+        <tr id="video-keywords-head-fields">
+          <th>#</th>
+          {% for form in formset %}
+            {% if forloop.first %}
+              {% for field in form.visible_fields %}
+                <th>{{field.label}}</th>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody id="video-keywords-tbody">
+        {% for form in formset %}
+          {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+          <tr>
+            <td class="field">{{forloop.counter}}</td>
+            {% for field in form.visible_fields %}
+              <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
+                {% if field.name == "DELETE" %}
+                  <div class="ui checkbox">
+                    {{field}}
+                  </div>
+                {% else %}
+                  {{ field }}
+                {% endif %}
+                {% if field.errors %}
+                  <div class="ui error message">{{field.errors}}</div>
+                {% endif %}
+              </td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <input type="submit" class="ui button" value="Save">
+  </form>
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+  $('.ui.checkbox')
+    .checkbox()
+  ;
+</script>
+{% endblock extra_js %}

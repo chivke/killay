@@ -1,0 +1,35 @@
+
+
+
+<div class="ui pointing menu" style="margin: 1rem 10%">
+  <div class="header item">Admin</div>
+  {% if object and object.code %}
+    <a class="{% if request.resolver_match.view_name == 'videos:detail' %}active {% endif %}item"
+      href="{% url 'videos:detail' object.code %}">{{object.code}}
+      {% if object.is_visible %}
+        <div class="ui label">public</div>
+      {% endif %}
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'videos:update' %}active {% endif %}item"
+      href="{% url 'videos:update' object.code %}">Update
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'videos:sequences_list' %}active {% endif %}item"
+      href="{% url 'videos:sequences_list' object.code %}">Sequences
+      <div class="ui label">{{object.sequences.get_ordered_data|length}}</div>
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'videos:categorization' %}active {% endif %}item"
+      href="{% url 'videos:categorization' object.code %}">Categorization
+    </a>
+  {% endif %}
+  <div class="right menu">
+    <a class="{% if request.resolver_match.view_name == 'videos:categories' %}active {% endif %}item"
+      href="{% url 'videos:categories' %}">Categories
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'videos:people' %}active {% endif %}item"
+      href="{% url 'videos:people' %}">People
+    </a>
+    <a class="{% if request.resolver_match.view_name == 'videos:keywords' %}active {% endif %}item"
+      href="{% url 'videos:keywords' %}">Keywords
+    </a>
+  </div>
+</div>

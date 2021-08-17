@@ -106,7 +106,7 @@ class VideoCategorization(models.Model):
 
 
 class VideoCategory(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, null=False, blank=False)
     slug = models.SlugField(
         null=False, blank=False, unique=True, db_index=True
     )
@@ -114,7 +114,7 @@ class VideoCategory(models.Model):
 
 
 class VideoPerson(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, null=False, blank=False)
     slug = models.SlugField(
         null=False, blank=False, unique=True, db_index=True
     )
@@ -122,7 +122,7 @@ class VideoPerson(models.Model):
 
 
 class VideoKeyword(models.Model):
-    name = models.CharField(max_length=255)
+    name = models.CharField(max_length=255, null=False, blank=False)
     slug = models.SlugField(
         null=False, blank=False, unique=True, db_index=True
     )

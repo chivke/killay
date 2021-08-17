@@ -34,16 +34,25 @@ class VideoFactory(DjangoModelFactory):
 class VideoCategoryFactory(DjangoModelFactory):
     class Meta:
         model = VideoCategory
+    name = factory.Faker("name")
+    slug = factory.Faker('slug')
+    description = factory.Faker("text")
 
 
 class VideoPersonFactory(DjangoModelFactory):
     class Meta:
         model = VideoPerson
+    name = factory.Faker("name")
+    slug = factory.Faker('slug')
+    description = factory.Faker("text")
 
 
 class VideoKeywordFactory(DjangoModelFactory):
     class Meta:
         model = VideoKeyword
+    name = factory.Faker("name")
+    slug = factory.Faker('slug')
+    description = factory.Faker("text")
 
 
 class VideoCategorizationFactory(DjangoModelFactory):

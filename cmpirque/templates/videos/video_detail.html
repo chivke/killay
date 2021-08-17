@@ -1,15 +1,59 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+{% endblock extra_css %}
+
 {% block title %}{{ object.meta.title }}{% endblock %}
 
 {% block content %}
-<div class="container">
 
-  <h1>{{ object.meta.title }}</h1>
+  
 
-  {{ object.meta.description }}
+<div class="video-detail-container">
 
+  <h1 class="ui dividing header">{{ object.meta.title }}</h1>
+
+  <div class="player-sequence-container">
+    <div id="sequences-data" hidden>
+      {% for sequence in object.sequences.get_ordered_data %}
+        <div 
+          id="sequence-{{sequence.order}}-{{sequence.ini}}-{{sequence.end}}"
+          order="{{sequence.order}}" ini="{{sequence.ini}}" end="{{sequence.end}}"
+        >
+          <div name="sequence-data-title">
+            {{ sequence.title }}
+          </div>
+          <div name="sequence-data-content">
+            {% autoescape off %}{{ sequence.content }}{% endautoescape %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="player-container">
+      <div 
+        id="player" class="cmpique-player"
+        data-plyr-provider="vimeo"
+        data-plyr-embed-id="76979871"
+      ></div>
+    </div>
+    <div 
+      id="sequences-menu" class="sequences-menu ui inverted vertical fluid menu"
+    ></div>
+    <div id="sequences-display">
+      <div id="video-description">{{object.meta.description}}</div>
+      <h4 class="ui horizontal divider header" id="sequences-display-title">.</h4>
+      <div id="sequences-display-content"></div>
+    </div>
+  </div>
 </div>
 {% endblock content %}
 
+{% block extra_js %}
+  <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+  <script type="text/javascript">
+    const $player = new Plyr('#player', {invertTime: false});
+    const $sequence_engine = new SequenceEngine();
+  </script>
+{% endblock extra_js %}

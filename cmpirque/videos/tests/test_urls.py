@@ -37,3 +37,14 @@ def test_delete(video: Video):
     assert (
         resolve(f'/videos/{video.code}/~delete/').view_name == 'videos:delete'
     )
+
+
+def test_sequences_list(video: Video):
+    assert (
+        reverse('videos:sequences_list', kwargs={'slug': video.code})
+        == f'/videos/{video.code}/~sequences/'
+    )
+    assert (
+        resolve(f'/videos/{video.code}/~sequences/').view_name
+        == 'videos:sequences_list'
+    )

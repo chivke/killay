@@ -8,6 +8,9 @@ class Page(models.Model):
     slug = models.SlugField(null=False, blank=False)
     body = models.TextField(null=True, blank=True)
     header_image = models.ImageField(null=True)
+    with_header_image = models.BooleanField(default=True)
+    is_visible = models.BooleanField(default=False)
+    is_visible_on_menu = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.title} <{self.slug}>"

@@ -32,15 +32,27 @@
       {% endfor %}
     </div>
     <div class="player-container">
-      <div
+    {% if object.active_provider %}
+      <div 
         id="player" class="cmpique-player"
         data-plyr-provider="vimeo"
         data-plyr-embed-id="76979871"
       ></div>
+    {% else %}
+      <div id="no-player">No video provider</div>
+    {% endif %}
     </div>
+
     <div
       id="sequences-menu" class="sequences-menu ui inverted vertical fluid menu"
     ></div>
+
+    {% if object.active_provider and object.has_sequences %}
+      <div 
+        id="sequences-menu" class="sequences-menu ui inverted vertical fluid menu"
+      ></div>
+    {% endif %}
+
     <div id="sequences-display">
       <div id="video-description">{{object.meta.description}}</div>
       <h4 class="ui horizontal divider header" id="sequences-display-title">.</h4>

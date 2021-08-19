@@ -14,6 +14,7 @@ from cmpirque.videos.models import (
     VideoCategory,
     VideoKeyword,
     VideoPerson,
+    VideoProvider,
     VideoSequence,
 )
 from cmpirque.videos.tests.factories import (
@@ -22,6 +23,7 @@ from cmpirque.videos.tests.factories import (
     VideoCategoryFactory,
     VideoKeywordFactory,
     VideoPersonFactory,
+    VideoProviderFactory,
     VideoSequenceFactory,
 )
 
@@ -54,6 +56,16 @@ def home_page() -> Page:
 @pytest.fixture
 def video() -> Video:
     return VideoFactory()
+
+
+@pytest.fixture
+def video_provider(video: Video) -> VideoProvider:
+    return VideoProviderFactory(video=video)
+
+
+@pytest.fixture
+def video_providers(video: Video) -> VideoProvider:
+    return VideoProviderFactory.create_batch(5, video=video)
 
 
 @pytest.fixture

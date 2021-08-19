@@ -1,0 +1,63 @@
+
+
+<div class="player-sequence-container">
+  <div id="sequences-data" hidden>
+    <div id="sequence-5-10" order="1" ini="5" end="30">
+      <div name="sequence-data-title">Secuencia 1</div>
+      <div name="sequence-data-content">
+        <p>Hipertext content 1 (<b>HTML</b>)</p>
+      </div>
+    </div>
+    <div id="sequence-15-20" order= "2" ini="35" end="36">
+      <div name="sequence-data-title">Secuencia 2</div>
+      <div name="sequence-data-content">
+        Text content 2 
+      </div>
+    </div>
+  </div>
+  <div class="player-container">
+    <div id="player" class="cmpique-player" data-plyr-provider="youtube" data-plyr-embed-id="IHyLiZTMmqg"></div>
+  </div>
+  <div id="sequences-menu" class="sequences-menu ui inverted vertical fluid menu"></div>
+  <div id="sequences-display">
+    <div id="sequences-display-title"></div>
+    <div id="sequences-display-content"></div>
+  </div>
+</div>
+<link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+
+<style type="text/css">
+  .player-sequence-container {
+    padding: 5%;
+    display: flex;
+    align-content: stretch;
+
+  }
+  .player-container {
+    min-width: 400px;
+    width: 60%;
+    --plyr-color-main: #dedede;
+  }
+
+  .sequences-menu {
+    margin: 0 !important;
+    max-width: 50px;
+  }
+  .cmpirque-player {
+
+  }
+
+</style>
+
+<script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+
+
+<script>
+
+
+  const $player = new Plyr('#player', {invertTime: false});
+  const $sequence_engine = new SequenceEngine({debug:true});
+
+
+  
+</script>

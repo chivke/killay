@@ -1,5 +1,9 @@
+import requests
+
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
 
@@ -24,6 +28,14 @@ class Video(models.Model):
     def get_absolute_url(self):
         return reverse("videos:detail", kwargs={"slug": self.code})
 
+    @property
+    def active_provider(self):
+        return self.providers.filter(active=True).first()
+
+    @property
+    def has_sequences(self):
+        return self.sequences.exists()
+    
 
 class VideoMeta(models.Model):
     title = models.CharField(max_length=500)
@@ -43,7 +55,12 @@ class VideoMeta(models.Model):
 
 
 class VideoProvider(models.Model):
-    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="providers")
+    active = models.BooleanField(default=False)
+    online = models.BooleanField(default=False)
+    checked_at = models.DateTimeField(null=True, blank=True)
+    video = models.ForeignKey(
+        Video, on_delete=models.CASCADE, related_name="providers"
+    )
     ply_embed_id = models.CharField(max_length=500, null=False, blank=False)
     plyr_provider = models.CharField(
         choices=VideoProviderConstants.PLYR_PROVIDER_CHOICES,
@@ -52,10 +69,47 @@ class VideoProvider(models.Model):
         blank=False,
     )
 
+    def save(self, *args, **kwargs):
+        other_providers = self.get_related_providers()
+        if self.active and other_providers.exists():
+            other_providers.update(active=False)
+        if not self.online or not self.checked_at:
+            self.check_is_online()
+        super().save(*args, **kwargs)
+
+    def check_is_online(self):
+        try:
+            response = requests.get(self.video_url)
+        except requests.ConnectionError:
+            self.online = False
+        else:
+            self.online = self.ply_embed_id in str(response.content)
+        self.checked_at = timezone.now()
+        return self.online
+
+    @property
+    def video_url(self):
+        if self.plyr_provider == VideoProviderConstants.VIMEO:
+            return (
+                f"https://player.{self.plyr_provider}.com/video/{self.ply_embed_id}"
+            )
+        else:
+            return (
+                f"https://www.{self.plyr_provider}.com/embed/{self.ply_embed_id}"
+            )
+
+    def get_related_providers(self):
+        return VideoProvider.objects.filter(
+            video_id=self.video_id
+        ).exclude(id=self.id)
+
 
 class VideoSequenceManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by("ini")
+
     def get_ordered_data(self, *args):
-        sequences = self.order_by("ini").values(*args)
+        sequences = self.values(*args)
         return [
             {**sequence, "order": index + 1} for index, sequence in enumerate(sequences)
         ]
@@ -65,14 +119,25 @@ class VideoSequence(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="sequences")
     title = models.CharField(max_length=500, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
-    ini = models.PositiveSmallIntegerField(null=False)
-    end = models.PositiveSmallIntegerField(null=False)
+    ini = models.PositiveSmallIntegerField(null=False, blank=False)
+    end = models.PositiveSmallIntegerField(null=False, blank=False)
 
     class Meta:
         verbose_name = "video sequence"
         verbose_name_plural = "video sequences"
 
     objects = VideoSequenceManager()
+
+    def clean(self):
+        super().clean()
+        self.validate_ini_greater_then_end()
+
+    def validate_ini_greater_then_end(self):
+        if (
+            isinstance(self.ini, int) and isinstance(self.end, int)
+            and self.ini >= self.end
+        ):
+            raise ValidationError("init of sequence must be greater then end")
 
 
 class VideoCategorization(models.Model):

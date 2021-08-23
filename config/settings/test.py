@@ -26,6 +26,3 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # noqa F405
 ]
 
 EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
-
-
-SLACK_TEST_USER_ID = env("SLACK_TEST_USER_ID", default="U01GVMYAGG2")

@@ -3,42 +3,42 @@ name: django CI
 
 on:
   pull_request:
-    - devel
-    - master
+    branches:
+      - devel
+      - master
   push:
-    - devel
-    - master
+    branches:
+      - devel
+      - master
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     services:
-      image: postgres
-      env:
-        POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: postgres
-        POSTGRES_DB: github-actions
-      ports:
-        - 5432:5432 # exposing 5432 port for application to use
-      options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_DB: github_actions
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+        ports:
+          - 5432:5432 # exposing 5432 port for application to use
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
     steps:
       - name: checkout code
         uses: actions/checkout@v2
-      - name: Cache dependency # caching dependency will make our build faster.
-          uses: actions/cache@v2 # for more info checkout pip section documentation at https://github.com/actions/cache
-          with:
-            path: ~/.cache/pip
-            key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-            restore-keys: |
-              ${{ runner.os }}-pip-
       - name: setup python environment # setting python environment to 3.9
         uses: actions/setup-python@v2
         with:
           python-version: '3.8'
       - name: check python version # checking the python version to see if 3.9 is installed.
         run: python --version
+      - name: psycopg2 prerequisites
+        run: sudo apt-get install libpq-dev
       - name: install requirements # install application requirements
-        run: pip install -r requirements.txt
+        run: pip install -r requirements/local.txt
       - name: check pre-commit # check code formatting
         run: pre-commit run --all-files
       - name: run migrations # run migrations to create table in side car db container

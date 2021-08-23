@@ -29,16 +29,3 @@ EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 
 
 SLACK_TEST_USER_ID = env("SLACK_TEST_USER_ID", default="U01GVMYAGG2")
-
-
-if env("GITHUB_WORKFLOW"):
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "github-actions",
-            "USER": "postgres",
-            "PASSWORD": "postgres",
-            "HOST": "localhost",
-            "PORT": "5432",
-        }
-    }

@@ -30,6 +30,9 @@ class TestVideoModel:
     def test_active_provider(self, video: Video, video_provider: VideoProvider):
         assert video.active_provider == video_provider
 
+    def test_has_sequences(self, video: Video, video_sequence: VideoSequence):
+        assert video.has_sequences
+
 
 class TestVideoProvider:
     def test_save(self, video_providers: List[VideoProvider]):

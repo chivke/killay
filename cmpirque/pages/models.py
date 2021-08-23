@@ -4,6 +4,7 @@ from django.urls import reverse
 
 class Page(models.Model):
     """Model for pages with static content."""
+
     title = models.CharField(max_length=100, null=False, blank=False)
     slug = models.SlugField(null=False, blank=False)
     body = models.TextField(null=True, blank=True)
@@ -17,5 +18,5 @@ class Page(models.Model):
         return reverse("pages:detail", kwargs={"slug": self.slug})
 
     class Meta:
-        verbose_name = 'page'
-        verbose_name_plural = 'pages'
+        verbose_name = "page"
+        verbose_name_plural = "pages"

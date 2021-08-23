@@ -1,12 +1,7 @@
 from django.contrib.auth.mixins import AccessMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import (
-    CreateView,
-    DeleteView,
-    ListView,
-    UpdateView,
-)
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
 
 from cmpirque.videos.forms import (
@@ -18,7 +13,6 @@ from cmpirque.videos.forms import (
     VideoPeopleFormSet,
     VideoProviderFormSet,
     VideoSequenceFormSet,
-
 )
 from cmpirque.videos.models import (
     Video,
@@ -31,10 +25,7 @@ from cmpirque.videos.models import (
 
 class AdminRequiredMixin(AccessMixin):
     def dispatch(self, request, *args, **kwargs):
-        if (
-            not request.user.is_authenticated
-            or not request.user.is_superuser
-        ):
+        if not request.user.is_authenticated or not request.user.is_superuser:
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
 
@@ -65,18 +56,10 @@ class VideoAdminMixin(AdminRequiredMixin):
         form = self.get_form()
         meta_form = self.get_meta_form()
         providers_formset = self.get_providers_formset()
-        if (
-            form.is_valid()
-            and meta_form.is_valid()
-            and providers_formset.is_valid()
-        ):
-            return self.form_valid(
-                form, meta_form, providers_formset
-            )
+        if form.is_valid() and meta_form.is_valid() and providers_formset.is_valid():
+            return self.form_valid(form, meta_form, providers_formset)
         else:
-            return self.form_invalid(
-                form, meta_form, providers_formset
-            )
+            return self.form_invalid(form, meta_form, providers_formset)
 
     def form_invalid(self, form, meta_form, providers_formset):
         context = self.get_context_data(form=form)
@@ -85,25 +68,18 @@ class VideoAdminMixin(AdminRequiredMixin):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        has_video = (
-            hasattr(self, "object")
-            and getattr(self, "object") is not None
+        has_video = hasattr(self, "object") and getattr(self, "object") is not None
+        context["meta_form"] = self.meta_form_class(
+            **{"instance": self.object.meta} if has_video else {}
         )
-        context["meta_form"] = (
-            self.meta_form_class(
-                **{"instance": self.object.meta} if has_video else {}
-            )
-        )
-        context["providers_formset"] = (
-            self.providers_formset_class(
-                **{"instance": self.object} if has_video else {}
-            )
+        context["providers_formset"] = self.providers_formset_class(
+            **{"instance": self.object} if has_video else {}
         )
         return context
 
 
 class VideoDeleteView(VideoAdminMixin, DeleteView):
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy("home")
 
 
 video_delete_view = VideoDeleteView.as_view()
@@ -141,21 +117,15 @@ class VideoSequenceList(AdminRequiredMixin, UpdateView):
     model = Video
     slug_field = "code"
     fields = ["code"]
-    template_name_suffix = '_sequences_list'
+    template_name_suffix = "_sequences_list"
     formset_class = VideoSequenceFormSet
 
     def get_success_url(self):
-        return reverse(
-            "videos:sequences_list", kwargs={"slug": self.object.code}
-        )
+        return reverse("videos:sequences_list", kwargs={"slug": self.object.code})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        return {
-            **context,
-            "formset": self.get_formset(),
-            **kwargs
-        }
+        return {**context, "formset": self.get_formset(), **kwargs}
 
     def get_formset(self, **kwargs):
         return self.formset_class(**kwargs, instance=self.object)
@@ -184,13 +154,11 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
     model = Video
     categorization_model = VideoCategorization
     slug_field = "code"
-    template_name_suffix = '_categorization'
+    template_name_suffix = "_categorization"
     form_class = VideoCategorizationForm
 
     def get_success_url(self):
-        return reverse(
-            "videos:categorization", kwargs={"slug": self.object.code}
-        )
+        return reverse("videos:categorization", kwargs={"slug": self.object.code})
 
     def get_object(self):
         instance = super().get_object()
@@ -206,8 +174,8 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        if hasattr(self, 'object'):
-            kwargs.update({'instance': self.object.categorization})
+        if hasattr(self, "object"):
+            kwargs.update({"instance": self.object.categorization})
         return kwargs
 
 
@@ -219,11 +187,7 @@ class VideoCategoryListView(AdminRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        return {
-            **context,
-            "formset": VideoCategoryFormSet(),
-            **kwargs,
-        }
+        return {**context, "formset": VideoCategoryFormSet(), **kwargs}
 
     def post(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
@@ -250,11 +214,7 @@ class VideoPeopleList(AdminRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        return {
-            **context,
-            "formset": VideoPeopleFormSet(),
-            **kwargs,
-        }
+        return {**context, "formset": VideoPeopleFormSet(), **kwargs}
 
     def post(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
@@ -281,11 +241,7 @@ class VideoKeywordList(AdminRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
-        return {
-            **context,
-            "formset": VideoKeywordFormSet(),
-            **kwargs,
-        }
+        return {**context, "formset": VideoKeywordFormSet(), **kwargs}
 
     def post(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()

@@ -11,9 +11,9 @@ class TestUserCreationForm:
         user = UserFactory.build()
         form = UserCreationForm(
             {
-                'username': user.username,
-                'password1': user._password,
-                'password2': user._password,
+                "username": user.username,
+                "password1": user._password,
+                "password2": user._password,
             }
         )
 
@@ -27,12 +27,12 @@ class TestUserCreationForm:
         # hence cannot be created.
         form = UserCreationForm(
             {
-                'username': user.username,
-                'password1': user._password,
-                'password2': user._password,
+                "username": user.username,
+                "password1": user._password,
+                "password2": user._password,
             }
         )
 
         assert not form.is_valid()
         assert len(form.errors) == 1
-        assert 'username' in form.errors
+        assert "username" in form.errors

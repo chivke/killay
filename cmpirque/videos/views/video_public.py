@@ -1,4 +1,3 @@
-
 from django.views.generic import DetailView
 
 from cmpirque.videos.models import Video

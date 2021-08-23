@@ -22,7 +22,7 @@ def pages_context(request):
                 "title": page.title,
                 "slug": page.slug,
                 "url": page.get_absolute_url(),
-                "selected": selected_map.get(page.slug, False)
+                "selected": selected_map.get(page.slug, False),
             }
             for page in Page.objects.all()
         ]

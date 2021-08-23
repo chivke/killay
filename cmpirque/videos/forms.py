@@ -45,9 +45,7 @@ class VideoSequenceForm(forms.ModelForm):
         model = VideoSequence
         fields = ["title", "content", "ini", "end"]
 
-    content = forms.CharField(
-        required=False, widget=forms.Textarea(attrs={"rows": 2})
-    )
+    content = forms.CharField(required=False, widget=forms.Textarea(attrs={"rows": 2}))
 
 
 VideoSequenceFormSet = forms.inlineformset_factory(

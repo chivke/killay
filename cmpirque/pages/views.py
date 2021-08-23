@@ -1,4 +1,3 @@
-
 from django.views.generic import DetailView, TemplateView
 
 from cmpirque.pages.models import Page

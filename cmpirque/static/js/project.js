@@ -1,4 +1,4 @@
-/* 
+/*
   Video Sequence Engine
   ---------------------
   Require $player const with plyr obj.
@@ -61,7 +61,7 @@ class SequenceEngine {
     if (second >= sequence.ini && second < sequence.end) {return true;}
     else {return false}
   }
-  
+
   _debug(log) {this.debug ? console.log(log): null}
 
   _load_sequences_data () {

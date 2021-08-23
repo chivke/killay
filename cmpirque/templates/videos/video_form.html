@@ -9,10 +9,10 @@
           <label>Title:</label> {{object.meta.title}}
         </div>
         <div class="field">
-          <label>Created at:</label> {{object.created_at}}  
+          <label>Created at:</label> {{object.created_at}}
         </div>
         <div class="field">
-          <label>Updated at:</label> {{object.created_at}}  
+          <label>Updated at:</label> {{object.created_at}}
         </div>
       </div>
       <div class="field">
@@ -20,7 +20,7 @@
       </div>
       {% csrf_token %}
       <div id="video-form" class="">
-        <h4 class="ui dividing header">System fields</h4>      
+        <h4 class="ui dividing header">System fields</h4>
         {{ form.managment_form }}
           {% for hidden in form.hidden_fields %}
             {{ hidden }}
@@ -44,7 +44,7 @@
         {% endfor %}
       </div>
       <div class="ui segment" id="video-providers-formset-container">
-        <h4 class="ui dividing header">Video Providers</h4>    
+        <h4 class="ui dividing header">Video Providers</h4>
         {{ providers_formset.management_form }}
         <table class="ui celled table">
           <thead>
@@ -85,7 +85,7 @@
       </div>
 
       <div id="video-meta-form" class="ui segment">
-        <h4 class="ui dividing header">Meta fields</h4>      
+        <h4 class="ui dividing header">Meta fields</h4>
         {{ meta_form.managment_form }}
           {% for hidden in meta_form.hidden_fields %}
             {{ hidden }}
@@ -103,8 +103,8 @@
       <input type="submit" class="ui button" value="Save">
     </form>
   </div>
-  
-  
+
+
 
 {% endblock content %}
 

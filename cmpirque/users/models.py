@@ -4,13 +4,13 @@ from django.contrib.auth.models import AbstractUser, UserManager
 
 
 class User(AbstractUser):
-    '''
+    """
     Default user cmpirque.
-    '''
+    """
 
     class Meta:
-        verbose_name = 'user'
-        verbose_name_plural = 'users'
+        verbose_name = "user"
+        verbose_name_plural = "users"
 
     objects = UserManager()
 
@@ -19,4 +19,4 @@ class User(AbstractUser):
         return f"{self.username}{is_admin}"
 
     def get_absolute_url(self):
-        return reverse('users:detail', kwargs={'username': self.username})
+        return reverse("users:detail", kwargs={"username": self.username})

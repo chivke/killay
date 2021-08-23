@@ -9,7 +9,7 @@
 
 {% block content %}
 
-  
+
 
 <div class="video-detail-container">
 
@@ -18,7 +18,7 @@
   <div class="player-sequence-container">
     <div id="sequences-data" hidden>
       {% for sequence in object.sequences.get_ordered_data %}
-        <div 
+        <div
           id="sequence-{{sequence.order}}-{{sequence.ini}}-{{sequence.end}}"
           order="{{sequence.order}}" ini="{{sequence.ini}}" end="{{sequence.end}}"
         >
@@ -32,13 +32,13 @@
       {% endfor %}
     </div>
     <div class="player-container">
-      <div 
+      <div
         id="player" class="cmpique-player"
         data-plyr-provider="vimeo"
         data-plyr-embed-id="76979871"
       ></div>
     </div>
-    <div 
+    <div
       id="sequences-menu" class="sequences-menu ui inverted vertical fluid menu"
     ></div>
     <div id="sequences-display">

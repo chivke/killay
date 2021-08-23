@@ -1,0 +1,37 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+default_language_version:
+    python: python3
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v2.2.3
+    hooks:
+    -   id: check-ast
+        name: python check ast
+    -   id: trailing-whitespace
+        name: trim trailing whitespace
+        files: (.*\.py$|.*\.css$|.*\.js$|.*\.html$)
+        exclude: (^.*\/migrations\/.*\.py$|.*\/node_modules\/.*|.*\/env\/.*)
+    -   id: end-of-file-fixer
+        name: end of line fixer
+        files: (.*\.py$|.*\.css$|.*\.js$|.*\.html$)
+        exclude: (^.*\/migrations\/.*\.py$|.*\/node_modules\/.*|.*\/env\/.*)
+    -   id: check-merge-conflict
+        name: check merge conflicts
+-   repo: https://github.com/python/black
+    rev: 19.3b0
+    hooks:
+    -   id: black
+        files: (?x)^.*\/.*\.pyi?$
+        exclude: (?x)^(.*\/migrations\/.*\.py)$
+        language: python
+-   repo: https://github.com/PyCQA/bandit
+    rev: '1.6.2'
+    hooks:
+    - id: bandit
+      name: bandit
+      files: apps
+      language_version: python
+      exclude: ^(.*/test/.*|.*/tests/.*|.*/test\.py|.*/tests\.py|.*/migrations/.*)$
+      args:
+          - --config=.bandit.yaml

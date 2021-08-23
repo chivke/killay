@@ -3,12 +3,7 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 
-from cmpirque.videos.models import (
-    Video,
-    VideoCategory,
-    VideoPerson,
-    VideoKeyword,
-)
+from cmpirque.videos.models import Video, VideoCategory, VideoPerson, VideoKeyword
 from cmpirque.videos.views.video_admin import (
     AdminRequiredMixin,
     video_categories_view,
@@ -27,9 +22,7 @@ pytestmark = pytest.mark.django_db
 
 
 class TestAdminRequiredMixin:
-    def test_is_not_superuser(
-        self, video: Video, rf: RequestFactory
-    ):
+    def test_is_not_superuser(self, video: Video, rf: RequestFactory):
         request = rf.get(f"/videos/{video.code}/")
         request.user = AnonymousUser()
         mixin = AdminRequiredMixin()
@@ -38,9 +31,7 @@ class TestAdminRequiredMixin:
         assert response.status_code == 302
         assert "login" in response.url
 
-    def test_is_superuser(
-        self, admin_user: User, video: Video, rf: RequestFactory
-    ):
+    def test_is_superuser(self, admin_user: User, video: Video, rf: RequestFactory):
         request = rf.get(f"/videos/{video.code}/")
         request.user = admin_user
         mixin = AdminRequiredMixin()
@@ -52,10 +43,7 @@ class TestAdminRequiredMixin:
         assert "dispatch" in attribute_error.value.args[0]
 
 
-PROVIDERS_FORMSET_DATA = {
-    "providers-INITIAL_FORMS": "0",
-    "providers-TOTAL_FORMS": "0"
-}
+PROVIDERS_FORMSET_DATA = {"providers-INITIAL_FORMS": "0", "providers-TOTAL_FORMS": "0"}
 
 
 class TestVideoCreateView:
@@ -107,9 +95,7 @@ class TestVideoUpdateView:
         assert video.code == data["code"]
         assert video.meta.title == data["title"]
 
-    def test_fail_update(
-            self, admin_user: User, video: Video, rf: RequestFactory
-    ):
+    def test_fail_update(self, admin_user: User, video: Video, rf: RequestFactory):
         data = {"code": "fake"}
         data.update(PROVIDERS_FORMSET_DATA)
         request = rf.post(f"/videos/{video.code}/~update/", data)
@@ -120,7 +106,7 @@ class TestVideoUpdateView:
 
 
 class TestVideoDeleteView:
-    def test_get(self,  admin_user: User, video: Video, rf: RequestFactory):
+    def test_get(self, admin_user: User, video: Video, rf: RequestFactory):
         request = rf.get(f"/videos/{video.code}/~delete/")
         request.user = admin_user
         response = video_delete_view(request, slug=video.code)
@@ -157,9 +143,7 @@ class TestVideoSequencesListView:
         assert video.meta.title in str(response.content)
 
     def test_update(self, admin_user: User, video: Video, rf: RequestFactory):
-        request = rf.post(
-            f"/videos/{video.code}/~update/", SEQUENCES_FORMSET_DATA
-        )
+        request = rf.post(f"/videos/{video.code}/~update/", SEQUENCES_FORMSET_DATA)
         request.user = admin_user
         response = video_sequences_list(request, slug=video.code)
         assert response.status_code == 302
@@ -168,9 +152,7 @@ class TestVideoSequencesListView:
         assert sequence.ini == int(SEQUENCES_FORMSET_DATA["sequences-0-ini"])
         assert sequence.end == int(SEQUENCES_FORMSET_DATA["sequences-0-end"])
 
-    def test_fail_update(
-            self, admin_user: User, video: Video, rf: RequestFactory
-    ):
+    def test_fail_update(self, admin_user: User, video: Video, rf: RequestFactory):
         data = SEQUENCES_FORMSET_DATA
         data.pop("sequences-0-end")
         request = rf.post(f"/videos/{video.code}/~update/", data)
@@ -191,7 +173,8 @@ class TestVideoCategorizationUpdateView:
 
     def test_update(
         self,
-        admin_user: User, rf: RequestFactory,
+        admin_user: User,
+        rf: RequestFactory,
         video: Video,
         video_category: VideoCategory,
         video_person: VideoPerson,
@@ -202,9 +185,7 @@ class TestVideoCategorizationUpdateView:
             "people": [video_person.id],
             "keywords": [video_keyword.id],
         }
-        request = rf.post(
-            f"/videos/{video.code}/~categorization/", data
-        )
+        request = rf.post(f"/videos/{video.code}/~categorization/", data)
         request.user = admin_user
         response = video_categorization(request, slug=video.code)
         assert response.status_code == 302
@@ -213,9 +194,7 @@ class TestVideoCategorizationUpdateView:
         assert video.categorization.people.first() == video_person
         assert video.categorization.keywords.first() == video_keyword
 
-    def test_fail_update(
-            self, admin_user: User, video: Video, rf: RequestFactory
-    ):
+    def test_fail_update(self, admin_user: User, video: Video, rf: RequestFactory):
         data = {"categories": [0]}
         request = rf.post(f"/videos/{video.code}/~update/", data)
         request.user = admin_user
@@ -283,9 +262,7 @@ class TestVideoCategoryListView:
 
 
 class TestVideoPeopleListView:
-    def test_get(
-        self, admin_user: User, video_person: VideoPerson, rf: RequestFactory
-    ):
+    def test_get(self, admin_user: User, video_person: VideoPerson, rf: RequestFactory):
         request = rf.get("/videos/~people/")
         request.user = admin_user
         response = video_people_view(request)

@@ -7,8 +7,8 @@ from factory.django import DjangoModelFactory
 
 class UserFactory(DjangoModelFactory):
 
-    username = Faker('user_name')
-    email = Faker('email')
+    username = Faker("user_name")
+    email = Faker("email")
 
     @post_generation
     def password(self, create: bool, extracted: Sequence[Any], **kwargs):
@@ -16,7 +16,7 @@ class UserFactory(DjangoModelFactory):
             extracted
             if extracted
             else Faker(
-                'password',
+                "password",
                 length=42,
                 special_chars=True,
                 digits=True,
@@ -28,7 +28,7 @@ class UserFactory(DjangoModelFactory):
 
     class Meta:
         model = get_user_model()
-        django_get_or_create = ['username']
+        django_get_or_create = ["username"]
 
 
 class UserAdminFactory(UserFactory):

@@ -6,9 +6,7 @@ from django.http.response import Http404
 from cmpirque.videos.models import Video
 
 
-from cmpirque.videos.views.video_public import (
-    video_detail_view,
-)
+from cmpirque.videos.views.video_public import video_detail_view
 
 
 pytestmark = pytest.mark.django_db

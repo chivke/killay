@@ -1,4 +1,3 @@
-
 import factory
 
 # from factory import Faker, Sequence, SubFactory, RelatedFactory, post_generation
@@ -18,40 +17,44 @@ from cmpirque.videos.models import (
 class VideoMetaFactory(DjangoModelFactory):
     class Meta:
         model = VideoMeta
+
     title = factory.Faker("name")
     description = factory.Faker("text")
 
 
 class VideoFactory(DjangoModelFactory):
-    code = factory.Faker('slug')
+    code = factory.Faker("slug")
     meta = VideoMetaFactory
 
     class Meta:
         model = Video
-        django_get_or_create = ['code']
+        django_get_or_create = ["code"]
 
 
 class VideoCategoryFactory(DjangoModelFactory):
     class Meta:
         model = VideoCategory
+
     name = factory.Faker("name")
-    slug = factory.Faker('slug')
+    slug = factory.Faker("slug")
     description = factory.Faker("text")
 
 
 class VideoPersonFactory(DjangoModelFactory):
     class Meta:
         model = VideoPerson
+
     name = factory.Faker("name")
-    slug = factory.Faker('slug')
+    slug = factory.Faker("slug")
     description = factory.Faker("text")
 
 
 class VideoKeywordFactory(DjangoModelFactory):
     class Meta:
         model = VideoKeyword
+
     name = factory.Faker("name")
-    slug = factory.Faker('slug')
+    slug = factory.Faker("slug")
     description = factory.Faker("text")
 
 

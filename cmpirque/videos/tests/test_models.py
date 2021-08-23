@@ -4,9 +4,7 @@ from typing import List
 
 from django.utils import timezone
 
-from cmpirque.videos.models import (
-    Video, VideoSequence, VideoProvider
-)
+from cmpirque.videos.models import Video, VideoSequence, VideoProvider
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
 
@@ -29,9 +27,7 @@ class TestVideoModel:
     def test_get_absolute_url(self, video: Video):
         assert video.get_absolute_url() == f"/videos/{video.code}/"
 
-    def test_active_provider(
-        self, video: Video, video_provider: VideoProvider
-    ):
+    def test_active_provider(self, video: Video, video_provider: VideoProvider):
         assert video.active_provider == video_provider
 
 

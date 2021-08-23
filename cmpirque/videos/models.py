@@ -35,7 +35,7 @@ class Video(models.Model):
     @property
     def has_sequences(self):
         return self.sequences.exists()
-    
+
 
 class VideoMeta(models.Model):
     title = models.CharField(max_length=500)
@@ -58,9 +58,7 @@ class VideoProvider(models.Model):
     active = models.BooleanField(default=False)
     online = models.BooleanField(default=False)
     checked_at = models.DateTimeField(null=True, blank=True)
-    video = models.ForeignKey(
-        Video, on_delete=models.CASCADE, related_name="providers"
-    )
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="providers")
     ply_embed_id = models.CharField(max_length=500, null=False, blank=False)
     plyr_provider = models.CharField(
         choices=VideoProviderConstants.PLYR_PROVIDER_CHOICES,
@@ -90,18 +88,12 @@ class VideoProvider(models.Model):
     @property
     def video_url(self):
         if self.plyr_provider == VideoProviderConstants.VIMEO:
-            return (
-                f"https://player.{self.plyr_provider}.com/video/{self.ply_embed_id}"
-            )
+            return f"https://player.{self.plyr_provider}.com/video/{self.ply_embed_id}"
         else:
-            return (
-                f"https://www.{self.plyr_provider}.com/embed/{self.ply_embed_id}"
-            )
+            return f"https://www.{self.plyr_provider}.com/embed/{self.ply_embed_id}"
 
     def get_related_providers(self):
-        return VideoProvider.objects.filter(
-            video_id=self.video_id
-        ).exclude(id=self.id)
+        return VideoProvider.objects.filter(video_id=self.video_id).exclude(id=self.id)
 
 
 class VideoSequenceManager(models.Manager):
@@ -134,7 +126,8 @@ class VideoSequence(models.Model):
 
     def validate_ini_greater_then_end(self):
         if (
-            isinstance(self.ini, int) and isinstance(self.end, int)
+            isinstance(self.ini, int)
+            and isinstance(self.end, int)
             and self.ini >= self.end
         ):
             raise ValidationError("init of sequence must be greater then end")

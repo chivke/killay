@@ -160,7 +160,7 @@ class TestVideoSequencesListView:
         response = video_sequences_list(request, slug=video.code)
         assert response.status_code == 200
         assert "__all__" in response.context_data["formset"].errors[0]
-        
+
 
 class TestVideoCategorizationUpdateView:
     def test_get(self, admin_user: User, video: Video, rf: RequestFactory):

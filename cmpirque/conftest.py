@@ -14,6 +14,7 @@ from cmpirque.videos.models import (
     VideoCategory,
     VideoKeyword,
     VideoPerson,
+    VideoProvider,
     VideoSequence,
 )
 from cmpirque.videos.tests.factories import (
@@ -22,6 +23,7 @@ from cmpirque.videos.tests.factories import (
     VideoCategoryFactory,
     VideoKeywordFactory,
     VideoPersonFactory,
+    VideoProviderFactory,
     VideoSequenceFactory,
 )
 
@@ -57,6 +59,16 @@ def video() -> Video:
 
 
 @pytest.fixture
+def video_provider(video: Video) -> VideoProvider:
+    return VideoProviderFactory(video=video)
+
+
+@pytest.fixture
+def video_providers(video: Video) -> VideoProvider:
+    return VideoProviderFactory.create_batch(5, video=video)
+
+
+@pytest.fixture
 def video_category() -> VideoCategory:
     return VideoCategoryFactory()
 
@@ -78,7 +90,7 @@ def video_categorization(
     video_keyword: VideoKeyword,
 ) -> VideoCategorization:
     return VideoCategorizationFactory(
-        categories=(video_category,), people=(video_person,), keywortds=(video_keyword,)
+        categories=(video_category,), people=(video_person,), keywords=(video_keyword,)
     )
 
 

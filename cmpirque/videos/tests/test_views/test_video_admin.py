@@ -154,12 +154,12 @@ class TestVideoSequencesListView:
 
     def test_fail_update(self, admin_user: User, video: Video, rf: RequestFactory):
         data = SEQUENCES_FORMSET_DATA
-        data.pop("sequences-0-end")
+        data["sequences-0-end"] = "1"
         request = rf.post(f"/videos/{video.code}/~update/", data)
         request.user = admin_user
         response = video_sequences_list(request, slug=video.code)
         assert response.status_code == 200
-        assert "end" in response.context_data["formset"].errors[0]
+        assert "__all__" in response.context_data["formset"].errors[0]
 
 
 class TestVideoCategorizationUpdateView:
@@ -209,9 +209,11 @@ CATEGORY_FORMSET_DATA = {
     "form-0-name": "name1",
     "form-0-slug": "slug1",
     "form-0-description": "description1",
+    "form-0-position": "0",
     "form-1-name": "name2",
     "form-1-slug": "slug2",
     "form-1-description": "description2",
+    "form-1-position": "1",
 }
 
 

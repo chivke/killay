@@ -22,6 +22,9 @@
     </a>
   {% endif %}
   <div class="right menu">
+    <a class="{% if request.resolver_match.view_name == 'videos:create' %}active {% endif %}item"
+      href="{% url 'videos:create' %}">Create Video
+    </a>
     <a class="{% if request.resolver_match.view_name == 'videos:categories' %}active {% endif %}item"
       href="{% url 'videos:categories' %}">Categories
     </a>

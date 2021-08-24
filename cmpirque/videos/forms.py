@@ -78,7 +78,7 @@ class VideoCategorizationForm(forms.ModelForm):
 class VideoCategoryForm(forms.ModelForm):
     class Meta:
         model = VideoCategory
-        fields = ["name", "slug", "description"]
+        fields = ["name", "slug", "description", "position"]
 
     description = forms.CharField(
         required=False, widget=forms.Textarea(attrs={"rows": 1})
@@ -93,7 +93,7 @@ VideoCategoryFormSet = forms.modelformset_factory(
 class VideoPersonForm(forms.ModelForm):
     class Meta:
         model = VideoPerson
-        fields = ["name", "slug", "description"]
+        fields = ["name", "slug", "description", "position"]
 
     description = forms.CharField(
         required=False, widget=forms.Textarea(attrs={"rows": 1})
@@ -108,7 +108,7 @@ VideoPeopleFormSet = forms.modelformset_factory(
 class VideoKeywordForm(forms.ModelForm):
     class Meta:
         model = VideoKeyword
-        fields = ["name", "slug", "description"]
+        fields = ["name", "slug", "description", "position"]
 
     description = forms.CharField(
         required=False, widget=forms.Textarea(attrs={"rows": 1})

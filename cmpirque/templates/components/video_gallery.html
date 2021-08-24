@@ -2,15 +2,16 @@
   <div class="full-list-content">
     {% for video in page_obj %}
       {% if video.is_visible %}
-        <div class="video-selector">
+        <a class="video-selector" href="{% url 'videos:detail' video.code %}">
           <img class="video-tumblr" src="{{video.tumblr.url}}">
           <div class="video-label">{{video.meta.title}}</div>
-        </div>
-      {% elif user.is_superuser%}
-        <div class="video-selector">
+        </a>
+        {{page_obj}}
+      {% elif user.is_superuser and video.code %}
+        <a class="video-selector" href="{% url 'videos:detail' video.code %}">
           <img class="video-tumblr" src="{{video.tumblr.url}}">
           <div class="video-label">{{video.meta.title}}</div>
-        </div>
+        </a>
       {% endif %}
     {% endfor %}
   </div>

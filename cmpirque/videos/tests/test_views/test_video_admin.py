@@ -209,9 +209,11 @@ CATEGORY_FORMSET_DATA = {
     "form-0-name": "name1",
     "form-0-slug": "slug1",
     "form-0-description": "description1",
+    "form-0-position": "0",
     "form-1-name": "name2",
     "form-1-slug": "slug2",
     "form-1-description": "description2",
+    "form-1-position": "1",
 }
 
 

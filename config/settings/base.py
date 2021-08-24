@@ -108,6 +108,7 @@ MEDIA_URL = "/media/"
 CUSTOM_CONTEXT_PROCESSORS = [
     "cmpirque.pages.context_processors.site_context",
     "cmpirque.pages.context_processors.pages_context",
+    "cmpirque.videos.context_processors.categories_context",
 ]
 
 TEMPLATES = [

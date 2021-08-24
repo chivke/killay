@@ -192,3 +192,13 @@ html * {
 .sequences-menu {
   margin: 0 !important;
   max-width: 50px; }
+
+.video-gallery-container {
+  margin: 16px 32px;
+  margin: 1rem 2rem; }
+  .video-gallery-container .full-list-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex; }
+    .video-gallery-container .full-list-content .video-selector {
+      min-width: 30%; }

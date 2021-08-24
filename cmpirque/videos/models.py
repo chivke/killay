@@ -150,15 +150,33 @@ class VideoCategory(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     slug = models.SlugField(null=False, blank=False, unique=True, db_index=True)
     description = models.TextField(null=True, blank=True)
+    position = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "category"
+        verbose_name_plural = "categories"
+        ordering = ["position"]
 
 
 class VideoPerson(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     slug = models.SlugField(null=False, blank=False, unique=True, db_index=True)
     description = models.TextField(null=True, blank=True)
+    position = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "person"
+        verbose_name_plural = "people"
+        ordering = ["position"]
 
 
 class VideoKeyword(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
     slug = models.SlugField(null=False, blank=False, unique=True, db_index=True)
     description = models.TextField(null=True, blank=True)
+    position = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        verbose_name = "keyword"
+        verbose_name_plural = "keywords"
+        ordering = ["position"]

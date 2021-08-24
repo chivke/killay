@@ -4,7 +4,14 @@ from typing import List
 
 from django.utils import timezone
 
-from cmpirque.videos.models import Video, VideoSequence, VideoProvider
+from cmpirque.videos.models import (
+    Video,
+    VideoCategory,
+    VideoKeyword,
+    VideoSequence,
+    VideoPerson,
+    VideoProvider,
+)
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
 
@@ -52,3 +59,24 @@ class TestVideoProvider:
         assert video_provider.ply_embed_id in video_provider.video_url
         video_provider.plyr_provider = VideoProviderConstants.YOUTUBE
         assert video_provider.plyr_provider in video_provider.video_url
+
+
+class TestVideoCategory:
+    def test_str(self, video_category: VideoCategory):
+        assert str(video_category) == video_category.name
+
+    def test_get_absolute_url(self, video_category: VideoCategory):
+        assert (
+            video_category.get_absolute_url()
+            == f"/videos/category/{video_category.slug}/"
+        )
+
+
+class TestVideoPerson:
+    def test_str(self, video_person: VideoPerson):
+        assert str(video_person) == video_person.name
+
+
+class TestVideoKeyword:
+    def test_str(self, video_keyword: VideoKeyword):
+        assert str(video_keyword) == video_keyword.name

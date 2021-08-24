@@ -21,6 +21,7 @@ class Video(models.Model):
     class Meta:
         verbose_name = "video"
         verbose_name_plural = "videos"
+        ordering = ["code"]
 
     def __str__(self):
         return f"Video <{self.code}>"
@@ -157,6 +158,12 @@ class VideoCategory(models.Model):
         verbose_name_plural = "categories"
         ordering = ["position"]
 
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("videos:category-list", kwargs={"slug": self.slug})
+
 
 class VideoPerson(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
@@ -169,6 +176,9 @@ class VideoPerson(models.Model):
         verbose_name_plural = "people"
         ordering = ["position"]
 
+    def __str__(self):
+        return self.name
+
 
 class VideoKeyword(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
@@ -180,3 +190,6 @@ class VideoKeyword(models.Model):
         verbose_name = "keyword"
         verbose_name_plural = "keywords"
         ordering = ["position"]
+
+    def __str__(self):
+        return self.name

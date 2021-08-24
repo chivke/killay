@@ -1,7 +1,13 @@
 from django.urls import path
 
 
-from cmpirque.videos.views.video_public import video_detail_view
+from cmpirque.videos.views.video_public import (
+    video_category_list_view,
+    video_detail_view,
+    video_keyword_list_view,
+    video_list_view,
+    video_person_list_view,
+)
 from cmpirque.videos.views.video_admin import (
     video_categories_view,
     video_categorization,
@@ -15,6 +21,10 @@ from cmpirque.videos.views.video_admin import (
 
 app_name = "videos"
 urlpatterns = [
+    path("", view=video_list_view, name="list"),
+    path("category/<str:slug>/", view=video_category_list_view, name="category-list"),
+    path("person/<str:slug>/", view=video_person_list_view, name="person-list"),
+    path("keyword/<str:slug>/", view=video_keyword_list_view, name="keyword-list"),
     path("~create/", view=video_create_view, name="create"),
     path("~categories/", view=video_categories_view, name="categories"),
     path("~people/", view=video_people_view, name="people"),

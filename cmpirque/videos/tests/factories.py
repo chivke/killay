@@ -3,6 +3,8 @@ import factory
 # from factory import Faker, Sequence, SubFactory, RelatedFactory, post_generation
 from factory.django import DjangoModelFactory
 
+from cmpirque.videos.lib.constants import VideoProviderConstants
+
 from cmpirque.videos.models import (
     Video,
     VideoCategory,
@@ -10,6 +12,7 @@ from cmpirque.videos.models import (
     VideoKeyword,
     VideoMeta,
     VideoPerson,
+    VideoProvider,
     VideoSequence,
 )
 
@@ -25,10 +28,20 @@ class VideoMetaFactory(DjangoModelFactory):
 class VideoFactory(DjangoModelFactory):
     code = factory.Faker("slug")
     meta = VideoMetaFactory
+    is_visible = True
 
     class Meta:
         model = Video
         django_get_or_create = ["code"]
+
+
+class VideoProviderFactory(DjangoModelFactory):
+    class Meta:
+        model = VideoProvider
+
+    video = VideoFactory
+    active = True
+    plyr_provider = VideoProviderConstants.VIMEO
 
 
 class VideoCategoryFactory(DjangoModelFactory):
@@ -78,7 +91,7 @@ class VideoCategorizationFactory(DjangoModelFactory):
             return
         if people:
             for person in people:
-                self.categories.add(person)
+                self.people.add(person)
 
     @factory.post_generation
     def keywords(self, create, keywords, **kwargs):
@@ -86,7 +99,7 @@ class VideoCategorizationFactory(DjangoModelFactory):
             return
         if keywords:
             for keyword in keywords:
-                self.categories.add(keyword)
+                self.keywords.add(keyword)
 
 
 class VideoSequenceFactory(DjangoModelFactory):

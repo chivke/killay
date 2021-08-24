@@ -15,6 +15,9 @@
       {% for page in menu_pages %}
         <a class="{% if page.selected %}active {% endif %}item" href="{{ page.url }}">{{ page.title }}</a>
       {% endfor %}
+      {% for category in menu_categories %}
+        <a class="{% if category.selected %}active {% endif %}item" href="{{ category.url }}">{{ category.name }}</a>
+      {% endfor %}
     </div>
   </div>
 </nav>

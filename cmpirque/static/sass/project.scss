@@ -201,3 +201,15 @@ html * {
   margin: 0 !important;
   max-width: 50px;
 }
+
+.video-gallery-container {
+  margin: 1rem 2rem;
+
+  .full-list-content {
+    display: flex;
+
+    .video-selector {
+      min-width: 30%;
+    }
+  }
+}

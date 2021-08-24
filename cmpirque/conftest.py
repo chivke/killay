@@ -90,7 +90,7 @@ def video_categorization(
     video_keyword: VideoKeyword,
 ) -> VideoCategorization:
     return VideoCategorizationFactory(
-        categories=(video_category,), people=(video_person,), keywortds=(video_keyword,)
+        categories=(video_category,), people=(video_person,), keywords=(video_keyword,)
     )
 
 

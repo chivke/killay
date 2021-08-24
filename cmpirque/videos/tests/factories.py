@@ -28,6 +28,7 @@ class VideoMetaFactory(DjangoModelFactory):
 class VideoFactory(DjangoModelFactory):
     code = factory.Faker("slug")
     meta = VideoMetaFactory
+    is_visible = True
 
     class Meta:
         model = Video
@@ -90,7 +91,7 @@ class VideoCategorizationFactory(DjangoModelFactory):
             return
         if people:
             for person in people:
-                self.categories.add(person)
+                self.people.add(person)
 
     @factory.post_generation
     def keywords(self, create, keywords, **kwargs):
@@ -98,7 +99,7 @@ class VideoCategorizationFactory(DjangoModelFactory):
             return
         if keywords:
             for keyword in keywords:
-                self.categories.add(keyword)
+                self.keywords.add(keyword)
 
 
 class VideoSequenceFactory(DjangoModelFactory):

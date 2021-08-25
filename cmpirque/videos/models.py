@@ -1,7 +1,9 @@
+import re
 import requests
+import time
 
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
 
@@ -37,9 +39,43 @@ class Video(models.Model):
     def has_sequences(self):
         return self.sequences.exists()
 
+    def import_from_vtt_file(self, path):
+        with open(path, "r") as file:
+            lines = file.readlines()
+            data_for_import = self._parse_vtt_lines(lines)
+        with transaction.atomic():
+            sequences = self.sequences.bulk_create(
+                [VideoSequence(video_id=self.id, **data) for data in data_for_import]
+            )
+        return sequences
+
+    def _parse_vtt_lines(self, lines):
+        data_for_import = []
+        last_line = None
+        for line in lines:
+            if last_line is None:
+                assert not data_for_import
+                assert re.match("WEBVTT", line)
+            if re.match(r"\d\n", line):
+                assert re.match("\n", last_line)
+            if re.match(r"[\d:.]* --> [\d:.]*", line):
+                assert re.match(r"\d\n", last_line)
+                ini, end = re.findall(r"[\d:]{8}", line)
+                ini = self._get_seconds_from_time(ini)
+                end = self._get_seconds_from_time(end)
+            if last_line and re.match(r"[\d:.]* --> [\d:.]*", last_line):
+                data_for_import.append({"content": line, "ini": ini, "end": end})
+            last_line = line
+        return data_for_import
+
+    def _get_seconds_from_time(self, str_time):
+        obj_time = time.strptime(str_time, "%H:%M:%S")
+        return obj_time.tm_hour * 3600 + obj_time.tm_min * 60 + obj_time.tm_sec
+
 
 class VideoMeta(models.Model):
     title = models.CharField(max_length=500)
+    event = models.CharField(max_length=500, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     description_date = models.DateField(null=True, blank=True)
     location = models.CharField(max_length=500, null=True, blank=True)
@@ -47,8 +83,11 @@ class VideoMeta(models.Model):
     register_date = models.DateField(null=True, blank=True)
     register_author = models.CharField(max_length=500, null=True, blank=True)
     productor = models.CharField(max_length=500, null=True, blank=True)
-    status = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
+    archivist_notes = models.TextField(null=True, blank=True)
+    documentary_unit = models.CharField(max_length=500, null=True, blank=True)
+    lang = models.CharField(max_length=500, null=True, blank=True)
+    original_format = models.CharField(max_length=500, null=True, blank=True)
 
     class Meta:
         verbose_name = "video metadata"

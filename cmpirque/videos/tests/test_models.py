@@ -1,5 +1,5 @@
 import pytest
-
+from time import strftime, gmtime
 from typing import List
 
 from django.utils import timezone
@@ -39,6 +39,33 @@ class TestVideoModel:
 
     def test_has_sequences(self, video: Video, video_sequence: VideoSequence):
         assert video.has_sequences
+
+    def test_import_from_vtt_file(self, video: Video, tmpdir):
+        file = tmpdir.join("file.vtt")
+        times_of_sequences = [
+            {"ini": 1, "end": 70},
+            {"ini": 195, "end": 612},
+            {"ini": 603, "end": 4245},
+        ]
+        file.write(
+            "WEBVTT\n"
+            f"\n1\n{strftime('%H:%M:%S', gmtime(times_of_sequences[0]['ini']))}.000"
+            f" --> {strftime('%H:%M:%S', gmtime(times_of_sequences[0]['end']))}.000"
+            "\nContent of sequence 1\n"
+            f"\n2\n{strftime('%H:%M:%S', gmtime(times_of_sequences[1]['ini']))}.000"
+            f" --> {strftime('%H:%M:%S', gmtime(times_of_sequences[1]['end']))}.030"
+            "\nContent of sequence 2\n"
+            f"\n3\n{strftime('%H:%M:%S', gmtime(times_of_sequences[2]['ini']))}.000"
+            f" --> {strftime('%H:%M:%S', gmtime(times_of_sequences[2]['end']))}.020"
+            "\nContent of sequence 3\n"
+        )
+        assert not video.has_sequences
+        sequences = video.import_from_vtt_file(file)
+        assert video.has_sequences
+        assert video.sequences.count() == 3
+        for index, sequence in enumerate(sequences):
+            sequence.ini == times_of_sequences[index]["ini"]
+            sequence.end == times_of_sequences[index]["end"]
 
 
 class TestVideoProvider:

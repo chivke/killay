@@ -1,5 +1,7 @@
 from csv import DictReader
+from datetime import datetime
 from pathlib import Path
+from typing import List
 
 from django.db import transaction
 from django.utils.text import slugify
@@ -15,13 +17,48 @@ from cmpirque.videos.models import (
 )
 
 
+def date_serializer_for_data_list(data: dict, fields: List[str]) -> dict:
+    serialized_data = {**data}
+    for field, value in data.items():
+        if field in fields:
+            try:
+                datetime.strptime(value, "%Y-%m-%d")
+            except ValueError:
+                pass
+            else:
+                continue
+            try:
+                serialized_date = datetime.strptime(value, "%d-%m-%Y").strftime(
+                    "%Y-%m-%d"
+                )
+            except ValueError:
+                pass
+            else:
+                serialized_data[field] = serialized_date
+                continue
+            try:
+                serialized_data[field] = datetime.strptime(value, "%m-%y").strftime(
+                    "%Y-%m-%d"
+                )
+            except ValueError:
+                serialized_data[field] = None
+    return serialized_data
+
+
 def video_bulk_create_from_csv_file(path: str):
     with open(path, "r") as file:
         videos_data_list = list(DictReader(file))
     assert all(
         [field in videos_data_list[0] for field in VideoConstants.FIELDS_FOR_CSV_BULK]
     )
-    video_data_list = [
+
+    videos_data_list = [
+        date_serializer_for_data_list(
+            video_data, fields=["description_date", "register_date"]
+        )
+        for video_data in videos_data_list
+    ]
+    videos_data_list = [
         {
             "video_data": {
                 field: value
@@ -41,10 +78,12 @@ def video_bulk_create_from_csv_file(path: str):
         }
         for video_data in videos_data_list
     ]
+
     created_videos = []
     with transaction.atomic():
-        for video_data in video_data_list:
+        for video_data in videos_data_list:
             video_meta = VideoMeta(**video_data["videometa_data"])
+
             video_meta.save()
             video = Video(meta_id=video_meta.id, **video_data["video_data"])
             video.save()
@@ -57,7 +96,7 @@ def video_bulk_create_from_csv_file(path: str):
                 categorization[field] = [
                     (
                         model.objects.get_or_create(
-                            slug=slugify(value), defaults={"name": value}
+                            slug=slugify(value[:254]), defaults={"name": value[:254]}
                         )
                     )[0]
                     for value in video_data["videocategorization_data"][field]
@@ -92,7 +131,7 @@ def bulk_update_data_for_deploy(
             video.code: video for video in Video.objects.filter(code__in=thumbs_codes)
         }
         for code, video in videos_code_map.items():
-            with open(str(thumbs_path / f"{code}.jpg")) as file:
+            with open(str(thumbs_path / f"{code}.jpg"), "rb") as file:
                 video.thumb.save(f"{code}.jpg", file)
             video.save()
     if vtts_path.is_dir():

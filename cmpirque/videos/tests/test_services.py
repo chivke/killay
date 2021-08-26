@@ -1,6 +1,7 @@
 import pytest
 
 from csv import DictWriter
+from datetime import datetime
 from factory import Faker
 
 from cmpirque.videos import services as videos_services
@@ -36,6 +37,7 @@ def video_csv_data():
 
 def test_video_bulk_create_from_csv_file(video_csv_data, tmpdir):
     csv_file = tmpdir.join("csv_file.csv")
+    video_csv_data[0]["description_date"] = "04-14"
     with open(csv_file, "w") as file:
         writer = DictWriter(file, fieldnames=VideoConstants.FIELDS_FOR_CSV_BULK)
         writer.writeheader()
@@ -95,6 +97,19 @@ def data_for_deploy(data_for_deploy_folder, video_csv_data, sequences_vtt_file_c
     for file in vtt_files:
         file.write(sequences_vtt_file_content)
     return data_for_deploy_folder
+
+
+def test_date_serializer_for_data_list():
+    data = {1: "2000-01-01", 2: "01-01-2000", 3: "01-00", 4: "X", 5: "Y"}
+    fields = [1, 2, 3, 4]
+    serialized_data = videos_services.date_serializer_for_data_list(data, fields)
+    assert all(
+        [
+            datetime.strptime(value, "%Y-%m-%d") if value is not None else True
+            for field, value in serialized_data.items()
+            if field in fields
+        ]
+    )
 
 
 def test_bulk_update_data_for_deploy(data_for_deploy):

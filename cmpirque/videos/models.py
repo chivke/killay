@@ -1,6 +1,4 @@
-import re
 import requests
-import time
 
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
@@ -8,6 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
+from cmpirque.videos.utils import parse_sequences_from_vtt_file
 
 
 class Video(models.Model):
@@ -40,37 +39,12 @@ class Video(models.Model):
         return self.sequences.exists()
 
     def import_from_vtt_file(self, path):
-        with open(path, "r") as file:
-            lines = file.readlines()
-            data_for_import = self._parse_vtt_lines(lines)
+        data_for_import = parse_sequences_from_vtt_file(path)
         with transaction.atomic():
             sequences = self.sequences.bulk_create(
                 [VideoSequence(video_id=self.id, **data) for data in data_for_import]
             )
         return sequences
-
-    def _parse_vtt_lines(self, lines):
-        data_for_import = []
-        last_line = None
-        for line in lines:
-            if last_line is None:
-                assert not data_for_import
-                assert re.match("WEBVTT", line)
-            if re.match(r"\d\n", line):
-                assert re.match("\n", last_line)
-            if re.match(r"[\d:.]* --> [\d:.]*", line):
-                assert re.match(r"\d\n", last_line)
-                ini, end = re.findall(r"[\d:]{8}", line)
-                ini = self._get_seconds_from_time(ini)
-                end = self._get_seconds_from_time(end)
-            if last_line and re.match(r"[\d:.]* --> [\d:.]*", last_line):
-                data_for_import.append({"content": line, "ini": ini, "end": end})
-            last_line = line
-        return data_for_import
-
-    def _get_seconds_from_time(self, str_time):
-        obj_time = time.strptime(str_time, "%H:%M:%S")
-        return obj_time.tm_hour * 3600 + obj_time.tm_min * 60 + obj_time.tm_sec
 
 
 class VideoMeta(models.Model):
@@ -188,7 +162,9 @@ class VideoCategorization(models.Model):
 
 class VideoCategory(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
-    slug = models.SlugField(null=False, blank=False, unique=True, db_index=True)
+    slug = models.SlugField(
+        max_length=255, null=False, blank=False, unique=True, db_index=True
+    )
     description = models.TextField(null=True, blank=True)
     position = models.PositiveSmallIntegerField(default=0)
 
@@ -206,7 +182,9 @@ class VideoCategory(models.Model):
 
 class VideoPerson(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
-    slug = models.SlugField(null=False, blank=False, unique=True, db_index=True)
+    slug = models.SlugField(
+        max_length=255, null=False, blank=False, unique=True, db_index=True
+    )
     description = models.TextField(null=True, blank=True)
     position = models.PositiveSmallIntegerField(default=0)
 
@@ -221,7 +199,9 @@ class VideoPerson(models.Model):
 
 class VideoKeyword(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
-    slug = models.SlugField(null=False, blank=False, unique=True, db_index=True)
+    slug = models.SlugField(
+        max_length=255, null=False, blank=False, unique=True, db_index=True
+    )
     description = models.TextField(null=True, blank=True)
     position = models.PositiveSmallIntegerField(default=0)
 

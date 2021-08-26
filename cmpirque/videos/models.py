@@ -15,7 +15,7 @@ class Video(models.Model):
     is_visible = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    thumb = models.ImageField(null=True, blank=True)
+    thumb = models.ImageField(upload_to="video_thumbs", null=True, blank=True)
     meta = models.OneToOneField(
         "VideoMeta", on_delete=models.CASCADE, related_name="video"
     )

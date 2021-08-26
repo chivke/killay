@@ -1,15 +1,15 @@
 <div class="video-gallery-container">
   <div class="full-list-content">
     {% for video in page_obj %}
-      {% if video.is_visible %}
-        <a class="video-selector" href="{% url 'videos:detail' video.code %}">
-          <img class="video-tumblr" src="{{video.tumblr.url}}">
-          <div class="video-label">{{video.meta.title}}</div>
-        </a>
-        {{page_obj}}
-      {% elif user.is_superuser and video.code %}
-        <a class="video-selector" href="{% url 'videos:detail' video.code %}">
-          <img class="video-tumblr" src="{{video.tumblr.url}}">
+
+      {% if video.is_visible or user.is_superuser and video.code %}
+        <a
+          class="video-selector" href="{% url 'videos:detail' video.code %}"
+          style="{% if video.thumb %}background-image: url('{{video.thumb.url}}');{% else %}background-color: #dedede;{% endif %}"
+        >
+          {% if not video.is_visible %}
+            <label>Not public</label>
+          {% endif %}
           <div class="video-label">{{video.meta.title}}</div>
         </a>
       {% endif %}

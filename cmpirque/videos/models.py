@@ -1,11 +1,12 @@
 import requests
 
 from django.core.exceptions import ValidationError
-from django.db import models
+from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
+from cmpirque.videos.utils import parse_sequences_from_vtt_file
 
 
 class Video(models.Model):
@@ -13,7 +14,7 @@ class Video(models.Model):
     is_visible = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    thumb = models.ImageField(null=True, blank=True)
+    thumb = models.ImageField(upload_to="video_thumbs", null=True, blank=True)
     meta = models.OneToOneField(
         "VideoMeta", on_delete=models.CASCADE, related_name="video"
     )
@@ -37,9 +38,18 @@ class Video(models.Model):
     def has_sequences(self):
         return self.sequences.exists()
 
+    def import_from_vtt_file(self, path):
+        data_for_import = parse_sequences_from_vtt_file(path)
+        with transaction.atomic():
+            sequences = self.sequences.bulk_create(
+                [VideoSequence(video_id=self.id, **data) for data in data_for_import]
+            )
+        return sequences
+
 
 class VideoMeta(models.Model):
     title = models.CharField(max_length=500)
+    event = models.CharField(max_length=500, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     description_date = models.DateField(null=True, blank=True)
     location = models.CharField(max_length=500, null=True, blank=True)
@@ -47,8 +57,11 @@ class VideoMeta(models.Model):
     register_date = models.DateField(null=True, blank=True)
     register_author = models.CharField(max_length=500, null=True, blank=True)
     productor = models.CharField(max_length=500, null=True, blank=True)
-    status = models.TextField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
+    archivist_notes = models.TextField(null=True, blank=True)
+    documentary_unit = models.CharField(max_length=500, null=True, blank=True)
+    lang = models.CharField(max_length=500, null=True, blank=True)
+    original_format = models.CharField(max_length=500, null=True, blank=True)
 
     class Meta:
         verbose_name = "video metadata"
@@ -149,7 +162,9 @@ class VideoCategorization(models.Model):
 
 class VideoCategory(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
-    slug = models.SlugField(null=False, blank=False, unique=True, db_index=True)
+    slug = models.SlugField(
+        max_length=255, null=False, blank=False, unique=True, db_index=True
+    )
     description = models.TextField(null=True, blank=True)
     position = models.PositiveSmallIntegerField(default=0)
 
@@ -167,7 +182,9 @@ class VideoCategory(models.Model):
 
 class VideoPerson(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
-    slug = models.SlugField(null=False, blank=False, unique=True, db_index=True)
+    slug = models.SlugField(
+        max_length=255, null=False, blank=False, unique=True, db_index=True
+    )
     description = models.TextField(null=True, blank=True)
     position = models.PositiveSmallIntegerField(default=0)
 
@@ -182,7 +199,9 @@ class VideoPerson(models.Model):
 
 class VideoKeyword(models.Model):
     name = models.CharField(max_length=255, null=False, blank=False)
-    slug = models.SlugField(null=False, blank=False, unique=True, db_index=True)
+    slug = models.SlugField(
+        max_length=255, null=False, blank=False, unique=True, db_index=True
+    )
     description = models.TextField(null=True, blank=True)
     position = models.PositiveSmallIntegerField(default=0)
 

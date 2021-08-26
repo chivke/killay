@@ -269,3 +269,7 @@ tags
 
 # Pytest cache
 .pytest_cache/
+
+# Data for deploy
+.data_for_deploy
+cmpirque/media/

@@ -1,4 +1,5 @@
 from csv import DictReader
+from pathlib import Path
 
 from django.db import transaction
 from django.utils.text import slugify
@@ -68,3 +69,37 @@ def video_bulk_create_from_csv_file(path: str):
             video_categorization.keywords.add(*categorization["keywords"])
             created_videos.append(video)
     return created_videos
+
+
+def bulk_update_data_for_deploy(
+    path: str = ".data_for_deploy",
+    videos_csv_filename: str = "videos.csv",
+    thumbs_foldername: str = "thumbs",
+    sequences_vtt_foldername: str = "VTT",
+):
+    path = Path(path)
+    assert path.is_dir()
+    videos_csv_path = path / videos_csv_filename
+    thumbs_path = path / thumbs_foldername
+    vtts_path = path / sequences_vtt_foldername
+
+    if videos_csv_path.is_file():
+        video_bulk_create_from_csv_file(str(videos_csv_path))
+    if thumbs_path.is_dir():
+        thumbs = [thumb for thumb in thumbs_path.iterdir() if thumb.suffix == ".jpg"]
+        thumbs_codes = [thumb.name[: -len(thumb.suffix)] for thumb in thumbs]
+        videos_code_map = {
+            video.code: video for video in Video.objects.filter(code__in=thumbs_codes)
+        }
+        for code, video in videos_code_map.items():
+            with open(str(thumbs_path / f"{code}.jpg")) as file:
+                video.thumb.save(f"{code}.jpg", file)
+            video.save()
+    if vtts_path.is_dir():
+        vtt_files = [vtt for vtt in vtts_path.iterdir() if vtt.suffix == ".vtt"]
+        vtt_codes = [vtt.name[: -len(vtt.suffix)] for vtt in vtt_files]
+        videos_code_map = {
+            video.code: video for video in Video.objects.filter(code__in=vtt_codes)
+        }
+        for code, video in videos_code_map.items():
+            video.import_from_vtt_file(str(vtts_path / f"{code}.vtt"))

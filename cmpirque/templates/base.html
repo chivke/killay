@@ -1,4 +1,5 @@
 {% load static i18n %}
+{% load admin_navbar %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -18,33 +19,29 @@
     {% endblock extra_css %}
   </head>
   <body>
-    <div class="mb-1">
-      {% include 'components/navbar.html' %}
-    </div>
-    <div class="cmp-container">
+    {% include 'components/navbar.html' %}
+    {% if user.is_superuser %}
+      {% show_admin_navbar %}
+    {% endif %}
+    <div class="base-content-messages">
       {% if messages %}
         {% for message in messages %}
             <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
         {% endfor %}
       {% endif %}
-      {% if user.is_superuser %}
-        {% include "components/admin_navbar.html" %}
-      {% endif %}
-
+    </div>
+    <div class="base-content-container">
       {% block content %}
-
       {% endblock content %}
-
-    </div> <!-- /container -->
+    </div>
     {% include 'components/footer.html' %}
-
     {% block modal %}{% endblock modal %}
-
     {% block javascript %}
       <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
       <script src="{% static 'js/project.min.js' %}"></script>
     {% endblock javascript %}
-    {% block extra_js %}{% endblock extra_js %}
+    {% block extra_js %}
+    {% endblock extra_js %}
   </body>
 </html>

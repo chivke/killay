@@ -1,23 +1,30 @@
 
-<nav class="ui inverted menu" id="cmp-menu">
-  <div class="ui vertical segment" style="width:100%">
-    <div class="left menu" id="cmp-head-menu">
+<nav class="ui inverted menu" id="site-navbar">
+  <div class="ui vertical segment">
+    <div class="left menu" id="site-navbar-header-menu">
       <div class="header item"><a class="text" href="/">{{ site_name }}</a></div>
       <div class="right menu" >
         {% include "components/search.html" %}
-          <a class="item administrator" href="{% if user.is_authenticated %}/admin {% else %}{% url 'account_login' %}{% endif %}">Administrador</a>
         {% if user.is_authenticated %}
-          <a class="mini administrator item" href="{% url 'account_logout' %}">Cerrar sesión</a>
+          <a class="item" href="{% url 'account_logout' %}">Logout</a>
+        {% else %}
+          <a class="item" href="{% url 'account_login' %}">Login</a>
         {% endif %}
       </div>
     </div>
-    <div class="left menu" id="cmp-subhead-menu">
-      {% for page in menu_pages %}
-        <a class="{% if page.selected %}active {% endif %}item" href="{{ page.url }}">{{ page.title }}</a>
-      {% endfor %}
-      {% for category in menu_categories %}
-        <a class="{% if category.selected %}active {% endif %}item" href="{{ category.url }}">{{ category.name }}</a>
-      {% endfor %}
-    </div>
+    {% if site_conf.is_published or user.is_authenticated%}
+      <div class="left menu" id="site-navbar-subheader-menu">
+        {% for page in menu_pages %}
+          <a class="{% if page.selected %}active {% endif %}item" href="{{ page.url }}">
+            {{ page.title }}
+          </a>
+        {% endfor %}
+        {% for category in menu_categories %}
+          <a class="{% if category.selected %}active {% endif %}item" href="{{ category.url }}">
+            {{ category.name }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 </nav>

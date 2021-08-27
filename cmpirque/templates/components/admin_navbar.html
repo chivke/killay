@@ -1,38 +1,36 @@
 
-
-
-<div class="ui pointing menu" style="margin: 1rem 10%">
-  <div class="header item">Admin</div>
-  {% if object and object.code %}
-    <a class="{% if request.resolver_match.view_name == 'videos:detail' %}active {% endif %}item"
-      href="{% url 'videos:detail' object.code %}">{{object.code}}
-      {% if object.is_visible %}
-        <div class="ui label">public</div>
-      {% endif %}
+<nav class="ui pointing menu" id="admin-navbar">
+  <div class="header item">Administrator</div>
+  <a class="{{ admin_conf.css_class }}" href="{{ admin_conf.link }}"
+    >{{ admin_conf.name }}
+  </a>
+  {% if video_admin.selected %}
+    <a class="{{ video_admin.public.css_class }}" href="{{ video_admin.public.link }}"
+      >{{ video_admin.public.name }}
     </a>
-    <a class="{% if request.resolver_match.view_name == 'videos:update' %}active {% endif %}item"
-      href="{% url 'videos:update' object.code %}">Update
+    <a class="{{ video_admin.update.css_class }}" href="{{ video_admin.update.link }}"
+      >{{ video_admin.update.name }}
     </a>
-    <a class="{% if request.resolver_match.view_name == 'videos:sequences_list' %}active {% endif %}item"
-      href="{% url 'videos:sequences_list' object.code %}">Sequences
-      <div class="ui label">{{object.sequences.get_ordered_data|length}}</div>
+    <a class="{{ video_admin.sequences_list.css_class }}" href="{{ video_admin.sequences_list.link }}"
+      >{{ video_admin.sequences_list.name }}
     </a>
-    <a class="{% if request.resolver_match.view_name == 'videos:categorization' %}active {% endif %}item"
-      href="{% url 'videos:categorization' object.code %}">Categorization
+    <a class="{{ video_admin.categorization.css_class }}" href="{{ video_admin.categorization.link }}"
+      >{{ video_admin.categorization.name }}
     </a>
   {% endif %}
+
   <div class="right menu">
-    <a class="{% if request.resolver_match.view_name == 'videos:create' %}active {% endif %}item"
-      href="{% url 'videos:create' %}">Create Video
+    <a class="{{ video_admin.create.css_class }}" href="{{ video_admin.create.link }}"
+      >{{ video_admin.create.name }}
     </a>
-    <a class="{% if request.resolver_match.view_name == 'videos:categories' %}active {% endif %}item"
-      href="{% url 'videos:categories' %}">Categories
+    <a class="{{ video_admin.categories.css_class }}" href="{{ video_admin.categories.link }}"
+      >{{ video_admin.categories.name }}
     </a>
-    <a class="{% if request.resolver_match.view_name == 'videos:people' %}active {% endif %}item"
-      href="{% url 'videos:people' %}">People
+    <a class="{{ video_admin.people.css_class }}" href="{{ video_admin.people.link }}"
+      >{{ video_admin.people.name }}
     </a>
-    <a class="{% if request.resolver_match.view_name == 'videos:keywords' %}active {% endif %}item"
-      href="{% url 'videos:keywords' %}">Keywords
+    <a class="{{ video_admin.keywords.css_class }}" href="{{ video_admin.keywords.link }}"
+      >{{ video_admin.keywords.name }}
     </a>
   </div>
-</div>
+</nav>

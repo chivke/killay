@@ -1,8 +1,8 @@
-from django.contrib.auth.mixins import AccessMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
+from cmpirque.admin.mixins import AdminRequiredMixin
 
 from cmpirque.videos.forms import (
     VideoForm,
@@ -21,13 +21,6 @@ from cmpirque.videos.models import (
     VideoKeyword,
     VideoPerson,
 )
-
-
-class AdminRequiredMixin(AccessMixin):
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_superuser:
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
 
 class VideoAdminMixin(AdminRequiredMixin):
@@ -50,7 +43,7 @@ class VideoAdminMixin(AdminRequiredMixin):
         return self.providers_formset_class(**kwargs)
 
     def get_success_url(self):
-        return reverse("videos:update", kwargs={"slug": self.object.code})
+        return reverse("admin:videos_update", kwargs={"slug": self.object.code})
 
     def validate_forms(self):
         form = self.get_form()
@@ -121,7 +114,7 @@ class VideoSequenceList(AdminRequiredMixin, UpdateView):
     formset_class = VideoSequenceFormSet
 
     def get_success_url(self):
-        return reverse("videos:sequences_list", kwargs={"slug": self.object.code})
+        return reverse("admin:videos_sequences_list", kwargs={"slug": self.object.code})
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -158,7 +151,7 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
     form_class = VideoCategorizationForm
 
     def get_success_url(self):
-        return reverse("videos:categorization", kwargs={"slug": self.object.code})
+        return reverse("admin:videos_categorization", kwargs={"slug": self.object.code})
 
     def get_object(self):
         instance = super().get_object()
@@ -199,7 +192,7 @@ class VideoCategoryListView(AdminRequiredMixin, ListView):
 
     def formset_valid(self, formset):
         self.object_list = formset.save()
-        return HttpResponseRedirect(reverse("videos:categories"))
+        return HttpResponseRedirect(reverse("admin:videos_categories"))
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)
@@ -226,7 +219,7 @@ class VideoPeopleList(AdminRequiredMixin, ListView):
 
     def formset_valid(self, formset):
         self.object_list = formset.save()
-        return HttpResponseRedirect(reverse("videos:people"))
+        return HttpResponseRedirect(reverse("admin:videos_people"))
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)
@@ -253,7 +246,7 @@ class VideoKeywordList(AdminRequiredMixin, ListView):
 
     def formset_valid(self, formset):
         self.object_list = formset.save()
-        return HttpResponseRedirect(reverse("videos:categories"))
+        return HttpResponseRedirect(reverse("admin:videos_categories"))
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)

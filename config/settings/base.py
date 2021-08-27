@@ -36,7 +36,6 @@ DJANGO_APPS = [
     "django.contrib.sites",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "django.contrib.admin",
     "django.forms",
 ]
 
@@ -45,13 +44,13 @@ THIRD_PARTY_APPS = [
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
-    #    "django_celery_beat",
 ]
 
 LOCAL_APPS = [
     "cmpirque.users.apps.UsersConfig",
     "cmpirque.pages.apps.PagesConfig",
     "cmpirque.videos.apps.VideosConfig",
+    "cmpirque.admin.apps.AdminConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -106,7 +105,7 @@ MEDIA_URL = "/media/"
 # Template
 
 CUSTOM_CONTEXT_PROCESSORS = [
-    "cmpirque.pages.context_processors.site_context",
+    "cmpirque.admin.context_processors.site_context",
     "cmpirque.pages.context_processors.pages_context",
     "cmpirque.videos.context_processors.categories_context",
 ]

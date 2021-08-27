@@ -4,20 +4,22 @@ from django.views.generic import DetailView, ListView
 
 from cmpirque.videos.models import Video, VideoCategory, VideoKeyword, VideoPerson
 
+from cmpirque.admin.mixins import PublishRequiredMixin
 
-class VideoMixin:
+
+class VideoMixin(PublishRequiredMixin):
     model = Video
     slug_field = "code"
 
 
 class VideoDetailView(VideoMixin, DetailView):
-    pass
+    queryset = Video.objects.filter(is_visible=True)
 
 
 video_detail_view = VideoDetailView.as_view()
 
 
-class VideoListView(ListView):
+class VideoListView(PublishRequiredMixin, ListView):
     model = Video
     paginate_by = 50
 
@@ -25,7 +27,7 @@ class VideoListView(ListView):
 video_list_view = VideoListView.as_view()
 
 
-class CategorizationMixin:
+class CategorizationMixin(PublishRequiredMixin):
     paginate_by = 50
 
     def get_context_data(self, *args, **kwargs):

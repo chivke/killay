@@ -1,11 +1,6 @@
 from django.urls import resolve
-from django.conf import settings
 
 from cmpirque.pages.models import Page
-
-
-def site_context(request):
-    return {"site_name": settings.SITE_NAME}
 
 
 def pages_context(request):

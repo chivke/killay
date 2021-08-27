@@ -10,6 +10,7 @@ from cmpirque.pages.views import home_page_view
 
 urlpatterns = [
     path("", view=home_page_view, name="home"),
+    path("admin/", include("cmpirque.admin.urls", namespace="admin")),
     path("pages/", include("cmpirque.pages.urls", namespace="pages")),
     path("users/", include("cmpirque.users.urls", namespace="users")),
     path("videos/", include("cmpirque.videos.urls", namespace="videos")),

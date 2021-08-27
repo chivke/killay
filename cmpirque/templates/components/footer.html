@@ -9,10 +9,13 @@
         <img class="footer-logo" alt="logo fondart" src="{% static 'images/logos/logo_fondart.png' %}">
     </div>
     <div class="ui footer-right">
-        <a class="link text" href="/saber-mas">Saber más</a>
-        <a class="link icon item" href="{{ SOCIALMEDIA_FACEBOOK }}" ><i class="borderer link facebook icon"></i></a>
-        <a class="link icon item" href="{{ SOCIALMEDIA_TWITTER }}" ><i class="borderer link twitter icon"></i></a>
-        <a class="link icon item" href="{{ SOCIALMEDIA_INSTAGRAM }}" ><i class="borderer link instagram icon"></i></a>
-        <a class="link icon item" href="{{ SOCIALMEDIA_YOUTUBE }}" ><i class="borderer link youtube icon"></i></a>
+      <a class="link text" href="/saber-mas">Saber más</a>
+      {% for social_media in site_conf.social_medias.all %}
+        <a class="link icon item" href="{{social_media.url}}">
+          {% if not social_media.css_class %}
+            <i class="borderer link {{social_media.provider}} icon"></i>
+          {% endif %}
+        </a>
+      {% endfor %}
     </div>
 </div>

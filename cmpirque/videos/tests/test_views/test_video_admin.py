@@ -1,6 +1,7 @@
 import pytest
 
 from django.test import RequestFactory
+from django.urls import resolve
 
 from cmpirque.videos.models import Video, VideoCategory, VideoPerson, VideoKeyword
 from cmpirque.videos.views.video_admin import (
@@ -26,6 +27,7 @@ PROVIDERS_FORMSET_DATA = {"providers-INITIAL_FORMS": "0", "providers-TOTAL_FORMS
 class TestVideoCreateView:
     def test_get(self, admin_user: User, rf: RequestFactory):
         request = rf.get("/videos/~create/")
+        request.resolver_match = resolve("/videos/~create/")
         request.user = admin_user
         response = video_create_view(request)
         assert response.render()
@@ -54,8 +56,10 @@ class TestVideoCreateView:
 
 class TestVideoUpdateView:
     def test_get(self, admin_user: User, video: Video, rf: RequestFactory):
-        request = rf.get(f"/videos/{video.code}/~update/")
+        url = f"/videos/{video.code}/~update/"
+        request = rf.get(url)
         request.user = admin_user
+        request.resolver_match = resolve(url)
         response = video_update_view(request, slug=video.code)
         assert response.status_code == 200
         assert response.render()
@@ -84,8 +88,10 @@ class TestVideoUpdateView:
 
 class TestVideoDeleteView:
     def test_get(self, admin_user: User, video: Video, rf: RequestFactory):
-        request = rf.get(f"/videos/{video.code}/~delete/")
+        url = f"/videos/{video.code}/~delete/"
+        request = rf.get(url)
         request.user = admin_user
+        request.resolver_match = resolve(url)
         response = video_delete_view(request, slug=video.code)
         assert response.status_code == 200
         assert response.render()
@@ -112,8 +118,10 @@ SEQUENCES_FORMSET_DATA = {
 
 class TestVideoSequencesListView:
     def test_get(self, admin_user: User, video: Video, rf: RequestFactory):
-        request = rf.get(f"/videos/{video.code}/~sequences/")
+        url = f"/videos/{video.code}/~sequences/"
+        request = rf.get(url)
         request.user = admin_user
+        request.resolver_match = resolve(url)
         response = video_sequences_list(request, slug=video.code)
         assert response.status_code == 200
         assert response.render()
@@ -141,8 +149,10 @@ class TestVideoSequencesListView:
 
 class TestVideoCategorizationUpdateView:
     def test_get(self, admin_user: User, video: Video, rf: RequestFactory):
-        request = rf.get(f"/videos/{video.code}/~categorization/")
+        url = f"/videos/{video.code}/~categorization/"
+        request = rf.get(url)
         request.user = admin_user
+        request.resolver_match = resolve(url)
         response = video_categorization(request, slug=video.code)
         assert response.status_code == 200
         assert response.render()
@@ -200,6 +210,7 @@ class TestVideoCategoryListView:
     ):
         request = rf.get("/videos/~categories/")
         request.user = admin_user
+        request.resolver_match = resolve("/videos/~categories/")
         response = video_categories_view(request)
         assert response.status_code == 200
         assert response.render()
@@ -244,6 +255,7 @@ class TestVideoPeopleListView:
     def test_get(self, admin_user: User, video_person: VideoPerson, rf: RequestFactory):
         request = rf.get("/videos/~people/")
         request.user = admin_user
+        request.resolver_match = resolve("/videos/~people/")
         response = video_people_view(request)
         assert response.status_code == 200
         assert response.render()
@@ -289,6 +301,7 @@ class TestVideoKeywordListView:
         self, admin_user: User, video_keyword: VideoKeyword, rf: RequestFactory
     ):
         request = rf.get("/videos/~keywords/")
+        request.resolver_match = resolve("/videos/~keywords/")
         request.user = admin_user
         response = video_keywords_view(request)
         assert response.status_code == 200

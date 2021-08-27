@@ -1,6 +1,7 @@
 import pytest
 
 from django.test import RequestFactory
+from django.urls import resolve
 
 from cmpirque.admin.models import AdminConfiguration
 from cmpirque.admin.views.configuration import admin_configuration_view
@@ -24,6 +25,7 @@ SOCIALMEDIA_FORMSET_DATA = {
 class TestAdminConfigurationView:
     def test_get(self, admin_user: User, rf: RequestFactory):
         request = rf.get("/admin/")
+        request.resolver_match = resolve("/admin/")
         request.user = admin_user
         response = admin_configuration_view(request)
         assert response.render()

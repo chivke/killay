@@ -8,6 +8,16 @@
 
   <h1>{{ object.title }}</h1>
 
+{% if object.header_image %}
+  <h1> object.header_image </h1>
+  <img id="home-img" class="ui image fluid" src="{{ object.header_image.url }}">
+  <h1>{{ object.with_header_image }}</h1>
+{% else %}
+
+  <h1> No tiene portada</h1>
+
+{% endif %}
+
   {% autoescape off %}{{ object.body }}{% endautoescape %}
 
 </div>

@@ -22,7 +22,8 @@ def pages_context(request):
                 "title": page.title,
                 "slug": page.slug,
                 "url": page.get_absolute_url(),
-                "selected": selected_map.get(page.slug, False)
+                "selected": selected_map.get(page.slug, False),
+                "is_visible_on_menu": page.is_visible_on_menu
             }
             for page in Page.objects.all()
         ]

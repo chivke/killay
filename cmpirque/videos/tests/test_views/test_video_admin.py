@@ -1,11 +1,10 @@
 import pytest
 
-from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 
 from cmpirque.videos.models import Video, VideoCategory, VideoPerson, VideoKeyword
 from cmpirque.videos.views.video_admin import (
-    AdminRequiredMixin,
+    # AdminRequiredMixin,
     video_categories_view,
     video_categorization,
     video_create_view,
@@ -19,28 +18,6 @@ from cmpirque.users.models import User
 
 
 pytestmark = pytest.mark.django_db
-
-
-class TestAdminRequiredMixin:
-    def test_is_not_superuser(self, video: Video, rf: RequestFactory):
-        request = rf.get(f"/videos/{video.code}/")
-        request.user = AnonymousUser()
-        mixin = AdminRequiredMixin()
-        mixin.request = request
-        response = mixin.dispatch(request)
-        assert response.status_code == 302
-        assert "login" in response.url
-
-    def test_is_superuser(self, admin_user: User, video: Video, rf: RequestFactory):
-        request = rf.get(f"/videos/{video.code}/")
-        request.user = admin_user
-        mixin = AdminRequiredMixin()
-        mixin.request = request
-        attribute_error = None
-        with pytest.raises(AttributeError) as error:
-            attribute_error = error
-            mixin.dispatch(request)
-        assert "dispatch" in attribute_error.value.args[0]
 
 
 PROVIDERS_FORMSET_DATA = {"providers-INITIAL_FORMS": "0", "providers-TOTAL_FORMS": "0"}

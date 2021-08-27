@@ -2,8 +2,10 @@ from django.views.generic import DetailView, TemplateView
 
 from cmpirque.pages.models import Page
 
+from cmpirque.admin.mixins import PublishRequiredMixin
 
-class PageDetailView(DetailView):
+
+class PageDetailView(PublishRequiredMixin, DetailView):
     model = Page
     slug_field = "slug"
     slug_url_kwarg = "slug"
@@ -12,7 +14,7 @@ class PageDetailView(DetailView):
 page_detail_view = PageDetailView.as_view()
 
 
-class HomeView(TemplateView):
+class HomeView(PublishRequiredMixin, TemplateView):
     template_name = "home.html"
 
     def get_context_data(self, **kwargs):

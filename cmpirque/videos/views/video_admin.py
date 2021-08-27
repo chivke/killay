@@ -1,8 +1,8 @@
-from django.contrib.auth.mixins import AccessMixin
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 
+from cmpirque.admin.mixins import AdminRequiredMixin
 
 from cmpirque.videos.forms import (
     VideoForm,
@@ -21,13 +21,6 @@ from cmpirque.videos.models import (
     VideoKeyword,
     VideoPerson,
 )
-
-
-class AdminRequiredMixin(AccessMixin):
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated or not request.user.is_superuser:
-            return self.handle_no_permission()
-        return super().dispatch(request, *args, **kwargs)
 
 
 class VideoAdminMixin(AdminRequiredMixin):

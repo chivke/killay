@@ -1,5 +1,9 @@
+from django.contrib.postgres.search import SearchVector
 from django.core.paginator import Paginator
+from django.db.models import Q
+from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, ListView
+from django.urls import reverse
 
 
 from cmpirque.videos.models import Video, VideoCategory, VideoKeyword, VideoPerson
@@ -66,3 +70,23 @@ class VideoKeywordDetailView(CategorizationMixin, DetailView):
 
 
 video_keyword_list_view = VideoKeywordDetailView.as_view()
+
+
+class VideoSearchView(PublishRequiredMixin, ListView):
+    paginate_by = 50
+
+    def get_queryset(self):
+        return Video.objects.filter(
+            Q(code__icontains=self.query_search)
+            | Q(meta__title__icontains=self.query_search)
+            | Q(meta__description__icontains=self.query_search)
+        )
+
+    def get(self, request, *args, **kwargs):
+        self.query_search = self.request.GET.get("q")
+        if not self.query_search:
+            return HttpResponseRedirect(reverse("videos:list"))
+        return super().get(request, *args, **kwargs)
+
+
+video_search_list_view = VideoSearchView.as_view()

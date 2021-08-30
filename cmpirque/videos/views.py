@@ -1,4 +1,4 @@
-from django.contrib.postgres.search import SearchVector
+from django.contrib import messages
 from django.core.paginator import Paginator
 from django.db.models import Q
 from django.http import HttpResponseRedirect
@@ -17,7 +17,12 @@ class VideoMixin(PublishRequiredMixin):
 
 
 class VideoDetailView(VideoMixin, DetailView):
-    queryset = Video.objects.filter(is_visible=True)
+    def get_queryset(self):
+        return (
+            Video.objects.filter(is_visible=True)
+            if not self.request.user.is_authenticated
+            else Video.objects.all()
+        )
 
 
 video_detail_view = VideoDetailView.as_view()
@@ -81,6 +86,13 @@ class VideoSearchView(PublishRequiredMixin, ListView):
             | Q(meta__title__icontains=self.query_search)
             | Q(meta__description__icontains=self.query_search)
         )
+
+    def render_to_response(self, context):
+        if not self.object_list:
+            messages.info(
+                self.request, f'Videos with "{self.query_search}" not founded.'
+            )
+        return super().render_to_response(context)
 
     def get(self, request, *args, **kwargs):
         self.query_search = self.request.GET.get("q")

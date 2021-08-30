@@ -106,6 +106,19 @@ class VideoProvider(models.Model):
         else:
             return f"https://www.{self.plyr_provider}.com/embed/{self.ply_embed_id}"
 
+    @property
+    def video_url_for_plyr(self):
+        if self.plyr_provider == VideoProviderConstants.VIMEO:
+            return self.video_url + (
+                "?loop=false&amp;byline=false&amp;portrait=false"
+                "&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media"
+            )
+        else:
+            return self.video_url + (
+                "?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;responsive=true"
+                "&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+            )
+
     def get_related_providers(self):
         return VideoProvider.objects.filter(video_id=self.video_id).exclude(id=self.id)
 

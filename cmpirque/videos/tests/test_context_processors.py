@@ -12,7 +12,7 @@ class TestCategoriesContext:
     def test_selected(self, rf: RequestFactory, video_category: VideoCategory):
         request = rf.get(f"/videos/category/{video_category.slug}/")
         menu_categories = categories_context(request)["menu_categories"]
-        assert len(menu_categories) == 1
+        assert len(menu_categories) == 2
         assert menu_categories[0]["name"] == video_category.name
         assert menu_categories[0]["slug"] == video_category.slug
         assert menu_categories[0]["url"] == video_category.get_absolute_url()
@@ -22,7 +22,7 @@ class TestCategoriesContext:
         second_category = VideoCategoryFactory()
         request = rf.get(f"/videos/category/{video_category.slug}/")
         menu_categories = categories_context(request)["menu_categories"]
-        assert len(menu_categories) == 2
+        assert len(menu_categories) == 3
         assert menu_categories[0]["name"] == video_category.name
         assert menu_categories[0]["slug"] == video_category.slug
         assert menu_categories[0]["url"] == video_category.get_absolute_url()

@@ -84,8 +84,10 @@ class TestVideoProvider:
 
     def test_video_url(self, video_provider: VideoProvider):
         assert video_provider.ply_embed_id in video_provider.video_url
+        assert video_provider.ply_embed_id in video_provider.video_url_for_plyr
         video_provider.plyr_provider = VideoProviderConstants.YOUTUBE
         assert video_provider.plyr_provider in video_provider.video_url
+        assert video_provider.plyr_provider in video_provider.video_url_for_plyr
 
 
 class TestVideoCategory:

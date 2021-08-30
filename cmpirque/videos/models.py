@@ -138,8 +138,8 @@ class VideoSequence(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="sequences")
     title = models.CharField(max_length=500, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
-    ini = models.PositiveSmallIntegerField(null=False, blank=False)
-    end = models.PositiveSmallIntegerField(null=False, blank=False)
+    ini = models.TimeField(null=False, blank=False)
+    end = models.TimeField(null=False, blank=False)
 
     class Meta:
         verbose_name = "video sequence"
@@ -152,12 +152,19 @@ class VideoSequence(models.Model):
         self.validate_ini_greater_then_end()
 
     def validate_ini_greater_then_end(self):
-        if (
-            isinstance(self.ini, int)
-            and isinstance(self.end, int)
-            and self.ini >= self.end
-        ):
+        if self.ini and self.end and self.ini >= self.end:
             raise ValidationError("init of sequence must be greater then end")
+
+    @property
+    def ini_time(self):
+        return self.__seconds_to_time(self.ini)
+
+    @property
+    def end_time(self):
+        return self.__seconds_to_time(self.end)
+
+    def __seconds_to_time(self, time):
+        return (time.hour * 60 + time.minute) * 60 + time.second
 
 
 class VideoCategorization(models.Model):

@@ -107,5 +107,5 @@ class VideoSequenceFactory(DjangoModelFactory):
         model = VideoSequence
 
     video = factory.RelatedFactory(VideoFactory)
-    ini = factory.Sequence(lambda n: n + 5)
-    end = factory.Sequence(lambda n: n + 10)
+    ini = "00:01:00"
+    end = "00:02:00"

@@ -7,7 +7,7 @@ from typing import List
 def parse_sequences_from_vtt_file(path: str) -> List[dict]:
     def _get_seconds_from_time(str_time):
         obj_time = time.strptime(str_time, "%H:%M:%S")
-        return obj_time.tm_hour * 3600 + obj_time.tm_min * 60 + obj_time.tm_sec
+        return str(obj_time)  # .tm_hour * 3600 + obj_time.tm_min * 60 + obj_time.tm_sec
 
     with open(path, "r") as file:
         lines = list(file.readlines())
@@ -28,8 +28,8 @@ def parse_sequences_from_vtt_file(path: str) -> List[dict]:
                 r"\d+\n", last_line
             ), f"Error in line {index} of vtt file: {path}"
             ini, end = re.findall(r"[\d:]{8}", line)
-            ini = _get_seconds_from_time(ini)
-            end = _get_seconds_from_time(end)
+            # ini = _get_seconds_from_time(ini)
+            # end = _get_seconds_from_time(end)
         if last_line and re.match(r"[\d:.]* --> [\d:.]*", last_line):
             data_to_import.append({"content": line, "ini": ini, "end": end})
         last_line = line

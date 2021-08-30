@@ -20,7 +20,13 @@ from cmpirque.users.models import User
 pytestmark = pytest.mark.django_db
 
 
-PROVIDERS_FORMSET_DATA = {"providers-INITIAL_FORMS": "0", "providers-TOTAL_FORMS": "0"}
+PROVIDERS_FORMSET_DATA = {
+    "providers-INITIAL_FORMS": "0",
+    "providers-TOTAL_FORMS": "1",
+    "providers-0-active": "",
+    "providers-0-ply_embed_id": "",
+    "providers-0-plyr_provider": "",
+}
 
 
 class TestVideoCreateView:
@@ -32,25 +38,32 @@ class TestVideoCreateView:
         assert response.render()
         assert response.status_code == 200
 
-    def test_create(self, admin_user: User, rf: RequestFactory):
+    def test_create(self, admin_user: User, rf_msg: RequestFactory):
         data = {"code": "fake", "title": "fake"}
-        data.update(PROVIDERS_FORMSET_DATA)
-        request = rf.post("/admin/videos/~create/", data)
+        data_formset = {**PROVIDERS_FORMSET_DATA}
+        data_formset["providers-0-plyr_provider"] = "vimeo"
+        data_formset["providers-0-ply_embed_id"] = "vimeo"
+        data.update(data_formset)
+        request = rf_msg("post", "/admin/videos/~create/", data)
         request.user = admin_user
         response = video_create_view(request)
         assert response.status_code == 302
         video = Video.objects.get(code="fake")
         assert video.code == data["code"]
         assert video.meta.title == data["title"]
+        assert video.providers.first().ply_embed_id == "vimeo"
 
-    def test_fail_create(self, admin_user: User, rf: RequestFactory):
+    def test_fail_create(self, admin_user: User, rf_msg: RequestFactory):
         data = {"code": "fake"}
-        data.update(PROVIDERS_FORMSET_DATA)
-        request = rf.post("/admin/videos/~create/", data)
+        data_formset = {**PROVIDERS_FORMSET_DATA}
+        data_formset["providers-0-plyr_provider"] = "X"
+        data.update(data_formset)
+        request = rf_msg("post", "/admin/videos/~create/", data)
         request.user = admin_user
         response = video_create_view(request)
         assert response.status_code == 200
         assert "title" in response.context_data["meta_form"].errors
+        assert "plyr_provider" in response.context_data["providers_formset"].errors[0]
 
 
 class TestVideoUpdateView:
@@ -64,10 +77,10 @@ class TestVideoUpdateView:
         assert response.render()
         assert video.meta.title in str(response.content)
 
-    def test_update(self, admin_user: User, video: Video, rf: RequestFactory):
+    def test_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
         data = {"code": "fake", "title": "fake"}
         data.update(PROVIDERS_FORMSET_DATA)
-        request = rf.post(f"/admin/videos/{video.code}/~update/", data)
+        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
         request.user = admin_user
         response = video_update_view(request, slug=video.code)
         video.refresh_from_db()
@@ -75,10 +88,10 @@ class TestVideoUpdateView:
         assert video.code == data["code"]
         assert video.meta.title == data["title"]
 
-    def test_fail_update(self, admin_user: User, video: Video, rf: RequestFactory):
+    def test_fail_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
         data = {"code": "fake"}
         data.update(PROVIDERS_FORMSET_DATA)
-        request = rf.post(f"/admin/videos/{video.code}/~update/", data)
+        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
         request.user = admin_user
         response = video_update_view(request, slug=video.code)
         assert response.status_code == 200
@@ -96,9 +109,9 @@ class TestVideoDeleteView:
         assert response.render()
         assert video.code in str(response.content)
 
-    def test_delete(self, admin_user: User, video: Video, rf: RequestFactory):
+    def test_delete(self, admin_user: User, video: Video, rf_msg: RequestFactory):
         data = {"code": "fake", "title": "fake"}
-        request = rf.post(f"/admin/videos/{video.code}/~update/", data)
+        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
         request.user = admin_user
         response = video_delete_view(request, slug=video.code)
         with pytest.raises(Video.DoesNotExist):
@@ -110,8 +123,8 @@ SEQUENCES_FORMSET_DATA = {
     "sequences-INITIAL_FORMS": "0",
     "sequences-TOTAL_FORMS": "1",
     "sequences-0-title": "seq1",
-    "sequences-0-ini": "1",
-    "sequences-0-end": "10",
+    "sequences-0-ini": "00:01:00",
+    "sequences-0-end": "00:02:00",
 }
 
 
@@ -126,22 +139,22 @@ class TestVideoSequencesListView:
         assert response.render()
         assert video.meta.title in str(response.content)
 
-    def test_update(self, admin_user: User, video: Video, rf: RequestFactory):
-        request = rf.post(
-            f"/admin/videos/{video.code}/~update/", SEQUENCES_FORMSET_DATA
+    def test_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
+        request = rf_msg(
+            "post", f"/admin/videos/{video.code}/~update/", SEQUENCES_FORMSET_DATA
         )
         request.user = admin_user
         response = video_sequences_list(request, slug=video.code)
         assert response.status_code == 302
         sequence = video.sequences.first()
         assert sequence.title == SEQUENCES_FORMSET_DATA["sequences-0-title"]
-        assert sequence.ini == int(SEQUENCES_FORMSET_DATA["sequences-0-ini"])
-        assert sequence.end == int(SEQUENCES_FORMSET_DATA["sequences-0-end"])
+        assert str(sequence.ini) == SEQUENCES_FORMSET_DATA["sequences-0-ini"]
+        assert str(sequence.end) == SEQUENCES_FORMSET_DATA["sequences-0-end"]
 
-    def test_fail_update(self, admin_user: User, video: Video, rf: RequestFactory):
+    def test_fail_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
         data = SEQUENCES_FORMSET_DATA
-        data["sequences-0-end"] = "1"
-        request = rf.post(f"/admin/videos/{video.code}/~update/", data)
+        data["sequences-0-end"] = "00:00:01"
+        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
         request.user = admin_user
         response = video_sequences_list(request, slug=video.code)
         assert response.status_code == 200
@@ -162,7 +175,7 @@ class TestVideoCategorizationUpdateView:
     def test_update(
         self,
         admin_user: User,
-        rf: RequestFactory,
+        rf_msg: RequestFactory,
         video: Video,
         video_category: VideoCategory,
         video_person: VideoPerson,
@@ -173,7 +186,7 @@ class TestVideoCategorizationUpdateView:
             "people": [video_person.id],
             "keywords": [video_keyword.id],
         }
-        request = rf.post(f"/admin/videos/{video.code}/~categorization/", data)
+        request = rf_msg("post", f"/admin/videos/{video.code}/~categorization/", data)
         request.user = admin_user
         response = video_categorization(request, slug=video.code)
         assert response.status_code == 302
@@ -182,9 +195,9 @@ class TestVideoCategorizationUpdateView:
         assert video.categorization.people.first() == video_person
         assert video.categorization.keywords.first() == video_keyword
 
-    def test_fail_update(self, admin_user: User, video: Video, rf: RequestFactory):
+    def test_fail_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
         data = {"categories": [0]}
-        request = rf.post(f"/admin/videos/{video.code}/~update/", data)
+        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
         request.user = admin_user
         response = video_categorization(request, slug=video.code)
         assert response.status_code == 200
@@ -218,7 +231,7 @@ class TestVideoCategoryListView:
         assert video_category.name in str(response.content)
 
     def test_update(
-        self, admin_user: User, video_category: VideoCategory, rf: RequestFactory
+        self, admin_user: User, video_category: VideoCategory, rf_msg: RequestFactory
     ):
         data = {
             **CATEGORY_FORMSET_DATA,
@@ -227,7 +240,7 @@ class TestVideoCategoryListView:
             "form-0-slug": video_category.slug,
             "form-0-description": "X",
         }
-        request = rf.post("/admin/videos/~categories/", data)
+        request = rf_msg("post", "/admin/videos/~categories/", data)
         request.user = admin_user
         response = video_categories_view(request)
         video_category.refresh_from_db()
@@ -236,7 +249,7 @@ class TestVideoCategoryListView:
         assert video_category.description == "X"
 
     def test_fail_update(
-        self, admin_user: User, video_category: VideoCategory, rf: RequestFactory
+        self, admin_user: User, video_category: VideoCategory, rf_msg: RequestFactory
     ):
         data = {
             **CATEGORY_FORMSET_DATA,
@@ -244,7 +257,7 @@ class TestVideoCategoryListView:
             "form-0-slug": ".",
         }
         data.pop("form-0-name")
-        request = rf.post("/admin/videos/~categories/", data)
+        request = rf_msg("post", "/admin/videos/~categories/", data)
         request.user = admin_user
         response = video_categories_view(request)
         assert response.status_code == 200
@@ -263,7 +276,7 @@ class TestVideoPeopleListView:
         assert video_person.name in str(response.content)
 
     def test_update(
-        self, admin_user: User, video_person: VideoPerson, rf: RequestFactory
+        self, admin_user: User, video_person: VideoPerson, rf_msg: RequestFactory
     ):
         data = {
             **CATEGORY_FORMSET_DATA,
@@ -272,7 +285,7 @@ class TestVideoPeopleListView:
             "form-0-slug": video_person.slug,
             "form-0-description": "X",
         }
-        request = rf.post("/admin/videos/~people/", data)
+        request = rf_msg("post", "/admin/videos/~people/", data)
         request.user = admin_user
         response = video_people_view(request)
         video_person.refresh_from_db()
@@ -281,7 +294,7 @@ class TestVideoPeopleListView:
         assert video_person.description == "X"
 
     def test_fail_update(
-        self, admin_user: User, video_person: VideoPerson, rf: RequestFactory
+        self, admin_user: User, video_person: VideoPerson, rf_msg: RequestFactory
     ):
         data = {
             **CATEGORY_FORMSET_DATA,
@@ -289,7 +302,7 @@ class TestVideoPeopleListView:
             "form-0-slug": ".",
         }
         data.pop("form-0-name")
-        request = rf.post("/admin/videos/~people/", data)
+        request = rf_msg("post", "/admin/videos/~people/", data)
         request.user = admin_user
         response = video_people_view(request)
         assert response.status_code == 200
@@ -310,7 +323,7 @@ class TestVideoKeywordListView:
         assert video_keyword.name in str(response.content)
 
     def test_update(
-        self, admin_user: User, video_keyword: VideoKeyword, rf: RequestFactory
+        self, admin_user: User, video_keyword: VideoKeyword, rf_msg: RequestFactory
     ):
         data = {
             **CATEGORY_FORMSET_DATA,
@@ -319,7 +332,7 @@ class TestVideoKeywordListView:
             "form-0-slug": video_keyword.slug,
             "form-0-description": "X",
         }
-        request = rf.post("/admin/videos/~keywords/", data)
+        request = rf_msg("post", "/admin/videos/~keywords/", data)
         request.user = admin_user
         response = video_keywords_view(request)
         video_keyword.refresh_from_db()
@@ -328,7 +341,7 @@ class TestVideoKeywordListView:
         assert video_keyword.description == "X"
 
     def test_fail_update(
-        self, admin_user: User, video_keyword: VideoKeyword, rf: RequestFactory
+        self, admin_user: User, video_keyword: VideoKeyword, rf_msg: RequestFactory
     ):
         data = {
             **CATEGORY_FORMSET_DATA,
@@ -336,7 +349,7 @@ class TestVideoKeywordListView:
             "form-0-slug": ".",
         }
         data.pop("form-0-name")
-        request = rf.post("/admin/videos/~keywords/", data)
+        request = rf_msg("post", "/admin/videos/~keywords/", data)
         request.user = admin_user
         response = video_keywords_view(request)
         assert response.status_code == 200

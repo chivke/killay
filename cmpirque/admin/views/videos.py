@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
@@ -57,6 +58,8 @@ class VideoAdminMixin(AdminRequiredMixin):
     def form_invalid(self, form, meta_form, providers_formset):
         context = self.get_context_data(form=form)
         context["meta_form"] = meta_form
+        context["providers_formset"] = providers_formset
+        messages.error(gettext("Error saving Video"))
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
@@ -86,6 +89,7 @@ class VideoCreateView(VideoAdminMixin, CreateView):
     def form_valid(self, form, meta_form, providers_formset):
         form.instance.meta = meta_form.save()
         self.object = form.save()
+        providers_formset.save()
         return super().form_valid(form)
 
 
@@ -100,6 +104,7 @@ class VideoUpdateView(VideoAdminMixin, UpdateView):
     def form_valid(self, form, meta_form, providers_formset):
         self.object.meta = meta_form.save()
         self.object = form.save()
+        providers_formset.save()
         return super().form_valid(form)
 
 

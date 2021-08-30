@@ -2,6 +2,7 @@ import pytest
 from time import strftime, gmtime
 from typing import List
 
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 from cmpirque.videos.models import (
@@ -11,6 +12,7 @@ from cmpirque.videos.models import (
     VideoSequence,
     VideoPerson,
     VideoProvider,
+    VideoSequence,
 )
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
@@ -25,6 +27,14 @@ def test_video_sequence_manager(video_sequences: VideoSequence):
         assert isinstance(sequence, dict)
         assert "order" in sequence
         assert sequence["order"] == index + 1
+
+
+class TestSequence:
+    def test_clean_fail(self, video_sequence: VideoSequence):
+        video_sequence.ini = "00:03:00"
+        video_sequence.end = "00:02:00"
+        with pytest.raises(ValidationError):
+            video_sequence.clean()
 
 
 class TestVideoModel:

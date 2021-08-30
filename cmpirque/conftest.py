@@ -2,6 +2,9 @@ import pytest
 
 from typing import List
 
+from django.contrib.messages.storage.fallback import FallbackStorage
+from django.contrib.sessions.middleware import SessionMiddleware
+
 from cmpirque.users.models import User
 from cmpirque.users.tests.factories import UserFactory, UserAdminFactory
 
@@ -26,6 +29,21 @@ from cmpirque.videos.tests.factories import (
     VideoProviderFactory,
     VideoSequenceFactory,
 )
+
+
+@pytest.fixture
+def rf_msg(rf):
+    def _set_msg(request):
+        middleware = SessionMiddleware()
+        middleware.process_request(request)
+        messages = FallbackStorage(request)
+        setattr(request, "_messages", messages)
+        return request
+
+    def _set_rf(method, url, *args, **kwargs):
+        return _set_msg(getattr(rf, method)(url, *args, **kwargs))
+
+    return _set_rf
 
 
 @pytest.fixture(autouse=True)

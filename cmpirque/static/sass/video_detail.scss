@@ -1,0 +1,40 @@
+
+.video-detail-container {
+  margin: 0 5%;
+  font-family: "BrandonRegular";
+}
+
+#video-description {
+  padding: 2rem;
+  overflow-y: scroll;
+}
+
+#sequences-display {
+  max-width: 20vw;
+}
+
+.player-sequence-container {
+  padding: 1rem;
+  display: flex;
+  max-height: 38vw;
+}
+
+.player-container {
+  width: 100%;
+  --plyr-color-main: #dedede;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;;
+}
+
+#sequences-menu {
+  margin: 0 !important;
+  max-width: 60px;
+  border-radius: 0;
+  overflow-y: scroll;
+}
+
+#sequences-display-content {
+  padding: 2rem;
+  overflow-y: scroll;
+}

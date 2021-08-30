@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
-from django.translation import gettext
+from django.utils.translation import gettext
 
 from cmpirque.admin.mixins import AdminRequiredMixin
 
@@ -60,7 +60,7 @@ class VideoAdminMixin(AdminRequiredMixin):
         context = self.get_context_data(form=form)
         context["meta_form"] = meta_form
         context["providers_formset"] = providers_formset
-        messages.error(gettext("Error saving Video"))
+        messages.error(self.request, gettext("Error saving Video"))
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
@@ -90,8 +90,11 @@ class VideoCreateView(VideoAdminMixin, CreateView):
     def form_valid(self, form, meta_form, providers_formset):
         form.instance.meta = meta_form.save()
         self.object = form.save()
+        providers_formset.instance = self.object
         providers_formset.save()
-        messages.info(gettext(f"Video [{self.object.code}] saved successfully"))
+        messages.info(
+            self.request, gettext(f"Video [{self.object.code}] saved successfully")
+        )
         return super().form_valid(form)
 
 
@@ -107,7 +110,9 @@ class VideoUpdateView(VideoAdminMixin, UpdateView):
         self.object.meta = meta_form.save()
         self.object = form.save()
         providers_formset.save()
-        messages.info(gettext(f"Video [{self.object.code}] saved successfully"))
+        messages.info(
+            self.request, gettext(f"Video [{self.object.code}] saved successfully")
+        )
         return super().form_valid(form)
 
 
@@ -141,12 +146,12 @@ class VideoSequenceList(AdminRequiredMixin, UpdateView):
 
     def formset_valid(self, formset):
         formset.save()
-        messages.info(gettext("Video sequences saved successfully"))
+        messages.info(self.request, gettext("Video sequences saved successfully"))
         return HttpResponseRedirect(self.get_success_url())
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)
-        messages.error(gettext("Error saving video sequences"))
+        messages.error(self.request, gettext("Error saving video sequences"))
         return self.render_to_response(context)
 
 
@@ -173,7 +178,7 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         self.object.categorization = form.save()
-        messages.info(gettext("Video categorization saved successfully"))
+        messages.info(self.request, gettext("Video categorization saved successfully"))
         return HttpResponseRedirect(self.get_success_url())
 
     def get_form_kwargs(self):
@@ -183,7 +188,7 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
         return kwargs
 
     def form_invalid(self, *args, **kwargs):
-        messages.error(gettext("Error saving video categorization"))
+        messages.error(self.request, gettext("Error saving video categorization"))
         return super().form_invalid(*args, **kwargs)
 
 
@@ -207,12 +212,12 @@ class VideoCategoryListView(AdminRequiredMixin, ListView):
 
     def formset_valid(self, formset):
         self.object_list = formset.save()
-        messages.info(gettext("Video categories saved successfully"))
+        messages.info(self.request, gettext("Video categories saved successfully"))
         return HttpResponseRedirect(reverse("admin:videos_categories"))
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)
-        messages.error(gettext("Error saving video categories"))
+        messages.error(self.request, gettext("Error saving video categories"))
         return self.render_to_response(context)
 
 
@@ -236,12 +241,12 @@ class VideoPeopleList(AdminRequiredMixin, ListView):
 
     def formset_valid(self, formset):
         self.object_list = formset.save()
-        messages.info(gettext("Video people saved successfully"))
+        messages.info(self.request, gettext("Video people saved successfully"))
         return HttpResponseRedirect(reverse("admin:videos_people"))
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)
-        messages.error(gettext("Error saving video people"))
+        messages.error(self.request, gettext("Error saving video people"))
         return self.render_to_response(context)
 
 
@@ -265,12 +270,12 @@ class VideoKeywordList(AdminRequiredMixin, ListView):
 
     def formset_valid(self, formset):
         self.object_list = formset.save()
-        messages.info(gettext("Video keywords saved successfully"))
+        messages.info(self.request, gettext("Video keywords saved successfully"))
         return HttpResponseRedirect(reverse("admin:videos_categories"))
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)
-        messages.error(gettext("Error saving video keywords"))
+        messages.error(self.request, gettext("Error saving video keywords"))
         return self.render_to_response(context)
 
 

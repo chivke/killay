@@ -17,11 +17,9 @@
       background-position: center;
 
       .not-public-label {
-        margin: 1rem;
-      }
-      .not-public-label {
         color: #dedede;
         font-size: 2rem;
+        margin: 1rem;
       }
       .video-label {
         padding: .5rem;
@@ -32,6 +30,7 @@
       .duration-label {
         padding: .5rem;
         color: #dedede;
+        align-self: center;
       }
       &:hover {
         opacity: 0.9;

@@ -1,14 +1,4 @@
 @charset "UTF-8";
-.alert-debug {
-  background-color: #fff;
-  border-color: #d6e9c6;
-  color: #000; }
-
-.alert-error {
-  background-color: #f2dede;
-  border-color: #eed3d7;
-  color: #b94a48; }
-
 @font-face {
   font-family: "BrandonBlack";
   src: url("../fonts/BrandonGrotesque-Black.otf"); }
@@ -21,21 +11,134 @@
   font-family: "BrandonLight";
   src: url("../fonts/BrandonGrotesque-Light.otf"); }
 
-html * {
-  font-family: "BrandonRegular" !important; }
-
-.cmp-container {
-  margin-bottom: 150px;
-  padding: 0;
-  height: auto;
-  padding-top: 16px;
-  padding-top: 1rem;
+#admin-navbar {
+  margin: 0 0 16px;
+  margin: 0 0 1rem;
   font-family: "BrandonRegular"; }
 
-.footer-spacer {
+#site-navbar {
+  margin: 0;
+  border-radius: 0;
+  font-family: "BrandonRegular"; }
+  #site-navbar .text {
+    font-size: 19.2px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    font-family: "BrandonRegular"; }
+  #site-navbar .ui.vertical.segment {
+    width: 100%; }
+
+.video-detail-container {
+  margin: 0 5%;
+  font-family: "BrandonRegular"; }
+
+#video-description {
+  padding: 32px;
+  padding: 2rem;
+  overflow-y: scroll; }
+
+#sequences-display {
+  max-width: 20vw; }
+
+.player-sequence-container {
+  padding: 16px;
+  padding: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-height: 38vw; }
+
+.player-container {
   width: 100%;
-  height: 48px;
-  height: 3rem; }
+  --plyr-color-main: #dedede;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important; }
+
+#sequences-menu {
+  margin: 0 !important;
+  max-width: 60px;
+  border-radius: 0;
+  overflow-y: scroll; }
+
+#sequences-display-content {
+  padding: 32px;
+  padding: 2rem;
+  overflow-y: scroll; }
+
+.video-gallery-container {
+  margin: 16px 32px;
+  margin: 1rem 2rem; }
+  .video-gallery-container .full-list-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center; }
+    .video-gallery-container .full-list-content .video-selector {
+      width: 28vw;
+      height: 30vh;
+      margin: 16px;
+      margin: 1rem;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-orient: vertical;
+      -webkit-box-direction: normal;
+          -ms-flex-direction: column;
+              flex-direction: column;
+      -webkit-box-pack: justify;
+          -ms-flex-pack: justify;
+              justify-content: space-between;
+      background-size: cover;
+      background-position: center; }
+      .video-gallery-container .full-list-content .video-selector .not-public-label {
+        margin: 16px;
+        margin: 1rem; }
+      .video-gallery-container .full-list-content .video-selector .not-public-label {
+        color: #dedede;
+        font-size: 32px;
+        font-size: 2rem; }
+      .video-gallery-container .full-list-content .video-selector .video-label {
+        padding: 8px;
+        padding: .5rem;
+        color: #dedede;
+        background-color: #000;
+        font-family: "BrandonRegular"; }
+      .video-gallery-container .full-list-content .video-selector .duration-label {
+        padding: 8px;
+        padding: .5rem;
+        color: #dedede; }
+      .video-gallery-container .full-list-content .video-selector:hover {
+        opacity: 0.9; }
+
+.pagination-container {
+  width: 50%;
+  margin: 80px auto 128px auto;
+  margin: 5rem auto 8rem auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+
+.header-filter-container {
+  width: 80%;
+  margin: 64px auto;
+  margin: 4rem auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: "BrandonRegular"; }
+  .header-filter-container .filter-name {
+    width: 40%; }
+  .header-filter-container .filter-description {
+    padding: 16px 48px;
+    padding: 1rem 3rem; }
 
 .cmp-footer {
   position: fixed;

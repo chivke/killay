@@ -9,7 +9,6 @@ from cmpirque.videos.models import (
     Video,
     VideoCategory,
     VideoKeyword,
-    VideoSequence,
     VideoPerson,
     VideoProvider,
     VideoSequence,
@@ -35,6 +34,12 @@ class TestSequence:
         video_sequence.end = "00:02:00"
         with pytest.raises(ValidationError):
             video_sequence.clean()
+
+    def test_ini_sec(self, video_sequence: VideoSequence):
+        ini_seconds = video_sequence.ini_sec
+        end_seconds = video_sequence.end_sec
+        assert ini_seconds == 60
+        assert end_seconds == 120
 
 
 class TestVideoModel:

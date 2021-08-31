@@ -1,5 +1,5 @@
 import requests
-
+from time import strptime
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.urls import reverse
@@ -127,10 +127,15 @@ class VideoSequenceManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().order_by("ini")
 
-    def get_ordered_data(self, *args):
-        sequences = self.values(*args)
+    def get_ordered_data(self):
         return [
-            {**sequence, "order": index + 1} for index, sequence in enumerate(sequences)
+            {
+                "order": index + 1,
+                **sequence.__dict__,
+                "ini_sec": sequence.ini_sec,
+                "end_sec": sequence.end_sec,
+            }
+            for index, sequence in enumerate(self.all())
         ]
 
 

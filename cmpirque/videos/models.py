@@ -156,14 +156,14 @@ class VideoSequence(models.Model):
             raise ValidationError("init of sequence must be greater then end")
 
     @property
-    def ini_time(self):
-        return self.__seconds_to_time(self.ini)
+    def ini_sec(self):
+        return self.__time_to_seconds(self.ini)
 
     @property
-    def end_time(self):
-        return self.__seconds_to_time(self.end)
+    def end_sec(self):
+        return self.__time_to_seconds(self.end)
 
-    def __seconds_to_time(self, time):
+    def __time_to_seconds(self, time):
         return (time.hour * 60 + time.minute) * 60 + time.second
 
 

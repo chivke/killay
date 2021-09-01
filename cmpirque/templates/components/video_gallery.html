@@ -22,29 +22,7 @@
   </div>
   <div class="pagination-container">
     <div class="ui pagination menu huge">
-      {% if page_obj.has_previous %}
-        {% if page_obj.previous_page_number != 1 %}
-          <a class="item"href="?page=1">1</a>
-        {% endif %}
-        {% if page_obj.previous_page_number != 2 %}
-          <div class="item">...</div>
-        {% endif %}
-        <a class="item" href="?page={{ page_obj.previous_page_number }}">
-          {{page_obj.previous_page_number}}
-        </a>
-      {% endif %}
-      <div class="disabled item">{{ page_obj.number }}</div>
-      {% if page_obj.has_next %}
-        {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
-          <a class="item" href="?page={{ page_obj.next_page_number }}">
-            {{ page_obj.next_page_number }}
-          </a>
-          <div class="item">...</div>
-        {% endif %}
-        <a class="item" href="?page={{ page_obj.paginator.num_pages }}">
-          {{ page_obj.paginator.num_pages }}
-        </a>
-      {% endif %}
+      {% include "components/paginator.html" %}
     </div>
   </div>
 </div>

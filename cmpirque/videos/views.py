@@ -88,6 +88,7 @@ class VideoSearchView(PublishRequiredMixin, ListView):
         )
 
     def render_to_response(self, context):
+        context["query_search"] = self.query_search
         if not self.object_list:
             messages.info(
                 self.request, f'Videos with "{self.query_search}" not founded.'

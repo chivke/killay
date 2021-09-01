@@ -193,10 +193,21 @@
             justify-content: space-between; }
 
 #video-admin-container {
-  margin: 5% 10%; }
+  margin: 48px auto;
+  margin: 3rem auto;
+  width: 80%;
+  max-width: 1200px;
+  font-family: "BrandonRegular"; }
+  #video-admin-container .field {
+    font-family: "BrandonRegular"; }
   #video-admin-container .form-group {
     padding: 32px;
     padding: 2rem; }
+
+.video-admin-submit {
+  font-family: "BrandonRegular" !important;
+  margin: 16px !important;
+  margin: 1rem !important; }
 
 .cmp-footer {
   position: fixed;

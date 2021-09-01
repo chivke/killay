@@ -15,9 +15,21 @@
 }
 
 #video-admin-container {
-  margin: 5% 10%;
+  margin: 3rem auto;
+  width: 80%;
+  max-width: 1200px;
+  font-family: "BrandonRegular";
+
+  .field {
+  	font-family: "BrandonRegular";
+  }
 
   .form-group {
   	padding: 2rem;
   }
+}
+
+.video-admin-submit {
+  font-family: "BrandonRegular" !important;
+  margin: 1rem !important;
 }

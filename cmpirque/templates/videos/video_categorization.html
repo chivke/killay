@@ -24,7 +24,7 @@
       </div>
       {% for field in form.visible_fields %}
         <div class="field {% if field.errors %}error{% endif %}">
-          <label>{{field.label}}</label>
+          <label>{% trans field.label %}</label>
           {{field}}
           {% if field.errors %}
             <div class="ui pointing red basic label">

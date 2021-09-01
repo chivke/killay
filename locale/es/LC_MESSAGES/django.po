@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-01 03:03+0000\n"
+"POT-Creation-Date: 2021-09-01 16:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,16 +52,16 @@ msgid "Delete"
 msgstr "Eliminar"
 
 #: cmpirque/admin/templatetags/admin_navbar.py:55
+#: cmpirque/templates/videos/video_sequences_list.html:10
 msgid "Sequences"
 msgstr "Sequencias"
 
 #: cmpirque/admin/templatetags/admin_navbar.py:60
+#: cmpirque/templates/videos/video_categorization.html:6
 msgid "Categorization"
 msgstr "Categorización"
 
 #: cmpirque/admin/views/videos.py:63
-#, fuzzy
-#| msgid "Error saving the Video"
 msgid "Error saving Video"
 msgstr "Error guardando el video"
 
@@ -96,7 +96,7 @@ msgstr "{self.label_plural} guardada exitosamente"
 msgid "Error saving video {self.label_plural}"
 msgstr "Error guardando video {self.label_plural}"
 
-#: cmpirque/admin/views/videos.py:262
+#: cmpirque/admin/views/videos.py:262 cmpirque/videos/models.py:208
 msgid "categories"
 msgstr "categorías"
 
@@ -389,10 +389,15 @@ msgstr ""
 
 #: cmpirque/templates/admin/formset_list.html:47
 #: cmpirque/templates/admin/formset_list.html:89
+#: cmpirque/templates/videos/video_categorization.html:23
+#: cmpirque/templates/videos/video_categorization.html:37
 #: cmpirque/templates/videos/video_form.html:50
-#: cmpirque/templates/videos/video_form.html:113
+#: cmpirque/templates/videos/video_form.html:112
+#: cmpirque/templates/videos/video_form.html:134
+#: cmpirque/templates/videos/video_sequences_list.html:22
+#: cmpirque/templates/videos/video_sequences_list.html:64
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: cmpirque/templates/components/navbar.html:9
 msgid "Log Out"
@@ -402,75 +407,81 @@ msgstr "Cerrar sesión"
 msgid "Log In"
 msgstr "Acceder"
 
+#: cmpirque/templates/videos/video_categorization.html:9
+#: cmpirque/templates/videos/video_detail.html:65
+#: cmpirque/templates/videos/video_sequences_list.html:13
+#: cmpirque/videos/models.py:14
+msgid "Code"
+msgstr "Código"
+
+#: cmpirque/templates/videos/video_categorization.html:12
+#: cmpirque/templates/videos/video_detail.html:68
+#: cmpirque/templates/videos/video_form.html:15
+#: cmpirque/templates/videos/video_sequences_list.html:16
+#: cmpirque/videos/models.py:52 cmpirque/videos/models.py:154
+msgid "Title"
+msgstr "Título"
+
 #: cmpirque/templates/videos/video_detail.html:45
 msgid "No video provider"
 msgstr "Sin proveedor de Video"
 
-#: cmpirque/templates/videos/video_detail.html:65
-msgid "Code"
-msgstr "Código"
-
-#: cmpirque/templates/videos/video_detail.html:68
-#: cmpirque/templates/videos/video_form.html:15
-msgid "Title"
-msgstr "Título"
-
-#: cmpirque/templates/videos/video_detail.html:72
+#: cmpirque/templates/videos/video_detail.html:72 cmpirque/videos/models.py:53
 msgid "Event"
 msgstr "Evento"
 
-#: cmpirque/templates/videos/video_detail.html:77
+#: cmpirque/templates/videos/video_detail.html:77 cmpirque/videos/models.py:54
+#: cmpirque/videos/models.py:203 cmpirque/videos/models.py:223
+#: cmpirque/videos/models.py:240
 msgid "Description"
 msgstr "Descripción"
 
-#: cmpirque/templates/videos/video_detail.html:82
+#: cmpirque/templates/videos/video_detail.html:82 cmpirque/videos/models.py:55
 msgid "Description Date"
 msgstr "Fecha de descripción"
 
-#: cmpirque/templates/videos/video_detail.html:87
+#: cmpirque/templates/videos/video_detail.html:87 cmpirque/videos/models.py:56
 msgid "Location"
 msgstr "Locación"
 
-#: cmpirque/templates/videos/video_detail.html:92
+#: cmpirque/templates/videos/video_detail.html:92 cmpirque/videos/models.py:57
 #: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1588
 msgid "Duration"
 msgstr "Duración"
 
-#: cmpirque/templates/videos/video_detail.html:97
+#: cmpirque/templates/videos/video_detail.html:97 cmpirque/videos/models.py:59
 msgid "Register Author"
 msgstr "Autor del registro"
 
-#: cmpirque/templates/videos/video_detail.html:102
+#: cmpirque/templates/videos/video_detail.html:102 cmpirque/videos/models.py:60
 msgid "Productor"
 msgstr "Productor"
 
-#: cmpirque/templates/videos/video_detail.html:107
+#: cmpirque/templates/videos/video_detail.html:107 cmpirque/videos/models.py:61
 msgid "Notes"
 msgstr "Notas"
 
-#: cmpirque/templates/videos/video_detail.html:112
+#: cmpirque/templates/videos/video_detail.html:112 cmpirque/videos/models.py:62
 msgid "Archivist Notes"
 msgstr "Notas del archivero"
 
-#: cmpirque/templates/videos/video_detail.html:117
+#: cmpirque/templates/videos/video_detail.html:117 cmpirque/videos/models.py:63
 msgid "Documentary Unit"
 msgstr "Unidad documental"
 
-#: cmpirque/templates/videos/video_detail.html:122
+#: cmpirque/templates/videos/video_detail.html:122 cmpirque/videos/models.py:64
 msgid "Language"
 msgstr "Lenguaje"
 
-#: cmpirque/templates/videos/video_detail.html:127
+#: cmpirque/templates/videos/video_detail.html:127 cmpirque/videos/models.py:65
 msgid "Original Format"
 msgstr "Formato original"
 
-#: cmpirque/templates/videos/video_form.html:18
+#: cmpirque/templates/videos/video_form.html:18 cmpirque/videos/models.py:16
 msgid "Created at"
 msgstr "Creado en"
 
-#: cmpirque/templates/videos/video_form.html:21
-#, fuzzy
-#| msgid "Update"
+#: cmpirque/templates/videos/video_form.html:21 cmpirque/videos/models.py:17
 msgid "Updated at"
 msgstr "Editado en"
 
@@ -479,18 +490,26 @@ msgid "System fields"
 msgstr "Campos del sistema"
 
 #: cmpirque/templates/videos/video_form.html:54
-#, fuzzy
-#| msgid "No video provider"
 msgid "Video Providers"
-msgstr "Sin proveedor de Video"
+msgstr "Proveedores de Video"
 
-#: cmpirque/templates/videos/video_form.html:64
+#: cmpirque/templates/videos/video_form.html:64 cmpirque/videos/models.py:74
 msgid "Online"
-msgstr ""
+msgstr "En línea"
 
 #: cmpirque/templates/videos/video_list.html:5
 msgid "Result for"
 msgstr "Resultados para"
+
+#: cmpirque/templates/videos/video_sequences_list.html:5
+msgid "Video Sequences"
+msgstr "Sequencias de Video"
+
+#: cmpirque/templates/videos/video_sequences_list.html:26
+#: env/lib/python3.9/site-packages/django/forms/formsets.py:405
+#: env/lib/python3.9/site-packages/django/forms/formsets.py:412
+msgid "Order"
+msgstr "Orden"
 
 #: cmpirque/users/apps.py:7
 msgid "Users"
@@ -506,7 +525,74 @@ msgstr "Todos"
 
 #: cmpirque/videos/models.py:15
 msgid "Is visible"
+msgstr "Es visible"
+
+#: cmpirque/videos/models.py:18
+msgid "Thumb"
+msgstr "Miniatura"
+
+#: cmpirque/videos/models.py:24
+msgid "video"
+msgstr "video"
+
+#: cmpirque/videos/models.py:25
+msgid "videos"
+msgstr "videos"
+
+#: cmpirque/videos/models.py:58
+#, fuzzy
+#| msgid "Register Author"
+msgid "Register Date"
+msgstr "Autor del registro"
+
+#: cmpirque/videos/models.py:73
+msgid "Active"
+msgstr "Activo"
+
+#: cmpirque/videos/models.py:75
+msgid "Checked at"
+msgstr "Verificado en"
+
+#: cmpirque/videos/models.py:77
+msgid "Ply Embed ID"
 msgstr ""
+
+#: cmpirque/videos/models.py:79
+msgid "Ply Provider"
+msgstr "Proveedores Ply"
+
+#: cmpirque/videos/models.py:155
+msgid "Content"
+msgstr "Contenido"
+
+#: cmpirque/videos/models.py:156
+msgid "Initiation"
+msgstr "Inicio"
+
+#: cmpirque/videos/models.py:157
+msgid "End"
+msgstr "Fin"
+
+#: cmpirque/videos/models.py:199 cmpirque/videos/models.py:219
+#: cmpirque/videos/models.py:236
+msgid "Name"
+msgstr "Nombre"
+
+#: cmpirque/videos/models.py:201 cmpirque/videos/models.py:221
+#: cmpirque/videos/models.py:238
+msgid "Slug"
+msgstr "Slug"
+
+#: cmpirque/videos/models.py:204 cmpirque/videos/models.py:224
+#: cmpirque/videos/models.py:241
+msgid "Position"
+msgstr "Posición"
+
+#: cmpirque/videos/models.py:207
+#, fuzzy
+#| msgid "categories"
+msgid "category"
+msgstr "categorías"
 
 #: env/lib/python3.9/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -1058,11 +1144,6 @@ msgid "Please submit at least %d form."
 msgid_plural "Please submit at least %d forms."
 msgstr[0] ""
 msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/forms/formsets.py:405
-#: env/lib/python3.9/site-packages/django/forms/formsets.py:412
-msgid "Order"
-msgstr ""
 
 #: env/lib/python3.9/site-packages/django/forms/models.py:763
 #, python-format
@@ -1662,6 +1743,3 @@ msgstr ""
 
 #~ msgid "Meta fields"
 #~ msgstr "Campos Meta"
-
-#~ msgid "Configuration"
-#~ msgstr "Configuración"

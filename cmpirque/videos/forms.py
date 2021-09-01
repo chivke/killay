@@ -12,11 +12,15 @@ from cmpirque.videos.models import (
     VideoSequence,
 )
 
+from cmpirque.videos.utils import ImageFileInput
+
 
 class VideoForm(forms.ModelForm):
     class Meta:
         model = Video
         fields = ["code", "is_visible", "thumb"]
+
+    thumb = forms.ImageField(widget=ImageFileInput(), required=False)
 
 
 class VideoMetaForm(forms.ModelForm):

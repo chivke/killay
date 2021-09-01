@@ -74,7 +74,6 @@
                 {% for hidden in form.hidden_fields %}
                   {{ hidden }}
                 {% endfor %}
-                {{form.instance}}
                 {% for field in form.visible_fields %}
                   <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
                     {% if field.name == "DELETE" or field.name == "active"%}
@@ -125,12 +124,14 @@
             <label>{{field.label}}</label>
             {{field}}
             {% if field.errors %}
-              <div class="ui error message">{{field.errors}}</div>
+              <div class="ui pointing red basic label">
+                {% for error in field.errors %}{{error}}{% endfor %}
+              </div>
             {% endif %}
           </div>
         {% endfor %}
       </div>
-      <input type="submit" class="ui button" value="Save">
+      <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
     </form>
   </div>
 

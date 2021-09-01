@@ -1,0 +1,32 @@
+{% if widget.is_initial %}
+  {{ widget.initial_text }}: <a href="{{ widget.value.url }}">{{ widget.value }}</a>
+  <img class="ui medium rounded image" src="{{ widget.value.url }}">
+  {% if not widget.required %}
+    <br>
+      <div class="ui checkbox">
+        <input
+          class="ui checkbox"
+          type="checkbox"
+          name="{{ widget.checkbox_name }}"
+          id="{{ widget.checkbox_id }}"
+          {% if widget.attrs.disabled %} disabled{% endif %}
+        >
+        <label for="{{ widget.checkbox_id }}">
+        {{ widget.clear_checkbox_label }}
+        </label>
+      </div>
+    <br>
+  {% endif %}
+{% endif %}
+<br>
+<div class="ui left labeled input">
+  {% if widget.is_initial %}
+    <div class="ui basic label">{{ widget.input_text }}:</div>
+  {% endif %}
+  <input
+    lass="img-input"
+    type="{{ widget.type }}"
+    name="{{ widget.name }}"
+    {% include "django/forms/widgets/attrs.html" %}
+ >
+</div>

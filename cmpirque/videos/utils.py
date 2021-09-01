@@ -3,6 +3,8 @@ import time
 
 from typing import List
 
+from django.forms import ClearableFileInput
+
 
 def parse_sequences_from_vtt_file(path: str) -> List[dict]:
     def _get_seconds_from_time(str_time):
@@ -34,3 +36,7 @@ def parse_sequences_from_vtt_file(path: str) -> List[dict]:
             data_to_import.append({"content": line, "ini": ini, "end": end})
         last_line = line
     return data_to_import
+
+
+class ImageFileInput(ClearableFileInput):
+    template_name = "admin/field_image_input.html"

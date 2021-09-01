@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
 from cmpirque.videos.utils import parse_sequences_from_vtt_file
@@ -11,7 +12,7 @@ from cmpirque.videos.utils import parse_sequences_from_vtt_file
 
 class Video(models.Model):
     code = models.SlugField(null=False, blank=False, unique=True, db_index=True)
-    is_visible = models.BooleanField(default=False)
+    is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     thumb = models.ImageField(upload_to="video_thumbs", null=True, blank=True)
@@ -82,10 +83,18 @@ class VideoProvider(models.Model):
     )
 
     def save(self, *args, **kwargs):
+        if self.pk:
+            current_video = self.__class__.objects.get(id=self.id)
+
         other_providers = self.get_related_providers()
         if self.active and other_providers.exists():
             other_providers.update(active=False)
-        if not self.online or not self.checked_at:
+        if (
+            not self.online
+            or not self.checked_at
+            or current_video.ply_embed_id != self.ply_embed_id
+            or current_video.plyr_provider != self.plyr_provider
+        ):
             self.check_is_online()
         super().save(*args, **kwargs)
 

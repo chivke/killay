@@ -192,6 +192,12 @@
         -ms-flex-pack: justify;
             justify-content: space-between; }
 
+#video-admin-container {
+  margin: 5% 10%; }
+  #video-admin-container .form-group {
+    padding: 32px;
+    padding: 2rem; }
+
 .cmp-footer {
   position: fixed;
   bottom: 0;

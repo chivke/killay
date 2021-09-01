@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-30 18:19+0000\n"
+"POT-Creation-Date: 2021-09-01 03:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,58 +18,107 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: cmpirque/admin/templatetags/admin_navbar.py:19
+#: cmpirque/templates/videos/video_form.html:9
+msgid "Create Video"
+msgstr "Crear Video"
+
+#: cmpirque/admin/templatetags/admin_navbar.py:20
+#: cmpirque/templates/videos/video_detail.html:136
+msgid "Categories"
+msgstr "Categorías"
+
+#: cmpirque/admin/templatetags/admin_navbar.py:21
+#: cmpirque/templates/videos/video_detail.html:146
+msgid "People"
+msgstr "Gente"
+
+#: cmpirque/admin/templatetags/admin_navbar.py:22
+#: cmpirque/templates/videos/video_detail.html:156
+msgid "Keywords"
+msgstr "Palabras Clave"
+
+#: cmpirque/admin/templatetags/admin_navbar.py:26
+msgid "Administrator"
+msgstr "Administrador"
+
+#: cmpirque/admin/templatetags/admin_navbar.py:51
+msgid "Update"
+msgstr "Editar"
+
+#: cmpirque/admin/templatetags/admin_navbar.py:52
+#: env/lib/python3.9/site-packages/django/forms/formsets.py:417
+msgid "Delete"
+msgstr "Eliminar"
+
+#: cmpirque/admin/templatetags/admin_navbar.py:55
+msgid "Sequences"
+msgstr "Sequencias"
+
+#: cmpirque/admin/templatetags/admin_navbar.py:60
+msgid "Categorization"
+msgstr "Categorización"
+
 #: cmpirque/admin/views/videos.py:63
 #, fuzzy
 #| msgid "Error saving the Video"
 msgid "Error saving Video"
 msgstr "Error guardando el video"
 
-#: cmpirque/admin/views/videos.py:94 cmpirque/admin/views/videos.py:110
+#: cmpirque/admin/views/videos.py:96 cmpirque/admin/views/videos.py:114
 #, python-brace-format
 msgid "Video [{self.object.code}] saved successfully"
 msgstr "Video [{self.object.code}] guardado exitosamente"
 
-#: cmpirque/admin/views/videos.py:144
+#: cmpirque/admin/views/videos.py:149
 msgid "Video sequences saved successfully"
 msgstr "Secuencias de video guardadas exitosamente"
 
-#: cmpirque/admin/views/videos.py:149
+#: cmpirque/admin/views/videos.py:154
 msgid "Error saving video sequences"
 msgstr "Error guardando las secuencias de video"
 
-#: cmpirque/admin/views/videos.py:176
+#: cmpirque/admin/views/videos.py:181
 msgid "Video categorization saved successfully"
 msgstr "Categorización de video guardada exitosamente"
 
-#: cmpirque/admin/views/videos.py:186
+#: cmpirque/admin/views/videos.py:191
 msgid "Error saving video categorization"
 msgstr "Error guardando la categorización de video"
 
-#: cmpirque/admin/views/videos.py:210
-msgid "Video categories saved successfully"
-msgstr "Categorias guardadas exitosamente"
+#: cmpirque/admin/views/videos.py:249
+#, python-brace-format
+msgid "Video {self.label_plural} saved successfully"
+msgstr "{self.label_plural} guardada exitosamente"
 
-#: cmpirque/admin/views/videos.py:215
-msgid "Error saving video categories"
-msgstr "Error guardando categorías"
+#: cmpirque/admin/views/videos.py:255
+#, python-brace-format
+msgid "Error saving video {self.label_plural}"
+msgstr "Error guardando video {self.label_plural}"
 
-#: cmpirque/admin/views/videos.py:239
-msgid "Video people saved successfully"
-msgstr "Gente guardada exitosamente"
+#: cmpirque/admin/views/videos.py:262
+msgid "categories"
+msgstr "categorías"
 
-#: cmpirque/admin/views/videos.py:244
-msgid "Error saving video people"
-msgstr "Error guardando gente"
-
-#: cmpirque/admin/views/videos.py:268
-msgid "Video keywords saved successfully"
-msgstr "Palabras clave guardadas exitosamente"
+#: cmpirque/admin/views/videos.py:264
+msgid "Video Categories"
+msgstr "Categorías de video"
 
 #: cmpirque/admin/views/videos.py:273
-#, fuzzy
-#| msgid "Error saving the Video"
-msgid "Error saving video keywords"
-msgstr "Error guardando el video"
+msgid "people"
+msgstr "gente"
+
+#: cmpirque/admin/views/videos.py:275
+msgid "Video People"
+msgstr "Gente en videos"
+
+#: cmpirque/admin/views/videos.py:284
+msgid "keywords"
+msgstr "palabras clave"
+
+#: cmpirque/admin/views/videos.py:286
+msgid "Video Keywords"
+msgstr "Palabras Clave"
 
 #: cmpirque/templates/account/account_inactive.html:5
 #: cmpirque/templates/account/account_inactive.html:8
@@ -325,6 +374,124 @@ msgid ""
 "mail address</a>."
 msgstr ""
 
+#: cmpirque/templates/admin/formset_list.html:15
+msgid "Total"
+msgstr ""
+
+#: cmpirque/templates/admin/formset_list.html:15
+msgid " for the search"
+msgstr ""
+
+#: cmpirque/templates/admin/formset_list.html:31
+#: cmpirque/templates/components/search.html:15
+msgid "Search"
+msgstr ""
+
+#: cmpirque/templates/admin/formset_list.html:47
+#: cmpirque/templates/admin/formset_list.html:89
+#: cmpirque/templates/videos/video_form.html:50
+#: cmpirque/templates/videos/video_form.html:113
+msgid "Save"
+msgstr ""
+
+#: cmpirque/templates/components/navbar.html:9
+msgid "Log Out"
+msgstr "Cerrar sesión"
+
+#: cmpirque/templates/components/navbar.html:11
+msgid "Log In"
+msgstr "Acceder"
+
+#: cmpirque/templates/videos/video_detail.html:45
+msgid "No video provider"
+msgstr "Sin proveedor de Video"
+
+#: cmpirque/templates/videos/video_detail.html:65
+msgid "Code"
+msgstr "Código"
+
+#: cmpirque/templates/videos/video_detail.html:68
+#: cmpirque/templates/videos/video_form.html:15
+msgid "Title"
+msgstr "Título"
+
+#: cmpirque/templates/videos/video_detail.html:72
+msgid "Event"
+msgstr "Evento"
+
+#: cmpirque/templates/videos/video_detail.html:77
+msgid "Description"
+msgstr "Descripción"
+
+#: cmpirque/templates/videos/video_detail.html:82
+msgid "Description Date"
+msgstr "Fecha de descripción"
+
+#: cmpirque/templates/videos/video_detail.html:87
+msgid "Location"
+msgstr "Locación"
+
+#: cmpirque/templates/videos/video_detail.html:92
+#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1588
+msgid "Duration"
+msgstr "Duración"
+
+#: cmpirque/templates/videos/video_detail.html:97
+msgid "Register Author"
+msgstr "Autor del registro"
+
+#: cmpirque/templates/videos/video_detail.html:102
+msgid "Productor"
+msgstr "Productor"
+
+#: cmpirque/templates/videos/video_detail.html:107
+msgid "Notes"
+msgstr "Notas"
+
+#: cmpirque/templates/videos/video_detail.html:112
+msgid "Archivist Notes"
+msgstr "Notas del archivero"
+
+#: cmpirque/templates/videos/video_detail.html:117
+msgid "Documentary Unit"
+msgstr "Unidad documental"
+
+#: cmpirque/templates/videos/video_detail.html:122
+msgid "Language"
+msgstr "Lenguaje"
+
+#: cmpirque/templates/videos/video_detail.html:127
+msgid "Original Format"
+msgstr "Formato original"
+
+#: cmpirque/templates/videos/video_form.html:18
+msgid "Created at"
+msgstr "Creado en"
+
+#: cmpirque/templates/videos/video_form.html:21
+#, fuzzy
+#| msgid "Update"
+msgid "Updated at"
+msgstr "Editado en"
+
+#: cmpirque/templates/videos/video_form.html:33
+msgid "System fields"
+msgstr "Campos del sistema"
+
+#: cmpirque/templates/videos/video_form.html:54
+#, fuzzy
+#| msgid "No video provider"
+msgid "Video Providers"
+msgstr "Sin proveedor de Video"
+
+#: cmpirque/templates/videos/video_form.html:64
+msgid "Online"
+msgstr ""
+
+#: cmpirque/templates/videos/video_list.html:5
+msgid "Result for"
+msgstr "Resultados para"
+
 #: cmpirque/users/apps.py:7
 msgid "Users"
 msgstr "Usuarios"
@@ -336,6 +503,10 @@ msgstr ""
 #: cmpirque/videos/context_processors.py:27
 msgid "All"
 msgstr "Todos"
+
+#: cmpirque/videos/models.py:15
+msgid "Is visible"
+msgstr ""
 
 #: env/lib/python3.9/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -612,10 +783,6 @@ msgstr ""
 msgid ""
 "“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
 "uuuuuu] format."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1588
-msgid "Duration"
 msgstr ""
 
 #: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1638
@@ -896,10 +1063,6 @@ msgstr[1] ""
 #: env/lib/python3.9/site-packages/django/forms/formsets.py:412
 msgid "Order"
 msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/formsets.py:417
-msgid "Delete"
-msgstr "Eliminar"
 
 #: env/lib/python3.9/site-packages/django/forms/models.py:763
 #, python-format
@@ -1480,43 +1643,22 @@ msgstr ""
 msgid "Index of %(directory)s"
 msgstr ""
 
-#~ msgid "Create Video"
-#~ msgstr "Crear Video"
+#~ msgid "Video categories saved successfully"
+#~ msgstr "Categorias guardadas exitosamente"
 
-#~ msgid "Categories"
-#~ msgstr "Categorías"
+#~ msgid "Error saving video categories"
+#~ msgstr "Error guardando categorías"
 
-#~ msgid "People"
-#~ msgstr "Gente"
+#~ msgid "Video people saved successfully"
+#~ msgstr "Gente guardada exitosamente"
 
-#~ msgid "Keywords"
-#~ msgstr "Palabras Clave"
-
-#~ msgid "Administrator"
-#~ msgstr "Administrador"
-
-#~ msgid "Update"
-#~ msgstr "Editar"
-
-#~ msgid "Sequences"
-#~ msgstr "Sequencias"
-
-#~ msgid "Categorization"
-#~ msgstr "Categorización"
-
-#~ msgid "Created at"
-#~ msgstr "Creado en"
+#~ msgid "Video keywords saved successfully"
+#~ msgstr "Palabras clave guardadas exitosamente"
 
 #, fuzzy
-#~| msgid "Update"
-#~ msgid "Updated at"
-#~ msgstr "Editado en"
-
-#~ msgid "System fields"
-#~ msgstr "Campos del sistema"
-
-#~ msgid "Video Providers"
-#~ msgstr "Proveedores de Video"
+#~| msgid "Error saving the Video"
+#~ msgid "Error saving video keywords"
+#~ msgstr "Error guardando el video"
 
 #~ msgid "Meta fields"
 #~ msgstr "Campos Meta"

@@ -71,7 +71,7 @@ def video_bulk_create_from_csv_file(path: str):
                 if field in VideoConstants.FIELDS_OF_VIDEOMETA_FOR_CSV_BULK
             },
             "videocategorization_data": {
-                field: value.split("/")
+                field: value.split("/") if field == "categories" else value.split(",")
                 for field, value in video_data.items()
                 if field in VideoConstants.FIELDS_OF_VIDEOCATEGORIZATION_FOR_CSV_BULK
             },

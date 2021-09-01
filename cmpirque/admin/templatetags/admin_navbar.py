@@ -1,6 +1,6 @@
 from django import template
 from django.urls import reverse
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy
 
 register = template.Library()
 
@@ -16,14 +16,14 @@ def show_admin_navbar(context):
     request = context["request"]
     view_name = request.resolver_match.view_name
     video_admin_links = [
-        ("create", gettext("Create Video"), "admin:videos_create"),
-        ("categories", gettext("Categories"), "admin:videos_categories"),
-        ("people", gettext("People"), "admin:videos_people"),
-        ("keywords", gettext("Keywords"), "admin:videos_keywords"),
+        ("create", gettext_lazy("Create Video"), "admin:videos_create"),
+        ("categories", gettext_lazy("Categories"), "admin:videos_categories"),
+        ("people", gettext_lazy("People"), "admin:videos_people"),
+        ("keywords", gettext_lazy("Keywords"), "admin:videos_keywords"),
     ]
     navbar_context = {
         "admin_conf": {
-            "name": gettext("Administrator"),
+            "name": gettext_lazy("Administrator"),
             "link": reverse("admin:configuration"),
             "css_class": "header " + _get_css_class(view_name, "admin:configuration"),
         },
@@ -48,12 +48,16 @@ def show_admin_navbar(context):
         video_obj = context["object"]
         detail_video_admin_links = [
             ("public", video_obj.code, "videos:detail"),
-            ("update", gettext("Update"), "admin:videos_update"),
-            ("delete", gettext("Delete"), "admin:videos_delete"),
-            ("sequences_list", gettext("Sequences"), "admin:videos_sequences_list"),
+            ("update", gettext_lazy("Update"), "admin:videos_update"),
+            ("delete", gettext_lazy("Delete"), "admin:videos_delete"),
+            (
+                "sequences_list",
+                gettext_lazy("Sequences"),
+                "admin:videos_sequences_list",
+            ),
             (
                 "categorization",
-                gettext("Categorization"),
+                gettext_lazy("Categorization"),
                 "admin:videos_categorization",
             ),
         ]

@@ -1,71 +1,11 @@
 
+@import 'common.scss';
+@import 'admin_navbar.scss';
+@import 'navbar.scss';
+@import 'video_detail.scss';
+@import 'video_gallery.scss';
+@import 'video_admin.scss';
 
-
-
-// project specific CSS goes here
-
-////////////////////////////////
-		//Variables//
-////////////////////////////////
-
-// Alert colors
-
-$white: #fff;
-$mint-green: #d6e9c6;
-$black: #000;
-$pink: #f2dede;
-$dark-pink: #eed3d7;
-$red: #b94a48;
-
-////////////////////////////////
-		//Alerts//
-////////////////////////////////
-
-// bootstrap alert CSS, translated to the django-standard levels of
-// debug, info, success, warning, error
-
-.alert-debug {
-  background-color: $white;
-  border-color: $mint-green;
-  color: $black;
-}
-
-.alert-error {
-  background-color: $pink;
-  border-color: $dark-pink;
-  color: $red;
-}
-
-@font-face {
-  font-family: "BrandonBlack";
-  src: url("../fonts/BrandonGrotesque-Black.otf");
-}
-@font-face {
-  font-family: "BrandonRegular";
-  src: url("../fonts/BrandonGrotesque-Regular.otf");
-}
-@font-face {
-  font-family: "BrandonLight";
-  src: url("../fonts/BrandonGrotesque-Light.otf");
-}
-
-html * {
-  font-family: "BrandonRegular" !important;
-}
-
-.cmp-container {
-  margin-bottom: 150px;
-  padding: 0;
-  height: auto;
-  padding-top: 1rem;
-  font-family: "BrandonRegular";
-}
-
-
-.footer-spacer {
-  width: 100%;
-  height: 3rem;
-}
 
 .cmp-footer {
   position: fixed;
@@ -105,111 +45,6 @@ html * {
       width: auto;
       padding: 0 1rem;
       margin:0 !important;
-    }
-  }
-}
-
-
-/*
-  Menu de navegación
-*/
-
-#cmp-menu {
-  margin-top: 0;
-  border-radius:0;
-  background: #000;
-  font-family: "BrandonRegular";
-  .text {
-    font-size: 1.2rem !important;
-    text-transform: uppercase;
-  }
-  .vertical.segment {
-    padding:0; width:100%;
-  }
-  .item,
-  .item .text {
-    font-size: 1.2rem;
-  }
-  #cmp-head-menu {
-    border-bottom: solid 1px white;
-  }
-  #cmp-subhead-menu {
-    justify-content: space-between;
-
-    .item {
-      border-right: solid 1px white;
-      width: 12.5%;
-      justify-content: center;
-    }
-  }
-  #cmp-search-item {
-    border-left: solid 1px white;
-
-  }
-  #searchbox {
-    color:#fff;
-    margin-left: .5rem;
-  }
-  .administrator {
-    border-left: 1px white solid;
-    text-transform: uppercase;
-  }
-  ::placeholder {
-    color: #fff;
-    opacity: 1;
-    font-size: 1rem;
-  }
-}
-
-.video-detail-container {
-  margin: 0 5%;
-  font-family: "BrandonRegular";
-}
-
-#video-description {
-  padding: 1rem;
-}
-
-#video-admin-container {
-  display: flex;
-  margin: 2rem 10%;
-  justify-content: center;
-}
-
-#video-admin-sidebar {
-  width: 30%;
-}
-
-#video-admin-main-segment {
-  margin: 0 2rem;
-  min-width: 70%;
-}
-
-.player-sequence-container {
-  padding: 1rem;
-  display: flex;
-  align-content: stretch;
-
-}
-.player-container {
-  min-width: 400px;
-  width: 60%;
-  --plyr-color-main: #dedede;
-}
-
-.sequences-menu {
-  margin: 0 !important;
-  max-width: 50px;
-}
-
-.video-gallery-container {
-  margin: 1rem 2rem;
-
-  .full-list-content {
-    display: flex;
-
-    .video-selector {
-      min-width: 30%;
     }
   }
 }

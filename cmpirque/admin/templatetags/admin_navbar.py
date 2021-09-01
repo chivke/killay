@@ -1,5 +1,6 @@
 from django import template
 from django.urls import reverse
+from django.utils.translation import gettext_lazy
 
 register = template.Library()
 
@@ -15,16 +16,21 @@ def show_admin_navbar(context):
     request = context["request"]
     view_name = request.resolver_match.view_name
     video_admin_links = [
-        ("create", "Create Video", "admin:videos_create"),
-        ("categories", "Categories", "admin:videos_categories"),
-        ("people", "People", "admin:videos_people"),
-        ("keywords", "Keywords", "admin:videos_keywords"),
+        ("create", gettext_lazy("Create Video"), "admin:videos_create"),
+        ("categories", gettext_lazy("Categories"), "admin:videos_categories"),
+        ("people", gettext_lazy("People"), "admin:videos_people"),
+        ("keywords", gettext_lazy("Keywords"), "admin:videos_keywords"),
     ]
     navbar_context = {
         "admin_conf": {
-            "name": "Configuration",
+            "name": gettext_lazy("Administrator"),
             "link": reverse("admin:configuration"),
-            "css_class": _get_css_class(view_name, "admin:configuration"),
+            "css_class": "header " + _get_css_class(view_name, "admin:configuration"),
+        },
+        "user_conf": {
+            "name": f"@{request.user.username}",
+            "link": reverse("users:detail", kwargs={"username": request.user.username}),
+            "css_class": _get_css_class(view_name, "users:detail"),
         },
         "video_admin": {
             video_admin_link[0]: {
@@ -42,10 +48,18 @@ def show_admin_navbar(context):
         video_obj = context["object"]
         detail_video_admin_links = [
             ("public", video_obj.code, "videos:detail"),
-            ("update", "Update", "admin:videos_update"),
-            ("delete", "Delete", "admin:videos_delete"),
-            ("sequences_list", "Sequences", "admin:videos_sequences_list"),
-            ("categorization", "Categorization", "admin:videos_categorization"),
+            ("update", gettext_lazy("Update"), "admin:videos_update"),
+            ("delete", gettext_lazy("Delete"), "admin:videos_delete"),
+            (
+                "sequences_list",
+                gettext_lazy("Sequences"),
+                "admin:videos_sequences_list",
+            ),
+            (
+                "categorization",
+                gettext_lazy("Categorization"),
+                "admin:videos_categorization",
+            ),
         ]
         navbar_context["video_admin"]["selected"] = True
         for video_admin_link in detail_video_admin_links:

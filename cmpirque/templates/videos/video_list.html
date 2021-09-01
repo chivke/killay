@@ -1,5 +1,8 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
+  {% if query_search %}
+    <h1 id="video-list-querysearch"class="header">{% trans "Result for" %}: "{{query_search}}"</h1>
+  {% endif %}
   {% include "components/video_gallery.html" %}
 {% endblock content %}

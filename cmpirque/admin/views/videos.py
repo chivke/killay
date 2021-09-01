@@ -1,6 +1,8 @@
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.utils.translation import gettext
 
 from cmpirque.admin.mixins import AdminRequiredMixin
 
@@ -57,6 +59,8 @@ class VideoAdminMixin(AdminRequiredMixin):
     def form_invalid(self, form, meta_form, providers_formset):
         context = self.get_context_data(form=form)
         context["meta_form"] = meta_form
+        context["providers_formset"] = providers_formset
+        messages.error(self.request, gettext("Error saving Video"))
         return self.render_to_response(context)
 
     def get_context_data(self, **kwargs):
@@ -86,6 +90,11 @@ class VideoCreateView(VideoAdminMixin, CreateView):
     def form_valid(self, form, meta_form, providers_formset):
         form.instance.meta = meta_form.save()
         self.object = form.save()
+        providers_formset.instance = self.object
+        providers_formset.save()
+        messages.info(
+            self.request, gettext(f"Video [{self.object.code}] saved successfully")
+        )
         return super().form_valid(form)
 
 
@@ -100,6 +109,10 @@ class VideoUpdateView(VideoAdminMixin, UpdateView):
     def form_valid(self, form, meta_form, providers_formset):
         self.object.meta = meta_form.save()
         self.object = form.save()
+        providers_formset.save()
+        messages.info(
+            self.request, gettext(f"Video [{self.object.code}] saved successfully")
+        )
         return super().form_valid(form)
 
 
@@ -133,10 +146,12 @@ class VideoSequenceList(AdminRequiredMixin, UpdateView):
 
     def formset_valid(self, formset):
         formset.save()
+        messages.info(self.request, gettext("Video sequences saved successfully"))
         return HttpResponseRedirect(self.get_success_url())
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)
+        messages.error(self.request, gettext("Error saving video sequences"))
         return self.render_to_response(context)
 
 
@@ -163,6 +178,7 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         self.object.categorization = form.save()
+        messages.info(self.request, gettext("Video categorization saved successfully"))
         return HttpResponseRedirect(self.get_success_url())
 
     def get_form_kwargs(self):
@@ -171,86 +187,103 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
             kwargs.update({"instance": self.object.categorization})
         return kwargs
 
+    def form_invalid(self, *args, **kwargs):
+        messages.error(self.request, gettext("Error saving video categorization"))
+        return super().form_invalid(*args, **kwargs)
+
 
 video_categorization = VideoCategorizationUpdateView.as_view()
 
 
-class VideoCategoryListView(AdminRequiredMixin, ListView):
-    model = VideoCategory
+class FormSetListMixin(AdminRequiredMixin, ListView):
+    paginate_by = 50
+    model = None
+    formset_class = None
+    label_plural = None
+    reverse_url = None
+    formset_title = None
+    template_name = "admin/formset_list.html"
 
     def get_context_data(self, **kwargs):
+        kwargs["total_of_objects"] = self.total_of_objects
+        kwargs["formset_title"] = self.formset_title
+        kwargs["label_plural"] = self.label_plural
+        kwargs["query_search"] = self.query_search
         context = super().get_context_data()
-        return {**context, "formset": VideoCategoryFormSet(), **kwargs}
+        if "formset" not in kwargs and "object_list" in context:
+            kwargs["formset"] = self.formset_class(queryset=context["object_list"])
+        return {**context, **kwargs}
 
     def post(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
-        formset = VideoCategoryFormSet(data=request.POST)
+        formset = self.formset_class(queryset=self.object_list, data=request.POST)
         if formset.is_valid():
             return self.formset_valid(formset)
         else:
             return self.formset_invalid(formset)
 
+    def get_queryset(self):
+        self.query_search = self.request.GET.get("q") or self.request.POST.get(
+            "query_search"
+        )
+        queryset = (
+            self.model.objects.all()
+            if not self.query_search
+            else self.model.objects.filter(name__icontains=self.query_search)
+        )
+        self.total_of_objects = queryset.count()
+        return queryset
+
+    def get_success_url(self):
+        url = reverse(self.reverse_url)
+        if self.query_search:
+            url += f"?q={self.query_search}"
+        page_number = self.request.POST.get("page_number")
+        if page_number:
+            url += f"&page={page_number}"
+        return url
+
     def formset_valid(self, formset):
         self.object_list = formset.save()
-        return HttpResponseRedirect(reverse("admin:videos_categories"))
+        messages.info(
+            self.request, gettext(f"Video {self.label_plural} saved successfully")
+        )
+        return HttpResponseRedirect(self.get_success_url())
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)
+        messages.error(self.request, gettext(f"Error saving video {self.label_plural}"))
         return self.render_to_response(context)
+
+
+class VideoCategoryListView(FormSetListMixin):
+    model = VideoCategory
+    formset_class = VideoCategoryFormSet
+    label_plural = gettext("categories")
+    reverse_url = "admin:videos_categories"
+    formset_title = gettext("Video Categories")
 
 
 video_categories_view = VideoCategoryListView.as_view()
 
 
-class VideoPeopleList(AdminRequiredMixin, ListView):
+class VideoPeopleList(FormSetListMixin):
     model = VideoPerson
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        return {**context, "formset": VideoPeopleFormSet(), **kwargs}
-
-    def post(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-        formset = VideoPeopleFormSet(data=request.POST)
-        if formset.is_valid():
-            return self.formset_valid(formset)
-        else:
-            return self.formset_invalid(formset)
-
-    def formset_valid(self, formset):
-        self.object_list = formset.save()
-        return HttpResponseRedirect(reverse("admin:videos_people"))
-
-    def formset_invalid(self, formset):
-        context = self.get_context_data(formset=formset)
-        return self.render_to_response(context)
+    formset_class = VideoPeopleFormSet
+    label_plural = gettext("people")
+    reverse_url = "admin:videos_people"
+    formset_title = gettext("Video People")
 
 
 video_people_view = VideoPeopleList.as_view()
 
 
-class VideoKeywordList(AdminRequiredMixin, ListView):
+class VideoKeywordList(FormSetListMixin):
     model = VideoKeyword
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        return {**context, "formset": VideoKeywordFormSet(), **kwargs}
-
-    def post(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-        formset = VideoKeywordFormSet(data=request.POST)
-        if formset.is_valid():
-            return self.formset_valid(formset)
-        else:
-            return self.formset_invalid(formset)
-
-    def formset_valid(self, formset):
-        self.object_list = formset.save()
-        return HttpResponseRedirect(reverse("admin:videos_categories"))
-
-    def formset_invalid(self, formset):
-        context = self.get_context_data(formset=formset)
-        return self.render_to_response(context)
+    formset_class = VideoKeywordFormSet
+    label_plural = gettext("keywords")
+    reverse_url = "admin:videos_keywords"
+    formset_title = gettext("Video Keywords")
 
 
 video_keywords_view = VideoKeywordList.as_view()

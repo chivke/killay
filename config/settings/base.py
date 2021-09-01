@@ -17,6 +17,8 @@ SITE_ID = 1
 USE_TZ = True
 SITE_NAME = "Centro de Memoria Audiovisual de Pirque"
 
+LOCALE_PATHS = ("locale",)
+
 # Database
 
 DATABASES = {"default": env.db("DATABASE_URL")}
@@ -178,16 +180,3 @@ LOGGING = {
     },
     "root": {"level": "INFO", "handlers": ["console"]},
 }
-
-# Celery
-
-if USE_TZ:
-    CELERY_TIMEZONE = TIME_ZONE
-# CELERY_BROKER_URL = env("CELERY_BROKER_URL")
-# CELERY_RESULT_BACKEND = CELERY_BROKER_URL
-# CELERY_ACCEPT_CONTENT = ["json"]
-# CELERY_TASK_SERIALIZER = "json"
-# CELERY_RESULT_SERIALIZER = "json"
-# CELERY_TASK_TIME_LIMIT = 5 * 60
-# CELERY_TASK_SOFT_TIME_LIMIT = 60
-# CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"

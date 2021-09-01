@@ -1,5 +1,6 @@
 import pytest
 
+from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from django.http.response import Http404
 
@@ -19,6 +20,7 @@ pytestmark = pytest.mark.django_db
 class TestVideoDetailView:
     def test_get_video(self, video: Video, rf: RequestFactory):
         request = rf.get(f"/videos/{video.code}/")
+        request.user = AnonymousUser()
         response = video_detail_view(request, slug=video.code)
         assert response.status_code == 200
         assert response.render()
@@ -26,6 +28,7 @@ class TestVideoDetailView:
 
     def test_not_found(self, rf: RequestFactory):
         request = rf.get("/videos/-")
+        request.user = AnonymousUser()
         with pytest.raises(Http404):
             video_detail_view(request, slug="wrong-code")
 
@@ -76,12 +79,13 @@ class TestVideoSearchView:
         assert response.render()
         assert video.meta.title in str(response.content)
 
-    def test_no_results(self, video: Video, rf: RequestFactory):
+    def test_no_results(self, video: Video, rf_msg: RequestFactory):
         video.meta.description = "the real video"
         video.meta.title = "the real video"
         video.meta.save()
         query_param = "other crazy"
-        request = rf.get(f"/videos/search/?q={query_param}")
+        request = rf_msg("get", f"/videos/search/?q={query_param}")
+        request.session.save()
         response = video_search_list_view(request)
         assert response.status_code == 200
         assert response.render()

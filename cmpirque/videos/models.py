@@ -1,27 +1,32 @@
 import requests
-
+from time import strptime
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.translation import gettext_lazy
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
 from cmpirque.videos.utils import parse_sequences_from_vtt_file
 
 
 class Video(models.Model):
-    code = models.SlugField(null=False, blank=False, unique=True, db_index=True)
-    is_visible = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    thumb = models.ImageField(upload_to="video_thumbs", null=True, blank=True)
+    code = models.SlugField(
+        gettext_lazy("Code"), null=False, blank=False, unique=True, db_index=True
+    )
+    is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
+    created_at = models.DateTimeField(gettext_lazy("Created at"), auto_now_add=True)
+    updated_at = models.DateTimeField(gettext_lazy("Updated at"), auto_now=True)
+    thumb = models.ImageField(
+        gettext_lazy("Thumb"), upload_to="video_thumbs", null=True, blank=True
+    )
     meta = models.OneToOneField(
         "VideoMeta", on_delete=models.CASCADE, related_name="video"
     )
 
     class Meta:
-        verbose_name = "video"
-        verbose_name_plural = "videos"
+        verbose_name = gettext_lazy("video")
+        verbose_name_plural = gettext_lazy("videos")
         ordering = ["code"]
 
     def __str__(self):
@@ -48,20 +53,40 @@ class Video(models.Model):
 
 
 class VideoMeta(models.Model):
-    title = models.CharField(max_length=500)
-    event = models.CharField(max_length=500, null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    description_date = models.DateField(null=True, blank=True)
-    location = models.CharField(max_length=500, null=True, blank=True)
-    duration = models.TimeField(null=True, blank=True)
-    register_date = models.DateField(null=True, blank=True)
-    register_author = models.CharField(max_length=500, null=True, blank=True)
-    productor = models.CharField(max_length=500, null=True, blank=True)
-    notes = models.TextField(null=True, blank=True)
-    archivist_notes = models.TextField(null=True, blank=True)
-    documentary_unit = models.CharField(max_length=500, null=True, blank=True)
-    lang = models.CharField(max_length=500, null=True, blank=True)
-    original_format = models.CharField(max_length=500, null=True, blank=True)
+    title = models.CharField(gettext_lazy("Title"), max_length=500)
+    event = models.CharField(
+        gettext_lazy("Event"), max_length=500, null=True, blank=True
+    )
+    description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
+    description_date = models.DateField(
+        gettext_lazy("Description Date"), null=True, blank=True
+    )
+    location = models.CharField(
+        gettext_lazy("Location"), max_length=500, null=True, blank=True
+    )
+    duration = models.TimeField(gettext_lazy("Duration"), null=True, blank=True)
+    register_date = models.DateField(
+        gettext_lazy("Register Date"), null=True, blank=True
+    )
+    register_author = models.CharField(
+        gettext_lazy("Register Author"), max_length=500, null=True, blank=True
+    )
+    productor = models.CharField(
+        gettext_lazy("Productor"), max_length=500, null=True, blank=True
+    )
+    notes = models.TextField(gettext_lazy("Notes"), null=True, blank=True)
+    archivist_notes = models.TextField(
+        gettext_lazy("Archivist Notes"), null=True, blank=True
+    )
+    documentary_unit = models.CharField(
+        gettext_lazy("Documentary Unit"), max_length=500, null=True, blank=True
+    )
+    lang = models.CharField(
+        gettext_lazy("Language"), max_length=500, null=True, blank=True
+    )
+    original_format = models.CharField(
+        gettext_lazy("Original Format"), max_length=500, null=True, blank=True
+    )
 
     class Meta:
         verbose_name = "video metadata"
@@ -69,12 +94,15 @@ class VideoMeta(models.Model):
 
 
 class VideoProvider(models.Model):
-    active = models.BooleanField(default=False)
-    online = models.BooleanField(default=False)
-    checked_at = models.DateTimeField(null=True, blank=True)
+    active = models.BooleanField(gettext_lazy("Active"), default=False)
+    online = models.BooleanField(gettext_lazy("Online"), default=False)
+    checked_at = models.DateTimeField(gettext_lazy("Checked at"), null=True, blank=True)
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="providers")
-    ply_embed_id = models.CharField(max_length=500, null=False, blank=False)
+    ply_embed_id = models.CharField(
+        gettext_lazy("Ply Embed ID"), max_length=500, null=False, blank=False
+    )
     plyr_provider = models.CharField(
+        gettext_lazy("Ply Provider"),
         choices=VideoProviderConstants.PLYR_PROVIDER_CHOICES,
         max_length=50,
         null=False,
@@ -82,10 +110,18 @@ class VideoProvider(models.Model):
     )
 
     def save(self, *args, **kwargs):
+        if self.pk:
+            current_video = self.__class__.objects.get(id=self.id)
+
         other_providers = self.get_related_providers()
         if self.active and other_providers.exists():
             other_providers.update(active=False)
-        if not self.online or not self.checked_at:
+        if (
+            not self.online
+            or not self.checked_at
+            or current_video.ply_embed_id != self.ply_embed_id
+            or current_video.plyr_provider != self.plyr_provider
+        ):
             self.check_is_online()
         super().save(*args, **kwargs)
 
@@ -106,6 +142,19 @@ class VideoProvider(models.Model):
         else:
             return f"https://www.{self.plyr_provider}.com/embed/{self.ply_embed_id}"
 
+    @property
+    def video_url_for_plyr(self):
+        if self.plyr_provider == VideoProviderConstants.VIMEO:
+            return self.video_url + (
+                "?loop=false&amp;byline=false&amp;portrait=false"
+                "&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media"
+            )
+        else:
+            return self.video_url + (
+                "?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;responsive=true"
+                "&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
+            )
+
     def get_related_providers(self):
         return VideoProvider.objects.filter(video_id=self.video_id).exclude(id=self.id)
 
@@ -114,19 +163,26 @@ class VideoSequenceManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().order_by("ini")
 
-    def get_ordered_data(self, *args):
-        sequences = self.values(*args)
+    def get_ordered_data(self):
         return [
-            {**sequence, "order": index + 1} for index, sequence in enumerate(sequences)
+            {
+                "order": index + 1,
+                **sequence.__dict__,
+                "ini_sec": sequence.ini_sec,
+                "end_sec": sequence.end_sec,
+            }
+            for index, sequence in enumerate(self.all())
         ]
 
 
 class VideoSequence(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE, related_name="sequences")
-    title = models.CharField(max_length=500, null=True, blank=True)
-    content = models.TextField(null=True, blank=True)
-    ini = models.PositiveSmallIntegerField(null=False, blank=False)
-    end = models.PositiveSmallIntegerField(null=False, blank=False)
+    title = models.CharField(
+        gettext_lazy("Title"), max_length=500, null=True, blank=True
+    )
+    content = models.TextField(gettext_lazy("Content"), null=True, blank=True)
+    ini = models.TimeField(gettext_lazy("Initiation"), null=False, blank=False)
+    end = models.TimeField(gettext_lazy("End"), null=False, blank=False)
 
     class Meta:
         verbose_name = "video sequence"
@@ -139,12 +195,19 @@ class VideoSequence(models.Model):
         self.validate_ini_greater_then_end()
 
     def validate_ini_greater_then_end(self):
-        if (
-            isinstance(self.ini, int)
-            and isinstance(self.end, int)
-            and self.ini >= self.end
-        ):
+        if self.ini and self.end and self.ini >= self.end:
             raise ValidationError("init of sequence must be greater then end")
+
+    @property
+    def ini_sec(self):
+        return self.__time_to_seconds(self.ini)
+
+    @property
+    def end_sec(self):
+        return self.__time_to_seconds(self.end)
+
+    def __time_to_seconds(self, time):
+        return (time.hour * 60 + time.minute) * 60 + time.second
 
 
 class VideoCategorization(models.Model):
@@ -161,16 +224,23 @@ class VideoCategorization(models.Model):
 
 
 class VideoCategory(models.Model):
-    name = models.CharField(max_length=255, null=False, blank=False)
-    slug = models.SlugField(
-        max_length=255, null=False, blank=False, unique=True, db_index=True
+    name = models.CharField(
+        gettext_lazy("Name"), max_length=255, null=False, blank=False
     )
-    description = models.TextField(null=True, blank=True)
-    position = models.PositiveSmallIntegerField(default=0)
+    slug = models.SlugField(
+        gettext_lazy("Slug"),
+        max_length=255,
+        null=False,
+        blank=False,
+        unique=True,
+        db_index=True,
+    )
+    description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
+    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
 
     class Meta:
-        verbose_name = "category"
-        verbose_name_plural = "categories"
+        verbose_name = gettext_lazy("category")
+        verbose_name_plural = gettext_lazy("categories")
         ordering = ["position"]
 
     def __str__(self):
@@ -181,12 +251,19 @@ class VideoCategory(models.Model):
 
 
 class VideoPerson(models.Model):
-    name = models.CharField(max_length=255, null=False, blank=False)
-    slug = models.SlugField(
-        max_length=255, null=False, blank=False, unique=True, db_index=True
+    name = models.CharField(
+        gettext_lazy("Name"), max_length=255, null=False, blank=False
     )
-    description = models.TextField(null=True, blank=True)
-    position = models.PositiveSmallIntegerField(default=0)
+    slug = models.SlugField(
+        gettext_lazy("Slug"),
+        max_length=255,
+        null=False,
+        blank=False,
+        unique=True,
+        db_index=True,
+    )
+    description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
+    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
 
     class Meta:
         verbose_name = "person"
@@ -198,12 +275,19 @@ class VideoPerson(models.Model):
 
 
 class VideoKeyword(models.Model):
-    name = models.CharField(max_length=255, null=False, blank=False)
-    slug = models.SlugField(
-        max_length=255, null=False, blank=False, unique=True, db_index=True
+    name = models.CharField(
+        gettext_lazy("Name"), max_length=255, null=False, blank=False
     )
-    description = models.TextField(null=True, blank=True)
-    position = models.PositiveSmallIntegerField(default=0)
+    slug = models.SlugField(
+        gettext_lazy("Slug"),
+        max_length=255,
+        null=False,
+        blank=False,
+        unique=True,
+        db_index=True,
+    )
+    description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
+    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
 
     class Meta:
         verbose_name = "keyword"

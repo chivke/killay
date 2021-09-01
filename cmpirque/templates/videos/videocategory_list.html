@@ -10,7 +10,7 @@
     <h1 class="ui dividing header">Video Categories</h1>
     <div class="inline fields">
       <div class="field">
-        <label>Total:</label> {{object_list|length }}
+        <label>Total:</label> {{total_of_objects }}
       </div>
     </div>
 
@@ -46,8 +46,10 @@
                   {{ field }}
                 {% endif %}
                 {% if field.errors %}
-                  <div class="ui error message">{{field.errors}}</div>
-                {% endif %}
+                <div class="ui pointing red basic label">
+                  {% for error in field.errors %}{{error}}{% endfor %}
+                </div>
+              {% endif %}
               </td>
             {% endfor %}
           </tr>

@@ -1,4 +1,5 @@
 import factory
+from datetime import time
 
 # from factory import Faker, Sequence, SubFactory, RelatedFactory, post_generation
 from factory.django import DjangoModelFactory
@@ -107,5 +108,5 @@ class VideoSequenceFactory(DjangoModelFactory):
         model = VideoSequence
 
     video = factory.RelatedFactory(VideoFactory)
-    ini = factory.Sequence(lambda n: n + 5)
-    end = factory.Sequence(lambda n: n + 10)
+    ini = time(0, 1)
+    end = time(0, 2)

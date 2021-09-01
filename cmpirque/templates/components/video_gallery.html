@@ -8,27 +8,21 @@
           style="{% if video.thumb %}background-image: url('{{video.thumb.url}}');{% else %}background-color: #dedede;{% endif %}"
         >
           {% if not video.is_visible %}
-            <label>Not public</label>
+            <div class="not-public-label ui icon">
+              <i class="eye slash icon"></i>
+            </div>
           {% endif %}
-          <div class="video-label">{{video.meta.title}}</div>
+          <div class="duration-label">{{video.meta.duration|time:"H:i"}}</div>
+          <div class="video-label">
+            {{video.meta.title}}
+          </div>
         </a>
       {% endif %}
     {% endfor %}
   </div>
-  <div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-        </span>
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
+  <div class="pagination-container">
+    <div class="ui pagination menu huge">
+      {% include "components/paginator.html" %}
+    </div>
   </div>
 </div>

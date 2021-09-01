@@ -12,11 +12,15 @@ from cmpirque.videos.models import (
     VideoSequence,
 )
 
+from cmpirque.videos.utils import ImageFileInput
+
 
 class VideoForm(forms.ModelForm):
     class Meta:
         model = Video
         fields = ["code", "is_visible", "thumb"]
+
+    thumb = forms.ImageField(widget=ImageFileInput(), required=False)
 
 
 class VideoMetaForm(forms.ModelForm):
@@ -32,7 +36,7 @@ class VideoMetaForm(forms.ModelForm):
 class VideoProviderForm(forms.ModelForm):
     class Meta:
         model = VideoProvider
-        fields = ["ply_embed_id", "plyr_provider"]
+        fields = ["active", "ply_embed_id", "plyr_provider"]
 
 
 VideoProviderFormSet = forms.inlineformset_factory(

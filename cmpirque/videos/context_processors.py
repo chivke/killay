@@ -1,4 +1,5 @@
-from django.urls import resolve
+from django.urls import resolve, reverse
+from django.utils.translation import gettext_lazy
 
 from cmpirque.videos.models import VideoCategory
 
@@ -20,5 +21,14 @@ def categories_context(request):
                 "selected": selected_map.get(category.slug, False),
             }
             for category in VideoCategory.objects.all()
+        ]
+        + [
+            {
+                "name": gettext_lazy("All"),
+                "url": reverse("videos:list"),
+                "selected": True
+                if resolve_from_path.view_name == "videos:list"
+                else False,
+            }
         ]
     }

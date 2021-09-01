@@ -2,15 +2,16 @@ import pytest
 from time import strftime, gmtime
 from typing import List
 
+from django.core.exceptions import ValidationError
 from django.utils import timezone
 
 from cmpirque.videos.models import (
     Video,
     VideoCategory,
     VideoKeyword,
-    VideoSequence,
     VideoPerson,
     VideoProvider,
+    VideoSequence,
 )
 
 from cmpirque.videos.lib.constants import VideoProviderConstants
@@ -25,6 +26,20 @@ def test_video_sequence_manager(video_sequences: VideoSequence):
         assert isinstance(sequence, dict)
         assert "order" in sequence
         assert sequence["order"] == index + 1
+
+
+class TestSequence:
+    def test_clean_fail(self, video_sequence: VideoSequence):
+        video_sequence.ini = "00:03:00"
+        video_sequence.end = "00:02:00"
+        with pytest.raises(ValidationError):
+            video_sequence.clean()
+
+    def test_ini_sec(self, video_sequence: VideoSequence):
+        ini_seconds = video_sequence.ini_sec
+        end_seconds = video_sequence.end_sec
+        assert ini_seconds == 60
+        assert end_seconds == 120
 
 
 class TestVideoModel:
@@ -84,8 +99,10 @@ class TestVideoProvider:
 
     def test_video_url(self, video_provider: VideoProvider):
         assert video_provider.ply_embed_id in video_provider.video_url
+        assert video_provider.ply_embed_id in video_provider.video_url_for_plyr
         video_provider.plyr_provider = VideoProviderConstants.YOUTUBE
         assert video_provider.plyr_provider in video_provider.video_url
+        assert video_provider.plyr_provider in video_provider.video_url_for_plyr
 
 
 class TestVideoCategory:

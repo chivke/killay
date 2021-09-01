@@ -7,7 +7,6 @@
 class SequenceEngine {
   constructor (
     {
-      player = new Plyr('#player', {invertTime: false}),
       data_id = "sequences-data",
       menu_id = "sequences-menu",
       display_id = "sequences-display",
@@ -24,6 +23,9 @@ class SequenceEngine {
     this.sequences_data = {};
     this.debug = debug;
     this._current_second = 0;
+  }
+
+  run () {
     this._load_sequences_data();
     $player.on("timeupdate", this.callback_timeupdate.bind(this));
   }

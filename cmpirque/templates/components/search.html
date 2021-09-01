@@ -1,10 +1,22 @@
-<div class="ui category mini search item" id="cmp-search-item">
-    <form id="searchform" action="{% url 'videos:search' %}" method="get" accept-charset="utf-8">
-        <div class="ui transparent icon input">
-            <button class="circular black nverted ui icon button" type="submit">
-                <i class="search link icon"></i></a>
-            </button>
-            <input class="prompt" id="searchbox" name="q" type="text" placeholder="BUSCAR">
-        </div>
-    </form>
-</div>
+{% load i18n %}
+
+
+  <form
+    class="item"
+    id="searchform"
+    action="{% url 'videos:search' %}"
+    method="get" accept-charset="utf-8"
+  >
+    <div class="ui inverted transparent icon input">
+      <input
+        id="searchbox"
+        name="q"
+        type="text"
+        placeholder="{% trans 'Search' %}"
+        value="{% if query_search %}{{query_search}}{% endif %}"
+      >
+      <button class="circular black nverted ui icon button" type="submit">
+        <i class="inverted circular search link icon"></i>
+      </button>
+    </div>
+  </form>

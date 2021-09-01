@@ -26,7 +26,9 @@
     <div class="base-content-messages">
       {% if messages %}
         {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>
+            <div class="ui message {% if message.tags %}{{ message.tags }}{% endif %}">
+              <i class="close icon"></i>
+              <div class="header">{{ message }}</div>
         {% endfor %}
       {% endif %}
     </div>
@@ -40,6 +42,15 @@
       <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
       <script src="{% static 'js/project.min.js' %}"></script>
+      <script type="text/javascript">
+        $('.message .close')
+          .on('click', function() {
+            $(this)
+              .closest('.message')
+              .transition('fade')
+            ;
+          });
+      </script>
     {% endblock javascript %}
     {% block extra_js %}
     {% endblock extra_js %}

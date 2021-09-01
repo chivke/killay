@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @font-face {
   font-family: "BrandonBlack";
   src: url("../fonts/BrandonGrotesque-Black.otf"); }
@@ -61,6 +60,9 @@
     margin: 0 !important;
     padding: 0 !important;
     border-radius: 0 !important; }
+    .player-sequence-container .player-container #no-player {
+      text-align: center;
+      padding: 20%; }
 
 #sequences-menu {
   margin: 0 !important;
@@ -163,6 +165,33 @@
     padding: 16px 48px;
     padding: 1rem 3rem; }
 
+#video-list-querysearch {
+  font-family: "BrandonRegular";
+  text-align: center;
+  margin: 32px;
+  margin: 2rem; }
+
+#formset-list-container {
+  margin: 5% 10%; }
+  #formset-list-container .formset-list-actions {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin: 48px 0;
+    margin: 3rem 0; }
+  #formset-list-container #formset-list-footer-pagination {
+    margin: 48px 0;
+    margin: 3rem 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+
 .cmp-footer {
   position: fixed;
   bottom: 0;
@@ -208,69 +237,3 @@
       padding: 0 16px;
       padding: 0 1rem;
       margin: 0 !important; }
-
-/*
-  Menu de navegación
-*/
-#cmp-menu {
-  margin-top: 0;
-  border-radius: 0;
-  background: #000;
-  font-family: "BrandonRegular"; }
-  #cmp-menu .text {
-    font-size: 19.2px !important;
-    font-size: 1.2rem !important;
-    text-transform: uppercase; }
-  #cmp-menu .vertical.segment {
-    padding: 0;
-    width: 100%; }
-  #cmp-menu .item,
-  #cmp-menu .item .text {
-    font-size: 19.2px;
-    font-size: 1.2rem; }
-  #cmp-menu #cmp-head-menu {
-    border-bottom: solid 1px white; }
-  #cmp-menu #cmp-subhead-menu {
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between; }
-    #cmp-menu #cmp-subhead-menu .item {
-      border-right: solid 1px white;
-      width: 12.5%;
-      -webkit-box-pack: center;
-          -ms-flex-pack: center;
-              justify-content: center; }
-  #cmp-menu #cmp-search-item {
-    border-left: solid 1px white; }
-  #cmp-menu #searchbox {
-    color: #fff;
-    margin-left: 8px;
-    margin-left: .5rem; }
-  #cmp-menu .administrator {
-    border-left: 1px white solid;
-    text-transform: uppercase; }
-  #cmp-menu ::-webkit-input-placeholder {
-    color: #fff;
-    opacity: 1;
-    font-size: 16px;
-    font-size: 1rem; }
-  #cmp-menu ::-moz-placeholder {
-    color: #fff;
-    opacity: 1;
-    font-size: 16px;
-    font-size: 1rem; }
-  #cmp-menu :-ms-input-placeholder {
-    color: #fff;
-    opacity: 1;
-    font-size: 16px;
-    font-size: 1rem; }
-  #cmp-menu ::-ms-input-placeholder {
-    color: #fff;
-    opacity: 1;
-    font-size: 16px;
-    font-size: 1rem; }
-  #cmp-menu ::placeholder {
-    color: #fff;
-    opacity: 1;
-    font-size: 16px;
-    font-size: 1rem; }

@@ -4,7 +4,7 @@
 @import 'navbar.scss';
 @import 'video_detail.scss';
 @import 'video_gallery.scss';
-
+@import 'video_admin.scss';
 
 
 .cmp-footer {
@@ -46,57 +46,5 @@
       padding: 0 1rem;
       margin:0 !important;
     }
-  }
-}
-
-
-/*
-  Menu de navegación
-*/
-
-#cmp-menu {
-  margin-top: 0;
-  border-radius:0;
-  background: #000;
-  font-family: "BrandonRegular";
-  .text {
-    font-size: 1.2rem !important;
-    text-transform: uppercase;
-  }
-  .vertical.segment {
-    padding:0; width:100%;
-  }
-  .item,
-  .item .text {
-    font-size: 1.2rem;
-  }
-  #cmp-head-menu {
-    border-bottom: solid 1px white;
-  }
-  #cmp-subhead-menu {
-    justify-content: space-between;
-
-    .item {
-      border-right: solid 1px white;
-      width: 12.5%;
-      justify-content: center;
-    }
-  }
-  #cmp-search-item {
-    border-left: solid 1px white;
-
-  }
-  #searchbox {
-    color:#fff;
-    margin-left: .5rem;
-  }
-  .administrator {
-    border-left: 1px white solid;
-    text-transform: uppercase;
-  }
-  ::placeholder {
-    color: #fff;
-    opacity: 1;
-    font-size: 1rem;
   }
 }

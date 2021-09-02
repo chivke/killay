@@ -29,7 +29,7 @@ def show_admin_navbar(context):
         },
         "user_conf": {
             "name": f"@{request.user.username}",
-            "link": reverse("users:detail", kwargs={"username": request.user.username}),
+            "link": reverse("users:update"),
             "css_class": _get_css_class(view_name, "users:detail"),
         },
         "video_admin": {

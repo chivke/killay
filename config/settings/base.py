@@ -10,7 +10,7 @@ env = environ.Env()
 
 # General
 
-DEBUG = env.bool("DJANGO_DEBUG", False)
+DEBUG = env.bool("DJANGO_DEBUG", default=False)
 TIME_ZONE = "America/Santiago"
 LANGUAGE_CODE = "en-us"
 SITE_ID = 1
@@ -66,7 +66,8 @@ AUTHENTICATION_BACKENDS = [
 
 AUTH_USER_MODEL = "users.User"
 LOGIN_REDIRECT_URL = "users:redirect"
-LOGIN_URL = "account_login"
+LOGOUT_REDIRECT_URL = "users:login"
+LOGIN_URL = "users:login"
 
 PASSWORD_HASHERS = [
     "django.contrib.auth.hashers.Argon2PasswordHasher",

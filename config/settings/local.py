@@ -15,9 +15,13 @@ CACHES = {
         "LOCATION": "",
     }
 }
-EMAIL_BACKEND = env(
-    "DJANGO_EMAIL_BACKEND", default="django.core.mail.backends.console.EmailBackend"
-)
+
+# MailDev
+# https://github.com/maildev/maildev
+
+EMAIL_HOST = "maildev"
+EMAIL_PORT = 25
+
 INSTALLED_APPS += ["debug_toolbar"]  # noqa F405
 MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]  # noqa F405
 DEBUG_TOOLBAR_CONFIG = {
@@ -25,12 +29,7 @@ DEBUG_TOOLBAR_CONFIG = {
     "SHOW_TEMPLATE_CONTEXT": True,
 }
 INTERNAL_IPS = ["127.0.0.1"]
-# if env('USE_DOCKER') == 'yes':
-#    import socket#
-#
-#    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
-#    INTERNAL_IPS += ['.'.join(ip.split('.')[:-1] + ['1']) for ip in ips]
 
 INSTALLED_APPS += ["django_extensions"]  # noqa F405
-CELERY_TASK_EAGER_PROPAGATES = True
+
 # CORS_ALLOWED_ORIGINS = ['http://localhost:8080']

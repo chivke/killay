@@ -4,7 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 
 from cmpirque.admin.mixins import AdminRequiredMixin, PublishRequiredMixin
-from cmpirque.admin.models import AdminConfiguration
+from cmpirque.admin.models import SiteConfiguration
 
 
 pytestmark = pytest.mark.django_db
@@ -34,7 +34,7 @@ class TestAdminRequiredMixin:
 
 class TestPublishRequiredMixin:
     def test_is_not_pusblished(self, rf: RequestFactory):
-        conf = AdminConfiguration.objects.filter(active=True).first()
+        conf = SiteConfiguration.objects.current()
         conf.is_published = False
         conf.save()
         request = rf.get("/")

@@ -5,8 +5,8 @@ from django.conf import settings
 
 
 def create_initial_adminconfig(apps, schema_editor):
-    AdminConfig = apps.get_model("admin", "AdminConfiguration")
-    AdminConfig.objects.update_or_create(id=settings.SITE_ID)
+    SiteConfiguration = apps.get_model("admin", "SiteConfiguration")
+    SiteConfiguration.objects.update_or_create(id=settings.SITE_ID)
 
 
 class Migration(migrations.Migration):

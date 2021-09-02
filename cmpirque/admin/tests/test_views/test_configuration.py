@@ -3,7 +3,7 @@ import pytest
 from django.test import RequestFactory
 from django.urls import resolve
 
-from cmpirque.admin.models import AdminConfiguration
+from cmpirque.admin.models import SiteConfiguration
 from cmpirque.admin.views.configuration import admin_configuration_view
 
 from cmpirque.users.models import User
@@ -22,7 +22,7 @@ SOCIALMEDIA_FORMSET_DATA = {
 }
 
 
-class TestAdminConfigurationView:
+class TestSiteConfigurationView:
     def test_get(self, admin_user: User, rf: RequestFactory):
         request = rf.get("/admin/")
         request.resolver_match = resolve("/admin/")
@@ -32,12 +32,12 @@ class TestAdminConfigurationView:
         assert response.status_code == 200
 
     def test_update(self, admin_user: User, rf: RequestFactory):
-        data = {"site_name": "Other site name", "is_published": False}
+        data = {"name": "Other site name", "domain": "ex.org", "is_published": False}
         request = rf.post("/admin/", {**data, **SOCIALMEDIA_FORMSET_DATA})
         request.user = admin_user
         response = admin_configuration_view(request)
         assert response.status_code == 302
-        conf = AdminConfiguration.objects.current()
+        conf = SiteConfiguration.objects.current()
         for field, value in data.items():
             assert getattr(conf, field) == value
         social_media = conf.social_medias.first()

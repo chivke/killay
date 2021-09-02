@@ -1,6 +1,6 @@
-from cmpirque.admin.models import AdminConfiguration
+from cmpirque.admin.models import SiteConfiguration
 
 
 def site_context(request):
-    conf = AdminConfiguration.objects.filter(active=True).first()
-    return {"site_name": conf.site_name, "site_conf": conf}
+    conf = SiteConfiguration.objects.current()
+    return {"site_conf": conf}

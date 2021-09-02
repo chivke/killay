@@ -1,12 +1,12 @@
 from django import forms
 
-from cmpirque.admin.models import AdminConfiguration, SocialMedia
+from cmpirque.admin.models import SiteConfiguration, SocialMedia
 
 
-class AdminConfigurationForm(forms.ModelForm):
+class SiteConfigurationForm(forms.ModelForm):
     class Meta:
-        model = AdminConfiguration
-        fields = ["site_name", "is_published"]
+        model = SiteConfiguration
+        fields = ["name", "domain", "is_published"]
 
 
 class SocialMediaForm(forms.ModelForm):
@@ -16,5 +16,5 @@ class SocialMediaForm(forms.ModelForm):
 
 
 SocialMediaFormSet = forms.inlineformset_factory(
-    AdminConfiguration, SocialMedia, form=SocialMediaForm, extra=1
+    SiteConfiguration, SocialMedia, form=SocialMediaForm, extra=1
 )

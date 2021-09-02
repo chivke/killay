@@ -3,17 +3,17 @@ from django.views.generic import UpdateView
 from django.urls import reverse
 
 from cmpirque.admin.mixins import AdminRequiredMixin
-from cmpirque.admin.models import AdminConfiguration
+from cmpirque.admin.models import SiteConfiguration
 
-from cmpirque.admin.forms import AdminConfigurationForm, SocialMediaFormSet
+from cmpirque.admin.forms import SiteConfigurationForm, SocialMediaFormSet
 
 
-class AdminConfigurationUpdateView(AdminRequiredMixin, UpdateView):
-    form_class = AdminConfigurationForm
+class SiteConfigurationUpdateView(AdminRequiredMixin, UpdateView):
+    form_class = SiteConfigurationForm
     formset_class = SocialMediaFormSet
 
     def get_object(self):
-        return AdminConfiguration.objects.current()
+        return SiteConfiguration.objects.current()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -44,4 +44,4 @@ class AdminConfigurationUpdateView(AdminRequiredMixin, UpdateView):
         return reverse("admin:configuration")
 
 
-admin_configuration_view = AdminConfigurationUpdateView.as_view()
+admin_configuration_view = SiteConfigurationUpdateView.as_view()

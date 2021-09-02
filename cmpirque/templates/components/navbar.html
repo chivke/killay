@@ -2,7 +2,7 @@
 <nav class="ui inverted menu" id="site-navbar">
   <div class="ui vertical segment">
     <div class="left menu" id="site-navbar-header-menu">
-      <div class="header item"><a class="text" href="/">{{ site_conf.site_name }}</a></div>
+      <div class="header item"><a class="text" href="/">{{ site_conf.name }}</a></div>
       <div class="right menu" >
         {% include "components/search.html" %}
         {% if user.is_authenticated %}

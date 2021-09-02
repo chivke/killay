@@ -15,8 +15,8 @@ TIME_ZONE = "America/Santiago"
 LANGUAGE_CODE = "en-us"
 SITE_ID = 1
 USE_TZ = True
-SITE_NAME = "Centro de Memoria Audiovisual de Pirque"
-
+SITE_NAME = env("SITE_NAME", default="Centro de Memoria Audiovisual de Pirque")
+SITE_DOMAIN = env("SITE_DOMAIN", default="example-site.com")
 LOCALE_PATHS = ("locale",)
 
 # Database

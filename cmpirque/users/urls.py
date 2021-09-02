@@ -14,9 +14,7 @@ from cmpirque.users.views import (
 app_name = "users"
 urlpatterns = [
     path("~redirect/", view=user_redirect_view, name="redirect"),
-    # path("me/", view=user_detail_view, name="me-detail"),
     path("~update/", view=user_update_view, name="update"),
-    # path("auth/", include("django.contrib.auth.urls")),
     path("~login/", view=user_login_view, name="login"),
     path("~logout/", view=auth_views.LogoutView.as_view(), name="logout"),
     path("~password_change/", view=user_password_change_view, name="password_change"),

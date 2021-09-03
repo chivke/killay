@@ -10,6 +10,11 @@
   font-family: "BrandonLight";
   src: url("../fonts/BrandonGrotesque-Light.otf"); }
 
+.base-content-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex; }
+
 .footer-spacer {
   padding: 64px;
   padding: 4rem; }

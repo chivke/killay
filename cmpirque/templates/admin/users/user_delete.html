@@ -4,7 +4,7 @@
 
 {% block content %}
   {% include "admin/components/sidebar.html" %}
-  <div id="users-admin-container">
+  <div id="admin-main-container">
     <h2 class="headed">
       {% blocktrans %}
         Are you sure you want to delete "{{ object }}"?
@@ -17,7 +17,11 @@
       class="ui form"
     >
       {% csrf_token %}
-      <input class="ui button admin-submit" type="submit" value="{% trans 'Confirm' %}">
+      <input
+        class="ui button admin-submit"
+        type="submit"
+        value="{% trans 'Confirm' %}"
+      >
     </form>
   </div>
 {% endblock content %}

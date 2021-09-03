@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="header-filter-container">
+    <div class="filter-name ui header">{{object.name}}</div>
+    {% if object.description %}
+      <div class="filter-description">{{object.description}}</div>
+    {% endif %}
+  </div>
+  {% include "videos/components/gallery.html" %}
+{% endblock content %}

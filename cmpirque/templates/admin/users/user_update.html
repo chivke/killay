@@ -5,9 +5,8 @@
 
 {% block content %}
   {% include "admin/components/sidebar.html" %}
-  <div id="users-admin-container">
+  <div id="admin-main-container">
     <form
-      id="user-admin-create"
       method="post"
       action="."
       class="ui form"
@@ -29,7 +28,11 @@
         </div>
       {% endfor %}
       <div class="field">
-        <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
+        <input
+          type="submit"
+          class="ui button admin-submit"
+          value="{% trans 'Save' %}"
+        >
       </div>
     </form>
   </div>

@@ -1,7 +1,26 @@
 {% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Delete user" %}{% endblock %}
 {% block content %}
-<form method="post">{% csrf_token %}
-<p>Are you sure you want to delete "{{ object }}"?</p>
-<input type="submit" value="Confirm">
-</form>
+  {% include "admin/components/sidebar.html" %}
+  <div id="admin-main-container">
+    <h2 class="headed">
+      {% blocktrans %}
+        Are you sure you want to delete "{{ object }}"?
+      {% endblocktrans %}
+    </h2>
+    <form
+      id="user-admin-create"
+      method="post"
+      action="."
+      class="ui form"
+    >
+      {% csrf_token %}
+      <input
+        class="ui button admin-submit"
+        type="submit"
+        value="{% trans 'Confirm' %}"
+      >
+    </form>
+  </div>
 {% endblock content %}

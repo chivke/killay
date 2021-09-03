@@ -7,20 +7,16 @@
     >{{ user_conf.name }}
   </a>
   {% if video_admin.selected %}
-    <a class="{{ video_admin.public.css_class }}" href="{{ video_admin.public.link }}"
-      >{{ video_admin.public.name }}
-    </a>
-    <a class="{{ video_admin.update.css_class }}" href="{{ video_admin.update.link }}"
-      >{{ video_admin.update.name }}
-    </a>
-    <a class="{{ video_admin.sequences_list.css_class }}" href="{{ video_admin.sequences_list.link }}"
-      >{{ video_admin.sequences_list.name }}
-    </a>
-    <a class="{{ video_admin.categorization.css_class }}" href="{{ video_admin.categorization.link }}"
-      >{{ video_admin.categorization.name }}
-    </a>
+    {% for label,item in video_admin.items %}
+      {% if item.selected %}
+        <a
+          class="{{ item.css_class }}"
+          href="{{ item.link }}"
+        >{{ item.name }}
+        </a>
+      {% endif %}
+    {% endfor %}
   {% endif %}
-
   <div class="right menu">
     <a class="{{ video_admin.create.css_class }}" href="{{ video_admin.create.link }}"
       >{{ video_admin.create.name }}

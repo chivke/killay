@@ -7,7 +7,7 @@
 
 {% block content %}
   {% include "admin/components/sidebar.html" %}
-  <div id="video-admin-container" class="ui segment">
+  <div id="admin-main-container" >
     <h1 class="ui dividing header">{% trans "Sequences" %}</h1>
     <div class="fields">
       <div class="field">
@@ -20,7 +20,7 @@
     <form class="ui form" method="post">
       {% csrf_token %}
       {{formset.management_form}}
-      <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
+      <input type="submit" class="ui button admin-submit" value="{% trans 'Save' %}">
       <table class="ui celled table">
         <thead>
           <tr id="video-sequences-head-fields">
@@ -62,7 +62,7 @@
           {% endfor %}
         </tbody>
       </table>
-      <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
+      <input type="submit" class="ui button admin-submit" value="{% trans 'Save' %}">
     </form>
   </div>
 

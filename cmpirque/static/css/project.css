@@ -10,6 +10,9 @@
   font-family: "BrandonLight";
   src: url("../fonts/BrandonGrotesque-Light.otf"); }
 
+h1 {
+  font-family: "BrandonLight" !important; }
+
 .base-content-container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -19,10 +22,13 @@
   padding: 64px;
   padding: 4rem; }
 
-#admin-navbar {
-  margin: 0 0 16px;
-  margin: 0 0 1rem;
-  font-family: "BrandonRegular"; }
+#login-container {
+  width: 50%;
+  margin: 32px auto;
+  margin: 2rem auto;
+  max-width: 700px; }
+  #login-container #login-form {
+    padding: 10%; }
 
 #site-navbar {
   margin: 0;
@@ -35,6 +41,75 @@
     font-family: "BrandonRegular"; }
   #site-navbar .ui.vertical.segment {
     width: 100%; }
+
+#site-configuration-container {
+  padding: 5% 15%;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  font-family: "BrandonRegular"; }
+
+#admin-main-container {
+  padding: 0 15%;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  font-family: "BrandonRegular";
+  max-width: 1200px; }
+
+.admin-submit {
+  font-family: "BrandonRegular" !important;
+  margin: 16px !important;
+  margin: 1rem !important; }
+
+#formset-list-container {
+  margin: 5% 10%; }
+  #formset-list-container .formset-list-actions {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    margin: 48px 0;
+    margin: 3rem 0; }
+  #formset-list-container #formset-list-footer-pagination {
+    margin: 48px 0;
+    margin: 3rem 0;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+
+#admin-navbar {
+  margin: 0 0 16px;
+  margin: 0 0 1rem;
+  font-family: "BrandonRegular"; }
+
+#video-admin-container {
+  margin: 48px auto;
+  margin: 3rem auto;
+  width: 80%;
+  max-width: 1200px;
+  font-family: "BrandonRegular"; }
+  #video-admin-container .field {
+    font-family: "BrandonRegular"; }
+  #video-admin-container .form-group {
+    padding: 32px;
+    padding: 2rem; }
+
+.video-admin-submit {
+  font-family: "BrandonRegular" !important;
+  margin: 16px !important;
+  margin: 1rem !important; }
+
+#users-admin-container {
+  padding: 5% 15%;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  font-family: "BrandonRegular"; }
+  #users-admin-container #user-admin-create {
+    max-width: 900px; }
 
 .video-detail-container {
   margin: 32px;
@@ -175,52 +250,6 @@
   text-align: center;
   margin: 32px;
   margin: 2rem; }
-
-#formset-list-container {
-  margin: 5% 10%; }
-  #formset-list-container .formset-list-actions {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between;
-    margin: 48px 0;
-    margin: 3rem 0; }
-  #formset-list-container #formset-list-footer-pagination {
-    margin: 48px 0;
-    margin: 3rem 0;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between; }
-
-#video-admin-container {
-  margin: 48px auto;
-  margin: 3rem auto;
-  width: 80%;
-  max-width: 1200px;
-  font-family: "BrandonRegular"; }
-  #video-admin-container .field {
-    font-family: "BrandonRegular"; }
-  #video-admin-container .form-group {
-    padding: 32px;
-    padding: 2rem; }
-
-.video-admin-submit {
-  font-family: "BrandonRegular" !important;
-  margin: 16px !important;
-  margin: 1rem !important; }
-
-#login-container {
-  width: 50%;
-  margin: 32px auto;
-  margin: 2rem auto;
-  max-width: 700px; }
-  #login-container #login-form {
-    padding: 10%; }
 
 .cmp-footer {
   position: fixed;

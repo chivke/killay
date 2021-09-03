@@ -1,10 +1,5 @@
+@import "common.scss";
 @import "formset_list.scss";
 @import "navbar.scss";
 @import "video.scss";
 @import "users.scss";
-
-#site-configuration-container {
-  padding: 5% 15%;
-  flex-basis: 100%;
-  font-family: "BrandonRegular";
-}

@@ -11,6 +11,7 @@ from cmpirque.admin.forms import SiteConfigurationForm, SocialMediaFormSet
 class SiteConfigurationUpdateView(AdminRequiredMixin, UpdateView):
     form_class = SiteConfigurationForm
     formset_class = SocialMediaFormSet
+    template_name = "admin/site_configuration.html"
 
     def get_object(self):
         return SiteConfiguration.objects.current()

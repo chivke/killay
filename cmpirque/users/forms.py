@@ -1,8 +1,6 @@
 from django.contrib.auth import forms, get_user_model
 from django.core.exceptions import ValidationError
-from django.core.mail import EmailMultiAlternatives
 from django.utils.translation import gettext_lazy as _
-from django.template import loader
 
 User = get_user_model()
 
@@ -15,6 +13,14 @@ class UserChangeForm(forms.UserChangeForm):
     password = None
 
 
+class UserUpdateForm(forms.UserChangeForm):
+    class Meta(forms.UserChangeForm.Meta):
+        model = User
+        fields = ["email", "is_superuser"]
+
+    password = None
+
+
 class UserCreationForm(forms.UserCreationForm):
 
     error_message = forms.UserCreationForm.error_messages.update(
@@ -23,6 +29,7 @@ class UserCreationForm(forms.UserCreationForm):
 
     class Meta(forms.UserCreationForm.Meta):
         model = User
+        fields = ["username", "email", "is_superuser"]
 
     def clean_username(self):
         username = self.cleaned_data["username"]

@@ -83,6 +83,8 @@ video_delete_view = VideoDeleteView.as_view()
 
 
 class VideoCreateView(VideoAdminMixin, CreateView):
+    template_name = "admin/videos/video_form.html"
+
     def post(self, request, *args, **kwargs):
         self.object = None
         return self.validate_forms()
@@ -102,6 +104,8 @@ video_create_view = VideoCreateView.as_view()
 
 
 class VideoUpdateView(VideoAdminMixin, UpdateView):
+    template_name = "admin/videos/video_form.html"
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return self.validate_forms()
@@ -125,6 +129,7 @@ class VideoSequenceList(AdminRequiredMixin, UpdateView):
     fields = ["code"]
     template_name_suffix = "_sequences_list"
     formset_class = VideoSequenceFormSet
+    template_name = "admin/videos/video_sequences_list.html"
 
     def get_success_url(self):
         return reverse("admin:videos_sequences_list", kwargs={"slug": self.object.code})
@@ -164,6 +169,7 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
     slug_field = "code"
     template_name_suffix = "_categorization"
     form_class = VideoCategorizationForm
+    template_name = "admin/videos/video_categorization.html"
 
     def get_success_url(self):
         return reverse("admin:videos_categorization", kwargs={"slug": self.object.code})

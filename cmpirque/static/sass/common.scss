@@ -12,6 +12,10 @@
   src: url("../fonts/BrandonGrotesque-Light.otf");
 }
 
+h1 {
+  font-family: "BrandonLight" important!;
+}
+
 .base-content-container {
   display: flex;
 }
@@ -19,4 +23,9 @@
 
 .footer-spacer {
   padding: 4rem;
+}
+
+.admin-submit {
+  font-family: "BrandonBlack" !important;
+  margin: 1rem !important;
 }

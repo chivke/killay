@@ -1,12 +1,8 @@
 
 @import 'common.scss';
-@import 'admin_navbar.scss';
-@import 'navbar.scss';
-@import 'video_detail.scss';
-@import 'video_gallery.scss';
-@import 'video_admin.scss';
-@import 'auth.scss';
-
+@import 'components/index.scss';
+@import 'admin/index.scss';
+@import 'videos/index.scss';
 
 .cmp-footer {
   position: fixed;

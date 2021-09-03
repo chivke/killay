@@ -77,6 +77,7 @@ class VideoAdminMixin(AdminRequiredMixin):
 
 class VideoDeleteView(VideoAdminMixin, DeleteView):
     success_url = reverse_lazy("home")
+    template_name = "admin/videos/video_delete.html"
 
 
 video_delete_view = VideoDeleteView.as_view()
@@ -216,8 +217,8 @@ class FormSetListMixin(AdminRequiredMixin, ListView):
         kwargs["label_plural"] = self.label_plural
         kwargs["query_search"] = self.query_search
         context = super().get_context_data()
-        if "formset" not in kwargs and "object_list" in context:
-            kwargs["formset"] = self.formset_class(queryset=context["object_list"])
+        if "formset" not in kwargs:
+            kwargs["formset"] = self.formset_class(queryset=self.object_list)
         return {**context, **kwargs}
 
     def post(self, request, *args, **kwargs):
@@ -241,12 +242,14 @@ class FormSetListMixin(AdminRequiredMixin, ListView):
         return queryset
 
     def get_success_url(self):
-        url = reverse(self.reverse_url)
+        url = reverse(self.reverse_url) + "?"
         if self.query_search:
-            url += f"?q={self.query_search}"
+            url += f"q={self.query_search}"
         page_number = self.request.POST.get("page_number")
-        if page_number:
-            url += f"&page={page_number}"
+        if str(page_number).isnumeric():
+            if url[-1] != "?":
+                url += "&"
+            url += f"page={page_number}"
         return url
 
     def formset_valid(self, formset):

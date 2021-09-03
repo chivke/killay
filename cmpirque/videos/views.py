@@ -38,6 +38,8 @@ video_list_view = VideoListView.as_view()
 
 class CategorizationMixin(PublishRequiredMixin):
     paginate_by = 50
+    template_name = "videos/video_filtered_list.html"
+    slug_field = "slug"
 
     def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(*args, **kwargs)
@@ -55,7 +57,6 @@ class CategorizationMixin(PublishRequiredMixin):
 
 class VideoCategoryDetailView(CategorizationMixin, DetailView):
     model = VideoCategory
-    slug_field = "slug"
 
 
 video_category_list_view = VideoCategoryDetailView.as_view()
@@ -63,7 +64,6 @@ video_category_list_view = VideoCategoryDetailView.as_view()
 
 class VideoPersonDetailView(CategorizationMixin, DetailView):
     model = VideoPerson
-    slug_field = "slug"
 
 
 video_person_list_view = VideoPersonDetailView.as_view()
@@ -71,7 +71,6 @@ video_person_list_view = VideoPersonDetailView.as_view()
 
 class VideoKeywordDetailView(CategorizationMixin, DetailView):
     model = VideoKeyword
-    slug_field = "slug"
 
 
 video_keyword_list_view = VideoKeywordDetailView.as_view()

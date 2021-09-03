@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  {% include "admin/components/sidebar.html" %}
+  <div id="users-admin-container">
+    <h1 class="header">{% trans "User Administration" %}</h1>
+    <div class="ui divider"></div>
+    <a class="ui button admin-submit" href="{% url 'admin:users_create' %}">{% trans "Create User" %}</a>
+    <table class="ui celled table">
+      <thead>
+        <tr id="video-users-head-fields">
+          <th>#</th>
+          <th>{% trans "Username" %}</th>
+          <th>{% trans "Email" %}</th>
+          <th>{% trans "Is superuser" %}</th>
+          <th>{% trans "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody id="video-users-tbody">
+        {% for user in object_list %}
+          <tr>
+            <td class="field">{{forloop.counter}}</td>
+            <td class="field">{{user.username}}</td>
+            <td class="field">{{user.email}}</td>
+            <td class="field">{{user.is_superuser}}</td>
+            <td class="field">
+            	<a class="ui button admin-submit" href="{% url 'admin:users_update' user.username %} ">
+            	  {% trans "Update" %}
+            	</a>
+            	<a class="ui button admin-submit" href="{% url 'admin:users_delete' user.username %} ">
+            	  {% trans "Delete" %}
+            	</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

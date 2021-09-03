@@ -1,0 +1,38 @@
+
+<nav class="ui pointing menu" id="admin-navbar">
+  <a class="{{ admin_conf.css_class }}" href="{{ admin_conf.link }}"
+    >{{ admin_conf.name }}
+  </a>
+  <a class="{{ user_conf.css_class }}" href="{{ user_conf.link }}"
+    >{{ user_conf.name }}
+  </a>
+  {% if video_admin.selected %}
+    <a class="{{ video_admin.public.css_class }}" href="{{ video_admin.public.link }}"
+      >{{ video_admin.public.name }}
+    </a>
+    <a class="{{ video_admin.update.css_class }}" href="{{ video_admin.update.link }}"
+      >{{ video_admin.update.name }}
+    </a>
+    <a class="{{ video_admin.sequences_list.css_class }}" href="{{ video_admin.sequences_list.link }}"
+      >{{ video_admin.sequences_list.name }}
+    </a>
+    <a class="{{ video_admin.categorization.css_class }}" href="{{ video_admin.categorization.link }}"
+      >{{ video_admin.categorization.name }}
+    </a>
+  {% endif %}
+
+  <div class="right menu">
+    <a class="{{ video_admin.create.css_class }}" href="{{ video_admin.create.link }}"
+      >{{ video_admin.create.name }}
+    </a>
+    <a class="{{ video_admin.categories.css_class }}" href="{{ video_admin.categories.link }}"
+      >{{ video_admin.categories.name }}
+    </a>
+    <a class="{{ video_admin.people.css_class }}" href="{{ video_admin.people.link }}"
+      >{{ video_admin.people.name }}
+    </a>
+    <a class="{{ video_admin.keywords.css_class }}" href="{{ video_admin.keywords.link }}"
+      >{{ video_admin.keywords.name }}
+    </a>
+  </div>
+</nav>

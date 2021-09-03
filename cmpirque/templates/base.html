@@ -20,7 +20,7 @@
   </head>
   <body>
     {% include 'components/navbar.html' %}
-    {% if user.is_superuser %}
+    {% if request.user.is_superuser %}
       {% show_admin_navbar %}
     {% endif %}
     <div class="base-content-messages">

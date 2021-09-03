@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block content %}
+  {% include "admin/components/sidebar.html" %}
   <div id="video-admin-container" class="ui segment">
     <h1 class="ui dividing header">
       {% if object.code %}

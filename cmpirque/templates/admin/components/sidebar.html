@@ -1,0 +1,15 @@
+{% load i18n %}
+
+{% with request.resolver_match.view_name as view_name %}
+<div id="admin-sidebar" class="ui secondary vertical pointing menu">
+  <a
+    class="item {% if view_name == 'admin:configuration' %} active{% endif %}"
+    href="{% url 'admin:configuration' %}"
+  >{% trans "Site Configuration" %}
+  </a>
+  <a class="item {% if view_name == 'admin:users_list' %} active{% endif %}"
+    href="{% url 'admin:users_list' %}">
+    {% trans "Users" %}
+  </a>
+</div>
+{% endwith %}

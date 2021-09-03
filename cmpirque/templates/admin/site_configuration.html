@@ -1,35 +1,34 @@
 {% extends "base.html" %}
-
+{% load i18n %}
 {% block content %}
+  {% include "admin/components/sidebar.html" %}
+  <div id="site-configuration-container" class="ui segment">
+    <h1 class="ui dividing header">{% trans "Site Configuration" %}</h1>
 
-  <div id="admin-configuration-container" class="ui segment">
     <form id="admin-configuration-main-segment" class="ui form" method="post">
-      <h1 class="ui dividing header">Admin Configuration</h1>
       {% csrf_token %}
-      <div id="video-form" class="">
-        <h4 class="ui dividing header">System fields</h4>
-        {{ form.managment_form }}
-          {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-          {% endfor %}
-        {% for field in form.visible_fields %}
-          <div class="field {% if field.errors %}error{% endif %}">
-            {% if field.name == "is_published" %}
-              <div class="ui slider checkbox">
-                <label>{{field.label}}</label>
-                {{field}}
-              </div>
-            {% else %}
+
+      <h4 class="ui dividing header">{% trans "System fields" %}</h4>
+      {{ form.managment_form }}
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
+      {% for field in form.visible_fields %}
+        <div class="field {% if field.errors %}error{% endif %}">
+          {% if field.name == "is_published" %}
+            <div class="ui slider checkbox">
               <label>{{field.label}}</label>
               {{field}}
-            {% endif %}
-            {% if field.errors %}
-                <div class="ui error message">{{field.errors}}</div>
-            {% endif %}
-          </div>
-        {% endfor %}
-      </div>
-      <div class="ui segment" id="socialmedia-formset-container">
+            </div>
+          {% else %}
+            <label>{{field.label}}</label>
+            {{field}}
+          {% endif %}
+          {% if field.errors %}
+              <div class="ui error message">{{field.errors}}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
         <h4 class="ui dividing header">Social Media</h4>
         {{ formset.management_form }}
         <table class="ui celled table">
@@ -68,8 +67,7 @@
             {% endfor %}
           </tbody>
         </table>
-      </div>
-      <input type="submit" class="ui button" value="Save">
+      <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
     </form>
   </div>
 

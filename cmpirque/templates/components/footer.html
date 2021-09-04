@@ -1,21 +1,47 @@
-{% load static %}
-
-<div class="footer-spacer"></div>
-<div class="cmp-footer">
-    <div class="ui footer-left images">
-        <img class="footer-logo" alt="logo del museo precolombino" src="{% static 'images/logos/logo_museo_2019_BN.png' %}">
-        <img class="footer-logo" alt="logo de fundación origen" src="{% static 'images/logos/logo_escuela_1.png' %}">
-        <img class="footer-logo" alt="logo de escuela agroecológica" src="{% static 'images/logos/logo_escuela_2.png' %}">
-        <img class="footer-logo" alt="logo fondart" src="{% static 'images/logos/logo_fondart.png' %}">
-    </div>
-    <div class="ui footer-right">
-      <a class="link text" href="/saber-mas">Saber más</a>
-      {% for social_media in site_conf.social_medias.all %}
-        <a class="link icon item" href="{{social_media.url}}">
-          {% if not social_media.css_class %}
-            <i class="borderer link {{social_media.provider}} icon"></i>
-          {% endif %}
-        </a>
+{% load static i18n %}
+{% if site_conf.footer_is_visible %}
+  <div class="footer-spacer"></div>
+  <div class="cmp-footer">
+      <div class="ui footer-left images">
+      {% for logo in site_conf.logos.all %}
+        {% if logo.is_visible or request.user.is_authenticated %}
+          <img class="ui image footer-logo {% if not logo.is_visible %}disabled{% endif %}" alt="{{logo.name}}" src="{{logo.image.url}}">
+        {% endif %}
       {% endfor %}
-    </div>
-</div>
+      </div>
+
+      <div class="ui footer-right">
+        {% for page in menu_pages %}
+          {% if page.is_visible or request.user.is_authenticated %}
+            {% if page.is_visible_in_footer %}
+              <a
+                class="link {% if not social_media.is_visible %}not-public{% endif %}"
+                href="{{page.url}}"
+                {% if not page.is_visible %}
+                  data-tooltip="{% trans 'It is not visible' %}"
+                {% endif %}
+              >{{page.title}}
+              </a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% for social_media in site_conf.social_medias.all %}
+          {% if social_media.is_visible or request.user.is_authenticated %}
+            <a
+              class="link icon item"
+              href="{{social_media.url}}"
+              {% if not social_media.is_visible %}
+                data-tooltip="{% trans 'It is not visible' %}"
+              {% endif %}
+            >
+              {% if not social_media.css_class %}
+                <i class="borderer link {{social_media.provider}} icon"></i>
+              {% else %}
+                <i class="{{social_media.css_class}}"></i>
+              {% endif %}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+  </div>
+{% endif %}

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block sidebar %}
+  {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
+  <div id="admin-main-container">
+    <h1 class="ui dividing header">{% trans "Site Configuration" %}</h1>
+    <form
+      class="ui form"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %}
+      <h4 class="ui dividing header">{% trans "System fields" %}</h4>
+      {{ form.managment_form }}
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
+      {% for field in form.visible_fields %}
+        <div class="field {% if field.errors %}error{% endif %}">
+          {% if field.field.widget.input_type == "checkbox" %}
+            <div class="ui slider checkbox">
+              <label>{{field.label}}</label>
+              {{field}}
+            </div>
+          {% else %}
+            <label>{{field.label}}</label>
+            {{field}}
+          {% endif %}
+          {% if field.errors %}
+              <div class="ui error message">{{field.errors}}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <h4 class="ui dividing header">{% trans "Social Media" %}</h4>
+      {{ formset.management_form }}
+      <table class="ui celled table">
+        <thead>
+          <tr>
+            {% for form in formset %}
+              {% if forloop.first %}
+                {% for field in form.visible_fields %}
+                  <th>{{field.label}}</th>
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for form in formset %}
+            <tr>
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+              {% for field in form.visible_fields %}
+                <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
+                  {% if field.field.widget.input_type == "checkbox" %}
+                    <div class="ui slider checkbox">
+                      {{field}}
+                    </div>
+                  {% else %}
+                    {{ field }}
+                  {% endif %}
+                  {% if field.errors %}
+                    <div class="ui error message">{{field.errors}}</div>
+                  {% endif %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
+      <h4 class="ui dividing header">{% trans "Logos" %}</h4>
+      {{ logo_formset.management_form }}
+      <table class="ui celled table">
+        <thead>
+          <tr>
+            {% for form in logo_formset %}
+              {% if forloop.first %}
+                {% for field in form.visible_fields %}
+                  <th>{{field.label}}</th>
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for form in logo_formset %}
+            <tr>
+              {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+              {% endfor %}
+              {% for field in form.visible_fields %}
+                <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
+                  {% if field.field.widget.input_type == "checkbox" %}
+                    <div class="ui slider checkbox">
+                      {{field}}
+                    </div>
+                  {% else %}
+                    {{ field }}
+                  {% endif %}
+                  {% if field.errors %}
+                    <div class="ui error message">{{field.errors}}</div>
+                  {% endif %}
+                </td>
+              {% endfor %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
+    </form>
+  </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+  $('.ui.checkbox')
+    .checkbox()
+  ;
+</script>
+{% endblock extra_js %}

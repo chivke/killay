@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block sidebar %}
+  {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
+  <div id="admin-main-container">
+    <h1 class="ui dividing header">{% trans "Categorization" %}</h1>
+    <div class="ui fields">
+      <div class="field">
+        <label>{% trans "Code" %}:</label> {{object.code}}
+      </div>
+      <div class="field">
+        <label>{% trans "Title" %}:</label> {{object.meta.title}}
+      </div>
+    </div>
+    <br>
+    <form class="ui form"method="post">
+      {% csrf_token %}
+      {{ form.managment_form }}
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
+      <div class="field">
+        <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
+      </div>
+      {% for field in form.visible_fields %}
+        <div class="field {% if field.errors %}error{% endif %}">
+          <label>{% trans field.label %}</label>
+          {{field}}
+          {% if field.errors %}
+            <div class="ui pointing red basic label">
+              {% for error in field.errors %}{{error}}{% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    <div class="field">
+      <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
+    </div>
+  </form>
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+  $('.ui.dropdown')
+    .dropdown()
+  ;
+</script>
+{% endblock extra_js %}

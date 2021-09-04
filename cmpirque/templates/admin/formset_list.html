@@ -6,8 +6,12 @@
   {{formset_title}}
 {% endblock title %}
 
+{% block sidebar %}
+  {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
 {% block content %}
-  <div id="formset-list-container" class="ui segment">
+  <div id="admin-main-container">
     <h1 class="ui dividing header">{{formset_title}}</h1>
     <div class="inline fields">
       <div class="field">
@@ -17,7 +21,7 @@
         {{total_of_objects }}
       </div>
     </div>
-
+    <div class="ui divider"></div>
     <div class="formset-list-actions segment">
       <form
         id="searchform"
@@ -32,19 +36,22 @@
           </button>
         </div>
       </form>
-      {% if is_paginated %}
-        <div class="ui pagination menu">
-          {% include "components/paginator.html" %}
-        </div>
-      {% endif %}
+      <div class="ui divider"></div>
     </div>
 
     <form class="ui form" method="post">
       {% csrf_token %}
       {{formset.management_form}}
-      <input type="hidden" name="query_search" value="{{query_search}}">
-      <input type="hidden" name="page_number" value="{{page_obj.number}}">
-      <input type="submit" class="ui button" value="{% trans "Save" %}">
+      <input type="hidden" name="query_search" value="{% if query_search %}{{query_search}}{% endif %}">
+      <input type="hidden" name="page_number" value="{% if page_obj.has_previous or page_obj.has_next %}{{page_obj.number}}{% endif %}">
+      <div id="formset-list-footer-pagination">
+        <input type="submit" class="ui button" value="{% trans 'Save' %}">
+        {% if is_paginated %}
+          <div class="ui pagination menu">
+            {% include "components/paginator.html" %}
+          </div>
+        {% endif %}
+      </div>
       <table class="ui celled table">
         <thead>
           <tr id="video-{{label_plural}}-head-fields">

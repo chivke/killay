@@ -4,7 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.utils.translation import gettext
 
-from cmpirque.admin.mixins import AdminRequiredMixin
+from cmpirque.admin.mixins import AdminRequiredMixin, AdminDeleteMixin
 
 from cmpirque.videos.forms import (
     VideoForm,
@@ -75,14 +75,18 @@ class VideoAdminMixin(AdminRequiredMixin):
         return context
 
 
-class VideoDeleteView(VideoAdminMixin, DeleteView):
-    success_url = reverse_lazy("home")
+class VideoDeleteView(AdminDeleteMixin):
+    model = Video
+    slug_field = "code"
+    reverse_success_url = "admin:configuration"
 
 
 video_delete_view = VideoDeleteView.as_view()
 
 
 class VideoCreateView(VideoAdminMixin, CreateView):
+    template_name = "admin/videos/video_form.html"
+
     def post(self, request, *args, **kwargs):
         self.object = None
         return self.validate_forms()
@@ -102,6 +106,8 @@ video_create_view = VideoCreateView.as_view()
 
 
 class VideoUpdateView(VideoAdminMixin, UpdateView):
+    template_name = "admin/videos/video_form.html"
+
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         return self.validate_forms()
@@ -125,6 +131,7 @@ class VideoSequenceList(AdminRequiredMixin, UpdateView):
     fields = ["code"]
     template_name_suffix = "_sequences_list"
     formset_class = VideoSequenceFormSet
+    template_name = "admin/videos/video_sequences_list.html"
 
     def get_success_url(self):
         return reverse("admin:videos_sequences_list", kwargs={"slug": self.object.code})
@@ -164,6 +171,7 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
     slug_field = "code"
     template_name_suffix = "_categorization"
     form_class = VideoCategorizationForm
+    template_name = "admin/videos/video_categorization.html"
 
     def get_success_url(self):
         return reverse("admin:videos_categorization", kwargs={"slug": self.object.code})
@@ -235,12 +243,14 @@ class FormSetListMixin(AdminRequiredMixin, ListView):
         return queryset
 
     def get_success_url(self):
-        url = reverse(self.reverse_url)
+        url = reverse(self.reverse_url) + "?"
         if self.query_search:
-            url += f"?q={self.query_search}"
+            url += f"q={self.query_search}"
         page_number = self.request.POST.get("page_number")
-        if page_number:
-            url += f"&page={page_number}"
+        if str(page_number).isnumeric():
+            if url[-1] != "?":
+                url += "&"
+            url += f"page={page_number}"
         return url
 
     def formset_valid(self, formset):

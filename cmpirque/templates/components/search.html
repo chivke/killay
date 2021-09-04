@@ -2,7 +2,6 @@
 
 
   <form
-    class="item"
     id="searchform"
     action="{% url 'videos:search' %}"
     method="get" accept-charset="utf-8"
@@ -10,6 +9,7 @@
     <div class="ui inverted transparent icon input">
       <input
         id="searchbox"
+        class="prompt"
         name="q"
         type="text"
         placeholder="{% trans 'Search' %}"
@@ -18,5 +18,6 @@
       <button class="circular black nverted ui icon button" type="submit">
         <i class="inverted circular search link icon"></i>
       </button>
+
     </div>
   </form>

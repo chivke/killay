@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>{% block title %}{{ site_name }}{% endblock title %}</title>
+    <title>{% block title %}{{ site_conf.name }}{% endblock title %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="author" content="chivke">
     <!--[if lt IE 9]>
@@ -20,21 +20,27 @@
   </head>
   <body>
     {% include 'components/navbar.html' %}
-    {% if user.is_superuser %}
+    {% if request.user.is_superuser %}
       {% show_admin_navbar %}
     {% endif %}
-    <div class="base-content-messages">
-      {% if messages %}
-        {% for message in messages %}
-            <div class="ui message {% if message.tags %}{{ message.tags }}{% endif %}">
-              <i class="close icon"></i>
-              <div class="header">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    </div>
+
     <div class="base-content-container">
-      {% block content %}
-      {% endblock content %}
+      {% block sidebar %}
+      {% endblock sidebar %}
+      <div id="block-content-container">
+        <div class="base-content-messages">
+          {% if messages %}
+            {% for message in messages %}
+                <div class="ui message {% if message.tags %}{{ message.tags }}{% endif %}">
+                  <i class="close icon"></i>
+                  <div class="header">{{ message }}</div>
+                </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        {% block content %}
+        {% endblock content %}
+      </div>
     </div>
     {% include 'components/footer.html' %}
     {% block modal %}{% endblock modal %}
@@ -50,6 +56,8 @@
               .transition('fade')
             ;
           });
+        $('.activating.element')
+          .popup();
       </script>
     {% endblock javascript %}
     {% block extra_js %}

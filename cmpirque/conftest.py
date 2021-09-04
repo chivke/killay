@@ -4,6 +4,7 @@ from typing import List
 
 from django.contrib.messages.storage.fallback import FallbackStorage
 from django.contrib.sessions.middleware import SessionMiddleware
+from django.core.files.uploadedfile import SimpleUploadedFile
 
 from cmpirque.users.models import User
 from cmpirque.users.tests.factories import UserFactory, UserAdminFactory
@@ -120,3 +121,8 @@ def video_sequence(video: Video) -> VideoSequence:
 @pytest.fixture
 def video_sequences(video: Video) -> List[VideoSequence]:
     return VideoSequenceFactory.create_batch(5, video_id=video.id)
+
+
+@pytest.fixture
+def image():
+    return SimpleUploadedFile("image.jpg", b"fake content", content_type="image/jpg")

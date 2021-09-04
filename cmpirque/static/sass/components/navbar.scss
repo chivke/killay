@@ -1,0 +1,20 @@
+
+#site-navbar {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  font-family: "BrandonRegular";
+
+  .text {
+  	font-size: 1.2rem;
+  	text-transform: uppercase;
+  	font-family: "BrandonRegular";
+  }
+  .item {
+    font-family: "BrandonRegular";
+  }
+  .ui.segment {
+  	width: 100%;
+    padding: .5rem;
+  }
+}

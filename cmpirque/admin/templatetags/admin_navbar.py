@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy
 register = template.Library()
 
 
-@register.inclusion_tag("components/admin_navbar.html", takes_context=True)
+@register.inclusion_tag("admin/components/navbar.html", takes_context=True)
 def show_admin_navbar(context):
     def _get_css_class(view, view_code):
         css_class = "item"
@@ -27,11 +27,6 @@ def show_admin_navbar(context):
             "link": reverse("admin:configuration"),
             "css_class": "header " + _get_css_class(view_name, "admin:configuration"),
         },
-        "user_conf": {
-            "name": f"@{request.user.username}",
-            "link": reverse("users:detail", kwargs={"username": request.user.username}),
-            "css_class": _get_css_class(view_name, "users:detail"),
-        },
         "video_admin": {
             video_admin_link[0]: {
                 "name": video_admin_link[1],
@@ -43,7 +38,7 @@ def show_admin_navbar(context):
     }
     if view_name in ["videos:detail"] + [
         f"admin:videos_{code}"
-        for code in ["update", "sequences_list", "categorization"]
+        for code in ["update", "delete", "sequences_list", "categorization"]
     ]:
         video_obj = context["object"]
         detail_video_admin_links = [
@@ -67,5 +62,6 @@ def show_admin_navbar(context):
                 "name": video_admin_link[1],
                 "link": reverse(video_admin_link[2], kwargs={"slug": video_obj.code}),
                 "css_class": _get_css_class(view_name, video_admin_link[2]),
+                "selected": True,
             }
     return navbar_context

@@ -19,15 +19,12 @@ class TestCategoriesContext:
         assert menu_categories[0]["selected"]
 
     def test_not_selected(self, rf: RequestFactory, video_category: VideoCategory):
-        second_category = VideoCategoryFactory()
+        VideoCategoryFactory()
         request = rf.get(f"/videos/category/{video_category.slug}/")
         menu_categories = categories_context(request)["menu_categories"]
         assert len(menu_categories) == 3
-        assert menu_categories[0]["name"] == video_category.name
-        assert menu_categories[0]["slug"] == video_category.slug
-        assert menu_categories[0]["url"] == video_category.get_absolute_url()
-        assert menu_categories[0]["selected"]
-        assert menu_categories[1]["name"] == second_category.name
-        assert menu_categories[1]["slug"] == second_category.slug
-        assert menu_categories[1]["url"] == second_category.get_absolute_url()
-        assert not menu_categories[1]["selected"]
+        for menu_categoy in menu_categories:
+            if "slug" in menu_categoy and menu_categoy["slug"] == video_category.slug:
+                assert menu_categoy["selected"]
+            else:
+                assert not menu_categoy["selected"]

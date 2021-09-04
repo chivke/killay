@@ -12,7 +12,26 @@
   src: url("../fonts/BrandonGrotesque-Light.otf");
 }
 
+h1 {
+  font-family: "BrandonLight" !important;
+}
+
+.base-content-container {
+  display: flex;
+}
+
 
 .footer-spacer {
   padding: 4rem;
+}
+
+.base-content-messages {
+  text-align: center;
+  padding-bottom: 2rem;
+  margin: auto;
+  max-width: 70%;
+}
+
+#block-content-container {
+  flex-basis: 100%
 }

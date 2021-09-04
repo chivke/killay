@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+
+  <div id="login-container">
+    {% if form.errors %}
+    <div class="ui message error">
+      <i class="close icon"></i>
+      <div class="header">
+        {% trans "Your username and password didn't match. Please try again." %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+            <div class="ui message error">
+              <i class="close icon"></i>
+              <div class="header">
+                {% trans "Your account doesn't have access to this page. To proceed, please login with an account that has access." %}
+              </div>
+            </div>
+        {% else %}
+          <div class="ui message info">
+            <i class="close icon"></i>
+            <div class="header">
+              {% trans "Please login to see this page." %}
+            </div>
+          </div>
+        {% endif %}
+    {% endif %}
+
+    <form id="login-form" method="post" action="{% url 'users:login' %}" class="ui form">
+      {% csrf_token %}
+      <div class="field">
+        <label>{{ form.username.label_tag }}</label>
+        {{ form.username }}
+      </div>
+      <div class="field">
+        <label>{{ form.password.label_tag }}</label>
+        {{ form.password }}
+      </div>
+
+      <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
+      <input type="hidden" name="next" value="{{ next }}">
+      <div class="field link">
+        <a class="link" href="{% url 'users:password_reset' %}">{% trans "Restore password" %}</a>
+      </div>
+    </form>
+
+  </div>
+
+{% endblock %}

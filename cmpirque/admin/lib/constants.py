@@ -1,4 +1,4 @@
-class AdminConfigurationConstants:
+class SiteConfigurationConstants:
     FACEBOOK = "facebook"
     TWITTER = "twitter"
     INSTAGRAM = "instagram"

@@ -1,0 +1,26 @@
+#site-configuration-container {
+  padding: 5% 15%;
+  flex-basis: 100%;
+  font-family: "BrandonRegular";
+}
+
+#admin-main-container {
+  padding: 0 15%;
+  flex-basis: 100%;
+  font-family: "BrandonRegular";
+  max-width: 1200px;
+
+  h1,h4 {
+    font-family: "BrandonRegular" !important;
+  }
+}
+
+#admin-sidebar {
+  font-family: "BrandonRegular" !important;
+}
+
+.admin-submit {
+  font-family: "BrandonRegular" !important;
+  margin: 1rem !important;
+}
+

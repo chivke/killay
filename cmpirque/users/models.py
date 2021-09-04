@@ -17,6 +17,3 @@ class User(AbstractUser):
     def __str__(self):
         is_admin = " (admin)" if self.is_superuser else ""
         return f"{self.username}{is_admin}"
-
-    def get_absolute_url(self):
-        return reverse("users:detail", kwargs={"username": self.username})

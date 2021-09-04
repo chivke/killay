@@ -3,7 +3,7 @@ import pytest
 from django.test import RequestFactory
 from django.urls import resolve
 
-from cmpirque.admin.models import AdminConfiguration
+from cmpirque.admin.models import SiteConfiguration
 from cmpirque.admin.views.configuration import admin_configuration_view
 
 from cmpirque.users.models import User
@@ -21,8 +21,12 @@ SOCIALMEDIA_FORMSET_DATA = {
     "social_medias-0-is_visible": True,
 }
 
+LOGO_FORMSET_DATA = {"logos-INITIAL_FORMS": "0", "logos-TOTAL_FORMS": "0"}
 
-class TestAdminConfigurationView:
+SITE_CONF_DATA = {**SOCIALMEDIA_FORMSET_DATA, **LOGO_FORMSET_DATA}
+
+
+class TestSiteConfigurationView:
     def test_get(self, admin_user: User, rf: RequestFactory):
         request = rf.get("/admin/")
         request.resolver_match = resolve("/admin/")
@@ -32,12 +36,12 @@ class TestAdminConfigurationView:
         assert response.status_code == 200
 
     def test_update(self, admin_user: User, rf: RequestFactory):
-        data = {"site_name": "Other site name", "is_published": False}
-        request = rf.post("/admin/", {**data, **SOCIALMEDIA_FORMSET_DATA})
+        data = {"name": "Other site name", "domain": "ex.org", "is_published": False}
+        request = rf.post("/admin/", {**data, **SITE_CONF_DATA})
         request.user = admin_user
         response = admin_configuration_view(request)
         assert response.status_code == 302
-        conf = AdminConfiguration.objects.current()
+        conf = SiteConfiguration.objects.current()
         for field, value in data.items():
             assert getattr(conf, field) == value
         social_media = conf.social_medias.first()
@@ -49,7 +53,7 @@ class TestAdminConfigurationView:
     def test_update_fail(self, admin_user: User, rf: RequestFactory):
         data = {**SOCIALMEDIA_FORMSET_DATA}
         data.pop("social_medias-0-provider")
-        request = rf.post("/admin/", SOCIALMEDIA_FORMSET_DATA)
+        request = rf.post("/admin/", SITE_CONF_DATA)
         request.user = admin_user
         response = admin_configuration_view(request)
         assert response.status_code == 200

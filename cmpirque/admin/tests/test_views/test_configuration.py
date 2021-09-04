@@ -21,6 +21,10 @@ SOCIALMEDIA_FORMSET_DATA = {
     "social_medias-0-is_visible": True,
 }
 
+LOGO_FORMSET_DATA = {"logos-INITIAL_FORMS": "0", "logos-TOTAL_FORMS": "0"}
+
+SITE_CONF_DATA = {**SOCIALMEDIA_FORMSET_DATA, **LOGO_FORMSET_DATA}
+
 
 class TestSiteConfigurationView:
     def test_get(self, admin_user: User, rf: RequestFactory):
@@ -33,7 +37,7 @@ class TestSiteConfigurationView:
 
     def test_update(self, admin_user: User, rf: RequestFactory):
         data = {"name": "Other site name", "domain": "ex.org", "is_published": False}
-        request = rf.post("/admin/", {**data, **SOCIALMEDIA_FORMSET_DATA})
+        request = rf.post("/admin/", {**data, **SITE_CONF_DATA})
         request.user = admin_user
         response = admin_configuration_view(request)
         assert response.status_code == 302
@@ -49,7 +53,7 @@ class TestSiteConfigurationView:
     def test_update_fail(self, admin_user: User, rf: RequestFactory):
         data = {**SOCIALMEDIA_FORMSET_DATA}
         data.pop("social_medias-0-provider")
-        request = rf.post("/admin/", SOCIALMEDIA_FORMSET_DATA)
+        request = rf.post("/admin/", SITE_CONF_DATA)
         request.user = admin_user
         response = admin_configuration_view(request)
         assert response.status_code == 200

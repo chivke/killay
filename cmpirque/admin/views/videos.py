@@ -4,7 +4,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.utils.translation import gettext
 
-from cmpirque.admin.mixins import AdminRequiredMixin
+from cmpirque.admin.mixins import AdminRequiredMixin, AdminDeleteMixin
 
 from cmpirque.videos.forms import (
     VideoForm,
@@ -75,9 +75,10 @@ class VideoAdminMixin(AdminRequiredMixin):
         return context
 
 
-class VideoDeleteView(VideoAdminMixin, DeleteView):
-    success_url = reverse_lazy("home")
-    template_name = "admin/videos/video_delete.html"
+class VideoDeleteView(AdminDeleteMixin):
+    model = Video
+    slug_field = "code"
+    reverse_success_url = "admin:configuration"
 
 
 video_delete_view = VideoDeleteView.as_view()
@@ -217,8 +218,8 @@ class FormSetListMixin(AdminRequiredMixin, ListView):
         kwargs["label_plural"] = self.label_plural
         kwargs["query_search"] = self.query_search
         context = super().get_context_data()
-        if "formset" not in kwargs:
-            kwargs["formset"] = self.formset_class(queryset=self.object_list)
+        if "formset" not in kwargs and "object_list" in context:
+            kwargs["formset"] = self.formset_class(queryset=context["object_list"])
         return {**context, **kwargs}
 
     def post(self, request, *args, **kwargs):

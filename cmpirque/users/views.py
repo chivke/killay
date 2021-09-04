@@ -47,6 +47,7 @@ user_redirect_view = UserRedirectView.as_view()
 
 class UserLoginView(auth_views.LoginView):
     redirect_authenticated_user = True
+    template_name = "users/login.html"
 
 
 user_login_view = UserLoginView.as_view()
@@ -54,6 +55,7 @@ user_login_view = UserLoginView.as_view()
 
 class UserPasswordResetView(auth_views.PasswordResetView):
     success_url = reverse_lazy("users:password_reset")
+    template_name = "users/password_reset_form.html"
 
     def form_valid(self, *args, **kwargs):
         messages.info(
@@ -67,6 +69,7 @@ user_password_reset_view = UserPasswordResetView.as_view()
 
 class UserPasswordResetConfirmView(auth_views.PasswordResetConfirmView):
     success_url = reverse_lazy("users:login")
+    template_name = "users/password_reset_confirm.html"
 
     def form_valid(self, *args, **kwargs):
         messages.info(self.request, gettext("Your password is now changed."))
@@ -78,6 +81,7 @@ user_password_reset_confirm_view = UserPasswordResetConfirmView.as_view()
 
 class UserPasswordChangeView(auth_views.PasswordChangeView):
     success_url = reverse_lazy("users:update")
+    template_name = "users/password_change_form.html"
 
     def form_valid(self, *args, **kwargs):
         messages.info(self.request, gettext("Your password is now changed."))

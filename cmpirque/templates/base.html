@@ -23,18 +23,24 @@
     {% if request.user.is_superuser %}
       {% show_admin_navbar %}
     {% endif %}
-    <div class="base-content-messages">
-      {% if messages %}
-        {% for message in messages %}
-            <div class="ui message {% if message.tags %}{{ message.tags }}{% endif %}">
-              <i class="close icon"></i>
-              <div class="header">{{ message }}</div>
-        {% endfor %}
-      {% endif %}
-    </div>
+
     <div class="base-content-container">
-      {% block content %}
-      {% endblock content %}
+      {% block sidebar %}
+      {% endblock sidebar %}
+      <div id="block-content-container">
+        <div class="base-content-messages">
+          {% if messages %}
+            {% for message in messages %}
+                <div class="ui message {% if message.tags %}{{ message.tags }}{% endif %}">
+                  <i class="close icon"></i>
+                  <div class="header">{{ message }}</div>
+                </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        {% block content %}
+        {% endblock content %}
+      </div>
     </div>
     {% include 'components/footer.html' %}
     {% block modal %}{% endblock modal %}

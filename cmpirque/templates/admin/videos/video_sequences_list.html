@@ -5,8 +5,11 @@
     {% trans "Video Sequences" %} ({{object.code}})
 {% endblock title %}
 
-{% block content %}
+{% block sidebar %}
   {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
   <div id="admin-main-container" >
     <h1 class="ui dividing header">{% trans "Sequences" %}</h1>
     <div class="fields">

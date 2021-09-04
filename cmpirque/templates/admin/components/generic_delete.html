@@ -2,8 +2,11 @@
 {% load i18n %}
 {% block title %}{{delete_title}}{% endblock %}
 
-{% block content %}
+{% block sidebar %}
   {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
   <div id="admin-main-container">
     <h2 class="headed">
       {% blocktrans %}

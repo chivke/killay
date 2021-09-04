@@ -3,8 +3,11 @@
 
 {% block title %}{{form_title}}{% endblock %}
 
-{% block content %}
+{% block sidebar %}
   {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
   <div id="admin-main-container">
     <form
       method="post"

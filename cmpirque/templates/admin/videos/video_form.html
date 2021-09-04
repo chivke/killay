@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block content %}
+
+{% block sidebar %}
   {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
   <div id="admin-main-container" >
     <h1 class="ui dividing header">
       {% if object.code %}
@@ -96,6 +100,11 @@
                         {% if form.instance.online %}
                           <i class="ui check green circle icon"></i>
                           {{form.instance.checked_at}}
+                          <a
+                            target="_blank"
+                            class="ui button"
+                            href="{{form.instance.video_url}}"
+                          >{% trans "Watch" %}</a>
                         {% else %}
                           <i class="ui exclamation red circle icon"></i>
                           {{form.instance.checked_at}}

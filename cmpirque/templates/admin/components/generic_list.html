@@ -3,8 +3,12 @@
 
 {% block title %}{{list_title}}{% endblock %}
 
-{% block content %}
+{% block sidebar %}
   {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+
+{% block content %}
   <div id="admin-main-container">
     <h1 class="header">{{list_title}}</h1>
     <div class="ui divider"></div>

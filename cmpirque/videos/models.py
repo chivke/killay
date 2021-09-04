@@ -1,11 +1,13 @@
 import requests
-from time import strptime
+from django.conf import settings
+from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
 from django.db import models, transaction
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
+from cmpirque.admin.utils import InSiteManager
 from cmpirque.videos.lib.constants import VideoProviderConstants
 from cmpirque.videos.utils import parse_sequences_from_vtt_file
 
@@ -23,11 +25,16 @@ class Video(models.Model):
     meta = models.OneToOneField(
         "VideoMeta", on_delete=models.CASCADE, related_name="video"
     )
+    site = models.ForeignKey(
+        Site, on_delete=models.CASCADE, related_name="videos", default=settings.SITE_ID
+    )
 
     class Meta:
         verbose_name = gettext_lazy("video")
         verbose_name_plural = gettext_lazy("videos")
         ordering = ["code"]
+
+    objects = InSiteManager()
 
     def __str__(self):
         return f"Video <{self.code}>"
@@ -89,8 +96,8 @@ class VideoMeta(models.Model):
     )
 
     class Meta:
-        verbose_name = "video metadata"
-        verbose_name_plural = "video metadatas"
+        verbose_name = gettext_lazy("video metadata")
+        verbose_name_plural = gettext_lazy("video metadatas")
 
 
 class VideoProvider(models.Model):
@@ -108,6 +115,10 @@ class VideoProvider(models.Model):
         null=False,
         blank=False,
     )
+
+    class Meta:
+        verbose_name = gettext_lazy("video provider")
+        verbose_name_plural = gettext_lazy("video provider")
 
     def save(self, *args, **kwargs):
         if self.pk:
@@ -160,9 +171,6 @@ class VideoProvider(models.Model):
 
 
 class VideoSequenceManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().order_by("ini")
-
     def get_ordered_data(self):
         return [
             {
@@ -185,8 +193,9 @@ class VideoSequence(models.Model):
     end = models.TimeField(gettext_lazy("End"), null=False, blank=False)
 
     class Meta:
-        verbose_name = "video sequence"
-        verbose_name_plural = "video sequences"
+        verbose_name = gettext_lazy("video sequence")
+        verbose_name_plural = gettext_lazy("video sequences")
+        ordering = ["ini"]
 
     objects = VideoSequenceManager()
 
@@ -214,34 +223,71 @@ class VideoCategorization(models.Model):
     video = models.OneToOneField(
         Video, on_delete=models.CASCADE, related_name="categorization"
     )
-    categories = models.ManyToManyField("VideoCategory", related_name="videos")
-    people = models.ManyToManyField("VideoPerson", related_name="videos")
-    keywords = models.ManyToManyField("VideoKeyword", related_name="videos")
+    categories = models.ManyToManyField(
+        "VideoCategory", related_name="videos", verbose_name="Categories"
+    )
+    people = models.ManyToManyField(
+        "VideoPerson", related_name="videos", verbose_name="People"
+    )
+    keywords = models.ManyToManyField(
+        "VideoKeyword", related_name="videos", verbose_name="Keywords"
+    )
 
     class Meta:
-        verbose_name = "video categorization"
-        verbose_name_plural = "video categorizations"
+        verbose_name = gettext_lazy("video categorization")
+        verbose_name_plural = gettext_lazy("video categorizations")
 
 
-class VideoCategory(models.Model):
+class VideoFilterAbstract(models.Model):
     name = models.CharField(
         gettext_lazy("Name"), max_length=255, null=False, blank=False
     )
     slug = models.SlugField(
-        gettext_lazy("Slug"),
-        max_length=255,
-        null=False,
-        blank=False,
-        unique=True,
-        db_index=True,
+        gettext_lazy("Slug"), max_length=255, null=False, blank=False, db_index=True
     )
     description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
     position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+    # site = models.ForeignKey(
+    #     Site, on_delete=models.CASCADE, related_name="pages", default=settings.SITE_ID
+    # )
+
+    class Meta:
+        abstract = True
+
+    objects = InSiteManager()
+
+    def __str__(self):
+        return f"{self.name} <{self.slug}>"
+
+
+class VideoCategory(VideoFilterAbstract):
+    # name = models.CharField(
+    #     gettext_lazy("Name"), max_length=255, null=False, blank=False
+    # )
+    # slug = models.SlugField(
+    #     gettext_lazy("Slug"),
+    #     max_length=255,
+    #     null=False,
+    #     blank=False,
+    #     db_index=True,
+    # )
+    # description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
+    # position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+    # site = models.ForeignKey(
+    #     Site, on_delete=models.CASCADE, related_name="pages", default=settings.SITE_ID
+    # )
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.CASCADE,
+        related_name="video_categories",
+        default=settings.SITE_ID,
+    )
 
     class Meta:
         verbose_name = gettext_lazy("category")
         verbose_name_plural = gettext_lazy("categories")
-        ordering = ["position"]
+        ordering = ["position", "slug"]
+        unique_together = ["slug", "site"]
 
     def __str__(self):
         return self.name
@@ -250,49 +296,63 @@ class VideoCategory(models.Model):
         return reverse("videos:category-list", kwargs={"slug": self.slug})
 
 
-class VideoPerson(models.Model):
-    name = models.CharField(
-        gettext_lazy("Name"), max_length=255, null=False, blank=False
+class VideoPerson(VideoFilterAbstract):
+    # name = models.CharField(
+    #     gettext_lazy("Name"), max_length=255, null=False, blank=False
+    # )
+    # slug = models.SlugField(
+    #     gettext_lazy("Slug"),
+    #     max_length=255,
+    #     null=False,
+    #     blank=False,
+    #     unique=True,
+    #     db_index=True,
+    # )
+    # description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
+    # position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.CASCADE,
+        related_name="video_people",
+        default=settings.SITE_ID,
     )
-    slug = models.SlugField(
-        gettext_lazy("Slug"),
-        max_length=255,
-        null=False,
-        blank=False,
-        unique=True,
-        db_index=True,
-    )
-    description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
-    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
 
     class Meta:
-        verbose_name = "person"
-        verbose_name_plural = "people"
-        ordering = ["position"]
+        verbose_name = gettext_lazy("person")
+        verbose_name_plural = gettext_lazy("people")
+        ordering = ["position", "slug"]
+        unique_together = ["slug", "site"]
 
     def __str__(self):
         return self.name
 
 
-class VideoKeyword(models.Model):
-    name = models.CharField(
-        gettext_lazy("Name"), max_length=255, null=False, blank=False
+class VideoKeyword(VideoFilterAbstract):
+    # name = models.CharField(
+    #     gettext_lazy("Name"), max_length=255, null=False, blank=False
+    # )
+    # slug = models.SlugField(
+    #     gettext_lazy("Slug"),
+    #     max_length=255,
+    #     null=False,
+    #     blank=False,
+    #     unique=True,
+    #     db_index=True,
+    # )
+    # description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
+    # position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.CASCADE,
+        related_name="video_keywords",
+        default=settings.SITE_ID,
     )
-    slug = models.SlugField(
-        gettext_lazy("Slug"),
-        max_length=255,
-        null=False,
-        blank=False,
-        unique=True,
-        db_index=True,
-    )
-    description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
-    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
 
     class Meta:
-        verbose_name = "keyword"
-        verbose_name_plural = "keywords"
-        ordering = ["position"]
+        verbose_name = gettext_lazy("keyword")
+        verbose_name_plural = gettext_lazy("keywords")
+        ordering = ["position", "slug"]
+        unique_together = ["slug", "site"]
 
     def __str__(self):
         return self.name

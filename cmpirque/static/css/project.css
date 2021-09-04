@@ -22,6 +22,17 @@ h1 {
   padding: 64px;
   padding: 4rem; }
 
+.base-content-messages {
+  text-align: center;
+  padding-bottom: 32px;
+  padding-bottom: 2rem;
+  margin: auto;
+  max-width: 70%; }
+
+#block-content-container {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%; }
+
 #login-container {
   width: 50%;
   margin: 32px auto;
@@ -40,9 +51,12 @@ h1 {
     font-size: 1.2rem;
     text-transform: uppercase;
     font-family: "BrandonRegular"; }
+  #site-navbar .item {
+    font-family: "BrandonRegular"; }
   #site-navbar .ui.segment {
     width: 100%;
-    padding: 0; }
+    padding: 8px;
+    padding: .5rem; }
 
 .cmp-footer {
   position: fixed;
@@ -124,15 +138,16 @@ h1 {
             justify-content: space-between;
     margin: 48px 0;
     margin: 3rem 0; }
-  #formset-list-container #formset-list-footer-pagination {
-    margin: 48px 0;
-    margin: 3rem 0;
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: justify;
-        -ms-flex-pack: justify;
-            justify-content: space-between; }
+
+#formset-list-footer-pagination {
+  margin: 48px 0;
+  margin: 3rem 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
 
 #admin-navbar {
   margin: 0 0 16px;

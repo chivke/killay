@@ -5,7 +5,11 @@ from django.conf import settings
 
 
 def create_initial_adminconfig(apps, schema_editor):
+    Site = apps.get_model("sites", "Site")
     SiteConfiguration = apps.get_model("admin", "SiteConfiguration")
+    Site.objects.update_or_create(
+        id=settings.SITE_ID, defaults={"name": settings.SITE_NAME, "domain": settings.SITE_DOMAIN}
+    )
     SiteConfiguration.objects.update_or_create(id=settings.SITE_ID)
 
 

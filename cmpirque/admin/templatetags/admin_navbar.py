@@ -27,11 +27,6 @@ def show_admin_navbar(context):
             "link": reverse("admin:configuration"),
             "css_class": "header " + _get_css_class(view_name, "admin:configuration"),
         },
-        "user_conf": {
-            "name": f"@{request.user.username}",
-            "link": reverse("users:update"),
-            "css_class": _get_css_class(view_name, "users:detail"),
-        },
         "video_admin": {
             video_admin_link[0]: {
                 "name": video_admin_link[1],

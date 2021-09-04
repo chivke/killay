@@ -19,6 +19,15 @@ class SiteConfiguration(models.Model):
         gettext_lazy("Domain"), max_length=250, default=settings.SITE_DOMAIN
     )
     is_published = models.BooleanField(gettext_lazy("Is published"), default=True)
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.CASCADE,
+        related_name="configuration",
+        default=settings.SITE_ID,
+    )
+    footer_is_visible = models.BooleanField(
+        gettext_lazy("Footer is visible"), default=True
+    )
 
     class Meta:
         verbose_name = gettext_lazy("Site Configuration")
@@ -27,10 +36,9 @@ class SiteConfiguration(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        site = self.get_site()
-        site.name = self.name
-        site.domain = self.domain
-        site.save()
+        self.site.name = self.name
+        self.site.domain = self.domain
+        self.site.save()
 
     def get_site(self):
         return Site.objects.get(id=self.id)
@@ -51,4 +59,13 @@ class SocialMedia(models.Model):
     css_class = models.CharField(
         gettext_lazy("CSS Class"), max_length=150, null=True, blank=True
     )
+    is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
+
+
+class Logo(models.Model):
+    configuration = models.ForeignKey(
+        SiteConfiguration, on_delete=models.CASCADE, related_name="logos"
+    )
+    name = models.CharField(gettext_lazy("Name"), max_length=255)
+    image = models.ImageField(gettext_lazy("Image"), upload_to="logos")
     is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)

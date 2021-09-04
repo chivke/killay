@@ -4,6 +4,7 @@ from cmpirque.admin.views.configuration import admin_configuration_view
 
 from cmpirque.admin.views import videos as videos_views
 from cmpirque.admin.views import users as users_views
+from cmpirque.admin.views import pages as pages_views
 
 
 app_name = "admin"
@@ -58,5 +59,18 @@ urlpatterns += [
         "users/<str:slug>/~delete/",
         view=users_views.user_delete_view,
         name="users_delete",
+    ),
+]
+
+# Pages Views
+
+urlpatterns += [
+    path("pages/", view=pages_views.page_list_view, name="pages_list"),
+    path("pages/~create/", view=pages_views.page_create_view, name="pages_create"),
+    path("pages/<str:slug>/", view=pages_views.page_update_view, name="pages_update"),
+    path(
+        "pages/<str:slug>/~delete/",
+        view=pages_views.page_delete_view,
+        name="pages_delete",
     ),
 ]

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Update user" %} {{object.username}}{% endblock %}
+{% block title %}{{form_title}}{% endblock %}
 
 {% block content %}
   {% include "admin/components/sidebar.html" %}
@@ -13,13 +13,28 @@
     >
       {% csrf_token %}
       <div class="field">
-        <h1 class="header">{% trans "Update user" %} {{object.username}}</h1>
+        <h1 class="header">{{form_title}}</h1>
       </div>
+
+      {% if read_only_fields %}
+        {% for field_name, field in read_only_fields.items %}
+          <div class="field">
+            <label>{{field.label}}</label>
+            {{field.value}}
+          </div>
+        {% endfor %}
+      {% endif %}
 
       {% for field in form %}
         <div class="field">
           <label>{{field.label_tag}}</label>
-          {{field}}
+          {% if field.field.widget.input_type == "checkbox" %}
+            <div class="ui slider checkbox">
+              {{field}}
+            </div>
+          {% else %}
+            {{field}}
+          {% endif %}
           {% if field.errors %}
             <div class="ui pointing red basic label">
               {% for error in field.errors %}{{error}}{% endfor %}
@@ -38,3 +53,11 @@
   </div>
 
 {% endblock %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+    $('.ui.checkbox')
+      .checkbox()
+    ;
+  </script>
+{% endblock extra_js %}

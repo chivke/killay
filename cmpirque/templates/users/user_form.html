@@ -4,8 +4,8 @@
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
-  <div id="login-container">
-
+  {% include "admin/components/sidebar.html" %}
+  <div id="admin-main-container">
     <form
       id="login-form"
       method="post"
@@ -16,7 +16,6 @@
       <div class="field">
         <h1 class="header">{% trans "Update user" %} {{ user.username }}</h1>
       </div>
-
       {% for field in form %}
         <div class="field">
           <label>{{field.label_tag}}</label>
@@ -29,11 +28,11 @@
         </div>
       {% endfor %}
       <div class="field">
-        <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
+        <input type="submit" class="ui button admin-submit" value="{% trans 'Save' %}">
       </div>
       <div class="ui divider"></div>
       <div class="field">
-        <a class="ui button video-admin-submit" href="{% url 'users:password_change' %}">
+        <a class="ui button admin-submit" href="{% url 'users:password_change' %}">
           {% trans "Change Password" %}
         </a>
       </div>

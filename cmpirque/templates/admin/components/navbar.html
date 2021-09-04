@@ -1,10 +1,7 @@
 
-<nav class="ui pointing menu" id="admin-navbar">
+<nav class="ui secondary pointing menu" id="admin-navbar">
   <a class="{{ admin_conf.css_class }}" href="{{ admin_conf.link }}"
     >{{ admin_conf.name }}
-  </a>
-  <a class="{{ user_conf.css_class }}" href="{{ user_conf.link }}"
-    >{{ user_conf.name }}
   </a>
   {% if video_admin.selected %}
     {% for label,item in video_admin.items %}

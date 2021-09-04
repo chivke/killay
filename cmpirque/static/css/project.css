@@ -32,6 +32,7 @@ h1 {
 
 #site-navbar {
   margin: 0;
+  padding: 0;
   border-radius: 0;
   font-family: "BrandonRegular"; }
   #site-navbar .text {
@@ -39,8 +40,55 @@ h1 {
     font-size: 1.2rem;
     text-transform: uppercase;
     font-family: "BrandonRegular"; }
-  #site-navbar .ui.vertical.segment {
-    width: 100%; }
+  #site-navbar .ui.segment {
+    width: 100%;
+    padding: 0; }
+
+.cmp-footer {
+  position: fixed;
+  bottom: 0;
+  z-index: 9999;
+  max-height: 150px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-family: "BrandonRegular";
+  padding: 16px;
+  padding: 1rem;
+  background-color: #dedede;
+  width: 100%;
+  max-height: 150px; }
+  .cmp-footer .footer-left,
+  .cmp-footer .footer-right {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 50%;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center; }
+  .cmp-footer .footer-right {
+    -webkit-box-pack: end;
+        -ms-flex-pack: end;
+            justify-content: flex-end; }
+    .cmp-footer .footer-right .link {
+      color: black;
+      font-size: 24px;
+      font-size: 1.5rem; }
+    .cmp-footer .footer-right .text {
+      padding-right: 16px;
+      padding-right: 1rem; }
+  .cmp-footer .footer-left {
+    -webkit-box-pack: left;
+        -ms-flex-pack: left;
+            justify-content: left; }
+    .cmp-footer .footer-left .footer-logo {
+      height: 64px;
+      height: 4rem;
+      width: auto;
+      padding: 0 16px;
+      padding: 0 1rem;
+      margin: 0 !important; }
 
 #site-configuration-container {
   padding: 5% 15%;
@@ -54,6 +102,11 @@ h1 {
       flex-basis: 100%;
   font-family: "BrandonRegular";
   max-width: 1200px; }
+  #admin-main-container h1, #admin-main-container h4 {
+    font-family: "BrandonRegular" !important; }
+
+#admin-sidebar {
+  font-family: "BrandonRegular" !important; }
 
 .admin-submit {
   font-family: "BrandonRegular" !important;
@@ -250,49 +303,3 @@ h1 {
   text-align: center;
   margin: 32px;
   margin: 2rem; }
-
-.cmp-footer {
-  position: fixed;
-  bottom: 0;
-  z-index: 9999;
-  max-height: 150px;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  font-family: "BrandonRegular";
-  padding: 16px;
-  padding: 1rem;
-  background-color: #dedede;
-  width: 100%;
-  max-height: 150px; }
-  .cmp-footer .footer-left,
-  .cmp-footer .footer-right {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    width: 50%;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center; }
-  .cmp-footer .footer-right {
-    -webkit-box-pack: end;
-        -ms-flex-pack: end;
-            justify-content: flex-end; }
-    .cmp-footer .footer-right .link {
-      color: black;
-      font-size: 24px;
-      font-size: 1.5rem; }
-    .cmp-footer .footer-right .text {
-      padding-right: 16px;
-      padding-right: 1rem; }
-  .cmp-footer .footer-left {
-    -webkit-box-pack: left;
-        -ms-flex-pack: left;
-            justify-content: left; }
-    .cmp-footer .footer-left .footer-logo {
-      height: 64px;
-      height: 4rem;
-      width: auto;
-      padding: 0 16px;
-      padding: 0 1rem;
-      margin: 0 !important; }

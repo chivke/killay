@@ -175,7 +175,7 @@ def bulk_update_data_for_deploy(
             video.import_from_vtt_file(str(vtts_path / f"{code}.vtt"))
 
     if logos_path.is_dir():
-        logos = [logo for logo in logos_path.iterdir() if logo.suffix == ".jpg"]
+        logos = [logo for logo in logos_path.iterdir() if logo.suffix == ".png"]
         if logos:
             __upload_logos(logos)
 

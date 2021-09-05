@@ -107,7 +107,7 @@ def data_for_deploy(
     vtt_files = [vtt_folder.join(f"VIDEO-{n}.vtt") for n in range(5)]
     for file in vtt_files:
         file.write(sequences_vtt_file_content)
-    logos_files = [logos_folder.join(f"logo-{n}.jpg") for n in range(3)]
+    logos_files = [logos_folder.join(f"logo-{n}.png") for n in range(3)]
     for file in logos_files:
         file.write("X")
     fixture = fixtures_path.join("pages.json")

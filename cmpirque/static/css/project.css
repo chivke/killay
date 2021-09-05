@@ -57,6 +57,13 @@ h1 {
     width: 100%;
     padding: 8px;
     padding: .5rem; }
+  #site-navbar #searchform > .inverted.input {
+    -webkit-box-align: end;
+        -ms-flex-align: end;
+            align-items: flex-end;
+    height: 100%;
+    padding: 8px;
+    padding: .5rem; }
 
 .cmp-footer {
   position: fixed;

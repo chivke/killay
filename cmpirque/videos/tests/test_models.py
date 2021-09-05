@@ -107,7 +107,7 @@ class TestVideoProvider:
 
 class TestVideoCategory:
     def test_str(self, video_category: VideoCategory):
-        assert str(video_category) == video_category.name
+        assert str(video_category) == f"{video_category.name} <{video_category.slug}>"
 
     def test_get_absolute_url(self, video_category: VideoCategory):
         assert (
@@ -118,9 +118,17 @@ class TestVideoCategory:
 
 class TestVideoPerson:
     def test_str(self, video_person: VideoPerson):
-        assert str(video_person) == video_person.name
+        assert str(video_person) == f"{video_person.name} <{video_person.slug}>"
+
+    def test_get_absolute_url(self, video_person: VideoPerson):
+        assert video_person.get_absolute_url() == f"/videos/person/{video_person.slug}/"
 
 
 class TestVideoKeyword:
     def test_str(self, video_keyword: VideoKeyword):
-        assert str(video_keyword) == video_keyword.name
+        assert str(video_keyword) == f"{video_keyword.name} <{video_keyword.slug}>"
+
+    def test_get_absolute_url(self, video_keyword: VideoKeyword):
+        assert (
+            video_keyword.get_absolute_url() == f"/videos/keyword/{video_keyword.slug}/"
+        )

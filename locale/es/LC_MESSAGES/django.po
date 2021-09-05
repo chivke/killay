@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-03 06:00+0000\n"
+"POT-Creation-Date: 2021-09-05 02:49+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,45 +18,93 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: cmpirque/admin/mixins.py:75
+#, python-brace-format
+msgid "{self.model._meta.verbose_name} \"{self.object}\" was updated"
+msgstr "{self.model._meta.verbose_name} \"{self.object}\" fue editado"
+
+#: cmpirque/admin/mixins.py:93
+#, python-brace-format
+msgid "Update {self.object}"
+msgstr "Editar {self.object}"
+
+#: cmpirque/admin/mixins.py:104
+#, python-brace-format
+msgid "{self.model._meta.verbose_name} \"{self.object}\" was deleted"
+msgstr "{self.model._meta.verbose_name} \"{self.object}\" se eliminó"
+
+#: cmpirque/admin/mixins.py:111
+#, python-brace-format
+msgid "Delete {self.model._meta.verbose_name}"
+msgstr "Eliminar {self.model._meta.verbose_name}"
+
+#: cmpirque/admin/mixins.py:150
+msgid "Error saving Video"
+msgstr "Error guardando el video"
+
+#: cmpirque/admin/mixins.py:218
+#, python-brace-format
+msgid "Video {self.label_plural} saved successfully"
+msgstr "{self.label_plural} guardada exitosamente"
+
+#: cmpirque/admin/mixins.py:224
+#, python-brace-format
+msgid "Error saving video {self.label_plural}"
+msgstr "Error guardando video {self.label_plural}"
+
 #: cmpirque/admin/models.py:16
 msgid "Name of Site"
-msgstr ""
+msgstr "Nombre del Sitio"
 
 #: cmpirque/admin/models.py:19
 msgid "Domain"
-msgstr ""
+msgstr "Dominio"
 
 #: cmpirque/admin/models.py:21
 msgid "Is published"
-msgstr ""
+msgstr "Está publicado"
 
-#: cmpirque/admin/models.py:24
-#: cmpirque/templates/admin/components/sidebar.html:8
-#: cmpirque/templates/admin/site_configuration.html:6
+#: cmpirque/admin/models.py:29
+msgid "Footer is visible"
+msgstr "Footer es visible"
+
+#: cmpirque/admin/models.py:33
+#: cmpirque/templates/admin/components/sidebar.html:14
+#: cmpirque/templates/admin/site_configuration.html:10
 msgid "Site Configuration"
-msgstr ""
+msgstr "Configuración del Sitio"
 
-#: cmpirque/admin/models.py:44
+#: cmpirque/admin/models.py:52
 #, fuzzy
 #| msgid "Ply Provider"
 msgid "Provider"
-msgstr "Proveedores Ply"
+msgstr "Proveedor"
 
-#: cmpirque/admin/models.py:50
+#: cmpirque/admin/models.py:58
 #: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2312
 msgid "URL"
 msgstr ""
 
-#: cmpirque/admin/models.py:52
+#: cmpirque/admin/models.py:60
 msgid "CSS Class"
 msgstr ""
 
-#: cmpirque/admin/models.py:54 cmpirque/videos/models.py:17
+#: cmpirque/admin/models.py:62 cmpirque/admin/models.py:71
+#: cmpirque/pages/models.py:19 cmpirque/videos/models.py:19
 msgid "Is visible"
 msgstr "Es visible"
 
+#: cmpirque/admin/models.py:69 cmpirque/videos/models.py:243
+msgid "Name"
+msgstr "Nombre"
+
+#: cmpirque/admin/models.py:70
+#: env/lib/python3.9/site-packages/django/db/models/fields/files.py:375
+msgid "Image"
+msgstr "Imagen"
+
 #: cmpirque/admin/templatetags/admin_navbar.py:19
-#: cmpirque/templates/admin/videos/video_form.html:10
+#: cmpirque/templates/admin/videos/video_form.html:14
 msgid "Create Video"
 msgstr "Crear Video"
 
@@ -79,282 +127,289 @@ msgstr "Palabras Clave"
 msgid "Administrator"
 msgstr "Administrador"
 
-#: cmpirque/admin/templatetags/admin_navbar.py:51
-#: cmpirque/templates/admin/users/user_list.html:29
+#: cmpirque/admin/templatetags/admin_navbar.py:46
+#: cmpirque/admin/views/pages.py:57 cmpirque/admin/views/users.py:52
 msgid "Update"
 msgstr "Editar"
 
-#: cmpirque/admin/templatetags/admin_navbar.py:52
-#: cmpirque/templates/admin/users/user_list.html:32
+#: cmpirque/admin/templatetags/admin_navbar.py:47
+#: cmpirque/admin/views/pages.py:58 cmpirque/admin/views/users.py:53
 #: env/lib/python3.9/site-packages/django/forms/formsets.py:417
 msgid "Delete"
 msgstr "Eliminar"
 
-#: cmpirque/admin/templatetags/admin_navbar.py:55
-#: cmpirque/templates/admin/videos/video_sequences_list.html:11
+#: cmpirque/admin/templatetags/admin_navbar.py:50
+#: cmpirque/templates/admin/videos/video_sequences_list.html:14
 msgid "Sequences"
 msgstr "Sequencias"
 
-#: cmpirque/admin/templatetags/admin_navbar.py:60
-#: cmpirque/templates/admin/videos/video_categorization.html:7
+#: cmpirque/admin/templatetags/admin_navbar.py:55
+#: cmpirque/templates/admin/videos/video_categorization.html:10
 msgid "Categorization"
 msgstr "Categorización"
 
-#: cmpirque/admin/views/users.py:16
+#: cmpirque/admin/views/pages.py:19
+msgid "Create Page"
+msgstr "Crear Página"
+
+#: cmpirque/admin/views/pages.py:23
+#, fuzzy, python-brace-format
+#| msgid "Page \"{self.object.title}\" was created"
+msgid "Page \"{self.object.title}\" was created"
+msgstr "Página \"{self.object.username}\" fue creada"
+
+#: cmpirque/admin/views/pages.py:49
+msgid "Pages Administration"
+msgstr "Administración de Páginas"
+
+#: cmpirque/admin/views/pages.py:52 cmpirque/admin/views/users.py:47
+msgid "Create"
+msgstr "Crear"
+
+#: cmpirque/admin/views/users.py:19
+msgid "Create User"
+msgstr "Crear Usuario"
+
+#: cmpirque/admin/views/users.py:22
 #, python-brace-format
 msgid "User {self.object.username} was created"
 msgstr "Usuario {self.object.username} fue creado"
 
-#: cmpirque/admin/views/users.py:30
-#, python-brace-format
-msgid "User {self.object.username} was updated"
-msgstr ""
+#: cmpirque/admin/views/users.py:43
+msgid "Users Administration"
+msgstr "Administración de Usuarios"
 
-#: cmpirque/admin/views/users.py:52
-#, python-brace-format
-msgid "User {self.object.username} was deleted"
-msgstr ""
-
-#: cmpirque/admin/views/videos.py:63
-msgid "Error saving Video"
-msgstr "Error guardando el video"
-
-#: cmpirque/admin/views/videos.py:98 cmpirque/admin/views/videos.py:118
+#: cmpirque/admin/views/videos.py:52 cmpirque/admin/views/videos.py:72
 #, python-brace-format
 msgid "Video [{self.object.code}] saved successfully"
 msgstr "Video [{self.object.code}] guardado exitosamente"
 
-#: cmpirque/admin/views/videos.py:154
+#: cmpirque/admin/views/videos.py:108
 msgid "Video sequences saved successfully"
 msgstr "Secuencias de video guardadas exitosamente"
 
-#: cmpirque/admin/views/videos.py:159
+#: cmpirque/admin/views/videos.py:113
 msgid "Error saving video sequences"
 msgstr "Error guardando las secuencias de video"
 
-#: cmpirque/admin/views/videos.py:187
+#: cmpirque/admin/views/videos.py:141
 msgid "Video categorization saved successfully"
 msgstr "Categorización de video guardada exitosamente"
 
-#: cmpirque/admin/views/videos.py:197
+#: cmpirque/admin/views/videos.py:151
 msgid "Error saving video categorization"
 msgstr "Error guardando la categorización de video"
 
-#: cmpirque/admin/views/videos.py:255
-#, python-brace-format
-msgid "Video {self.label_plural} saved successfully"
-msgstr "{self.label_plural} guardada exitosamente"
-
-#: cmpirque/admin/views/videos.py:261
-#, python-brace-format
-msgid "Error saving video {self.label_plural}"
-msgstr "Error guardando video {self.label_plural}"
-
-#: cmpirque/admin/views/videos.py:268 cmpirque/videos/models.py:243
+#: cmpirque/admin/views/videos.py:161 cmpirque/videos/models.py:270
 msgid "categories"
 msgstr "categorías"
 
-#: cmpirque/admin/views/videos.py:270
+#: cmpirque/admin/views/videos.py:163
 msgid "Video Categories"
 msgstr "Categorías de video"
 
-#: cmpirque/admin/views/videos.py:279
+#: cmpirque/admin/views/videos.py:172 cmpirque/videos/models.py:288
 msgid "people"
 msgstr "gente"
 
-#: cmpirque/admin/views/videos.py:281
+#: cmpirque/admin/views/videos.py:174
 msgid "Video People"
 msgstr "Gente en videos"
 
-#: cmpirque/admin/views/videos.py:290
+#: cmpirque/admin/views/videos.py:183 cmpirque/videos/models.py:306
 msgid "keywords"
 msgstr "palabras clave"
 
-#: cmpirque/admin/views/videos.py:292
+#: cmpirque/admin/views/videos.py:185
 msgid "Video Keywords"
 msgstr "Palabras Clave"
 
-#: cmpirque/templates/admin/components/sidebar.html:12 cmpirque/users/apps.py:7
-msgid "Users"
-msgstr "Usuarios"
-
-#: cmpirque/templates/admin/formset_list.html:16
-msgid "Total"
-msgstr ""
-
-#: cmpirque/templates/admin/formset_list.html:16
-msgid " for the search"
-msgstr ""
-
-#: cmpirque/templates/admin/formset_list.html:32
-#: cmpirque/templates/components/search.html:15
-msgid "Search"
-msgstr ""
-
-#: cmpirque/templates/admin/formset_list.html:50
-#: cmpirque/templates/admin/formset_list.html:92
-#: cmpirque/templates/admin/site_configuration.html:72
-#: cmpirque/templates/admin/users/user_create.html:34
-#: cmpirque/templates/admin/users/user_update.html:34
-#: cmpirque/templates/admin/videos/video_categorization.html:24
-#: cmpirque/templates/admin/videos/video_categorization.html:38
-#: cmpirque/templates/admin/videos/video_form.html:51
-#: cmpirque/templates/admin/videos/video_form.html:113
-#: cmpirque/templates/admin/videos/video_form.html:135
-#: cmpirque/templates/admin/videos/video_sequences_list.html:23
-#: cmpirque/templates/admin/videos/video_sequences_list.html:65
-#: cmpirque/templates/registration/login.html:44
-#: cmpirque/templates/registration/password_change_form.html:24
-#: cmpirque/templates/registration/password_reset_confirm.html:33
-#: cmpirque/templates/users/user_form.html:32
-msgid "Save"
-msgstr "Guardar"
-
-#: cmpirque/templates/admin/site_configuration.html:12
-#: cmpirque/templates/admin/videos/video_form.html:34
-msgid "System fields"
-msgstr "Campos del sistema"
-
-#: cmpirque/templates/admin/site_configuration.html:34
-msgid "Social Media"
-msgstr ""
-
-#: cmpirque/templates/admin/users/user_create.html:4
-#: cmpirque/templates/admin/users/user_create.html:16
-#: cmpirque/templates/admin/users/user_delete.html:3
-#, fuzzy
-#| msgid "Create Video"
-msgid "Create user"
-msgstr "Crear Video"
-
-#: cmpirque/templates/admin/users/user_delete.html:9
-#, python-format
-msgid ""
-"\n"
-"        Are you sure you want to delete \"%(object)s\"?\n"
-"      "
-msgstr ""
-
-#: cmpirque/templates/admin/users/user_delete.html:23
-msgid "Confirm"
-msgstr ""
-
-#: cmpirque/templates/admin/users/user_list.html:7
-#, fuzzy
-#| msgid "Administrator"
-msgid "User Administration"
-msgstr "Administrador"
-
-#: cmpirque/templates/admin/users/user_list.html:9
-#, fuzzy
-#| msgid "Create Video"
-msgid "Create User"
-msgstr "Crear Video"
-
-#: cmpirque/templates/admin/users/user_list.html:14
-#, fuzzy
-#| msgid "Users"
-msgid "Username"
-msgstr "Usuarios"
-
-#: cmpirque/templates/admin/users/user_list.html:15
-msgid "Email"
-msgstr ""
-
-#: cmpirque/templates/admin/users/user_list.html:16
-msgid "Is superuser"
-msgstr ""
-
-#: cmpirque/templates/admin/users/user_list.html:17
-#, fuzzy
-#| msgid "Location"
-msgid "Actions"
-msgstr "Locación"
-
-#: cmpirque/templates/admin/users/user_update.html:4
-#: cmpirque/templates/admin/users/user_update.html:16
-#: cmpirque/templates/users/user_form.html:17
-#, fuzzy
-#| msgid "Update"
-msgid "Update user"
-msgstr "Editar"
-
-#: cmpirque/templates/admin/videos/video_categorization.html:10
-#: cmpirque/templates/admin/videos/video_sequences_list.html:14
-#: cmpirque/templates/videos/video_detail.html:65 cmpirque/videos/models.py:15
-msgid "Code"
-msgstr "Código"
-
-#: cmpirque/templates/admin/videos/video_categorization.html:13
-#: cmpirque/templates/admin/videos/video_form.html:16
-#: cmpirque/templates/admin/videos/video_sequences_list.html:17
-#: cmpirque/templates/videos/video_detail.html:68 cmpirque/videos/models.py:56
-#: cmpirque/videos/models.py:181
+#: cmpirque/pages/models.py:13
+#: cmpirque/templates/admin/videos/video_categorization.html:16
+#: cmpirque/templates/admin/videos/video_form.html:20
+#: cmpirque/templates/admin/videos/video_sequences_list.html:20
+#: cmpirque/templates/videos/video_detail.html:68 cmpirque/videos/models.py:63
+#: cmpirque/videos/models.py:189
 msgid "Title"
 msgstr "Título"
 
-#: cmpirque/templates/admin/videos/video_form.html:19
-#: cmpirque/videos/models.py:18
+#: cmpirque/pages/models.py:16 cmpirque/videos/models.py:246
+msgid "Slug"
+msgstr "Slug"
+
+#: cmpirque/pages/models.py:18
+msgid "Body"
+msgstr "Contenido"
+
+#: cmpirque/pages/models.py:21
+msgid "Is visible in navbar"
+msgstr "Es visible en menú"
+
+#: cmpirque/pages/models.py:24
+msgid "Is visible in footer"
+msgstr "Es visible en footer"
+
+#: cmpirque/pages/models.py:27
+msgid "Header mage"
+msgstr "Imagen de cabecera"
+
+#: cmpirque/pages/models.py:29
+#: cmpirque/templates/admin/videos/video_form.html:23
+#: cmpirque/videos/models.py:20
 msgid "Created at"
 msgstr "Creado en"
 
-#: cmpirque/templates/admin/videos/video_form.html:22
-#: cmpirque/videos/models.py:19
+#: cmpirque/pages/models.py:30
+#: cmpirque/templates/admin/videos/video_form.html:26
+#: cmpirque/videos/models.py:21
 msgid "Updated at"
 msgstr "Editado en"
 
+#: cmpirque/pages/models.py:37
+msgid "page"
+msgstr "página"
+
+#: cmpirque/pages/models.py:38
+msgid "pages"
+msgstr "páginas"
+
+#: cmpirque/templates/admin/components/field_image_input.html:27
+msgid "Upload"
+msgstr "Subir"
+
+#: cmpirque/templates/admin/components/sidebar.html:18 cmpirque/users/apps.py:7
+msgid "Users"
+msgstr "Usuarios"
+
+#: cmpirque/templates/admin/components/sidebar.html:22
+msgid "Pages"
+msgstr "Páginas"
+
+#: cmpirque/templates/admin/formset_list.html:19
+msgid "Total"
+msgstr ""
+
+#: cmpirque/templates/admin/formset_list.html:19
+msgid " for the search"
+msgstr " para la búsqueda"
+
+#: cmpirque/templates/admin/formset_list.html:35
+#: cmpirque/templates/components/search.html:15
+msgid "Search"
+msgstr "Buscar"
+
+#: cmpirque/templates/admin/formset_list.html:48
+#: cmpirque/templates/admin/formset_list.html:96
+#: cmpirque/templates/admin/generic_form.html:59
+#: cmpirque/templates/admin/site_configuration.html:77
+#: cmpirque/templates/admin/site_configuration.html:116
+#: cmpirque/templates/admin/videos/video_categorization.html:27
+#: cmpirque/templates/admin/videos/video_categorization.html:41
 #: cmpirque/templates/admin/videos/video_form.html:55
+#: cmpirque/templates/admin/videos/video_form.html:122
+#: cmpirque/templates/admin/videos/video_form.html:144
+#: cmpirque/templates/admin/videos/video_sequences_list.html:26
+#: cmpirque/templates/admin/videos/video_sequences_list.html:68
+#: cmpirque/templates/users/login.html:44
+#: cmpirque/templates/users/password_change_form.html:29
+#: cmpirque/templates/users/password_reset_confirm.html:33
+#: cmpirque/templates/users/user_form.html:34
+msgid "Save"
+msgstr "Guardar"
+
+#: cmpirque/templates/admin/generic_delete.html:12
+#, fuzzy, python-format
+msgid "Are you sure you want to delete \"%(object)s\"?"
+msgstr "Estás seguro que quieres eliminar \"%(object)s\"?"
+
+#: cmpirque/templates/admin/generic_delete.html:24
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: cmpirque/templates/admin/generic_list.html:29
+msgid "Actions"
+msgstr "Acciones"
+
+#: cmpirque/templates/admin/site_configuration.html:17
+#: cmpirque/templates/admin/videos/video_form.html:38
+msgid "System fields"
+msgstr "Campos del sistema"
+
+#: cmpirque/templates/admin/site_configuration.html:39
+msgid "Social Media"
+msgstr "Redes Sociales"
+
+#: cmpirque/templates/admin/site_configuration.html:78
+msgid "Logos"
+msgstr ""
+
+#: cmpirque/templates/admin/videos/video_categorization.html:13
+#: cmpirque/templates/admin/videos/video_sequences_list.html:17
+#: cmpirque/templates/videos/video_detail.html:65 cmpirque/videos/models.py:17
+msgid "Code"
+msgstr "Código"
+
+#: cmpirque/templates/admin/videos/video_form.html:59
 msgid "Video Providers"
 msgstr "Proveedores de Video"
 
-#: cmpirque/templates/admin/videos/video_form.html:65
-#: cmpirque/videos/models.py:98
+#: cmpirque/templates/admin/videos/video_form.html:69
+#: cmpirque/videos/models.py:105
 msgid "Online"
 msgstr "En línea"
+
+#: cmpirque/templates/admin/videos/video_form.html:107
+msgid "Watch"
+msgstr "Ver"
 
 #: cmpirque/templates/admin/videos/video_sequences_list.html:5
 msgid "Video Sequences"
 msgstr "Sequencias de Video"
 
-#: cmpirque/templates/admin/videos/video_sequences_list.html:27
+#: cmpirque/templates/admin/videos/video_sequences_list.html:30
 #: env/lib/python3.9/site-packages/django/forms/formsets.py:405
 #: env/lib/python3.9/site-packages/django/forms/formsets.py:412
 msgid "Order"
 msgstr "Orden"
 
-#: cmpirque/templates/components/navbar.html:12
+#: cmpirque/templates/components/footer.html:21
+#: cmpirque/templates/components/footer.html:34
+msgid "It is not visible"
+msgstr "No es visible"
+
+#: cmpirque/templates/components/navbar.html:16
 msgid "Log Out"
 msgstr "Cerrar sesión"
 
-#: cmpirque/templates/components/navbar.html:14
+#: cmpirque/templates/components/navbar.html:21
 msgid "Log In"
 msgstr "Acceder"
 
-#: cmpirque/templates/registration/login.html:10
+#: cmpirque/templates/users/login.html:10
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
 
-#: cmpirque/templates/registration/login.html:20
+#: cmpirque/templates/users/login.html:20
 msgid ""
 "Your account doesn't have access to this page. To proceed, please login with "
 "an account that has access."
 msgstr ""
 
-#: cmpirque/templates/registration/login.html:27
+#: cmpirque/templates/users/login.html:27
 msgid "Please login to see this page."
 msgstr ""
 
-#: cmpirque/templates/registration/login.html:47
+#: cmpirque/templates/users/login.html:47
 msgid "Restore password"
 msgstr ""
 
-#: cmpirque/templates/registration/password_change_form.html:5
-#: cmpirque/templates/registration/password_reset_confirm.html:14
-#: cmpirque/templates/users/user_form.html:37
+#: cmpirque/templates/users/password_change_form.html:10
+#: cmpirque/templates/users/password_reset_confirm.html:14
+#: cmpirque/templates/users/user_form.html:39
 msgid "Change Password"
-msgstr ""
+msgstr "Cambiar Contraseña"
 
-#: cmpirque/templates/registration/password_reset_confirm.html:10
+#: cmpirque/templates/users/password_reset_confirm.html:10
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
@@ -362,77 +417,80 @@ msgid ""
 "a>."
 msgstr ""
 
-#: cmpirque/templates/registration/password_reset_form.html:5
-#: cmpirque/templates/registration/password_reset_form.html:19
+#: cmpirque/templates/users/password_reset_form.html:5
+#: cmpirque/templates/users/password_reset_form.html:19
 msgid "Password Reset"
-msgstr ""
+msgstr "Recuperación de Contraseña"
 
-#: cmpirque/templates/registration/password_reset_form.html:14
+#: cmpirque/templates/users/password_reset_form.html:14
 msgid "You are authenticated"
-msgstr ""
+msgstr "Ya estás autentificado"
 
-#: cmpirque/templates/registration/password_reset_form.html:21
+#: cmpirque/templates/users/password_reset_form.html:21
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
 msgstr ""
 
-#: cmpirque/templates/registration/password_reset_form.html:26
+#: cmpirque/templates/users/password_reset_form.html:26
 msgid "Reset My Password"
 msgstr ""
+
+#: cmpirque/templates/users/user_form.html:20
+msgid "Update user"
+msgstr "Editar usuario"
 
 #: cmpirque/templates/videos/video_detail.html:45
 msgid "No video provider"
 msgstr "Sin proveedor de Video"
 
-#: cmpirque/templates/videos/video_detail.html:72 cmpirque/videos/models.py:58
+#: cmpirque/templates/videos/video_detail.html:72 cmpirque/videos/models.py:65
 msgid "Event"
 msgstr "Evento"
 
-#: cmpirque/templates/videos/video_detail.html:77 cmpirque/videos/models.py:60
-#: cmpirque/videos/models.py:238 cmpirque/videos/models.py:265
-#: cmpirque/videos/models.py:289
+#: cmpirque/templates/videos/video_detail.html:77 cmpirque/videos/models.py:67
+#: cmpirque/videos/models.py:248
 msgid "Description"
 msgstr "Descripción"
 
-#: cmpirque/templates/videos/video_detail.html:82 cmpirque/videos/models.py:62
+#: cmpirque/templates/videos/video_detail.html:82 cmpirque/videos/models.py:69
 msgid "Description Date"
 msgstr "Fecha de descripción"
 
-#: cmpirque/templates/videos/video_detail.html:87 cmpirque/videos/models.py:65
+#: cmpirque/templates/videos/video_detail.html:87 cmpirque/videos/models.py:72
 msgid "Location"
 msgstr "Locación"
 
-#: cmpirque/templates/videos/video_detail.html:92 cmpirque/videos/models.py:67
+#: cmpirque/templates/videos/video_detail.html:92 cmpirque/videos/models.py:74
 #: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1588
 msgid "Duration"
 msgstr "Duración"
 
-#: cmpirque/templates/videos/video_detail.html:97 cmpirque/videos/models.py:72
+#: cmpirque/templates/videos/video_detail.html:97 cmpirque/videos/models.py:79
 msgid "Register Author"
 msgstr "Autor del registro"
 
-#: cmpirque/templates/videos/video_detail.html:102 cmpirque/videos/models.py:75
+#: cmpirque/templates/videos/video_detail.html:102 cmpirque/videos/models.py:82
 msgid "Productor"
 msgstr "Productor"
 
-#: cmpirque/templates/videos/video_detail.html:107 cmpirque/videos/models.py:77
+#: cmpirque/templates/videos/video_detail.html:107 cmpirque/videos/models.py:84
 msgid "Notes"
 msgstr "Notas"
 
-#: cmpirque/templates/videos/video_detail.html:112 cmpirque/videos/models.py:79
+#: cmpirque/templates/videos/video_detail.html:112 cmpirque/videos/models.py:86
 msgid "Archivist Notes"
 msgstr "Notas del archivero"
 
-#: cmpirque/templates/videos/video_detail.html:117 cmpirque/videos/models.py:82
+#: cmpirque/templates/videos/video_detail.html:117 cmpirque/videos/models.py:89
 msgid "Documentary Unit"
 msgstr "Unidad documental"
 
-#: cmpirque/templates/videos/video_detail.html:122 cmpirque/videos/models.py:85
+#: cmpirque/templates/videos/video_detail.html:122 cmpirque/videos/models.py:92
 msgid "Language"
 msgstr "Lenguaje"
 
-#: cmpirque/templates/videos/video_detail.html:127 cmpirque/videos/models.py:88
+#: cmpirque/templates/videos/video_detail.html:127 cmpirque/videos/models.py:95
 msgid "Original Format"
 msgstr "Formato original"
 
@@ -447,13 +505,13 @@ msgstr ""
 #: cmpirque/users/views.py:30
 #, python-brace-format
 msgid "User {self.object.username} updated"
-msgstr ""
+msgstr "Usuario {self.object.username} editado"
 
-#: cmpirque/users/views.py:60
+#: cmpirque/users/views.py:62
 msgid "We have sent you an e-mail with your reset link"
 msgstr ""
 
-#: cmpirque/users/views.py:72 cmpirque/users/views.py:83
+#: cmpirque/users/views.py:75 cmpirque/users/views.py:87
 msgid "Your password is now changed."
 msgstr ""
 
@@ -461,72 +519,109 @@ msgstr ""
 msgid "All"
 msgstr "Todos"
 
-#: cmpirque/videos/models.py:21
+#: cmpirque/videos/models.py:23
 msgid "Thumb"
 msgstr "Miniatura"
 
-#: cmpirque/videos/models.py:28
+#: cmpirque/videos/models.py:33
 msgid "video"
 msgstr "video"
 
-#: cmpirque/videos/models.py:29
+#: cmpirque/videos/models.py:34
 msgid "videos"
 msgstr "videos"
 
-#: cmpirque/videos/models.py:69
+#: cmpirque/videos/models.py:76
 #, fuzzy
 #| msgid "Register Author"
 msgid "Register Date"
 msgstr "Autor del registro"
 
-#: cmpirque/videos/models.py:97
+#: cmpirque/videos/models.py:99
+msgid "video metadata"
+msgstr "Metadatos de video"
+
+#: cmpirque/videos/models.py:100
+msgid "video metadatas"
+msgstr "Metadatos de videos"
+
+#: cmpirque/videos/models.py:104
 msgid "Active"
 msgstr "Activo"
 
-#: cmpirque/videos/models.py:99
+#: cmpirque/videos/models.py:106
 msgid "Checked at"
 msgstr "Verificado en"
 
-#: cmpirque/videos/models.py:102
+#: cmpirque/videos/models.py:109
 msgid "Ply Embed ID"
 msgstr ""
 
-#: cmpirque/videos/models.py:105
+#: cmpirque/videos/models.py:112
 msgid "Ply Provider"
 msgstr "Proveedores Ply"
 
-#: cmpirque/videos/models.py:183
+#: cmpirque/videos/models.py:120 cmpirque/videos/models.py:121
+#, fuzzy
+#| msgid "No video provider"
+msgid "video provider"
+msgstr "Sin proveedor de Video"
+
+#: cmpirque/videos/models.py:191
 msgid "Content"
 msgstr "Contenido"
 
-#: cmpirque/videos/models.py:184
+#: cmpirque/videos/models.py:192
 msgid "Initiation"
 msgstr "Inicio"
 
-#: cmpirque/videos/models.py:185
+#: cmpirque/videos/models.py:193
 msgid "End"
 msgstr "Fin"
 
-#: cmpirque/videos/models.py:228 cmpirque/videos/models.py:255
-#: cmpirque/videos/models.py:279
-msgid "Name"
-msgstr "Nombre"
+#: cmpirque/videos/models.py:196
+#, fuzzy
+#| msgid "Video Sequences"
+msgid "video sequence"
+msgstr "Sequencias de Video"
 
-#: cmpirque/videos/models.py:231 cmpirque/videos/models.py:258
-#: cmpirque/videos/models.py:282
-msgid "Slug"
-msgstr "Slug"
+#: cmpirque/videos/models.py:197
+#, fuzzy
+#| msgid "Video Sequences"
+msgid "video sequences"
+msgstr "Sequencias de Video"
 
-#: cmpirque/videos/models.py:239 cmpirque/videos/models.py:266
-#: cmpirque/videos/models.py:290
+#: cmpirque/videos/models.py:237
+#, fuzzy
+#| msgid "Categorization"
+msgid "video categorization"
+msgstr "Categorización"
+
+#: cmpirque/videos/models.py:238
+#, fuzzy
+#| msgid "Categorization"
+msgid "video categorizations"
+msgstr "Categorización"
+
+#: cmpirque/videos/models.py:249
 msgid "Position"
 msgstr "Posición"
 
-#: cmpirque/videos/models.py:242
+#: cmpirque/videos/models.py:269
 #, fuzzy
 #| msgid "categories"
 msgid "category"
 msgstr "categorías"
+
+#: cmpirque/videos/models.py:287
+msgid "person"
+msgstr ""
+
+#: cmpirque/videos/models.py:305
+#, fuzzy
+#| msgid "keywords"
+msgid "keyword"
+msgstr "palabras clave"
 
 #: env/lib/python3.9/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -911,10 +1006,6 @@ msgstr ""
 
 #: env/lib/python3.9/site-packages/django/db/models/fields/files.py:226
 msgid "File"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/files.py:375
-msgid "Image"
 msgstr ""
 
 #: env/lib/python3.9/site-packages/django/db/models/fields/json.py:18
@@ -1657,6 +1748,16 @@ msgstr ""
 #, python-format
 msgid "Index of %(directory)s"
 msgstr ""
+
+#, fuzzy
+#~| msgid "Create Video"
+#~ msgid "Create user"
+#~ msgstr "Crear Video"
+
+#, fuzzy
+#~| msgid "Users"
+#~ msgid "Username"
+#~ msgstr "Usuarios"
 
 #~ msgid "Video categories saved successfully"
 #~ msgstr "Categorias guardadas exitosamente"

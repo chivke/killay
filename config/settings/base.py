@@ -41,12 +41,7 @@ DJANGO_APPS = [
     "django.forms",
 ]
 
-THIRD_PARTY_APPS = [
-    "crispy_forms",
-    "allauth",
-    "allauth.account",
-    "allauth.socialaccount",
-]
+THIRD_PARTY_APPS = ["django_quill"]
 
 LOCAL_APPS = [
     "cmpirque.users.apps.UsersConfig",
@@ -180,4 +175,30 @@ LOGGING = {
         }
     },
     "root": {"level": "INFO", "handlers": ["console"]},
+}
+
+# Quill HTML input
+
+QUILL_CONFIGS = {
+    "default": {
+        "theme": "snow",
+        "modules": {
+            "syntax": True,
+            "toolbar": [
+                [
+                    {"header": []},
+                    {"align": []},
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strike",
+                    "blockquote",
+                    {"color": []},
+                    {"background": []},
+                ],
+                ["code-block", "link"],
+                ["clean"],
+            ],
+        },
+    }
 }

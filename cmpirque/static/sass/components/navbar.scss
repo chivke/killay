@@ -17,4 +17,12 @@
   	width: 100%;
     padding: .5rem;
   }
+
+  #searchform {
+    > .inverted.input {
+      align-items: flex-end;
+      height: 100%;
+      padding: .5rem;
+    }
+  }
 }

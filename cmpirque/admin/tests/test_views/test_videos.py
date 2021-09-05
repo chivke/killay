@@ -264,6 +264,26 @@ class TestVideoCategoryListView:
         assert "name" in response.context_data["formset"].errors[0]
         assert "slug" in response.context_data["formset"].errors[0]
 
+    def test_update_with_query_search(
+        self, admin_user: User, video_category: VideoCategory, rf_msg: RequestFactory
+    ):
+        data = {
+            **CATEGORY_FORMSET_DATA,
+            "form-0-id": video_category.id,
+            "form-0-name": video_category.name,
+            "form-0-slug": video_category.slug,
+            "form-0-description": "X",
+            "query_search": video_category.name,
+            "page_number": "1",
+        }
+        request = rf_msg("post", "/admin/videos/~categories/", data)
+        request.user = admin_user
+        response = video_categories_view(request)
+        video_category.refresh_from_db()
+        assert response.status_code == 302
+        assert VideoCategory.objects.filter(slug="slug2").exists()
+        assert video_category.description == "X"
+
 
 class TestVideoPeopleListView:
     def test_get(self, admin_user: User, video_person: VideoPerson, rf: RequestFactory):

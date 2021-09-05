@@ -1,4 +1,5 @@
 from django import forms
+from django_quill.forms import QuillFormField
 
 from cmpirque.pages.models import Page
 from cmpirque.admin.utils import ImageFileInput

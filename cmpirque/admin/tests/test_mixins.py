@@ -10,7 +10,7 @@ from cmpirque.admin.mixins import (
     AdminUpdateMixin,
 )
 from cmpirque.admin.models import SiteConfiguration
-
+from cmpirque.pages.forms import PageForm
 
 pytestmark = pytest.mark.django_db
 

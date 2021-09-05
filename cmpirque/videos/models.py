@@ -247,9 +247,6 @@ class VideoFilterAbstract(models.Model):
     )
     description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
     position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
-    # site = models.ForeignKey(
-    #     Site, on_delete=models.CASCADE, related_name="pages", default=settings.SITE_ID
-    # )
 
     class Meta:
         abstract = True
@@ -261,21 +258,6 @@ class VideoFilterAbstract(models.Model):
 
 
 class VideoCategory(VideoFilterAbstract):
-    # name = models.CharField(
-    #     gettext_lazy("Name"), max_length=255, null=False, blank=False
-    # )
-    # slug = models.SlugField(
-    #     gettext_lazy("Slug"),
-    #     max_length=255,
-    #     null=False,
-    #     blank=False,
-    #     db_index=True,
-    # )
-    # description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
-    # position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
-    # site = models.ForeignKey(
-    #     Site, on_delete=models.CASCADE, related_name="pages", default=settings.SITE_ID
-    # )
     site = models.ForeignKey(
         Site,
         on_delete=models.CASCADE,
@@ -289,27 +271,11 @@ class VideoCategory(VideoFilterAbstract):
         ordering = ["position", "slug"]
         unique_together = ["slug", "site"]
 
-    def __str__(self):
-        return self.name
-
     def get_absolute_url(self):
         return reverse("videos:category-list", kwargs={"slug": self.slug})
 
 
 class VideoPerson(VideoFilterAbstract):
-    # name = models.CharField(
-    #     gettext_lazy("Name"), max_length=255, null=False, blank=False
-    # )
-    # slug = models.SlugField(
-    #     gettext_lazy("Slug"),
-    #     max_length=255,
-    #     null=False,
-    #     blank=False,
-    #     unique=True,
-    #     db_index=True,
-    # )
-    # description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
-    # position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
     site = models.ForeignKey(
         Site,
         on_delete=models.CASCADE,
@@ -323,24 +289,11 @@ class VideoPerson(VideoFilterAbstract):
         ordering = ["position", "slug"]
         unique_together = ["slug", "site"]
 
-    def __str__(self):
-        return self.name
+    def get_absolute_url(self):
+        return reverse("videos:person-list", kwargs={"slug": self.slug})
 
 
 class VideoKeyword(VideoFilterAbstract):
-    # name = models.CharField(
-    #     gettext_lazy("Name"), max_length=255, null=False, blank=False
-    # )
-    # slug = models.SlugField(
-    #     gettext_lazy("Slug"),
-    #     max_length=255,
-    #     null=False,
-    #     blank=False,
-    #     unique=True,
-    #     db_index=True,
-    # )
-    # description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
-    # position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
     site = models.ForeignKey(
         Site,
         on_delete=models.CASCADE,
@@ -354,5 +307,5 @@ class VideoKeyword(VideoFilterAbstract):
         ordering = ["position", "slug"]
         unique_together = ["slug", "site"]
 
-    def __str__(self):
-        return self.name
+    def get_absolute_url(self):
+        return reverse("videos:keyword-list", kwargs={"slug": self.slug})

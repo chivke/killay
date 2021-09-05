@@ -15,7 +15,7 @@ from django.utils.translation import gettext, gettext_lazy
 
 class UserCreateView(AdminRequiredMixin, CreateView):
     form_class = UserCreationForm
-    template_name = "admin/components/generic_form.html"
+    template_name = "admin/generic_form.html"
     extra_context = {"form_title": gettext_lazy("Create User")}
 
     def get_success_url(self):
@@ -29,7 +29,6 @@ user_create_view = UserCreateView.as_view()
 class UserUpdateView(AdminUpdateMixin):
     model = User
     form_class = UserUpdateForm
-    template_name = "admin/components/generic_form.html"
     slug_field = "username"
     read_only_fields = ["date_joined", "last_login"]
     reverse_success_url = "admin:users_update"
@@ -40,7 +39,6 @@ user_update_view = UserUpdateView.as_view()
 
 class UserListView(AdminListMixin):
     model = User
-    template_name = "admin/components/generic_list.html"
     slug_key = "username"
     list_title = gettext_lazy("Users Administration")
     list_fields = ["is_superuser", "username", "email"]
@@ -61,7 +59,6 @@ user_list_view = UserListView.as_view()
 
 class UserDeleteView(AdminDeleteMixin):
     model = User
-    template_name = "admin/components/generic_delete.html"
     slug_field = "username"
     reverse_success_url = "admin:users_list"
 

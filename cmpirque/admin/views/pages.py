@@ -15,8 +15,9 @@ from django.utils.translation import gettext, gettext_lazy
 
 class PageCreateView(AdminRequiredMixin, CreateView):
     form_class = PageForm
-    template_name = "admin/components/generic_form.html"
+    template_name = "admin/generic_form.html"
     extra_context = {"form_title": gettext_lazy("Create Page")}
+    html_fields = ["body"]
 
     def get_success_url(self):
         messages.info(self.request, gettext(f'Page "{self.object.title}" was created'))
@@ -29,7 +30,6 @@ page_create_view = PageCreateView.as_view()
 class PageUpdateView(AdminUpdateMixin):
     model = Page
     form_class = PageForm
-    template_name = "admin/components/generic_form.html"
     read_only_fields = ["created_at", "updated_at"]
     reverse_success_url = "admin:pages_update"
 

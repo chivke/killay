@@ -3,6 +3,12 @@
 
 {% block title %}{{form_title}}{% endblock %}
 
+{% block extra_css %}
+  {% if form.media %}
+    {{form.media}}
+  {% endif %}
+{% endblock extra_css %}
+
 {% block sidebar %}
   {% include "admin/components/sidebar.html" %}
 {% endblock sidebar %}
@@ -13,6 +19,7 @@
       method="post"
       action="."
       class="ui form"
+      id="generic_form_id"
     >
       {% csrf_token %}
       <div class="field">
@@ -62,5 +69,8 @@
     $('.ui.checkbox')
       .checkbox()
     ;
+    {% for field in html_fields %}
+      var html_input_{{field}} = new Quill("#id_{{field}}", {theme: 'snow'});
+    {% endfor %}
   </script>
 {% endblock extra_js %}

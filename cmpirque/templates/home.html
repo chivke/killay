@@ -13,7 +13,7 @@
     <div id="home-container" class="txt">
       {% if  home_page %}
         {% autoescape off %}
-          {{ home_page.body }}
+          {{ home_page.body.html }}
         {% endautoescape %}
       {% endif %}
     </div>

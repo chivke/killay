@@ -1,0 +1,39 @@
+<input
+  type="hidden" name="{{ widget.name }}"
+  {% include "django/forms/widgets/attrs.html" %}
+ >
+<div class="quill-html-input" id="quill_{{widget.name}}" input-id="id_{{widget.name}}">
+  {% if widget.value %}{{ widget.value }}{% endif %}
+</div>
+{{widget}}
+<script type="text/javascript">
+  var html_containers = Array.from(document.getElementsByClassName("quill-html-input"));
+  var quill_handler = {};
+  html_containers.map(container=>{
+    quill_handler[container.id] = new Quill(`#${container.id}`, {theme: 'snow'});
+  });
+  // var quill_{{widget.name}} = new Quill('#quill-{{widget.name}}', {
+  //   modules: {
+  //     toolbar: [
+  //       ['bold', 'italic'],
+  //       ['link', 'blockquote', 'code-block', 'image'],
+  //       [{ list: 'ordered' }, { list: 'bullet' }]
+  //     ]
+  //   },
+  //   placeholder: 'Compose an epic...',
+  //   theme: 'snow'
+  // });
+  var form = document.querySelector('form[id="{{widget.form_id}}"]');
+  form.onsubmit = function (event) {
+    // var html_containers = Array.from(document.getElementsByClassName("quill-html-input"));
+    event.preventDefault();
+    html_containers.map(container=>{
+      let input_id = container.getAttribute("input-id");
+      console.log(input_id);
+      let input = document.getElementById(input_id);
+      input.value = JSON.stringify(quill_handler[container.id].getContents());
+      console.log(input.value);
+      alert("works?")
+    });
+  };
+</script>

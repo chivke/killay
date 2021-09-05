@@ -23,11 +23,7 @@ class HomeView(PublishRequiredMixin, TemplateView):
         return context
 
     def get_home_if_exists(self):
-        try:
-            home_page = Page.objects.get(slug="home")
-        except Page.DoesNotExist:
-            home_page = None
-        return home_page
+        return Page.objects.get(slug="home")
 
 
 home_page_view = HomeView.as_view()

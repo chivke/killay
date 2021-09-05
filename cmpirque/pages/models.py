@@ -1,14 +1,11 @@
 from django.conf import settings
+from django.contrib.sites.models import Site
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
+from django_quill.fields import QuillField
 
-from django.contrib.sites.models import Site
-
-
-class PageManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(site_id=settings.SITE_ID)
+from cmpirque.admin.utils import InSiteManager
 
 
 class Page(models.Model):
@@ -18,7 +15,7 @@ class Page(models.Model):
     slug = models.SlugField(
         gettext_lazy("Slug"), max_length=150, null=False, blank=False
     )
-    body = models.TextField(gettext_lazy("Body"), null=True, blank=True)
+    body = QuillField(gettext_lazy("Body"), null=True, blank=True)
     is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
     is_visible_in_navbar = models.BooleanField(
         gettext_lazy("Is visible in navbar"), default=False
@@ -40,7 +37,7 @@ class Page(models.Model):
         verbose_name = gettext_lazy("page")
         verbose_name_plural = gettext_lazy("pages")
 
-    objects = PageManager()
+    objects = InSiteManager()
 
     def __str__(self):
         return f"{self.title} <{self.slug}>"

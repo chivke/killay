@@ -12,7 +12,7 @@ from cmpirque.videos.models import (
     VideoSequence,
 )
 
-from cmpirque.videos.utils import ImageFileInput
+from cmpirque.admin.utils import ImageFileInput
 
 
 class VideoForm(forms.ModelForm):

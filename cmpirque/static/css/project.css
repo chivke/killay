@@ -33,13 +33,10 @@ h1 {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%; }
 
-#login-container {
-  width: 50%;
+#login-form {
+  max-width: 400px;
   margin: 32px auto;
-  margin: 2rem auto;
-  max-width: 700px; }
-  #login-container #login-form {
-    padding: 10%; }
+  margin: 2rem auto; }
 
 #site-navbar {
   margin: 0;
@@ -62,8 +59,12 @@ h1 {
         -ms-flex-align: end;
             align-items: flex-end;
     height: 100%;
-    padding: 8px;
-    padding: .5rem; }
+    padding: 0; }
+    #site-navbar #searchform > .inverted.input #searchbox {
+      margin: 10px; }
+    #site-navbar #searchform > .inverted.input > .icon.button {
+      padding: 3.2px;
+      padding: .2rem; }
 
 .cmp-footer {
   position: fixed;
@@ -118,7 +119,8 @@ h1 {
   font-family: "BrandonRegular"; }
 
 #admin-main-container {
-  padding: 0 15%;
+  padding: 16px 10vw;
+  padding: 1rem 10vw;
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
   font-family: "BrandonRegular";
@@ -157,8 +159,7 @@ h1 {
           justify-content: space-between; }
 
 #admin-navbar {
-  margin: 0 0 16px;
-  margin: 0 0 1rem;
+  margin: 0;
   font-family: "BrandonRegular"; }
 
 #video-admin-container {
@@ -325,3 +326,15 @@ h1 {
   text-align: center;
   margin: 32px;
   margin: 2rem; }
+
+.page-header-image {
+  background-size: cover;
+  height: 65vh; }
+
+#home-container {
+  font-family: "BrandonRegular";
+  max-width: 700px;
+  margin: 32px auto;
+  margin: 2rem auto; }
+  #home-container p {
+    text-align: justify; }

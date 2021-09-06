@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-05 02:49+0000\n"
+"POT-Creation-Date: 2021-09-06 01:48+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -387,23 +387,25 @@ msgstr "Acceder"
 
 #: cmpirque/templates/users/login.html:10
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
+msgstr "Usuario y contraseña no coinciden. Por favor intenta de nuevo."
 
 #: cmpirque/templates/users/login.html:20
 msgid ""
 "Your account doesn't have access to this page. To proceed, please login with "
 "an account that has access."
 msgstr ""
+"Tu cuenta no tiene acceso a esta página. Para proceder, favor logearse con "
+"una cuenta con acceso."
 
 #: cmpirque/templates/users/login.html:27
 msgid "Please login to see this page."
-msgstr ""
+msgstr "Favor acceder para ver esta página."
 
 #: cmpirque/templates/users/login.html:47
 msgid "Restore password"
-msgstr ""
+msgstr "Reestablecer contraseña"
 
-#: cmpirque/templates/users/password_change_form.html:10
+#: cmpirque/templates/users/password_change_form.html:16
 #: cmpirque/templates/users/password_reset_confirm.html:14
 #: cmpirque/templates/users/user_form.html:39
 msgid "Change Password"
@@ -416,6 +418,9 @@ msgid ""
 "used.  Please request a <a href=\"%(passwd_reset_url)s\">new password reset</"
 "a>."
 msgstr ""
+"El link para reinicia la contraseña es inválido, posiblemente porque ya ha sido "
+"usado. Por favor, requerir un nuevo <a href=\"%(passwd_reset_url)s\">reinicio de contraseña </"
+"a>."
 
 #: cmpirque/templates/users/password_reset_form.html:5
 #: cmpirque/templates/users/password_reset_form.html:19
@@ -431,10 +436,12 @@ msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
 msgstr ""
+"¿Perdiste tu contraseña? Ingresa tu dirección de correo, y te enviaremos "
+" un correo para que puedas reestablecerla."
 
 #: cmpirque/templates/users/password_reset_form.html:26
 msgid "Reset My Password"
-msgstr ""
+msgstr "Reestablecer contraseña"
 
 #: cmpirque/templates/users/user_form.html:20
 msgid "Update user"
@@ -622,6 +629,11 @@ msgstr ""
 #| msgid "keywords"
 msgid "keyword"
 msgstr "palabras clave"
+
+#: cmpirque/videos/views.py:94
+#, python-brace-format
+msgid "Videos with \"{self.query_search}\" not founded."
+msgstr "No fueron encontrados videos con \"{self.query_search}\""
 
 #: env/lib/python3.9/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"

@@ -22,7 +22,14 @@
     > .inverted.input {
       align-items: flex-end;
       height: 100%;
-      padding: .5rem;
+      padding: 0;
+
+      #searchbox {
+        margin: 10px;
+      }
+      > .icon.button {
+        padding: .2rem;
+      }
     }
   }
 }

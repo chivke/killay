@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, ListView
 from django.urls import reverse
+from django.utils.translation import gettext
 
 
 from cmpirque.videos.models import Video, VideoCategory, VideoKeyword, VideoPerson
@@ -90,7 +91,7 @@ class VideoSearchView(PublishRequiredMixin, ListView):
         context["query_search"] = self.query_search
         if not self.object_list:
             messages.info(
-                self.request, f'Videos with "{self.query_search}" not founded.'
+                self.request, gettext(f'Videos with "{self.query_search}" not founded.')
             )
         return super().render_to_response(context)
 

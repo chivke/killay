@@ -1,14 +1,26 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ object.title }}{% endblock %}
+{% block title %}{{ object.title }} - {{ site_name }}{% endblock %}
 
 {% block content %}
-<div class="container">
-  {{object}}
-  <h1>{{ object.title }}</h1>
-
-  {% autoescape off %}{{ object.body.html }}{% endautoescape %}
-
-</div>
+  {% if object.header_image %}
+    <div
+      class="page-header-image"
+      style="
+        background-image: url('{{object.header_image.url}}');
+        background-color: #dedede;
+      "
+    ></div>
+  {% endif %}
+  <div id="home-container" class="txt">
+    <h1 class="header">{{object.title}}</h1>
+    <div class="ui divider"></div>
+    {% autoescape off %}
+      {{ object.body.html }}
+    {% endautoescape %}
+  </div>
 {% endblock content %}
+
+{% block extra_js %}
+{% endblock extra_js %}

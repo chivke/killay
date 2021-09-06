@@ -5,18 +5,19 @@
 {% endblock title %}
 
 {% block content %}
-  {% if home_page and home_page.header_image %}
-    <img id="home-img" class="ui image fluid" src="{{ home_page.header_image.url }}">
-    {{ home_page.header_image.url }}
+  {% if home_page.header_image %}
+    <div
+      class="page-header-image"
+      style="
+        background-image: url('{{home_page.header_image.url}}');
+        background-color: #dedede;
+      "
+    ></div>
   {% endif %}
-  <div class="ui vertical segment">
-    <div id="home-container" class="txt">
-      {% if  home_page %}
-        {% autoescape off %}
-          {{ home_page.body.html }}
-        {% endautoescape %}
-      {% endif %}
-    </div>
+  <div id="home-container" class="txt">
+    {% autoescape off %}
+      {{ home_page.body.html }}
+    {% endautoescape %}
   </div>
 {% endblock content %}
 {% block extra_js %}

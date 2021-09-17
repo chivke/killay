@@ -11,12 +11,12 @@ env = environ.Env()
 # General
 
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
-TIME_ZONE = "America/Santiago"
+# TIME_ZONE = "America/Santiago"
 LANGUAGE_CODE = "en-us"
 SITE_ID = 1
 USE_TZ = True
-SITE_NAME = env("SITE_NAME", default="Centro de Memoria Audiovisual de Pirque")
-SITE_DOMAIN = env("SITE_DOMAIN", default="example-site.com")
+SITE_NAME = env("SITE_NAME", default="Killay Site Name")
+SITE_DOMAIN = env("SITE_DOMAIN", default="killay-site.com")
 LOCALE_PATHS = ("locale",)
 
 # Database
@@ -133,9 +133,6 @@ TEMPLATES = [
 ]
 
 FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
-
-# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 
 # Fixtures

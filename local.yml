@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/app:z
     env_file:
-      - ./.env
+      - ./.local.env
     ports:
       - "8000:8000"
     command: /start
@@ -31,7 +31,7 @@ services:
       - local_postgres_data:/var/lib/postgresql/data:Z
       - local_postgres_data_backups:/backups:z
     env_file:
-      - ./.env
+      - ./.local.env
 
   node:
     build:

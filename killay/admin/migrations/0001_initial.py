@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             name='SiteConfiguration',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(default='Centro de Memoria Audiovisual de Pirque', max_length=250, verbose_name='Name of Site')),
+                ('name', models.CharField(default='Killay Site Name', max_length=250, verbose_name='Name of Site')),
                 ('domain', models.CharField(default='example-site.com', max_length=250, verbose_name='Domain')),
                 ('is_published', models.BooleanField(default=True, verbose_name='Is published')),
                 ('site', models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='configuration', to='sites.Site')),

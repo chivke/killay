@@ -17,8 +17,8 @@ SOCIALMEDIA_FORMSET_DATA = {
     "social_medias-TOTAL_FORMS": "1",
     "social_medias-0-provider": "youtube",
     "social_medias-0-url": "http://youtube.com",
-    "social_medias-0-css_class": "youtube-class",
     "social_medias-0-is_visible": True,
+    "social_medias-0-position": "0",
 }
 
 LOGO_FORMSET_DATA = {"logos-INITIAL_FORMS": "0", "logos-TOTAL_FORMS": "0"}
@@ -47,7 +47,6 @@ class TestSiteConfigurationView:
         social_media = conf.social_medias.first()
         assert social_media.provider == "youtube"
         assert social_media.url == "http://youtube.com"
-        assert social_media.css_class == "youtube-class"
         assert social_media.is_visible is True
 
     def test_update_fail(self, admin_user: User, rf: RequestFactory):

@@ -46,8 +46,11 @@ def test_video_bulk_create_from_csv_file(video_csv_data, tmpdir):
         writer.writeheader()
         for data in video_csv_data:
             writer.writerow(data)
-    videos = admin_services.video_bulk_create_from_csv_file(csv_file)
+    videos = admin_services.video_bulk_create_from_csv_file(
+        csv_file, collection="Test Collection"
+    )
     assert len(videos) == 5
+    assert videos[0].categorization.collection.slug == "test-collection"
     assert all([video.meta and video.categorization for video in videos])
     assert all([video.categorization.categories.exists() for video in videos])
     assert all([video.categorization.people.exists() for video in videos])

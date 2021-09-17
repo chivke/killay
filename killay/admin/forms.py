@@ -13,7 +13,7 @@ class SiteConfigurationForm(forms.ModelForm):
 class SocialMediaForm(forms.ModelForm):
     class Meta:
         model = SocialMedia
-        fields = ["provider", "url", "css_class", "is_visible"]
+        fields = ["provider", "url", "is_visible", "position"]
 
 
 SocialMediaFormSet = forms.inlineformset_factory(
@@ -24,7 +24,7 @@ SocialMediaFormSet = forms.inlineformset_factory(
 class LogoForm(forms.ModelForm):
     class Meta:
         model = Logo
-        fields = ["name", "image", "is_visible"]
+        fields = ["name", "image", "is_visible", "position"]
 
     image = forms.ImageField(widget=ImageFileInput())
 

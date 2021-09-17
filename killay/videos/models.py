@@ -223,14 +223,20 @@ class VideoCategorization(models.Model):
     video = models.OneToOneField(
         Video, on_delete=models.CASCADE, related_name="categorization"
     )
+    collection = models.ForeignKey(
+        "VideoCollection",
+        on_delete=models.CASCADE,
+        related_name="videos",
+        verbose_name=gettext_lazy("Collections"),
+    )
     categories = models.ManyToManyField(
-        "VideoCategory", related_name="videos", verbose_name="Categories"
+        "VideoCategory", related_name="videos", verbose_name=gettext_lazy("Categories")
     )
     people = models.ManyToManyField(
-        "VideoPerson", related_name="videos", verbose_name="People"
+        "VideoPerson", related_name="videos", verbose_name=gettext_lazy("People")
     )
     keywords = models.ManyToManyField(
-        "VideoKeyword", related_name="videos", verbose_name="Keywords"
+        "VideoKeyword", related_name="videos", verbose_name=gettext_lazy("Keywords")
     )
 
     class Meta:
@@ -257,6 +263,24 @@ class VideoFilterAbstract(models.Model):
         return f"{self.name} <{self.slug}>"
 
 
+class VideoCollection(VideoFilterAbstract):
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.CASCADE,
+        related_name="video_collections",
+        default=settings.SITE_ID,
+    )
+
+    class Meta:
+        verbose_name = gettext_lazy("collection")
+        verbose_name_plural = gettext_lazy("collections")
+        ordering = ["position", "slug"]
+        unique_together = ["slug", "site"]
+
+    def get_absolute_url(self):
+        return reverse("videos:collection-list", kwargs={"slug": self.slug})
+
+
 class VideoCategory(VideoFilterAbstract):
     site = models.ForeignKey(
         Site,
@@ -264,12 +288,18 @@ class VideoCategory(VideoFilterAbstract):
         related_name="video_categories",
         default=settings.SITE_ID,
     )
+    collection = models.ForeignKey(
+        VideoCollection,
+        on_delete=models.CASCADE,
+        related_name="video_categories",
+        verbose_name=gettext_lazy("Collection"),
+    )
 
     class Meta:
         verbose_name = gettext_lazy("category")
         verbose_name_plural = gettext_lazy("categories")
-        ordering = ["position", "slug"]
-        unique_together = ["slug", "site"]
+        ordering = ["collection", "position", "slug"]
+        unique_together = [["slug", "site"], ["slug", "collection"]]
 
     def get_absolute_url(self):
         return reverse("videos:category-list", kwargs={"slug": self.slug})
@@ -281,6 +311,12 @@ class VideoPerson(VideoFilterAbstract):
         on_delete=models.CASCADE,
         related_name="video_people",
         default=settings.SITE_ID,
+    )
+    collection = models.ForeignKey(
+        VideoCollection,
+        on_delete=models.CASCADE,
+        related_name="video_people",
+        verbose_name=gettext_lazy("Collection"),
     )
 
     class Meta:
@@ -299,6 +335,12 @@ class VideoKeyword(VideoFilterAbstract):
         on_delete=models.CASCADE,
         related_name="video_keywords",
         default=settings.SITE_ID,
+    )
+    collection = models.ForeignKey(
+        VideoCollection,
+        on_delete=models.CASCADE,
+        related_name="video_keywords",
+        verbose_name=gettext_lazy("Collection"),
     )
 
     class Meta:

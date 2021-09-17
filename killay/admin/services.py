@@ -16,6 +16,7 @@ from killay.videos.models import (
     VideoMeta,
     VideoCategorization,
     VideoCategory,
+    VideoCollection,
     VideoPerson,
     VideoKeyword,
 )
@@ -49,7 +50,7 @@ def date_serializer_for_data_list(data: dict, fields: List[str]) -> dict:
     return serialized_data
 
 
-def video_bulk_create_from_csv_file(path: str):
+def video_bulk_create_from_csv_file(path: str, collection: str):
     with open(path, "r") as file:
         videos_data_list = list(DictReader(file))
     assert all(
@@ -85,9 +86,11 @@ def video_bulk_create_from_csv_file(path: str):
 
     created_videos = []
     with transaction.atomic():
+        collection, _ = VideoCollection.objects.get_or_create(
+            slug=slugify(collection), defaults={"name": collection}
+        )
         for video_data in videos_data_list:
             video_meta = VideoMeta(**video_data["videometa_data"])
-
             video_meta.save()
             video = Video(meta_id=video_meta.id, **video_data["video_data"])
             video.save()
@@ -100,12 +103,16 @@ def video_bulk_create_from_csv_file(path: str):
                 categorization[field] = [
                     (
                         model.objects.get_or_create(
-                            slug=slugify(value[:254]), defaults={"name": value[:254]}
+                            slug=slugify(value[:254]),
+                            collection_id=collection.id,
+                            defaults={"name": value[:254]},
                         )
                     )[0]
                     for value in video_data["videocategorization_data"][field]
                 ]
-            video_categorization = VideoCategorization(video=video)
+            video_categorization = VideoCategorization(
+                video=video, collection_id=collection.id
+            )
             video_categorization.save()
             video_categorization.categories.add(*categorization["categories"])
             video_categorization.people.add(*categorization["people"])
@@ -117,6 +124,7 @@ def video_bulk_create_from_csv_file(path: str):
 def bulk_update_data_for_deploy(
     path: str = ".data_for_deploy",
     videos_csv_filename: str = "videos.csv",
+    collection_name: str = "First Collection",
     thumbs_foldername: str = "thumbs",
     sequences_vtt_foldername: str = "VTT",
     home_header_image_filename: str = "home_header_image.jpg",
@@ -154,7 +162,9 @@ def bulk_update_data_for_deploy(
     fixtures_path = path / fixtures_foldername
 
     if videos_csv_path.is_file():
-        video_bulk_create_from_csv_file(str(videos_csv_path))
+        video_bulk_create_from_csv_file(
+            str(videos_csv_path), collection=collection_name
+        )
     if thumbs_path.is_dir():
         thumbs = [thumb for thumb in thumbs_path.iterdir() if thumb.suffix == ".jpg"]
         thumbs_codes = [thumb.name[: -len(thumb.suffix)] for thumb in thumbs]

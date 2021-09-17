@@ -185,6 +185,7 @@ class TestVideoCategorizationUpdateView:
             "categories": [video_category.id],
             "people": [video_person.id],
             "keywords": [video_keyword.id],
+            "collection": video_category.collection.id,
         }
         request = rf_msg("post", f"/admin/videos/{video.code}/~categorization/", data)
         request.user = admin_user
@@ -211,10 +212,12 @@ CATEGORY_FORMSET_DATA = {
     "form-0-slug": "slug1",
     "form-0-description": "description1",
     "form-0-position": "0",
+    "form-0-collection": "1",
     "form-1-name": "name2",
     "form-1-slug": "slug2",
     "form-1-description": "description2",
     "form-1-position": "1",
+    "form-1-collection": "1",
 }
 
 
@@ -238,6 +241,8 @@ class TestVideoCategoryListView:
             "form-0-id": video_category.id,
             "form-0-name": video_category.name,
             "form-0-slug": video_category.slug,
+            "form-0-collection": video_category.collection.id,
+            "form-1-collection": video_category.collection.id,
             "form-0-description": "X",
         }
         request = rf_msg("post", "/admin/videos/~categories/", data)
@@ -272,6 +277,8 @@ class TestVideoCategoryListView:
             "form-0-id": video_category.id,
             "form-0-name": video_category.name,
             "form-0-slug": video_category.slug,
+            "form-0-collection": video_category.collection.id,
+            "form-1-collection": video_category.collection.id,
             "form-0-description": "X",
             "query_search": video_category.name,
             "page_number": "1",
@@ -303,6 +310,8 @@ class TestVideoPeopleListView:
             "form-0-id": video_person.id,
             "form-0-name": video_person.name,
             "form-0-slug": video_person.slug,
+            "form-0-collection": video_person.collection.id,
+            "form-1-collection": video_person.collection.id,
             "form-0-description": "X",
         }
         request = rf_msg("post", "/admin/videos/~people/", data)
@@ -350,6 +359,8 @@ class TestVideoKeywordListView:
             "form-0-id": video_keyword.id,
             "form-0-name": video_keyword.name,
             "form-0-slug": video_keyword.slug,
+            "form-0-collection": video_keyword.collection.id,
+            "form-1-collection": video_keyword.collection.id,
             "form-0-description": "X",
         }
         request = rf_msg("post", "/admin/videos/~keywords/", data)

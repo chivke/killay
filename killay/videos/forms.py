@@ -5,6 +5,7 @@ from killay.videos.models import (
     Video,
     VideoCategory,
     VideoCategorization,
+    VideoCollection,
     VideoKeyword,
     VideoMeta,
     VideoPerson,
@@ -60,7 +61,7 @@ VideoSequenceFormSet = forms.inlineformset_factory(
 class VideoCategorizationForm(forms.ModelForm):
     class Meta:
         model = VideoCategorization
-        fields = ["categories", "people", "keywords"]
+        fields = ["categories", "people", "keywords", "collection"]
 
     categories = forms.ModelMultipleChoiceField(
         queryset=VideoCategory.objects.all(),
@@ -79,10 +80,25 @@ class VideoCategorizationForm(forms.ModelForm):
     )
 
 
+class VideoCollectionForm(forms.ModelForm):
+    class Meta:
+        model = VideoCollection
+        fields = ["name", "slug", "description", "position"]
+
+    description = forms.CharField(
+        required=False, widget=forms.Textarea(attrs={"rows": 1})
+    )
+
+
+VideoCollectionFormSet = forms.modelformset_factory(
+    VideoCollection, form=VideoCollectionForm, extra=1, can_delete=True
+)
+
+
 class VideoCategoryForm(forms.ModelForm):
     class Meta:
         model = VideoCategory
-        fields = ["name", "slug", "description", "position"]
+        fields = ["name", "slug", "description", "collection", "position", "collection"]
 
     description = forms.CharField(
         required=False, widget=forms.Textarea(attrs={"rows": 1})
@@ -97,7 +113,7 @@ VideoCategoryFormSet = forms.modelformset_factory(
 class VideoPersonForm(forms.ModelForm):
     class Meta:
         model = VideoPerson
-        fields = ["name", "slug", "description", "position"]
+        fields = ["name", "slug", "description", "position", "collection"]
 
     description = forms.CharField(
         required=False, widget=forms.Textarea(attrs={"rows": 1})
@@ -112,7 +128,7 @@ VideoPeopleFormSet = forms.modelformset_factory(
 class VideoKeywordForm(forms.ModelForm):
     class Meta:
         model = VideoKeyword
-        fields = ["name", "slug", "description", "position"]
+        fields = ["name", "slug", "description", "position", "collection"]
 
     description = forms.CharField(
         required=False, widget=forms.Textarea(attrs={"rows": 1})

@@ -10,6 +10,7 @@ from killay.videos.models import (
     Video,
     VideoCategory,
     VideoCategorization,
+    VideoCollection,
     VideoKeyword,
     VideoMeta,
     VideoPerson,
@@ -45,6 +46,15 @@ class VideoProviderFactory(DjangoModelFactory):
     plyr_provider = VideoProviderConstants.VIMEO
 
 
+class VideoCollectionFactory(DjangoModelFactory):
+    class Meta:
+        model = VideoCollection
+
+    name = factory.Faker("name")
+    slug = factory.Faker("slug")
+    description = factory.Faker("text")
+
+
 class VideoCategoryFactory(DjangoModelFactory):
     class Meta:
         model = VideoCategory
@@ -52,6 +62,7 @@ class VideoCategoryFactory(DjangoModelFactory):
     name = factory.Faker("name")
     slug = factory.Faker("slug")
     description = factory.Faker("text")
+    collection = factory.SubFactory(VideoCollectionFactory)
 
 
 class VideoPersonFactory(DjangoModelFactory):
@@ -61,6 +72,7 @@ class VideoPersonFactory(DjangoModelFactory):
     name = factory.Faker("name")
     slug = factory.Faker("slug")
     description = factory.Faker("text")
+    collection = factory.SubFactory(VideoCollectionFactory)
 
 
 class VideoKeywordFactory(DjangoModelFactory):
@@ -70,6 +82,7 @@ class VideoKeywordFactory(DjangoModelFactory):
     name = factory.Faker("name")
     slug = factory.Faker("slug")
     description = factory.Faker("text")
+    collection = factory.SubFactory(VideoCollectionFactory)
 
 
 class VideoCategorizationFactory(DjangoModelFactory):
@@ -77,6 +90,7 @@ class VideoCategorizationFactory(DjangoModelFactory):
         model = VideoCategorization
 
     video = factory.SubFactory(VideoFactory)
+    collection = factory.SubFactory(VideoCollectionFactory)
 
     @factory.post_generation
     def categories(self, create, categories, **kwargs):

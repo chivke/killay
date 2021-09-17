@@ -56,10 +56,13 @@ class SocialMedia(models.Model):
         blank=False,
     )
     url = models.URLField(gettext_lazy("URL"))
-    css_class = models.CharField(
-        gettext_lazy("CSS Class"), max_length=150, null=True, blank=True
-    )
     is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
+    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+
+    class Meta:
+        verbose_name = gettext_lazy("social media")
+        verbose_name_plural = gettext_lazy("social medias")
+        ordering = ["position"]
 
 
 class Logo(models.Model):
@@ -69,3 +72,9 @@ class Logo(models.Model):
     name = models.CharField(gettext_lazy("Name"), max_length=255)
     image = models.ImageField(gettext_lazy("Image"), upload_to="logos")
     is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
+    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+
+    class Meta:
+        verbose_name = gettext_lazy("logo")
+        verbose_name_plural = gettext_lazy("logos")
+        ordering = ["position"]

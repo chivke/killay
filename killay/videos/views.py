@@ -7,7 +7,13 @@ from django.urls import reverse
 from django.utils.translation import gettext
 
 
-from killay.videos.models import Video, VideoCategory, VideoKeyword, VideoPerson
+from killay.videos.models import (
+    Video,
+    VideoCategory,
+    VideoCollection,
+    VideoKeyword,
+    VideoPerson,
+)
 
 from killay.admin.mixins import PublishRequiredMixin
 
@@ -54,6 +60,13 @@ class CategorizationMixin(PublishRequiredMixin):
         )
         paginator = Paginator(videos, self.paginate_by)
         return paginator.get_page(self.request.GET.get("page"))
+
+
+class VideoCollectionDetailView(CategorizationMixin, DetailView):
+    model = VideoCollection
+
+
+video_collection_list_view = VideoCollectionDetailView.as_view()
 
 
 class VideoCategoryDetailView(CategorizationMixin, DetailView):

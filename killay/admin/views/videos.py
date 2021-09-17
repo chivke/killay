@@ -155,6 +155,17 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
 video_categorization = VideoCategorizationUpdateView.as_view()
 
 
+class VideoCollectionListView(FormSetListMixin):
+    model = VideoCategory
+    formset_class = VideoCategoryFormSet
+    label_plural = gettext("collections")
+    reverse_url = "admin:videos_collections"
+    formset_title = gettext("Video Collections")
+
+
+video_collections_view = VideoCollectionListView.as_view()
+
+
 class VideoCategoryListView(FormSetListMixin):
     model = VideoCategory
     formset_class = VideoCategoryFormSet

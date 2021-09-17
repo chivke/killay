@@ -40,9 +40,6 @@ class SiteConfiguration(models.Model):
         self.site.domain = self.domain
         self.site.save()
 
-    def get_site(self):
-        return Site.objects.get(id=self.id)
-
 
 class SocialMedia(models.Model):
     config = models.ForeignKey(

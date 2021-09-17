@@ -16,6 +16,7 @@ from killay.videos.models import (
     Video,
     VideoCategorization,
     VideoCategory,
+    VideoCollection,
     VideoKeyword,
     VideoPerson,
     VideoProvider,
@@ -25,6 +26,7 @@ from killay.videos.tests.factories import (
     VideoFactory,
     VideoCategorizationFactory,
     VideoCategoryFactory,
+    VideoCollectionFactory,
     VideoKeywordFactory,
     VideoPersonFactory,
     VideoProviderFactory,
@@ -85,6 +87,11 @@ def video_provider(video: Video) -> VideoProvider:
 @pytest.fixture
 def video_providers(video: Video) -> VideoProvider:
     return VideoProviderFactory.create_batch(5, video=video)
+
+
+@pytest.fixture
+def video_collection() -> VideoCollection:
+    return VideoCollectionFactory()
 
 
 @pytest.fixture

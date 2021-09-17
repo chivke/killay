@@ -17,6 +17,11 @@ urlpatterns = [path("", view=admin_configuration_view, name="configuration")]
 urlpatterns += [
     path("videos/~create/", view=videos_views.video_create_view, name="videos_create"),
     path(
+        "videos/~collections/",
+        view=videos_views.video_collections_view,
+        name="videos_collections",
+    ),
+    path(
         "videos/~categories/",
         view=videos_views.video_categories_view,
         name="videos_categories",

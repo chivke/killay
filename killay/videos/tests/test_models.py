@@ -8,6 +8,7 @@ from django.utils import timezone
 from killay.videos.models import (
     Video,
     VideoCategory,
+    VideoCollection,
     VideoKeyword,
     VideoPerson,
     VideoProvider,
@@ -131,4 +132,18 @@ class TestVideoKeyword:
     def test_get_absolute_url(self, video_keyword: VideoKeyword):
         assert (
             video_keyword.get_absolute_url() == f"/videos/keyword/{video_keyword.slug}/"
+        )
+
+
+class TestVideoCollection:
+    def test_str(self, video_collection: VideoCollection):
+        assert (
+            str(video_collection)
+            == f"{video_collection.name} <{video_collection.slug}>"
+        )
+
+    def test_get_absolute_url(self, video_collection: VideoCollection):
+        assert (
+            video_collection.get_absolute_url()
+            == f"/videos/collection/{video_collection.slug}/"
         )

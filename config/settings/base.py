@@ -11,7 +11,6 @@ env = environ.Env()
 # General
 
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
-# TIME_ZONE = "America/Santiago"
 LANGUAGE_CODE = "en-us"
 SITE_ID = 1
 USE_TZ = True

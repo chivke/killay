@@ -3,6 +3,7 @@ from django.urls import path
 
 from killay.videos.views import (
     video_category_list_view,
+    video_collection_list_view,
     video_detail_view,
     video_keyword_list_view,
     video_list_view,
@@ -14,6 +15,11 @@ app_name = "videos"
 urlpatterns = [
     path("", view=video_list_view, name="list"),
     path("search/", view=video_search_list_view, name="search"),
+    path(
+        "collection/<str:slug>/",
+        view=video_collection_list_view,
+        name="collection-list",
+    ),
     path("category/<str:slug>/", view=video_category_list_view, name="category-list"),
     path("person/<str:slug>/", view=video_person_list_view, name="person-list"),
     path("keyword/<str:slug>/", view=video_keyword_list_view, name="keyword-list"),

@@ -17,6 +17,7 @@ def show_admin_navbar(context):
     view_name = request.resolver_match.view_name
     video_admin_links = [
         ("create", gettext_lazy("Create Video"), "admin:videos_create"),
+        ("collections", gettext_lazy("Collections"), "admin:videos_collections"),
         ("categories", gettext_lazy("Categories"), "admin:videos_categories"),
         ("people", gettext_lazy("People"), "admin:videos_people"),
         ("keywords", gettext_lazy("Keywords"), "admin:videos_keywords"),

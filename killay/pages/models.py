@@ -5,6 +5,7 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy
 from django_quill.fields import QuillField
 
+from killay.pages.lib.constants import PageConstants
 from killay.admin.utils import InSiteManager
 
 
@@ -14,6 +15,12 @@ class Page(models.Model):
     )
     slug = models.SlugField(
         gettext_lazy("Slug"), max_length=150, null=False, blank=False
+    )
+    kind = models.CharField(
+        verbose_name=gettext_lazy("Provider"),
+        choices=PageConstants.KIND_CHOICES,
+        max_length=10,
+        default=PageConstants.PAGE,
     )
     body = QuillField(gettext_lazy("Body"), null=True, blank=True)
     is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
@@ -31,11 +38,16 @@ class Page(models.Model):
     site = models.ForeignKey(
         Site, on_delete=models.CASCADE, related_name="pages", default=settings.SITE_ID
     )
+    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+    redirect_to = models.URLField(
+        gettext_lazy("Redirect to (URL)"), null=True, blank=True
+    )
 
     class Meta:
         unique_together = ["slug", "site"]
         verbose_name = gettext_lazy("page")
         verbose_name_plural = gettext_lazy("pages")
+        ordering = ["position"]
 
     objects = InSiteManager()
 
@@ -45,6 +57,8 @@ class Page(models.Model):
     def get_absolute_url(self):
         if self.is_home:
             return reverse("home")
+        elif self.kind == PageConstants.LINK:
+            return self.redirect_to
         return reverse("pages:detail", kwargs={"slug": self.slug})
 
     @property

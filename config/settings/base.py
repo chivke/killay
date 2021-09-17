@@ -5,7 +5,7 @@ import environ
 
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
-APPS_DIR = ROOT_DIR / "cmpirque"
+APPS_DIR = ROOT_DIR / "killay"
 env = environ.Env()
 
 # General
@@ -44,10 +44,10 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = ["django_quill"]
 
 LOCAL_APPS = [
-    "cmpirque.users.apps.UsersConfig",
-    "cmpirque.pages.apps.PagesConfig",
-    "cmpirque.videos.apps.VideosConfig",
-    "cmpirque.admin.apps.AdminConfig",
+    "killay.users.apps.UsersConfig",
+    "killay.pages.apps.PagesConfig",
+    "killay.videos.apps.VideosConfig",
+    "killay.admin.apps.AdminConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -103,9 +103,9 @@ MEDIA_URL = "/media/"
 # Template
 
 CUSTOM_CONTEXT_PROCESSORS = [
-    "cmpirque.admin.context_processors.site_context",
-    "cmpirque.pages.context_processors.pages_context",
-    "cmpirque.videos.context_processors.categories_context",
+    "killay.admin.context_processors.site_context",
+    "killay.pages.context_processors.pages_context",
+    "killay.videos.context_processors.categories_context",
 ]
 
 TEMPLATES = [

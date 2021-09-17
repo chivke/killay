@@ -1,4 +1,4 @@
-# Centro de Memoria Pirque (cmpirque)
+# Centro de Memoria Pirque (killay)
 
 Software a medida para la gestión y exposición de material audiovisual en el Centro de Memoria Local de Pirque ubicado en la Escuela Agroecológica de Pirque, Chile. El proyecto fue presentado por el Museo Chileno de Arte Precolombino, dirigido por Claudio Mercado y financiado por Fondart.
 

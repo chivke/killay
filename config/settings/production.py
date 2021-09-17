@@ -57,13 +57,13 @@ aws_s3_domain = AWS_S3_CUSTOM_DOMAIN or f"{AWS_STORAGE_BUCKET_NAME}" ".s3.amazon
 
 # Static
 
-STATICFILES_STORAGE = "cmpirque.utils.storages.StaticRootS3Boto3Storage"
+STATICFILES_STORAGE = "killay.utils.storages.StaticRootS3Boto3Storage"
 COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
 STATIC_URL = f"https://{aws_s3_domain}/static/"
 
 # Media
 
-DEFAULT_FILE_STORAGE = "cmpirque.utils.storages.MediaRootS3Boto3Storage"
+DEFAULT_FILE_STORAGE = "killay.utils.storages.MediaRootS3Boto3Storage"
 MEDIA_URL = f"https://{aws_s3_domain}/media/"
 
 # Templates

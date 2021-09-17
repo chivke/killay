@@ -4,15 +4,15 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.conf.urls.static import static
 
-from cmpirque.pages.views import home_page_view
+from killay.pages.views import home_page_view
 
 
 urlpatterns = [
     path("", view=home_page_view, name="home"),
-    path("admin/", include("cmpirque.admin.urls", namespace="admin")),
-    path("pages/", include("cmpirque.pages.urls", namespace="pages")),
-    path("users/", include("cmpirque.users.urls", namespace="users")),
-    path("videos/", include("cmpirque.videos.urls", namespace="videos")),
+    path("admin/", include("killay.admin.urls", namespace="admin")),
+    path("pages/", include("killay.pages.urls", namespace="pages")),
+    path("users/", include("killay.users.urls", namespace="users")),
+    path("videos/", include("killay.videos.urls", namespace="videos")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

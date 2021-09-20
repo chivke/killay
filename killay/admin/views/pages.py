@@ -42,6 +42,7 @@ class PageListView(AdminListMixin):
     list_fields = [
         "title",
         "slug",
+        "kind",
         "is_visible",
         "is_visible_in_navbar",
         "is_visible_in_footer",

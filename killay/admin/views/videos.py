@@ -2,28 +2,37 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic import CreateView, UpdateView
-from django.utils.translation import gettext
+from django.utils.translation import gettext, gettext_lazy
 
 from killay.admin.mixins import (
     AdminRequiredMixin,
     AdminDeleteMixin,
+    AdminUpdateMixin,
+    InlineFormSetMixin,
     VideoAdminMixin,
-    FormSetListMixin,
+    FormSetMixin,
 )
 
 from killay.videos.forms import (
     VideoCategorizationForm,
+    VideoCategoryForm,
     VideoCategoryFormSet,
+    VideoCollectionForm,
+    VideoCollectionFormSet,
+    VideoKeywordForm,
     VideoKeywordFormSet,
     VideoPeopleFormSet,
+    VideoPersonForm,
     VideoSequenceFormSet,
 )
 from killay.videos.models import (
     Video,
     VideoCategorization,
     VideoCategory,
+    VideoCollection,
     VideoKeyword,
     VideoPerson,
+    VideoSequence,
 )
 
 
@@ -77,41 +86,15 @@ class VideoUpdateView(VideoAdminMixin, UpdateView):
 video_update_view = VideoUpdateView.as_view()
 
 
-class VideoSequenceList(AdminRequiredMixin, UpdateView):
+class VideoSequenceList(InlineFormSetMixin):
     model = Video
     slug_field = "code"
-    fields = ["code"]
-    template_name_suffix = "_sequences_list"
+    inline_model = VideoSequence
+    inline_field = "video"
     formset_class = VideoSequenceFormSet
-    template_name = "admin/videos/video_sequences_list.html"
-
-    def get_success_url(self):
-        return reverse("admin:videos_sequences_list", kwargs={"slug": self.object.code})
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        return {**context, "formset": self.get_formset(), **kwargs}
-
-    def get_formset(self, **kwargs):
-        return self.formset_class(**kwargs, instance=self.object)
-
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        formset = self.get_formset(data=request.POST)
-        if formset.is_valid():
-            return self.formset_valid(formset)
-        else:
-            return self.formset_invalid(formset)
-
-    def formset_valid(self, formset):
-        formset.save()
-        messages.info(self.request, gettext("Video sequences saved successfully"))
-        return HttpResponseRedirect(self.get_success_url())
-
-    def formset_invalid(self, formset):
-        context = self.get_context_data(formset=formset)
-        messages.error(self.request, gettext("Error saving video sequences"))
-        return self.render_to_response(context)
+    search_field = "content"
+    reverse_url = "admin:videos_sequences_list"
+    title = gettext_lazy("Video Sequences")
 
 
 video_sequences_list = VideoSequenceList.as_view()
@@ -155,45 +138,77 @@ class VideoCategorizationUpdateView(AdminRequiredMixin, UpdateView):
 video_categorization = VideoCategorizationUpdateView.as_view()
 
 
-class VideoCollectionListView(FormSetListMixin):
-    model = VideoCategory
-    formset_class = VideoCategoryFormSet
-    label_plural = gettext("collections")
+class VideoCollectionListView(FormSetMixin):
+    model = VideoCollection
+    formset_class = VideoCollectionFormSet
     reverse_url = "admin:videos_collections"
-    formset_title = gettext("Video Collections")
+    title = gettext("Video Collections")
 
 
 video_collections_view = VideoCollectionListView.as_view()
 
 
-class VideoCategoryListView(FormSetListMixin):
+class VideoCollectionUpdateView(AdminUpdateMixin):
+    model = VideoCollection
+    form_class = VideoCollectionForm
+    reverse_success_url = "admin:videos_collection_update"
+
+
+video_collection_update_view = VideoCollectionUpdateView.as_view()
+
+
+class VideoCategoryListView(FormSetMixin):
     model = VideoCategory
     formset_class = VideoCategoryFormSet
-    label_plural = gettext("categories")
     reverse_url = "admin:videos_categories"
-    formset_title = gettext("Video Categories")
+    title = gettext("Video Categories")
 
 
 video_categories_view = VideoCategoryListView.as_view()
 
 
-class VideoPeopleList(FormSetListMixin):
+class VideoCategoryUpdateView(AdminUpdateMixin):
+    model = VideoCategory
+    form_class = VideoCategoryForm
+    reverse_success_url = "admin:videos_category_update"
+
+
+video_category_update_view = VideoCategoryUpdateView.as_view()
+
+
+class VideoPeopleList(FormSetMixin):
     model = VideoPerson
     formset_class = VideoPeopleFormSet
-    label_plural = gettext("people")
     reverse_url = "admin:videos_people"
-    formset_title = gettext("Video People")
+    title = gettext("Video People")
 
 
 video_people_view = VideoPeopleList.as_view()
 
 
-class VideoKeywordList(FormSetListMixin):
+class VideoPersonUpdateView(AdminUpdateMixin):
+    model = VideoPerson
+    form_class = VideoPersonForm
+    reverse_success_url = "admin:videos_person_update"
+
+
+video_person_update_view = VideoPersonUpdateView.as_view()
+
+
+class VideoKeywordList(FormSetMixin):
     model = VideoKeyword
     formset_class = VideoKeywordFormSet
-    label_plural = gettext("keywords")
     reverse_url = "admin:videos_keywords"
-    formset_title = gettext("Video Keywords")
+    title = gettext("Video Keywords")
 
 
 video_keywords_view = VideoKeywordList.as_view()
+
+
+class VideoKeywordUpdateView(AdminUpdateMixin):
+    model = VideoKeyword
+    form_class = VideoKeywordForm
+    reverse_success_url = "admin:videos_keyword_update"
+
+
+video_keyword_update_view = VideoKeywordUpdateView.as_view()

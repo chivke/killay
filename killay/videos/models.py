@@ -227,7 +227,7 @@ class VideoCategorization(models.Model):
         "VideoCollection",
         on_delete=models.CASCADE,
         related_name="videos",
-        verbose_name=gettext_lazy("Collections"),
+        verbose_name=gettext_lazy("Collection"),
     )
     categories = models.ManyToManyField(
         "VideoCategory", related_name="videos", verbose_name=gettext_lazy("Categories")
@@ -280,6 +280,9 @@ class VideoCollection(VideoFilterAbstract):
     def get_absolute_url(self):
         return reverse("videos:collection-list", kwargs={"slug": self.slug})
 
+    def get_update_url(self):
+        return reverse("admin:videos_collection_update", kwargs={"slug": self.slug})
+
 
 class VideoCategory(VideoFilterAbstract):
     site = models.ForeignKey(
@@ -303,6 +306,9 @@ class VideoCategory(VideoFilterAbstract):
 
     def get_absolute_url(self):
         return reverse("videos:category-list", kwargs={"slug": self.slug})
+
+    def get_update_url(self):
+        return reverse("admin:videos_category_update", kwargs={"slug": self.slug})
 
 
 class VideoPerson(VideoFilterAbstract):
@@ -328,6 +334,9 @@ class VideoPerson(VideoFilterAbstract):
     def get_absolute_url(self):
         return reverse("videos:person-list", kwargs={"slug": self.slug})
 
+    def get_update_url(self):
+        return reverse("admin:videos_person_update", kwargs={"slug": self.slug})
+
 
 class VideoKeyword(VideoFilterAbstract):
     site = models.ForeignKey(
@@ -351,3 +360,6 @@ class VideoKeyword(VideoFilterAbstract):
 
     def get_absolute_url(self):
         return reverse("videos:keyword-list", kwargs={"slug": self.slug})
+
+    def get_update_url(self):
+        return reverse("admin:videos_keyword_update", kwargs={"slug": self.slug})

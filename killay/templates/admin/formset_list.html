@@ -12,7 +12,7 @@
 
 {% block content %}
   <div id="admin-main-container">
-    <h1 class="ui dividing header">{{formset_title}}</h1>
+    <h1 class="ui dividing header">{{title}}</h1>
     <div class="inline fields">
       <div class="field">
         <label>
@@ -61,6 +61,9 @@
                 {% for field in form.visible_fields %}
                   <th>{{field.label}}</th>
                 {% endfor %}
+                {% if form.instance.pk and form.instance.get_update_url %}
+                  <th>{% trans "Update" %}</th>
+                {% endif %}
               {% endif %}
             {% endfor %}
           </tr>
@@ -88,6 +91,13 @@
                 {% endif %}
                 </td>
               {% endfor %}
+              {% if form.instance.pk and form.instance.get_update_url %}
+                <td class="field">
+                  <a class="ui button" href="{{form.instance.get_update_url}}">
+                    {% trans "Update" %}
+                  </a>
+                </td>
+              {% endif %}
             </tr>
           {% endfor %}
         </tbody>
@@ -110,6 +120,9 @@
 <script type="text/javascript">
   $('.ui.checkbox')
     .checkbox()
+  ;
+  $('.ui.dropdown')
+    .dropdown()
   ;
 </script>
 {% endblock extra_js %}

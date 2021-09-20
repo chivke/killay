@@ -1,7 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.mixins import AccessMixin
-from django.http import HttpResponseRedirect
-from django.views.generic import DeleteView, ListView, UpdateView
+from django.http import Http404, HttpResponseRedirect
+from django.views.generic import View, DeleteView, ListView, UpdateView
+from django.views.generic.base import TemplateResponseMixin
+from django.views.generic.list import MultipleObjectMixin
 from django.urls import reverse
 from django.utils.translation import gettext
 
@@ -90,7 +92,9 @@ class AdminUpdateMixin(AdminRequiredMixin, UpdateView):
             for field, value in self.object.__dict__.items()
             if field in self.read_only_fields
         }
-        context["form_title"] = gettext(f"Update {self.object}")
+        context["form_title"] = gettext(
+            f"Update {self.object._meta.verbose_name} {self.object}"
+        )
         return context
 
 
@@ -162,47 +166,82 @@ class VideoAdminMixin(AdminRequiredMixin):
         return context
 
 
-class FormSetListMixin(AdminRequiredMixin, ListView):
-    paginate_by = 50
+class FormSetMixin(
+    AdminRequiredMixin, MultipleObjectMixin, TemplateResponseMixin, View
+):
     model = None
+    slug_field = "slug"
+    slug_url_field = "slug"
     formset_class = None
-    label_plural = None
+    search_field = "name"
     reverse_url = None
-    formset_title = None
+    title = None
     template_name = "admin/formset_list.html"
+    paginate_by = 50
 
-    def get_context_data(self, **kwargs):
-        kwargs["total_of_objects"] = self.total_of_objects
-        kwargs["formset_title"] = self.formset_title
-        kwargs["label_plural"] = self.label_plural
-        kwargs["query_search"] = self.query_search
-        context = super().get_context_data()
-        if "formset" not in kwargs and "object_list" in context:
-            kwargs["formset"] = self.formset_class(queryset=context["object_list"])
-        return {**context, **kwargs}
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+        return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
+        return self.validate_formset(request=request)
+
+    def get_queryset(self):
+        queryset = self.model.objects.all()
+        queryset = self.apply_filters(queryset)
+        return queryset
+
+    def apply_filters(self, queryset):
+        queryset = self.set_search_filter_if_exists(queryset)
+        self.total_of_objects = queryset.count()
+        page_size = self.get_paginate_by(queryset)
+        self.pagination_context = {}
+        if page_size:
+            paginator, page, queryset, is_paginated = self.paginate_queryset(
+                queryset, page_size
+            )
+            self.pagination_context.update(
+                {"paginator": paginator, "page_obj": page, "is_paginated": is_paginated}
+            )
+        else:
+            self.pagination_context.update(
+                {"paginator": paginator, "page_obj": page, "is_paginated": is_paginated}
+            )
+        self.pagination_context.update({"object_list": queryset})
+        return queryset
+
+    def set_search_filter_if_exists(self, queryset):
+        self.query_search = self.request.GET.get("q") or self.request.POST.get(
+            "query_search"
+        )
+        if self.query_search:
+            queryset = queryset.filter(
+                **{f"{self.search_field}__icontains": self.query_search}
+            )
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = self.get_extra_context()
+        context["total_of_objects"] = self.total_of_objects
+        context["title"] = self.title
+        context["query_search"] = self.query_search
+        context["model_name_plural"] = self.get_model_name_plural()
+        context.update(self.pagination_context)
+        if "formset" not in kwargs:
+            kwargs["formset"] = self.formset_class(queryset=self.object_list)
+        return {**context, **kwargs}
+
+    def validate_formset(self, request):
         formset = self.formset_class(queryset=self.object_list, data=request.POST)
         if formset.is_valid():
             return self.formset_valid(formset)
         else:
             return self.formset_invalid(formset)
 
-    def get_queryset(self):
-        self.query_search = self.request.GET.get("q") or self.request.POST.get(
-            "query_search"
-        )
-        queryset = (
-            self.model.objects.all()
-            if not self.query_search
-            else self.model.objects.filter(name__icontains=self.query_search)
-        )
-        self.total_of_objects = queryset.count()
-        return queryset
-
     def get_success_url(self):
-        url = reverse(self.reverse_url) + "?"
+        url = reverse(self.reverse_url, kwargs=self.get_success_url_kwargs()) + "?"
         if self.query_search:
             url += f"q={self.query_search}"
         page_number = self.request.POST.get("page_number")
@@ -213,13 +252,76 @@ class FormSetListMixin(AdminRequiredMixin, ListView):
         return url
 
     def formset_valid(self, formset):
-        self.object_list = formset.save()
-        messages.info(
-            self.request, gettext(f"Video {self.label_plural} saved successfully")
-        )
+        formset.save()
+        messages.info(self.request, self.get_success_messange())
         return HttpResponseRedirect(self.get_success_url())
 
     def formset_invalid(self, formset):
         context = self.get_context_data(formset=formset)
-        messages.error(self.request, gettext(f"Error saving video {self.label_plural}"))
+        messages.error(self.request, self.get_error_menssage())
         return self.render_to_response(context)
+
+    def get_extra_context(self):
+        return {}
+
+    def get_success_url_kwargs(self):
+        return {}
+
+    def get_model_name_plural(self):
+        return self.model._meta.verbose_name_plural
+
+    def get_success_messange(self):
+        return gettext(f"{self.model._meta.verbose_name_plural} saved successfully")
+
+    def get_error_menssage(self):
+        return gettext(f"Error saving {self.model._meta.verbose_name_plural}")
+
+
+class InlineFormSetMixin(FormSetMixin):
+    inline_model = None
+    inline_field = None
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object_list = self.get_queryset()
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object_list = self.get_queryset()
+        return self.validate_formset(request=request)
+
+    def get_object(self):
+        slug = self.kwargs.get(self.slug_url_field)
+        try:
+            obj = self.model.objects.get(**{self.slug_field: slug})
+        except self.model.DoesNotExist:
+            raise Http404(gettext("Not video found"))
+        return obj
+
+    def get_success_messange(self):
+        return gettext(
+            f"{self.model._meta.verbose_name} "
+            f"{self.inline_model._meta.verbose_name_plural} saved successfully"
+        )
+
+    def get_error_menssage(self):
+        return gettext(
+            f"Error saving {self.model._meta.verbose_name} "
+            f"{self.inline_model._meta.verbose_name_plural}"
+        )
+
+    def get_model_name_plural(self):
+        return self.inline_model._meta.verbose_name_plural
+
+    def get_extra_context(self):
+        return {"object": self.object}
+
+    def get_queryset(self):
+        queryset = self.inline_model.objects.filter(**{self.inline_field: self.object})
+        queryset = self.apply_filters(queryset)
+        return queryset
+
+    def get_success_url_kwargs(self):
+        return {self.slug_url_field: getattr(self.object, self.slug_field)}

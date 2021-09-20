@@ -69,6 +69,9 @@
     $('.ui.checkbox')
       .checkbox()
     ;
+    $('.ui.dropdown')
+      .dropdown()
+    ;
     {% for field in html_fields %}
       var html_input_{{field}} = new Quill("#id_{{field}}", {theme: 'snow'});
     {% endfor %}

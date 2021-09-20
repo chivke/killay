@@ -22,15 +22,35 @@ urlpatterns += [
         name="videos_collections",
     ),
     path(
+        "videos/~collections/<str:slug>/",
+        view=videos_views.video_collection_update_view,
+        name="videos_collection_update",
+    ),
+    path(
         "videos/~categories/",
         view=videos_views.video_categories_view,
         name="videos_categories",
     ),
+    path(
+        "videos/~categories/<str:slug>/",
+        view=videos_views.video_category_update_view,
+        name="videos_category_update",
+    ),
     path("videos/~people/", view=videos_views.video_people_view, name="videos_people"),
+    path(
+        "videos/~people/<str:slug>/",
+        view=videos_views.video_person_update_view,
+        name="videos_person_update",
+    ),
     path(
         "videos/~keywords/",
         view=videos_views.video_keywords_view,
         name="videos_keywords",
+    ),
+    path(
+        "videos/~keywords/<str:slug>/",
+        view=videos_views.video_keyword_update_view,
+        name="videos_keyword_update",
     ),
     path(
         "videos/<str:slug>/~sequences/",

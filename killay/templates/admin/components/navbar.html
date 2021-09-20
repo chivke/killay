@@ -15,17 +15,14 @@
     {% endfor %}
   {% endif %}
   <div class="right menu">
-    <a class="{{ video_admin.create.css_class }}" href="{{ video_admin.create.link }}"
-      >{{ video_admin.create.name }}
-    </a>
-    <a class="{{ video_admin.categories.css_class }}" href="{{ video_admin.categories.link }}"
-      >{{ video_admin.categories.name }}
-    </a>
-    <a class="{{ video_admin.people.css_class }}" href="{{ video_admin.people.link }}"
-      >{{ video_admin.people.name }}
-    </a>
-    <a class="{{ video_admin.keywords.css_class }}" href="{{ video_admin.keywords.link }}"
-      >{{ video_admin.keywords.name }}
-    </a>
+    {% for label,item in video_admin.items %}
+      {% if not item.selected %}
+        <a
+          class="{{ item.css_class }}"
+          href="{{ item.link }}"
+        >{{ item.name }}
+        </a>
+      {% endif %}
+    {% endfor %}
   </div>
 </nav>

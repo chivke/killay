@@ -53,16 +53,24 @@ class VideoSequenceForm(forms.ModelForm):
     content = forms.CharField(required=False, widget=forms.Textarea(attrs={"rows": 2}))
 
 
-VideoSequenceFormSet = forms.inlineformset_factory(
-    Video, VideoSequence, form=VideoSequenceForm, extra=1
+VideoSequenceFormSet = forms.modelformset_factory(
+    VideoSequence, form=VideoSequenceForm, extra=1, can_delete=True
+)
+
+
+CollectionFormField = forms.ModelChoiceField(
+    queryset=VideoCollection.objects.all(),
+    widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+    required=True,
 )
 
 
 class VideoCategorizationForm(forms.ModelForm):
     class Meta:
         model = VideoCategorization
-        fields = ["categories", "people", "keywords", "collection"]
+        fields = ["collection", "categories", "people", "keywords"]
 
+    collection = CollectionFormField
     categories = forms.ModelMultipleChoiceField(
         queryset=VideoCategory.objects.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
@@ -78,6 +86,17 @@ class VideoCategorizationForm(forms.ModelForm):
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
         required=False,
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance:
+            self.set_collection_filter()
+
+    def set_collection_filter(self):
+        for field in ["categories", "people", "keywords"]:
+            self.fields[field].queryset = self.fields[field].queryset.filter(
+                collection_id=self.instance.collection.id
+            )
 
 
 class VideoCollectionForm(forms.ModelForm):
@@ -100,13 +119,16 @@ class VideoCategoryForm(forms.ModelForm):
         model = VideoCategory
         fields = ["name", "slug", "description", "collection", "position", "collection"]
 
-    description = forms.CharField(
-        required=False, widget=forms.Textarea(attrs={"rows": 1})
-    )
+    collection = CollectionFormField
+
+
+class VideoCategoryQuickForm(VideoCategoryForm):
+    class Meta:
+        fields = ["name", "slug", "collection", "position", "collection"]
 
 
 VideoCategoryFormSet = forms.modelformset_factory(
-    VideoCategory, form=VideoCategoryForm, extra=1, can_delete=True
+    VideoCategory, form=VideoCategoryQuickForm, extra=1, can_delete=True
 )
 
 
@@ -115,13 +137,16 @@ class VideoPersonForm(forms.ModelForm):
         model = VideoPerson
         fields = ["name", "slug", "description", "position", "collection"]
 
-    description = forms.CharField(
-        required=False, widget=forms.Textarea(attrs={"rows": 1})
-    )
+    collection = CollectionFormField
+
+
+class VideoPersonQuickForm(VideoPersonForm):
+    class Meta:
+        fields = ["name", "slug", "collection", "position", "collection"]
 
 
 VideoPeopleFormSet = forms.modelformset_factory(
-    VideoPerson, form=VideoPersonForm, extra=1, can_delete=True
+    VideoPerson, form=VideoPersonQuickForm, extra=1, can_delete=True
 )
 
 
@@ -130,11 +155,17 @@ class VideoKeywordForm(forms.ModelForm):
         model = VideoKeyword
         fields = ["name", "slug", "description", "position", "collection"]
 
-    description = forms.CharField(
-        required=False, widget=forms.Textarea(attrs={"rows": 1})
-    )
+    collection = CollectionFormField
+
+
+class VideoKeywordQuickForm(forms.ModelForm):
+    class Meta:
+        model = VideoKeyword
+        fields = ["name", "slug", "position", "collection"]
+
+    collection = CollectionFormField
 
 
 VideoKeywordFormSet = forms.modelformset_factory(
-    VideoKeyword, form=VideoKeywordForm, extra=1, can_delete=True
+    VideoKeyword, form=VideoKeywordQuickForm, extra=1, can_delete=True
 )

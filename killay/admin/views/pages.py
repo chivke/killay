@@ -16,7 +16,7 @@ from django.utils.translation import gettext, gettext_lazy
 class PageCreateView(AdminRequiredMixin, CreateView):
     form_class = PageForm
     template_name = "admin/generic_form.html"
-    extra_context = {"form_title": gettext_lazy("Create Page")}
+    extra_context = {"title": gettext_lazy("Create Page")}
     html_fields = ["body"]
 
     def get_success_url(self):

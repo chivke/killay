@@ -9,7 +9,9 @@ register = template.Library()
 def show_admin_navbar(context):
     def _get_css_class(view, view_code):
         css_class = "item"
-        if view == view_code:
+        if (isinstance(view_code, list) and view in view_code) or (
+            isinstance(view_code, str) and view == view_code
+        ):
             css_class += " active"
         return css_class
 
@@ -39,9 +41,16 @@ def show_admin_navbar(context):
     }
     if view_name in ["videos:detail"] + [
         f"admin:videos_{code}"
-        for code in ["update", "delete", "sequences_list", "categorization"]
+        for code in [
+            "update",
+            "delete",
+            "sequences_list",
+            "sequences_create",
+            "categorization",
+        ]
     ]:
         video_obj = context["object"]
+        collection = video_obj.categorization.collection
         detail_video_admin_links = [
             ("public", video_obj.code, "videos:detail"),
             ("update", gettext_lazy("Update"), "admin:videos_update"),
@@ -49,7 +58,7 @@ def show_admin_navbar(context):
             (
                 "sequences_list",
                 gettext_lazy("Sequences"),
-                "admin:videos_sequences_list",
+                ["admin:videos_sequences_list", "admin:videos_sequences_create"],
             ),
             (
                 "categorization",
@@ -59,9 +68,15 @@ def show_admin_navbar(context):
         ]
         navbar_context["video_admin"]["selected"] = True
         for video_admin_link in detail_video_admin_links:
+            reverse_link = video_admin_link[2]
+            if isinstance(reverse_link, list):
+                reverse_link = reverse_link[0]
             navbar_context["video_admin"][video_admin_link[0]] = {
                 "name": video_admin_link[1],
-                "link": reverse(video_admin_link[2], kwargs={"slug": video_obj.code}),
+                "link": reverse(
+                    reverse_link,
+                    kwargs={"slug": video_obj.code, "collection": collection.slug},
+                ),
                 "css_class": _get_css_class(view_name, video_admin_link[2]),
                 "selected": True,
             }

@@ -54,7 +54,7 @@ class VideoSequenceForm(forms.ModelForm):
 
 
 VideoSequenceFormSet = forms.modelformset_factory(
-    VideoSequence, form=VideoSequenceForm, extra=1, can_delete=True
+    VideoSequence, form=VideoSequenceForm, extra=0, can_delete=True
 )
 
 
@@ -89,7 +89,7 @@ class VideoCategorizationForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if self.instance:
+        if self.instance.pk:
             self.set_collection_filter()
 
     def set_collection_filter(self):

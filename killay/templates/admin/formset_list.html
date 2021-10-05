@@ -45,7 +45,13 @@
       <input type="hidden" name="query_search" value="{% if query_search %}{{query_search}}{% endif %}">
       <input type="hidden" name="page_number" value="{% if page_obj.has_previous or page_obj.has_next %}{{page_obj.number}}{% endif %}">
       <div id="formset-list-footer-pagination">
-        <input type="submit" class="ui button" value="{% trans 'Save' %}">
+        <div class="ui buttons">
+          <input type="submit" class="ui button" value="{% trans 'Save' %}">
+          {% if create_link %}
+            <button onclick="location.href='{{create_link}}'" type="button"
+            class="ui button">{% trans "Create" %}</button>
+          {% endif %}
+        </div>
         {% if is_paginated %}
           <div class="ui pagination menu">
             {% include "components/paginator.html" %}
@@ -59,7 +65,9 @@
             {% for form in formset %}
               {% if forloop.first %}
                 {% for field in form.visible_fields %}
-                  <th>{{field.label}}</th>
+                  {% if field.name not in compact_fields %}
+                    <th>{{field.label}}</th>
+                  {% endif %}
                 {% endfor %}
                 {% if form.instance.pk and form.instance.get_update_url %}
                   <th>{% trans "Update" %}</th>
@@ -76,20 +84,22 @@
             <tr>
               <td class="field">{{forloop.counter}}</td>
               {% for field in form.visible_fields %}
-                <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
-                  {% if field.name == "DELETE" %}
-                    <div class="ui checkbox">
-                      {{field}}
-                    </div>
-                  {% else %}
-                    {{ field }}
-                  {% endif %}
-                  {% if field.errors %}
-                  <div class="ui pointing red basic label">
-                    {% for error in field.errors %}{{error}}{% endfor %}
-                  </div>
+                {% if field.name not in compact_fields %}
+                  <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
+                    {% if field.name == "DELETE" %}
+                      <div class="ui checkbox">
+                        {{field}}
+                      </div>
+                    {% else %}
+                      {{ field }}
+                    {% endif %}
+                    {% if field.errors %}
+                      <div class="ui pointing red basic label">
+                        {% for error in field.errors %}{{error}}{% endfor %}
+                      </div>
+                    {% endif %}
+                  </td>
                 {% endif %}
-                </td>
               {% endfor %}
               {% if form.instance.pk and form.instance.get_update_url %}
                 <td class="field">
@@ -99,6 +109,18 @@
                 </td>
               {% endif %}
             </tr>
+            {% if compact_fields %}
+              <tr>
+                <td></td>
+                <td colspan="100%">
+                  {% for field in form.visible_fields %}
+                    {% if field.name in compact_fields %}
+                      {{ field }}
+                    {% endif %}
+                  {% endfor %}
+                </td>
+              </tr>
+            {% endif %}
           {% endfor %}
         </tbody>
       </table>

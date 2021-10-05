@@ -19,7 +19,10 @@
     {% endblock extra_css %}
   </head>
   <body>
-    {% include 'components/navbar.html' %}
+    <div class="ui inverted segment" id="site-navbar">
+      {% include 'components/navbar-mobile.html' %}
+      {% include 'components/navbar.html' %}
+    </div>
     {% if request.user.is_superuser %}
       {% show_admin_navbar %}
     {% endif %}
@@ -58,6 +61,9 @@
           });
         $('.activating.element')
           .popup();
+        $('.ui.dropdown')
+          .dropdown()
+        ;
       </script>
     {% endblock javascript %}
     {% block extra_js %}

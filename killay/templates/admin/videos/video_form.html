@@ -122,9 +122,27 @@
         <input type="submit" class="ui button video-admin-submit" value="{% trans 'Save' %}">
       </div>
 
+      <div id="video-categorization-form" class="ui segment">
+        <h4 class="ui dividing header">{% trans "Categorization" %}</h4>
+        {{ categorization_form.managment_form }}
+          {% for hidden in categorization_form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
+        {% for field in categorization_form.visible_fields %}
+          <div class="field {% if field.errors %}error{% endif %}">
+            <label>{{field.label}}</label>
+            {{field}}
+            {% if field.errors %}
+              <div class="ui pointing red basic label">
+                {% for error in field.errors %}{{error}}{% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
 
       <div id="video-meta-form" class="ui segment">
-        <h4 class="ui dividing header">Meta fields</h4>
+        <h4 class="ui dividing header">{% trans "Metadata" %}</h4>
         {{ meta_form.managment_form }}
           {% for hidden in meta_form.hidden_fields %}
             {{ hidden }}

@@ -3,16 +3,25 @@ import pytest
 from django.test import RequestFactory
 from django.urls import resolve
 
-from killay.videos.models import Video, VideoCategory, VideoPerson, VideoKeyword
+from killay.videos.models import (
+    Video,
+    VideoCategory,
+    VideoCategorization,
+    VideoCollection,
+    VideoPerson,
+    VideoSequence,
+    VideoKeyword,
+)
 from killay.admin.views.videos import (
     video_categories_view,
-    video_categorization,
+    video_categorization_view,
     video_create_view,
     video_delete_view,
     video_keywords_view,
     video_update_view,
     video_people_view,
-    video_sequences_list,
+    video_sequences_create_view,
+    video_sequences_list_view,
 )
 from killay.users.models import User
 
@@ -38,8 +47,13 @@ class TestVideoCreateView:
         assert response.render()
         assert response.status_code == 200
 
-    def test_create(self, admin_user: User, rf_msg: RequestFactory):
-        data = {"code": "fake", "title": "fake"}
+    def test_create(
+        self,
+        admin_user: User,
+        video_collection: VideoCollection,
+        rf_msg: RequestFactory,
+    ):
+        data = {"code": "fake", "title": "fake", "collection": video_collection.id}
         data_formset = {**PROVIDERS_FORMSET_DATA}
         data_formset["providers-0-plyr_provider"] = "vimeo"
         data_formset["providers-0-ply_embed_id"] = "vimeo"
@@ -52,6 +66,7 @@ class TestVideoCreateView:
         assert video.code == data["code"]
         assert video.meta.title == data["title"]
         assert video.providers.first().ply_embed_id == "vimeo"
+        assert video.categorization.collection.id == video_collection.id
 
     def test_fail_create(self, admin_user: User, rf_msg: RequestFactory):
         data = {"code": "fake"}
@@ -67,107 +82,219 @@ class TestVideoCreateView:
 
 
 class TestVideoUpdateView:
-    def test_get(self, admin_user: User, video: Video, rf: RequestFactory):
-        url = f"/admin/videos/{video.code}/~update/"
+    def test_get(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        rf: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~update/"
         request = rf.get(url)
         request.user = admin_user
         request.resolver_match = resolve(url)
-        response = video_update_view(request, slug=video.code)
+        response = video_update_view(request, **request.resolver_match.kwargs)
         assert response.status_code == 200
         assert response.render()
         assert video.meta.title in str(response.content)
 
-    def test_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
-        data = {"code": "fake", "title": "fake"}
+    def test_update(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        rf_msg: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~update/"
+        data = {"code": "fake", "title": "fake", "collection": collection.id}
         data.update(PROVIDERS_FORMSET_DATA)
-        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
+        request = rf_msg("post", url, data)
         request.user = admin_user
-        response = video_update_view(request, slug=video.code)
+        request.resolver_match = resolve(url)
+        response = video_update_view(request, **request.resolver_match.kwargs)
         video.refresh_from_db()
         assert response.status_code == 302
         assert video.code == data["code"]
         assert video.meta.title == data["title"]
 
-    def test_fail_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
-        data = {"code": "fake"}
+    def test_fail_update(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        rf_msg: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~update/"
+        data = {"code": "fake", "collection": ""}
         data.update(PROVIDERS_FORMSET_DATA)
-        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
+        request = rf_msg("post", url, data)
         request.user = admin_user
-        response = video_update_view(request, slug=video.code)
+        request.resolver_match = resolve(url)
+        response = video_update_view(request, **request.resolver_match.kwargs)
         assert response.status_code == 200
         assert "title" in response.context_data["meta_form"].errors
 
 
 class TestVideoDeleteView:
-    def test_get(self, admin_user: User, video: Video, rf: RequestFactory):
-        url = f"/admin/videos/{video.code}/~delete/"
+    def test_get(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        rf: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~delete/"
         request = rf.get(url)
         request.user = admin_user
         request.resolver_match = resolve(url)
-        response = video_delete_view(request, slug=video.code)
+        response = video_delete_view(request, **request.resolver_match.kwargs)
         assert response.status_code == 200
         assert response.render()
         assert video.code in str(response.content)
 
-    def test_delete(self, admin_user: User, video: Video, rf_msg: RequestFactory):
-        data = {"code": "fake", "title": "fake"}
-        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
+    def test_delete(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        rf_msg: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~delete/"
+        request = rf_msg("post", url)
         request.user = admin_user
-        response = video_delete_view(request, slug=video.code)
+        request.resolver_match = resolve(url)
+        response = video_delete_view(request, **request.resolver_match.kwargs)
         with pytest.raises(Video.DoesNotExist):
             video.refresh_from_db()
         assert response.status_code == 302
 
 
 SEQUENCES_FORMSET_DATA = {
-    "sequences-INITIAL_FORMS": "0",
-    "sequences-TOTAL_FORMS": "1",
-    "sequences-0-title": "seq1",
-    "sequences-0-ini": "00:01:00",
-    "sequences-0-end": "00:02:00",
+    "form-INITIAL_FORMS": "1",
+    "form-TOTAL_FORMS": "1",
+    "form-0-title": "seq1",
+    "form-0-ini": "00:01:00",
+    "form-0-end": "00:02:00",
 }
 
 
 class TestVideoSequencesListView:
-    def test_get(self, admin_user: User, video: Video, rf: RequestFactory):
-        url = f"/admin/videos/{video.code}/~sequences/"
+    def test_get(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        rf: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~sequences/"
         request = rf.get(url)
         request.user = admin_user
         request.resolver_match = resolve(url)
-        response = video_sequences_list(request, slug=video.code)
+        response = video_sequences_list_view(request, **request.resolver_match.kwargs)
         assert response.status_code == 200
         assert response.render()
-        assert video.meta.title in str(response.content)
+        assert video.code in str(response.content)
 
-    def test_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
-        request = rf_msg(
-            "post", f"/admin/videos/{video.code}/~update/", SEQUENCES_FORMSET_DATA
-        )
+    def test_update(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        video_sequence,
+        rf_msg: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        data = {**SEQUENCES_FORMSET_DATA, "form-0-id": video_sequence.id}
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~sequences/"
+        request = rf_msg("post", url, data)
         request.user = admin_user
-        response = video_sequences_list(request, slug=video.code)
+        request.resolver_match = resolve(url)
+        response = video_sequences_list_view(request, **request.resolver_match.kwargs)
         assert response.status_code == 302
         sequence = video.sequences.first()
-        assert sequence.title == SEQUENCES_FORMSET_DATA["sequences-0-title"]
-        assert str(sequence.ini) == SEQUENCES_FORMSET_DATA["sequences-0-ini"]
-        assert str(sequence.end) == SEQUENCES_FORMSET_DATA["sequences-0-end"]
+        assert sequence.title == SEQUENCES_FORMSET_DATA["form-0-title"]
+        assert str(sequence.ini) == SEQUENCES_FORMSET_DATA["form-0-ini"]
+        assert str(sequence.end) == SEQUENCES_FORMSET_DATA["form-0-end"]
 
-    def test_fail_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
-        data = SEQUENCES_FORMSET_DATA
-        data["sequences-0-end"] = "00:00:01"
-        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
+    def test_fail_update(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        video_sequence,
+        rf_msg: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        data = {**SEQUENCES_FORMSET_DATA, "form-0-id": video_sequence.id}
+        data["form-0-end"] = "00:00:01"
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~sequences/"
+        request = rf_msg("post", url, data)
         request.user = admin_user
-        response = video_sequences_list(request, slug=video.code)
+        request.resolver_match = resolve(url)
+        response = video_sequences_list_view(request, **request.resolver_match.kwargs)
         assert response.status_code == 200
         assert "__all__" in response.context_data["formset"].errors[0]
 
 
-class TestVideoCategorizationUpdateView:
-    def test_get(self, admin_user: User, video: Video, rf: RequestFactory):
-        url = f"/admin/videos/{video.code}/~categorization/"
+class TestVideoSequenceCreateView:
+    def test_get(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        video_sequence,
+        rf: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~sequences/create/"
         request = rf.get(url)
         request.user = admin_user
         request.resolver_match = resolve(url)
-        response = video_categorization(request, slug=video.code)
+        response = video_sequences_create_view(request, **request.resolver_match.kwargs)
+
+        assert response.status_code == 200
+        assert response.render()
+        assert video.code in str(response.content)
+
+    def test_create(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        video_sequence,
+        rf_msg: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        data = {"title": "seq", "ini": "00:00:01", "end": "00:00:02", "content": "x"}
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~sequences/create/"
+        request = rf_msg("post", url, data)
+        request.user = admin_user
+        request.resolver_match = resolve(url)
+        response = video_sequences_create_view(request, **request.resolver_match.kwargs)
+        assert response.status_code == 302
+        assert VideoSequence.objects.filter(title="seq", video=video).exists()
+
+
+class TestVideoCategorizationUpdateView:
+    def test_get(
+        self,
+        admin_user: User,
+        video_categorization: VideoCategorization,
+        rf: RequestFactory,
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~categorization/"
+        request = rf.get(url)
+        request.user = admin_user
+        request.resolver_match = resolve(url)
+        response = video_categorization_view(request, **request.resolver_match.kwargs)
         assert response.status_code == 200
         assert response.render()
         assert video.meta.title in str(response.content)
@@ -176,7 +303,7 @@ class TestVideoCategorizationUpdateView:
         self,
         admin_user: User,
         rf_msg: RequestFactory,
-        video: Video,
+        video_categorization: VideoCategorization,
         video_category: VideoCategory,
         video_person: VideoPerson,
         video_keyword: VideoKeyword,
@@ -187,20 +314,34 @@ class TestVideoCategorizationUpdateView:
             "keywords": [video_keyword.id],
             "collection": video_category.collection.id,
         }
-        request = rf_msg("post", f"/admin/videos/{video.code}/~categorization/", data)
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~categorization/"
+        request = rf_msg("post", url, data)
         request.user = admin_user
-        response = video_categorization(request, slug=video.code)
+        request.resolver_match = resolve(url)
+        response = video_categorization_view(request, **request.resolver_match.kwargs)
+
         assert response.status_code == 302
         video.refresh_from_db()
         assert video.categorization.categories.first() == video_category
         assert video.categorization.people.first() == video_person
         assert video.categorization.keywords.first() == video_keyword
 
-    def test_fail_update(self, admin_user: User, video: Video, rf_msg: RequestFactory):
+    def test_fail_update(
+        self,
+        admin_user: User,
+        rf_msg: RequestFactory,
+        video_categorization: VideoCategorization,
+    ):
         data = {"categories": [0]}
-        request = rf_msg("post", f"/admin/videos/{video.code}/~update/", data)
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/admin/videos/c/{collection.slug}/{video.code}/~categorization/"
+        request = rf_msg("post", url, data)
         request.user = admin_user
-        response = video_categorization(request, slug=video.code)
+        request.resolver_match = resolve(url)
+        response = video_categorization_view(request, **request.resolver_match.kwargs)
         assert response.status_code == 200
         assert "categories" in response.context_data["form"].errors
 
@@ -243,7 +384,6 @@ class TestVideoCategoryListView:
             "form-0-slug": video_category.slug,
             "form-0-collection": video_category.collection.id,
             "form-1-collection": video_category.collection.id,
-            "form-0-description": "X",
         }
         request = rf_msg("post", "/admin/videos/~categories/", data)
         request.user = admin_user
@@ -251,7 +391,6 @@ class TestVideoCategoryListView:
         video_category.refresh_from_db()
         assert response.status_code == 302
         assert VideoCategory.objects.filter(slug="slug2").exists()
-        assert video_category.description == "X"
 
     def test_fail_update(
         self, admin_user: User, video_category: VideoCategory, rf_msg: RequestFactory
@@ -279,7 +418,6 @@ class TestVideoCategoryListView:
             "form-0-slug": video_category.slug,
             "form-0-collection": video_category.collection.id,
             "form-1-collection": video_category.collection.id,
-            "form-0-description": "X",
             "query_search": video_category.name,
             "page_number": "1",
         }
@@ -289,7 +427,6 @@ class TestVideoCategoryListView:
         video_category.refresh_from_db()
         assert response.status_code == 302
         assert VideoCategory.objects.filter(slug="slug2").exists()
-        assert video_category.description == "X"
 
 
 class TestVideoPeopleListView:
@@ -312,7 +449,6 @@ class TestVideoPeopleListView:
             "form-0-slug": video_person.slug,
             "form-0-collection": video_person.collection.id,
             "form-1-collection": video_person.collection.id,
-            "form-0-description": "X",
         }
         request = rf_msg("post", "/admin/videos/~people/", data)
         request.user = admin_user
@@ -320,7 +456,6 @@ class TestVideoPeopleListView:
         video_person.refresh_from_db()
         assert response.status_code == 302
         assert VideoPerson.objects.filter(slug="slug2").exists()
-        assert video_person.description == "X"
 
     def test_fail_update(
         self, admin_user: User, video_person: VideoPerson, rf_msg: RequestFactory
@@ -361,7 +496,6 @@ class TestVideoKeywordListView:
             "form-0-slug": video_keyword.slug,
             "form-0-collection": video_keyword.collection.id,
             "form-1-collection": video_keyword.collection.id,
-            "form-0-description": "X",
         }
         request = rf_msg("post", "/admin/videos/~keywords/", data)
         request.user = admin_user
@@ -369,7 +503,6 @@ class TestVideoKeywordListView:
         video_keyword.refresh_from_db()
         assert response.status_code == 302
         assert VideoKeyword.objects.filter(slug="slug2").exists()
-        assert video_keyword.description == "X"
 
     def test_fail_update(
         self, admin_user: User, video_keyword: VideoKeyword, rf_msg: RequestFactory

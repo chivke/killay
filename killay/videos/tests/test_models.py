@@ -8,6 +8,7 @@ from django.utils import timezone
 from killay.videos.models import (
     Video,
     VideoCategory,
+    VideoCategorization,
     VideoCollection,
     VideoKeyword,
     VideoPerson,
@@ -47,8 +48,12 @@ class TestVideoModel:
     def test_str(self, video: Video):
         assert str(video) == f"Video <{video.code}>"
 
-    def test_get_absolute_url(self, video: Video):
-        assert video.get_absolute_url() == f"/videos/{video.code}/"
+    def test_get_absolute_url(self, video_categorization: VideoCategorization):
+        collection = video_categorization.collection
+        video = video_categorization.video
+        assert (
+            video.get_absolute_url() == f"/videos/c/{collection.slug}/v/{video.code}/"
+        )
 
     def test_active_provider(self, video: Video, video_provider: VideoProvider):
         assert video.active_provider == video_provider
@@ -113,7 +118,7 @@ class TestVideoCategory:
     def test_get_absolute_url(self, video_category: VideoCategory):
         assert (
             video_category.get_absolute_url()
-            == f"/videos/category/{video_category.slug}/"
+            == f"/videos/c/{video_category.collection.slug}/c/{video_category.slug}/"
         )
 
 
@@ -122,7 +127,10 @@ class TestVideoPerson:
         assert str(video_person) == f"{video_person.name} <{video_person.slug}>"
 
     def test_get_absolute_url(self, video_person: VideoPerson):
-        assert video_person.get_absolute_url() == f"/videos/person/{video_person.slug}/"
+        assert (
+            video_person.get_absolute_url()
+            == f"/videos/c/{video_person.collection.slug}/p/{video_person.slug}/"
+        )
 
 
 class TestVideoKeyword:
@@ -131,7 +139,8 @@ class TestVideoKeyword:
 
     def test_get_absolute_url(self, video_keyword: VideoKeyword):
         assert (
-            video_keyword.get_absolute_url() == f"/videos/keyword/{video_keyword.slug}/"
+            video_keyword.get_absolute_url()
+            == f"/videos/c/{video_keyword.collection.slug}/k/{video_keyword.slug}/"
         )
 
 
@@ -144,6 +153,5 @@ class TestVideoCollection:
 
     def test_get_absolute_url(self, video_collection: VideoCollection):
         assert (
-            video_collection.get_absolute_url()
-            == f"/videos/collection/{video_collection.slug}/"
+            video_collection.get_absolute_url() == f"/videos/c/{video_collection.slug}/"
         )

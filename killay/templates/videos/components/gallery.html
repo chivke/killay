@@ -4,7 +4,7 @@
 
       {% if video.is_visible or user.is_superuser and video.code %}
         <a
-          class="video-selector" href="{% url 'videos:detail' video.code %}"
+          class="video-selector" href="{{video.get_absolute_url}}"
           style="{% if video.thumb %}background-image: url('{{video.thumb.url}}');{% else %}background-color: #dedede;{% endif %}"
         >
           {% if not video.is_visible %}

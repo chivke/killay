@@ -1,10 +1,10 @@
 {% load i18n %}
-<div class="ui inverted segment" id="site-navbar">
-<nav class="ui inverted stackable secondary pointing menu" >
+
+<nav class="ui inverted secondary pointing menu">
   <div class="ui vertical segment">
     <div class="left menu" id="site-navbar-header-menu">
       <div class="header item"><a class="text" href="/">{{ site_conf.name }}</a></div>
-      <div class="right menu " >
+      <div class="right menu">
         {% include "components/search.html" %}
         {% with request.resolver_match.view_name as view_name %}
           {% if user.is_authenticated %}
@@ -46,4 +46,3 @@
     {% endif %}
   </div>
 </nav>
-</div>

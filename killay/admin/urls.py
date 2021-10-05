@@ -22,6 +22,11 @@ urlpatterns += [
         name="videos_collections",
     ),
     path(
+        "videos/~collections/create/",
+        view=videos_views.video_collection_create_view,
+        name="videos_collection_create",
+    ),
+    path(
         "videos/~collections/<str:slug>/",
         view=videos_views.video_collection_update_view,
         name="videos_collection_update",
@@ -32,11 +37,21 @@ urlpatterns += [
         name="videos_categories",
     ),
     path(
+        "videos/~categories/create/",
+        view=videos_views.video_category_create_view,
+        name="videos_category_create",
+    ),
+    path(
         "videos/~categories/<str:slug>/",
         view=videos_views.video_category_update_view,
         name="videos_category_update",
     ),
     path("videos/~people/", view=videos_views.video_people_view, name="videos_people"),
+    path(
+        "videos/~people/create/",
+        view=videos_views.video_person_create_view,
+        name="videos_person_create",
+    ),
     path(
         "videos/~people/<str:slug>/",
         view=videos_views.video_person_update_view,
@@ -48,27 +63,37 @@ urlpatterns += [
         name="videos_keywords",
     ),
     path(
+        "videos/~keywords/create/",
+        view=videos_views.video_keyword_create_view,
+        name="videos_keyword_create",
+    ),
+    path(
         "videos/~keywords/<str:slug>/",
         view=videos_views.video_keyword_update_view,
         name="videos_keyword_update",
     ),
     path(
-        "videos/<str:slug>/~sequences/",
-        view=videos_views.video_sequences_list,
+        "videos/c/<str:collection>/<str:slug>/~sequences/create/",
+        view=videos_views.video_sequences_create_view,
+        name="videos_sequences_create",
+    ),
+    path(
+        "videos/c/<str:collection>/<str:slug>/~sequences/",
+        view=videos_views.video_sequences_list_view,
         name="videos_sequences_list",
     ),
     path(
-        "videos/<str:slug>/~categorization/",
-        view=videos_views.video_categorization,
+        "videos/c/<str:collection>/<str:slug>/~categorization/",
+        view=videos_views.video_categorization_view,
         name="videos_categorization",
     ),
     path(
-        "videos/<str:slug>/~delete/",
+        "videos/c/<str:collection>/<str:slug>/~delete/",
         view=videos_views.video_delete_view,
         name="videos_delete",
     ),
     path(
-        "videos/<str:slug>/~update/",
+        "videos/c/<str:collection>/<str:slug>/~update/",
         view=videos_views.video_update_view,
         name="videos_update",
     ),

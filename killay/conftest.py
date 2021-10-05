@@ -95,28 +95,34 @@ def video_collection() -> VideoCollection:
 
 
 @pytest.fixture
-def video_category() -> VideoCategory:
-    return VideoCategoryFactory()
+def video_category(video_collection: VideoCollection) -> VideoCategory:
+    return VideoCategoryFactory(collection=video_collection)
 
 
 @pytest.fixture
-def video_person() -> VideoPerson:
-    return VideoPersonFactory()
+def video_person(video_collection: VideoCollection) -> VideoPerson:
+    return VideoPersonFactory(collection=video_collection)
 
 
 @pytest.fixture
-def video_keyword() -> VideoKeyword:
-    return VideoKeywordFactory()
+def video_keyword(video_collection: VideoCollection) -> VideoKeyword:
+    return VideoKeywordFactory(collection=video_collection)
 
 
 @pytest.fixture
 def video_categorization(
+    video: Video,
+    video_collection: VideoCollection,
     video_category: VideoCategory,
     video_person: VideoPerson,
     video_keyword: VideoKeyword,
 ) -> VideoCategorization:
     return VideoCategorizationFactory(
-        categories=(video_category,), people=(video_person,), keywords=(video_keyword,)
+        video=video,
+        collection=video_collection,
+        categories=(video_category,),
+        people=(video_person,),
+        keywords=(video_keyword,),
     )
 
 

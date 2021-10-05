@@ -13,7 +13,12 @@ pytestmark = pytest.mark.django_db
 
 class TestPageCreateView:
     def test_create(self, admin_user: User, rf_msg: RequestFactory):
-        data = {"title": "fake page", "slug": "fake-page"}
+        data = {
+            "title": "fake page",
+            "slug": "fake-page",
+            "kind": "PAGE",
+            "position": 9,
+        }
         request = rf_msg("post", "/admin/pages/~create/", data)
         request.resolver_match = resolve("/admin/pages/~create/")
         request.user = admin_user

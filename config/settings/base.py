@@ -101,7 +101,7 @@ MEDIA_URL = "/media/"
 CUSTOM_CONTEXT_PROCESSORS = [
     "killay.admin.context_processors.site_context",
     "killay.pages.context_processors.pages_context",
-    "killay.videos.context_processors.categories_context",
+    "killay.videos.context_processors.collections_context",
 ]
 
 TEMPLATES = [

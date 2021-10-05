@@ -3,12 +3,14 @@ import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from django.http.response import Http404
+from django.urls import resolve
 
 from killay.videos.models import Video, VideoCategorization
 
 
 from killay.videos.views import (
     video_category_list_view,
+    video_collection_list_view,
     video_detail_view,
     video_search_list_view,
 )
@@ -18,10 +20,17 @@ pytestmark = pytest.mark.django_db
 
 
 class TestVideoDetailView:
-    def test_get_video(self, video: Video, rf: RequestFactory):
-        request = rf.get(f"/videos/{video.code}/")
+    def test_get_video(
+        self, video_categorization: VideoCategorization, rf: RequestFactory
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
+        url = f"/videos/c/{collection.slug}/v/{video.code}/"
+        request = rf.get(url)
         request.user = AnonymousUser()
-        response = video_detail_view(request, slug=video.code)
+        request.resolver_match = resolve(url)
+        response = video_detail_view(request, **request.resolver_match.kwargs)
+
         assert response.status_code == 200
         assert response.render()
         assert video.meta.title in str(response.content)
@@ -37,12 +46,35 @@ class TestVideoCategoryDetailView:
     def test_get_list(
         self, rf: RequestFactory, video_categorization: VideoCategorization
     ):
+        collection = video_categorization.collection
         category = video_categorization.categories.first()
-        request = rf.get(f"/videos/category/{category.slug}/")
-        response = video_category_list_view(request, slug=category.slug)
+        url = f"/videos/c/{collection.slug}/c/{category.slug}/"
+        request = rf.get(url)
+        request.resolver_match = resolve(url)
+        request.user = AnonymousUser()
+        response = video_category_list_view(request, **request.resolver_match.kwargs)
         assert response.status_code == 200
         assert response.render()
+        response_content = str(response.content)
+        assert category.name in response_content
         assert category.videos.first().video.meta.title in str(response.content)
+
+
+class TestVideoCollectionView:
+    def test_get_list(
+        self, rf: RequestFactory, video_categorization: VideoCategorization
+    ):
+        collection = video_categorization.collection
+        url = f"/videos/c/{collection.slug}/"
+        request = rf.get(url)
+        request.resolver_match = resolve(url)
+        request.user = AnonymousUser()
+        response = video_collection_list_view(request, **request.resolver_match.kwargs)
+        assert response.status_code == 200
+        assert response.render()
+        response_content = str(response.content)
+        assert collection.name in response_content
+        assert collection.videos.first().video.meta.title in str(response.content)
 
 
 class TestVideoSearchView:

@@ -4,6 +4,38 @@
   padding: 0;
   border-radius: 0;
   font-family: "BrandonRegular";
+  display: flex;
+  align-items: center;
+  overflow-x: hidden;
+  > .menu {
+    margin: 0;
+  }
+
+  #site-navbar-header-menu {
+    .right.menu {
+      @media (max-width: 767px) {
+        display: none;
+      }
+    }
+  }
+  #site-navbar-subheader-menu {
+    @media (max-width: 767px) {
+      display: none;
+    }
+  }
+
+  #mobile-dropdown {
+    font-size: 1.5rem;
+    margin: .5rem;
+    font-family: "BrandonRegular";
+
+    @media (min-width: 767px) {
+      display: none;
+    }
+    #searchbox {
+      font-family: "BrandonRegular";
+    }
+  }
 
   .text {
   	font-size: 1.2rem;
@@ -26,6 +58,7 @@
 
       #searchbox {
         margin: 10px;
+        font-family: "BrandonRegular";
       }
       > .icon.button {
         padding: .2rem;

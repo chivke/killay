@@ -136,7 +136,7 @@
             {% trans "Categories" %} ({{object.categorization.categories.count}})
           </div>
           {% for category in object.categorization.categories.all %}
-            <a class="item" href="{% url 'videos:category-list' category.slug %}">
+            <a class="item" href="{{category.get_absolute_url}}">
               {{category.name}}
             </a>
           {% endfor %}
@@ -146,7 +146,7 @@
             {% trans "People" %} ({{object.categorization.people.count}})
           </div>
           {% for person in object.categorization.people.all %}
-            <a class="item" href="{% url 'videos:person-list' person.slug %}">
+            <a class="item" href="{{person.get_absolute_url}}">
               {{person.name}}
             </a>
           {% endfor %}
@@ -156,7 +156,7 @@
             {% trans "Keywords" %} ({{object.categorization.keywords.count}})
           </div>
           {% for keyword in object.categorization.keywords.all %}
-            <a class="item" href="{% url 'videos:keyword-list' keyword.slug %}">
+            <a class="item" href="{{keyword.get_absolute_url}}">
               {{keyword.name}}
             </a>
           {% endfor %}

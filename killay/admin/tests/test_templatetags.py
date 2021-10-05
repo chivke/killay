@@ -4,7 +4,7 @@ from django.test import RequestFactory
 from django.template import Context, Template
 from django.urls import resolve
 
-from killay.videos.models import Video
+from killay.videos.models import VideoCategorization
 
 pytestmark = pytest.mark.django_db
 
@@ -22,10 +22,14 @@ class TestShowAdminNavbar:
         assert rendered_template
         assert "item active" in rendered_template
 
-    def test_video_detail(self, admin_user, video: Video, rf: RequestFactory):
+    def test_video_detail(
+        self, admin_user, video_categorization: VideoCategorization, rf: RequestFactory
+    ):
+        video = video_categorization.video
+        collection = video_categorization.collection
         video.is_visible = True
         video.save()
-        url = f"/videos/{video.code}/"
+        url = f"/videos/c/{collection.slug}/v/{video.code}/"
         request = rf.get(url)
         request.user = admin_user
         request.resolver_match = resolve(url)

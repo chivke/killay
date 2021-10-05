@@ -40,7 +40,14 @@ class Video(models.Model):
         return f"Video <{self.code}>"
 
     def get_absolute_url(self):
-        return reverse("videos:detail", kwargs={"slug": self.code})
+        return reverse(
+            "videos:detail",
+            kwargs={"slug": self.code, "collection": self.collection_slug},
+        )
+
+    @property
+    def collection_slug(self):
+        return self.categorization.collection.slug
 
     @property
     def active_provider(self):
@@ -218,6 +225,11 @@ class VideoSequence(models.Model):
     def __time_to_seconds(self, time):
         return (time.hour * 60 + time.minute) * 60 + time.second
 
+    def get_create_url(self):
+        return reverse(
+            "admin:videos_sequences_create", kwargs={"slug": self.video.code}
+        )
+
 
 class VideoCategorization(models.Model):
     video = models.OneToOneField(
@@ -257,8 +269,6 @@ class VideoFilterAbstract(models.Model):
     class Meta:
         abstract = True
 
-    objects = InSiteManager()
-
     def __str__(self):
         return f"{self.name} <{self.slug}>"
 
@@ -270,6 +280,7 @@ class VideoCollection(VideoFilterAbstract):
         related_name="video_collections",
         default=settings.SITE_ID,
     )
+    is_visible = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = gettext_lazy("collection")
@@ -277,20 +288,16 @@ class VideoCollection(VideoFilterAbstract):
         ordering = ["position", "slug"]
         unique_together = ["slug", "site"]
 
+    objects = InSiteManager()
+
     def get_absolute_url(self):
-        return reverse("videos:collection-list", kwargs={"slug": self.slug})
+        return reverse("videos:collection", kwargs={"slug": self.slug})
 
     def get_update_url(self):
         return reverse("admin:videos_collection_update", kwargs={"slug": self.slug})
 
 
 class VideoCategory(VideoFilterAbstract):
-    site = models.ForeignKey(
-        Site,
-        on_delete=models.CASCADE,
-        related_name="video_categories",
-        default=settings.SITE_ID,
-    )
     collection = models.ForeignKey(
         VideoCollection,
         on_delete=models.CASCADE,
@@ -302,22 +309,17 @@ class VideoCategory(VideoFilterAbstract):
         verbose_name = gettext_lazy("category")
         verbose_name_plural = gettext_lazy("categories")
         ordering = ["collection", "position", "slug"]
-        unique_together = [["slug", "site"], ["slug", "collection"]]
+        unique_together = ["slug", "collection"]
 
     def get_absolute_url(self):
-        return reverse("videos:category-list", kwargs={"slug": self.slug})
+        kwargs = {"collection": self.collection.slug, "slug": self.slug}
+        return reverse("videos:category", kwargs=kwargs)
 
     def get_update_url(self):
         return reverse("admin:videos_category_update", kwargs={"slug": self.slug})
 
 
 class VideoPerson(VideoFilterAbstract):
-    site = models.ForeignKey(
-        Site,
-        on_delete=models.CASCADE,
-        related_name="video_people",
-        default=settings.SITE_ID,
-    )
     collection = models.ForeignKey(
         VideoCollection,
         on_delete=models.CASCADE,
@@ -329,22 +331,17 @@ class VideoPerson(VideoFilterAbstract):
         verbose_name = gettext_lazy("person")
         verbose_name_plural = gettext_lazy("people")
         ordering = ["position", "slug"]
-        unique_together = ["slug", "site"]
+        unique_together = ["slug", "collection"]
 
     def get_absolute_url(self):
-        return reverse("videos:person-list", kwargs={"slug": self.slug})
+        kwargs = {"collection": self.collection.slug, "slug": self.slug}
+        return reverse("videos:person", kwargs=kwargs)
 
     def get_update_url(self):
         return reverse("admin:videos_person_update", kwargs={"slug": self.slug})
 
 
 class VideoKeyword(VideoFilterAbstract):
-    site = models.ForeignKey(
-        Site,
-        on_delete=models.CASCADE,
-        related_name="video_keywords",
-        default=settings.SITE_ID,
-    )
     collection = models.ForeignKey(
         VideoCollection,
         on_delete=models.CASCADE,
@@ -356,10 +353,11 @@ class VideoKeyword(VideoFilterAbstract):
         verbose_name = gettext_lazy("keyword")
         verbose_name_plural = gettext_lazy("keywords")
         ordering = ["position", "slug"]
-        unique_together = ["slug", "site"]
+        unique_together = ["slug", "collection"]
 
     def get_absolute_url(self):
-        return reverse("videos:keyword-list", kwargs={"slug": self.slug})
+        kwargs = {"collection": self.collection.slug, "slug": self.slug}
+        return reverse("videos:keyword", kwargs=kwargs)
 
     def get_update_url(self):
         return reverse("admin:videos_keyword_update", kwargs={"slug": self.slug})

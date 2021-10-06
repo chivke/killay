@@ -9,14 +9,14 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/django/Dockerfile
-    image: cmpirque_local_django
-    container_name: cmpirque_django
+    image: killay_local_django
+    container_name: killay_django
     depends_on:
       - postgres
     volumes:
       - .:/app:z
     env_file:
-      - ./.env
+      - ./.local.env
     ports:
       - "8000:8000"
     command: /start
@@ -25,20 +25,20 @@ services:
     build:
       context: .
       dockerfile: ./compose/local/postgres/Dockerfile
-    image: cmpirque_local_postgres
-    container_name: cmpirque_postgres
+    image: killay_local_postgres
+    container_name: killay_postgres
     volumes:
       - local_postgres_data:/var/lib/postgresql/data:Z
       - local_postgres_data_backups:/backups:z
     env_file:
-      - ./.env
+      - ./.local.env
 
   node:
     build:
       context: .
       dockerfile: ./compose/local/node/Dockerfile
-    image: cmpirque_local_node
-    container_name: cmpirque_node
+    image: killay_local_node
+    container_name: killay_node
     depends_on:
       - django
     volumes:

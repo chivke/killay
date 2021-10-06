@@ -1,0 +1,48 @@
+{% load i18n %}
+
+<nav class="ui inverted secondary pointing menu">
+  <div class="ui vertical segment">
+    <div class="left menu" id="site-navbar-header-menu">
+      <div class="header item"><a class="text" href="/">{{ site_conf.name }}</a></div>
+      <div class="right menu">
+        {% include "components/search.html" %}
+        {% with request.resolver_match.view_name as view_name %}
+          {% if user.is_authenticated %}
+          <a
+            class="item{% if view_name == 'users:update' %} active{% endif %}"
+            href="{% url 'users:update' %}"
+          >@{{request.user.username}}
+          </a>
+          <a class="item" href="{% url 'users:logout' %}">{% trans "Log Out" %}</a>
+        {% else %}
+          <a
+            class="item{% if view_name == 'users:login' %} active{% endif %}"
+            href="{% url 'users:login' %}"
+          >{% trans "Log In" %}
+          </a>
+        {% endif %}
+        {% endwith %}
+      </div>
+    </div>
+    {% if site_conf.is_published or user.is_authenticated %}
+      <div class="left menu" id="site-navbar-subheader-menu">
+        {% for page in menu_pages %}
+          {% if page.is_visible or user.is_authenticated  %}
+            {% if page.is_visible_in_navbar %}
+              <a
+                class="{% if page.selected %}active {% endif %}item"
+                href="{{ page.url }}"
+              >{{ page.title }}
+              </a>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+        {% for collection in menu_collections %}
+          <a class="{% if collection.selected %}active {% endif %}item" href="{{ collection.url }}">
+            {{ collection.name }}
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</nav>

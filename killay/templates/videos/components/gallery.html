@@ -1,0 +1,30 @@
+<div class="video-gallery-container">
+  <div class="full-list-content">
+    {% for video in page_obj %}
+
+      {% if video.is_visible or user.is_superuser and video.code %}
+        <a
+          class="video-selector" href="{{video.get_absolute_url}}"
+          style="{% if video.thumb %}background-image: url('{{video.thumb.url}}');{% else %}background-color: #dedede;{% endif %}"
+        >
+          {% if not video.is_visible %}
+            <div class="not-public-label ui icon">
+              <i class="eye slash icon"></i>
+            </div>
+          {% endif %}
+          <div class="duration-label">{{video.meta.duration|time:"H:i"}}</div>
+          <div class="video-label">
+            {{video.meta.title}}
+          </div>
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% if is_paginated %}
+    <div class="pagination-container">
+      <div class="ui pagination menu huge">
+        {% include "components/paginator.html" %}
+      </div>
+    </div>
+  {% endif %}
+</div>

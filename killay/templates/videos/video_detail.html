@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+{% load static i18n %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+{% endblock extra_css %}
+
+{% block title %}{{ object.meta.title }}{% endblock %}
+
+{% block content %}
+  <div class="video-detail-container">
+    <h1 class="ui dividing header">{{ object.meta.title }}</h1>
+
+    <div class="player-sequence-container">
+      <div id="sequences-data" hidden>
+        {% for sequence in object.sequences.get_ordered_data %}
+          <div
+            id="sequence-{{sequence.order}}-{{sequence.ini_sec}}-{{sequence.end_sec}}"
+            order="{{sequence.order}}" ini="{{sequence.ini_sec}}" end="{{sequence.end_sec}}"
+          >
+            <div name="sequence-data-title">
+              {% if sequence.title %}
+                {{ sequence.title }}
+              {% else %}
+                {{ sequence.order }}
+              {% endif %}
+            </div>
+            <div name="sequence-data-content">
+              {% autoescape off %}{{ sequence.content }}{% endautoescape %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="player-container ui inverted segment">
+      {% if object.active_provider %}
+        <div class="plyr__video-embed" id="player">
+          <iframe
+            src="{{object.active_provider.video_url_for_plyr}}"
+            allowfullscreen
+            allowtransparency
+            allow="autoplay"
+          ></iframe>
+        </div>
+      {% else %}
+        <div id="no-player">{% trans "No video provider" %}</div>
+      {% endif %}
+      {% if object.active_provider and object.has_sequences %}
+        <div
+          id="sequences-menu" class="sequences-menu ui inverted vertical fluid menu"
+        ></div>
+      {% endif %}
+      </div>
+      <div id="sequences-display">
+        <div id="video-description">{{object.meta.description}}</div>
+        <h4 class="ui horizontal divider header" id="sequences-display-title">.</h4>
+        <div id="sequences-display-content"></div>
+      </div>
+    </div>
+    <div class="meta-categorization-container">
+      <table id="video-meta-table" class="ui definition table">
+        <tbody>
+          <tr>
+            <td>{% trans "Code" %}:</td><td>{{object.code}}</td>
+          </tr>
+          <tr>
+            <td>{% trans "Title" %}:</td><td>{{object.meta.title}}</td>
+          </tr>
+          {% if  object.meta.event %}
+            <tr>
+              <td>{% trans "Event" %}:</td><td>{{object.meta.event}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.description %}
+            <tr>
+              <td>{% trans "Description" %}:</td><td>{{object.meta.description}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.description_date %}
+            <tr>
+              <td>{% trans "Description Date" %}:</td><td>{{object.meta.description_date}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.location %}
+            <tr>
+              <td>{% trans "Location" %}:</td><td>{{object.meta.location}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.duration %}
+            <tr>
+              <td>{% trans "Duration" %}:</td><td>{{object.meta.duration|time:"H:i"}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.register_author %}
+            <tr>
+              <td>{% trans "Register Author" %}:</td><td>{{object.meta.register_author}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.productor %}
+            <tr>
+              <td>{% trans "Productor" %}:</td><td>{{object.meta.productor}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.notes %}
+            <tr>
+              <td>{% trans "Notes" %}:</td><td>{{object.meta.notes}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.archivist_notes %}
+            <tr>
+              <td>{% trans "Archivist Notes" %}:</td><td>{{object.meta.archivist_notes}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.documentary_unit %}
+            <tr>
+              <td>{% trans "Documentary Unit" %}:</td><td>{{object.meta.documentary_unit}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.lang %}
+            <tr>
+              <td>{% trans "Language" %}:</td><td>{{object.meta.lang}}</td>
+            </tr>
+          {% endif %}
+          {% if  object.meta.original_format %}
+            <tr>
+              <td>{% trans "Original Format" %}:</td><td>{{object.meta.original_format}}</td>
+            </tr>
+          {% endif %}
+        </tbody>
+      </table>
+
+      <div id="categorization-container" class="ui segment">
+        <div class="ui link list">
+          <div class="active item">
+            {% trans "Categories" %} ({{object.categorization.categories.count}})
+          </div>
+          {% for category in object.categorization.categories.all %}
+            <a class="item" href="{{category.get_absolute_url}}">
+              {{category.name}}
+            </a>
+          {% endfor %}
+        </div>
+        <div class="ui link list">
+          <div class="active item">
+            {% trans "People" %} ({{object.categorization.people.count}})
+          </div>
+          {% for person in object.categorization.people.all %}
+            <a class="item" href="{{person.get_absolute_url}}">
+              {{person.name}}
+            </a>
+          {% endfor %}
+        </div>
+        <div class="ui link list">
+          <div class="active item">
+            {% trans "Keywords" %} ({{object.categorization.keywords.count}})
+          </div>
+          {% for keyword in object.categorization.keywords.all %}
+            <a class="item" href="{{keyword.get_absolute_url}}">
+              {{keyword.name}}
+            </a>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock content %}
+
+{% block extra_js %}
+  <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+  <script type="text/javascript">
+    const $player = new Plyr('#player', {invertTime: false});
+    const $sequence_engine = new SequenceEngine();
+    $player.on('ready', event => {
+      $sequence_engine.run();
+    });
+  </script>
+{% endblock extra_js %}

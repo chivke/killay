@@ -5,18 +5,17 @@ import environ
 
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
-APPS_DIR = ROOT_DIR / "cmpirque"
+APPS_DIR = ROOT_DIR / "killay"
 env = environ.Env()
 
 # General
 
 DEBUG = env.bool("DJANGO_DEBUG", default=False)
-TIME_ZONE = "America/Santiago"
 LANGUAGE_CODE = "en-us"
 SITE_ID = 1
 USE_TZ = True
-SITE_NAME = env("SITE_NAME", default="Centro de Memoria Audiovisual de Pirque")
-SITE_DOMAIN = env("SITE_DOMAIN", default="example-site.com")
+SITE_NAME = env("SITE_NAME", default="Killay Site Name")
+SITE_DOMAIN = env("SITE_DOMAIN", default="killay-site.com")
 LOCALE_PATHS = ("locale",)
 
 # Database
@@ -44,20 +43,17 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = ["django_quill"]
 
 LOCAL_APPS = [
-    "cmpirque.users.apps.UsersConfig",
-    "cmpirque.pages.apps.PagesConfig",
-    "cmpirque.videos.apps.VideosConfig",
-    "cmpirque.admin.apps.AdminConfig",
+    "killay.users.apps.UsersConfig",
+    "killay.pages.apps.PagesConfig",
+    "killay.videos.apps.VideosConfig",
+    "killay.admin.apps.AdminConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
 # Authentication
 
-AUTHENTICATION_BACKENDS = [
-    "django.contrib.auth.backends.ModelBackend",
-    "allauth.account.auth_backends.AuthenticationBackend",
-]
+AUTHENTICATION_BACKENDS = ["django.contrib.auth.backends.ModelBackend"]
 
 AUTH_USER_MODEL = "users.User"
 LOGIN_REDIRECT_URL = "users:redirect"
@@ -103,9 +99,9 @@ MEDIA_URL = "/media/"
 # Template
 
 CUSTOM_CONTEXT_PROCESSORS = [
-    "cmpirque.admin.context_processors.site_context",
-    "cmpirque.pages.context_processors.pages_context",
-    "cmpirque.videos.context_processors.categories_context",
+    "killay.admin.context_processors.site_context",
+    "killay.pages.context_processors.pages_context",
+    "killay.videos.context_processors.collections_context",
 ]
 
 TEMPLATES = [
@@ -133,9 +129,6 @@ TEMPLATES = [
 ]
 
 FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
-
-# http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
-CRISPY_TEMPLATE_PACK = "bootstrap4"
 
 
 # Fixtures

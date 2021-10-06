@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{form_title}}{% endblock %}
+
+{% block extra_css %}
+  {% if form.media %}
+    {{form.media}}
+  {% endif %}
+{% endblock extra_css %}
+
+{% block sidebar %}
+  {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
+  <div id="admin-main-container">
+    <form
+      method="post"
+      action="."
+      class="ui form"
+      id="generic_form_id"
+    >
+      {% csrf_token %}
+      <div class="field">
+        <h1 class="header">{{form_title}}</h1>
+      </div>
+
+      {% if read_only_fields %}
+        {% for field_name, field in read_only_fields.items %}
+          <div class="field">
+            <label>{{field.label}}</label>
+            {{field.value}}
+          </div>
+        {% endfor %}
+      {% endif %}
+
+      {% for field in form %}
+        <div class="field">
+          <label>{{field.label_tag}}</label>
+          {% if field.field.widget.input_type == "checkbox" %}
+            <div class="ui slider checkbox">
+              {{field}}
+            </div>
+          {% else %}
+            {{field}}
+          {% endif %}
+          {% if field.errors %}
+            <div class="ui pointing red basic label">
+              {% for error in field.errors %}{{error}}{% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <div class="field">
+        <input
+          type="submit"
+          class="ui button admin-submit"
+          value="{% trans 'Save' %}"
+        >
+      </div>
+    </form>
+  </div>
+
+{% endblock %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+    $('.ui.checkbox')
+      .checkbox()
+    ;
+    $('.ui.dropdown')
+      .dropdown()
+    ;
+    {% for field in html_fields %}
+      var html_input_{{field}} = new Quill("#id_{{field}}", {theme: 'snow'});
+    {% endfor %}
+  </script>
+{% endblock extra_js %}

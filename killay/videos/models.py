@@ -316,7 +316,10 @@ class VideoCategory(VideoFilterAbstract):
         return reverse("videos:category", kwargs=kwargs)
 
     def get_update_url(self):
-        return reverse("admin:videos_category_update", kwargs={"slug": self.slug})
+        return reverse(
+            "admin:videos_category_update",
+            kwargs={"collection": self.collection.slug, "slug": self.slug},
+        )
 
 
 class VideoPerson(VideoFilterAbstract):
@@ -338,7 +341,10 @@ class VideoPerson(VideoFilterAbstract):
         return reverse("videos:person", kwargs=kwargs)
 
     def get_update_url(self):
-        return reverse("admin:videos_person_update", kwargs={"slug": self.slug})
+        return reverse(
+            "admin:videos_person_update",
+            kwargs={"collection": self.collection.slug, "slug": self.slug},
+        )
 
 
 class VideoKeyword(VideoFilterAbstract):
@@ -360,4 +366,7 @@ class VideoKeyword(VideoFilterAbstract):
         return reverse("videos:keyword", kwargs=kwargs)
 
     def get_update_url(self):
-        return reverse("admin:videos_keyword_update", kwargs={"slug": self.slug})
+        return reverse(
+            "admin:videos_keyword_update",
+            kwargs={"collection": self.collection.slug, "slug": self.slug},
+        )

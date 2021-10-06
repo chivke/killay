@@ -35,7 +35,12 @@
     </div>
 
     <div class="header-filter-container">
-      <h1 class="filter-name ui header">{{object.name}}</h1>
+      <h1 class="filter-name ui header">
+        {{object.name}}
+      </h1>
+      {% if user and user.is_superuser %}
+        <a href="{{object.get_update_url}}"><h3>{% trans "Update" %}</h3></a>
+      {% endif %}
       {% if object.description %}
         <div class="filter-description">{{object.description}}</div>
       {% endif %}

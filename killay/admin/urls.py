@@ -42,7 +42,7 @@ urlpatterns += [
         name="videos_category_create",
     ),
     path(
-        "videos/~categories/<str:slug>/",
+        "videos/~categories/c/<str:collection>/<str:slug>/",
         view=videos_views.video_category_update_view,
         name="videos_category_update",
     ),
@@ -53,7 +53,7 @@ urlpatterns += [
         name="videos_person_create",
     ),
     path(
-        "videos/~people/<str:slug>/",
+        "videos/~people/c/<str:collection>/<str:slug>/",
         view=videos_views.video_person_update_view,
         name="videos_person_update",
     ),
@@ -68,7 +68,7 @@ urlpatterns += [
         name="videos_keyword_create",
     ),
     path(
-        "videos/~keywords/<str:slug>/",
+        "videos/~keywords/c/<str:collection>/<str:slug>/",
         view=videos_views.video_keyword_update_view,
         name="videos_keyword_update",
     ),

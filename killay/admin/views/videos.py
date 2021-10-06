@@ -183,16 +183,6 @@ class VideoCategorizationUpdateView(
     form_class = VideoCategorizationForm
     template_name = "admin/videos/video_categorization.html"
 
-    def get_success_url(self):
-        messages.info(self.request, gettext("Video Sequences was updated"))
-        return reverse(
-            "admin:videos_sequences_list",
-            kwargs={
-                "collection": self.object.categorization.collection.slug,
-                "slug": self.object.code,
-            },
-        )
-
     def get_object(self):
         instance = super().get_object()
         try:
@@ -286,6 +276,17 @@ class VideoCategoryUpdateView(AdminUpdateMixin):
     form_class = VideoCategoryForm
     reverse_success_url = "admin:videos_category_update"
 
+    def get_object(self):
+        kwargs = {
+            "slug": self.kwargs.get("slug"),
+            "collection__slug": self.kwargs.get("collection"),
+        }
+        try:
+            obj = self.model.objects.get(**kwargs)
+        except self.model.DoesNotExist:
+            raise Http404()
+        return obj
+
 
 video_category_update_view = VideoCategoryUpdateView.as_view()
 
@@ -314,7 +315,7 @@ class VideoPersonCreateView(AdminRequiredMixin, CreateView):
 video_person_create_view = VideoPersonCreateView.as_view()
 
 
-class VideoPersonUpdateView(AdminUpdateMixin):
+class VideoPersonUpdateView(VideoCategoryUpdateView):
     model = VideoPerson
     form_class = VideoPersonForm
     reverse_success_url = "admin:videos_person_update"
@@ -347,7 +348,7 @@ class VideoKeywordCreateView(AdminRequiredMixin, CreateView):
 video_keyword_create_view = VideoKeywordCreateView.as_view()
 
 
-class VideoKeywordUpdateView(AdminUpdateMixin):
+class VideoKeywordUpdateView(VideoCategoryUpdateView):
     model = VideoKeyword
     form_class = VideoKeywordForm
     reverse_success_url = "admin:videos_keyword_update"

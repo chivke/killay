@@ -129,7 +129,7 @@ video_keyword_list_view = VideoKeywordDetailView.as_view()
 
 
 class VideoSearchView(PublishRequiredMixin, ListView):
-    paginate_by = 50
+    paginate_by = 54
 
     def get_queryset(self):
         return Video.objects.filter(

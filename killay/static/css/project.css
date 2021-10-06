@@ -50,11 +50,12 @@ h1 {
       -ms-flex-align: center;
           align-items: center; }
   #site-navbar > .menu {
-    margin: 0; }
-  @media (max-width: 767px) {
+    margin: 0;
+    width: 100%; }
+  @media (max-width: 850px) {
     #site-navbar #site-navbar-header-menu .right.menu {
       display: none; } }
-  @media (max-width: 767px) {
+  @media (max-width: 850px) {
     #site-navbar #site-navbar-subheader-menu {
       display: none; } }
   #site-navbar #mobile-dropdown {
@@ -63,7 +64,7 @@ h1 {
     margin: 8px;
     margin: .5rem;
     font-family: "BrandonRegular"; }
-    @media (min-width: 767px) {
+    @media (min-width: 850px) {
       #site-navbar #mobile-dropdown {
         display: none; } }
     #site-navbar #mobile-dropdown #searchbox {
@@ -87,7 +88,9 @@ h1 {
     padding: 0; }
     #site-navbar #searchform > .inverted.input #searchbox {
       margin: 10px;
-      font-family: "BrandonRegular"; }
+      font-family: "BrandonRegular";
+      font-size: 16px;
+      font-size: 1rem; }
     #site-navbar #searchform > .inverted.input > .icon.button {
       padding: 3.2px;
       padding: .2rem; }
@@ -187,6 +190,13 @@ h1 {
 #admin-navbar {
   margin: 0;
   font-family: "BrandonRegular"; }
+  @media (min-width: 850px) {
+    #admin-navbar #admin-mobile-dropdown {
+      display: none; } }
+  @media (max-width: 850px) {
+    #admin-navbar > .menu > a.item:not(.header),
+    #admin-navbar > a.item:not(.header) {
+      display: none; } }
 
 #video-admin-container {
   margin: 48px auto;
@@ -236,15 +246,29 @@ h1 {
   display: -ms-flexbox;
   display: flex;
   max-height: 39vw; }
+  @media (max-width: 850px) {
+    .player-sequence-container {
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+      max-height: inherit; } }
   .player-sequence-container .player-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
     min-width: 70%;
     --plyr-color-main: #dedede;
     margin: 0 !important;
     padding: 0 !important;
     border-radius: 0 !important; }
+    @media (max-width: 850px) {
+      .player-sequence-container .player-container {
+        width: 100%;
+        max-height: 39vh; } }
     .player-sequence-container .player-container #no-player {
       text-align: center;
       padding: 20%; }
+    .player-sequence-container .player-container #player {
+      width: 100%; }
 
 #sequences-menu {
   margin: 0 !important;
@@ -261,15 +285,17 @@ h1 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  margin: 48px 80px;
-  margin: 3rem 5rem; }
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin: 32px 16px;
+  margin: 2rem 1rem; }
   .meta-categorization-container #video-meta-table {
-    max-width: 50%;
+    max-width: 70%;
     margin: 0; }
   .meta-categorization-container #categorization-container {
-    max-width: 50%;
+    max-width: 25%;
+    min-width: 20%;
     margin: 0; }
 
 .video-gallery-container {
@@ -340,18 +366,36 @@ h1 {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  font-family: "BrandonRegular"; }
-  .header-filter-container .filter-name {
-    width: 40%; }
+  font-family: "BrandonRegular";
+  -ms-flex-pack: distribute;
+      justify-content: space-around; }
+  @media (max-width: 850px) {
+    .header-filter-container {
+      -ms-flex-flow: wrap;
+          flex-flow: wrap; } }
   .header-filter-container .filter-description {
     padding: 16px 48px;
     padding: 1rem 3rem; }
+    @media (min-width: 850px) {
+      .header-filter-container .filter-description {
+        max-width: 50%; } }
 
 #video-list-querysearch {
   font-family: "BrandonRegular";
   text-align: center;
   margin: 32px;
   margin: 2rem; }
+
+#categories-menu {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center; }
+  @media (max-width: 850px) {
+    #categories-menu > a.item {
+      display: none; } }
+  @media (min-width: 850px) {
+    #categories-menu #categories-menu-mobile {
+      display: none; } }
 
 .page-header-image {
   background-size: cover;

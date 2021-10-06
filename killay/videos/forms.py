@@ -102,7 +102,7 @@ class VideoCategorizationForm(forms.ModelForm):
 class VideoCollectionForm(forms.ModelForm):
     class Meta:
         model = VideoCollection
-        fields = ["name", "slug", "description", "position"]
+        fields = ["name", "slug", "description", "position", "is_visible"]
 
     description = forms.CharField(
         required=False, widget=forms.Textarea(attrs={"rows": 1})

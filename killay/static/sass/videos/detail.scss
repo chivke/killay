@@ -23,18 +23,32 @@
   display: flex;
   max-height: 39vw;
 
+  @media (max-width: $breakpoint) {
+    flex-wrap: wrap;
+    max-height: inherit;
+  }
+
   .player-container {
+    display: flex;
     min-width: 70%;
     --plyr-color-main: #dedede;
     margin: 0 !important;
     padding: 0 !important;
     border-radius: 0 !important;
 
+    @media (max-width: $breakpoint) {
+      width: 100%;
+      max-height: 39vh;
+    }
+
     #no-player {
       text-align: center;
       padding: 20%;
     }
 
+    #player {
+      width: 100%;
+    }
   }
 }
 
@@ -52,16 +66,17 @@
 
 .meta-categorization-container {
   display: flex;
-  justify-content: space-around;
-  margin: 3rem 5rem;
+  justify-content: space-between;
+  margin: 2rem 1rem;
 
 
   #video-meta-table{
-    max-width: 50%;
+    max-width: 70%;
     margin: 0;
   }
   #categorization-container {
-    max-width: 50%;
+    max-width: 25%;
+    min-width: 20%;
     margin: 0;
   }
 

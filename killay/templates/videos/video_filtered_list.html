@@ -1,13 +1,45 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block content %}
   <div>
-  <div class="header-filter-container">
-    <h1 class="filter-name ui header">{{object.name}}</h1>
-    {% if object.description %}
-      <div class="filter-description">{{object.description}}</div>
-    {% endif %}
-  </div>
-  {% include "videos/components/gallery.html" %}
+    <div class="ui secondary pointing menu" id="categories-menu">
+      {% for collection in menu_collections %}
+        {% if collection.selected %}
+          {% for category in collection.categories %}
+            <a
+              class="item {% if category.selected %}active{% endif %}"
+              href="{{category.url}}"
+            >{{category.name}}
+            </a>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+      <div class="ui item dropdown" id="categories-menu-mobile">
+        {% trans "Select Category" %}
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          {% for collection in menu_collections %}
+            {% if collection.selected %}
+              {% for category in collection.categories %}
+                <a
+                  class="item {% if category.selected %}active{% endif %}"
+                  href="{{category.url}}"
+                >{{category.name}}
+                </a>
+              {% endfor %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="header-filter-container">
+      <h1 class="filter-name ui header">{{object.name}}</h1>
+      {% if object.description %}
+        <div class="filter-description">{{object.description}}</div>
+      {% endif %}
+    </div>
+    {% include "videos/components/gallery.html" %}
   </div>
 {% endblock content %}

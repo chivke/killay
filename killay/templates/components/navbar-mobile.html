@@ -6,22 +6,7 @@
     <div class="ui left input">
       {% include "components/search.html" %}
     </div>
-    {% with request.resolver_match.view_name as view_name %}
-      {% if user.is_authenticated %}
-      <a
-        class="item{% if view_name == 'users:update' %} active{% endif %}"
-        href="{% url 'users:update' %}"
-      >@{{request.user.username}}
-      </a>
-      <a class="item" href="{% url 'users:logout' %}">{% trans "Log Out" %}</a>
-    {% else %}
-      <a
-        class="item{% if view_name == 'users:login' %} active{% endif %}"
-        href="{% url 'users:login' %}"
-      >{% trans "Log In" %}
-      </a>
-    {% endif %}
-    {% endwith %}
+
     {% if site_conf.is_published or user.is_authenticated %}
       {% for page in menu_pages %}
         {% if page.is_visible or user.is_authenticated  %}
@@ -34,11 +19,27 @@
           {% endif %}
         {% endif %}
       {% endfor %}
-      {% for category in menu_categories %}
-        <a class="{% if category.selected %}active {% endif %}item" href="{{ category.url }}">
-          {{ category.name }}
-        </a>
-      {% endfor %}
+      {% for collection in menu_collections %}
+          <a class="{% if collection.selected %}active {% endif %}item" href="{{ collection.url }}">
+            {{ collection.name }}
+          </a>
+        {% endfor %}
     {% endif %}
+    {% with request.resolver_match.view_name as view_name %}
+      {% if user.is_authenticated %}
+        <a
+          class="item{% if view_name == 'users:update' %} active{% endif %}"
+          href="{% url 'users:update' %}"
+        >@{{request.user.username}}
+        </a>
+        <a class="item" href="{% url 'users:logout' %}">{% trans "Log Out" %}</a>
+      {% else %}
+        <a
+          class="item{% if view_name == 'users:login' %} active{% endif %}"
+          href="{% url 'users:login' %}"
+        >{% trans "Log In" %}
+        </a>
+      {% endif %}
+    {% endwith %}
   </div>
 </div>

@@ -86,7 +86,7 @@
               {% for field in form.visible_fields %}
                 {% if field.name not in compact_fields %}
                   <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
-                    {% if field.name == "DELETE" %}
+                    {% if field.name == "DELETE" or field.field.widget.input_type == "checkbox"%}
                       <div class="ui checkbox">
                         {{field}}
                       </div>

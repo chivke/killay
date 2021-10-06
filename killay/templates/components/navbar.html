@@ -37,9 +37,9 @@
             {% endif %}
           {% endif %}
         {% endfor %}
-        {% for category in menu_categories %}
-          <a class="{% if category.selected %}active {% endif %}item" href="{{ category.url }}">
-            {{ category.name }}
+        {% for collection in menu_collections %}
+          <a class="{% if collection.selected %}active {% endif %}item" href="{{ collection.url }}">
+            {{ collection.name }}
           </a>
         {% endfor %}
       </div>

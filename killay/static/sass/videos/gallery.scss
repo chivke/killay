@@ -1,3 +1,4 @@
+
 .video-gallery-container {
   margin: 1rem 2rem;
 
@@ -52,12 +53,19 @@
   margin: 4rem auto;
   display: flex;
   font-family: "BrandonRegular";
+  justify-content: space-around;
+  @media (max-width: $breakpoint) {
+    flex-flow: wrap;
+  }
 
   .filter-name {
-    width: 40%;
+    //width: 40%;
   }
   .filter-description {
     padding: 1rem 3rem;
+    @media (min-width: $breakpoint) {
+      max-width: 50%;
+    }
   }
 }
 
@@ -65,4 +73,20 @@
   font-family: "BrandonRegular";
   text-align: center;
   margin: 2rem;
+}
+
+
+#categories-menu {
+  justify-content: center;
+  > a.item {
+    @media (max-width: $breakpoint) {
+      display: none;
+    }
+  }
+  #categories-menu-mobile {
+    @media (min-width: $breakpoint) {
+      display: none;
+    }
+  }
+  
 }

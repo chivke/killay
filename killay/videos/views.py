@@ -42,18 +42,8 @@ class VideoDetailView(VideoMixin, DetailView):
 video_detail_view = VideoDetailView.as_view()
 
 
-# --
-class VideoListView(PublishRequiredMixin, ListView):
-    model = Video
-    paginate_by = 50
-
-
-video_list_view = VideoListView.as_view()
-# --
-
-
 class CategorizationMixin(PublishRequiredMixin, MultipleObjectMixin):
-    paginate_by = 50
+    paginate_by = 54
     template_name = "videos/video_filtered_list.html"
     slug_field = "slug"
 

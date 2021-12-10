@@ -71,12 +71,11 @@
 
 
   #video-meta-table{
-    max-width: 70%;
+    flex-basis: 70%;
     margin: 0;
   }
   #categorization-container {
-    max-width: 25%;
-    min-width: 20%;
+    flex-basis: 25%;
     margin: 0;
   }
 

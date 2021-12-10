@@ -12,6 +12,7 @@
   }
 
   #site-navbar-header-menu {
+    overflow: hidden;
     .right.menu {
       @media (max-width: $breakpoint) {
         display: none;

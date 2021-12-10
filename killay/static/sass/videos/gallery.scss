@@ -16,7 +16,10 @@
       justify-content: space-between;
       background-size: cover;
       background-position: center;
-
+      @media (max-width: $breakpoint) {
+        width: 70vw;
+        height: 35vh;
+      }
       .not-public-label {
         color: #dedede;
         font-size: 2rem;
@@ -77,8 +80,10 @@
 
 
 #categories-menu {
+  font-family: "BrandonRegular";
   justify-content: center;
   > a.item {
+    font-family: "BrandonRegular";
     @media (max-width: $breakpoint) {
       display: none;
     }
@@ -86,6 +91,10 @@
   #categories-menu-mobile {
     @media (min-width: $breakpoint) {
       display: none;
+    }
+    > .menu {
+      margin-right: -2.2em;
+      font-family: "BrandonRegular";
     }
   }
   

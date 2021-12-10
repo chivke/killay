@@ -287,6 +287,14 @@ class VideoCategoryUpdateView(AdminUpdateMixin):
             raise Http404()
         return obj
 
+    def get_success_url(self):
+        messages.info(self.request, gettext(f'Category "{self.object}" was updated'))
+        collection_slug = self.object.collection.slug
+        return reverse(
+            self.reverse_success_url,
+            kwargs={"slug": self.object.slug, "collection": collection_slug},
+        )
+
 
 video_category_update_view = VideoCategoryUpdateView.as_view()
 

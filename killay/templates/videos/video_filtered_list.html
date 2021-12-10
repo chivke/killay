@@ -16,9 +16,9 @@
         {% endif %}
       {% endfor %}
       <div class="ui item dropdown" id="categories-menu-mobile">
-        {% trans "Select Category" %}
+        {% trans "Categories" %}
         <i class="dropdown icon"></i>
-        <div class="menu">
+        <div class="menu left">
           {% for collection in menu_collections %}
             {% if collection.selected %}
               {% for category in collection.categories %}

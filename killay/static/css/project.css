@@ -244,12 +244,10 @@ h1 {
     max-width: 900px; }
 
 .video-detail-container {
-  margin: 32px;
-  margin: 2rem;
   font-family: "BrandonRegular"; }
   .video-detail-container .header {
-    padding: 16px 32px;
-    padding: 1rem 2rem;
+    padding: 64px;
+    padding: 4rem;
     text-transform: uppercase; }
 
 #video-description {
@@ -261,12 +259,13 @@ h1 {
   overflow-y: scroll; }
 
 .player-sequence-container {
-  padding: 16px;
-  padding: 1rem;
+  padding: 0 48px;
+  padding: 0 3rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  max-height: 39vw; }
+  max-height: 39vw;
+  background-color: #F5F5F5; }
   @media (max-width: 850px) {
     .player-sequence-container {
       -ms-flex-wrap: wrap;
@@ -309,12 +308,15 @@ h1 {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  margin: 32px 16px;
-  margin: 2rem 1rem; }
+  padding: 0 48px;
+  padding: 0 3rem;
+  background-color: #F5F5F5; }
   .meta-categorization-container #video-meta-table {
     -ms-flex-preferred-size: 70%;
         flex-basis: 70%;
-    margin: 0; }
+    margin: 0;
+    padding: 16px;
+    padding: 1rem; }
   .meta-categorization-container #categorization-container {
     -ms-flex-preferred-size: 25%;
         flex-basis: 25%;

@@ -246,8 +246,8 @@ h1 {
 .video-detail-container {
   font-family: "BrandonRegular"; }
   .video-detail-container .header {
-    padding: 64px;
-    padding: 4rem;
+    padding: 48px 64px;
+    padding: 3rem 4rem;
     text-transform: uppercase; }
 
 #video-description {

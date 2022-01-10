@@ -28,6 +28,9 @@ class SiteConfiguration(models.Model):
     footer_is_visible = models.BooleanField(
         gettext_lazy("Footer is visible"), default=True
     )
+    collection_site = models.BooleanField(
+        gettext_lazy("Collection site"), default=False
+    )
 
     class Meta:
         verbose_name = gettext_lazy("Site Configuration")

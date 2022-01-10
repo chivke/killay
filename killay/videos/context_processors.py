@@ -20,6 +20,7 @@ def collections_context(request):
     resolve_from_path = resolve(request.path)
     collections = VideoCollection.objects.filter(is_visible=True)
     menu_collections = []
+    current_collection = None
     for collection in collections:
         collection_item = {
             "name": collection.name,
@@ -28,5 +29,11 @@ def collections_context(request):
             "selected": _is_collection_selected(collection.slug, resolve_from_path),
             "categories": _get_categories(collection, resolve_from_path),
         }
+        if collection_item["selected"]:
+            current_collection = collection_item
         menu_collections.append(collection_item)
-    return {"menu_collections": menu_collections}
+
+    return {
+        "menu_collections": menu_collections,
+        "current_collection": current_collection,
+    }

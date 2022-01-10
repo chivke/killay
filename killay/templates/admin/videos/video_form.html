@@ -28,7 +28,7 @@
       </div>
     {% endif %}
 
-    <form id="video-admin-form" class="ui form" method="post">
+    <form id="video-admin-form" class="ui form" method="post" enctype="multipart/form-data">
       {{ form.managment_form }}
       {% for hidden in form.hidden_fields %}
         {{ hidden }}

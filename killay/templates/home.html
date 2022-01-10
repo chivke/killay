@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-  {% if home_page %} {{ home_page.title }} - {% endif %}{{ site_name }}
+  {% if home_page %} {{ home_page.title }} - {% endif %}{{ site_conf.name }}
 {% endblock title %}
 
 {% block content %}
@@ -14,10 +14,17 @@
       "
     ></div>
   {% endif %}
-  <div id="home-container" class="txt">
-    {% autoescape off %}
-      {{ home_page.body.html }}
+  <div id="home-container" class="txt flex">
+    <h1 class="home-header">
+      {% if home_page.is_title_visible_in_body %}
+        {{home_page.title}}
+      {% endif %}
+    </h1>
+    <div class="home-body">
+      {% autoescape off %}
+        {{ home_page.body.html }}
     {% endautoescape %}
+    </div>
   </div>
 {% endblock content %}
 {% block extra_js %}

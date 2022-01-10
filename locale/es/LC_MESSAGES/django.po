@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-10 19:20+0000\n"
+"POT-Creation-Date: 2022-01-09 17:48-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -392,7 +392,7 @@ msgid "Time"
 msgstr ""
 
 #: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2312
-#: killay/admin/models.py:55
+#: killay/admin/models.py:58
 msgid "URL"
 msgstr ""
 
@@ -414,7 +414,7 @@ msgid "File"
 msgstr ""
 
 #: env/lib/python3.9/site-packages/django/db/models/fields/files.py:375
-#: killay/admin/models.py:70
+#: killay/admin/models.py:73
 msgid "Image"
 msgstr "Imagen"
 
@@ -1243,48 +1243,54 @@ msgstr "Está publicado"
 msgid "Footer is visible"
 msgstr "Footer es visible"
 
-#: killay/admin/models.py:33 killay/templates/admin/components/sidebar.html:14
+#: killay/admin/models.py:32
+#, fuzzy
+#| msgid "Actions"
+msgid "Collection site"
+msgstr "Acciones"
+
+#: killay/admin/models.py:36 killay/templates/admin/components/sidebar.html:14
 #: killay/templates/admin/site_configuration.html:10
 msgid "Site Configuration"
 msgstr "Configuración del Sitio"
 
-#: killay/admin/models.py:49 killay/pages/models.py:20
+#: killay/admin/models.py:52 killay/pages/models.py:20
 #, fuzzy
 #| msgid "Ply Provider"
 msgid "Provider"
 msgstr "Proveedor"
 
-#: killay/admin/models.py:56 killay/admin/models.py:71
+#: killay/admin/models.py:59 killay/admin/models.py:74
 #: killay/pages/models.py:26 killay/videos/models.py:19
 msgid "Is visible"
 msgstr "Es visible"
 
-#: killay/admin/models.py:57 killay/admin/models.py:72
-#: killay/pages/models.py:41 killay/videos/models.py:267
+#: killay/admin/models.py:60 killay/admin/models.py:75
+#: killay/pages/models.py:44 killay/videos/models.py:267
 msgid "Position"
 msgstr "Posición"
 
-#: killay/admin/models.py:60
+#: killay/admin/models.py:63
 #, fuzzy
 #| msgid "Social Media"
 msgid "social media"
 msgstr "Redes Sociales"
 
-#: killay/admin/models.py:61
+#: killay/admin/models.py:64
 #, fuzzy
 #| msgid "Social Media"
 msgid "social medias"
 msgstr "Redes Sociales"
 
-#: killay/admin/models.py:69 killay/videos/models.py:261
+#: killay/admin/models.py:72 killay/videos/models.py:261
 msgid "Name"
 msgstr "Nombre"
 
-#: killay/admin/models.py:75
+#: killay/admin/models.py:78
 msgid "logo"
 msgstr ""
 
-#: killay/admin/models.py:76
+#: killay/admin/models.py:79
 msgid "logos"
 msgstr ""
 
@@ -1301,7 +1307,7 @@ msgstr "Acciones"
 
 #: killay/admin/templatetags/admin_navbar.py:23
 #: killay/templates/videos/video_detail.html:134
-#: killay/templates/videos/video_filtered_list.html:19
+#: killay/templates/videos/video_filtered_list.html:20
 #: killay/videos/models.py:245
 msgid "Categories"
 msgstr "Categorías"
@@ -1323,7 +1329,7 @@ msgstr "Administrador"
 #: killay/admin/templatetags/admin_navbar.py:56 killay/admin/views/pages.py:58
 #: killay/admin/views/users.py:52 killay/templates/admin/formset_list.html:73
 #: killay/templates/admin/formset_list.html:107
-#: killay/templates/videos/video_filtered_list.html:42
+#: killay/templates/videos/video_filtered_list.html:44
 msgid "Update"
 msgstr "Editar"
 
@@ -1442,39 +1448,39 @@ msgstr "Crear categoría"
 msgid "Category \"{self.object}\" was created"
 msgstr "Categoría \"{self.object.username}\" fue creada"
 
-#: killay/admin/views/videos.py:292
+#: killay/admin/views/videos.py:291
 #, fuzzy, python-brace-format
 #| msgid "Category \"{self.object}\" was updated"
 msgid "Category \"{self.object}\" was updated"
 msgstr "Categoría \"{self.object.username}\" fue actualizada"
 
-#: killay/admin/views/videos.py:308
+#: killay/admin/views/videos.py:306
 msgid "Video People"
 msgstr "Gente en videos"
 
-#: killay/admin/views/videos.py:318
+#: killay/admin/views/videos.py:316
 #, fuzzy
 #| msgid "Create Page"
 msgid "Create Person"
 msgstr "Crear Página"
 
-#: killay/admin/views/videos.py:321
+#: killay/admin/views/videos.py:319
 #, fuzzy, python-brace-format
 #| msgid "Page \"{self.object.title}\" was created"
 msgid "Person \"{self.object}\" was created"
 msgstr "Página \"{self.object.username}\" fue creada"
 
-#: killay/admin/views/videos.py:341
+#: killay/admin/views/videos.py:339
 msgid "Video Keywords"
 msgstr "Palabras Clave"
 
-#: killay/admin/views/videos.py:351
+#: killay/admin/views/videos.py:349
 #, fuzzy
 #| msgid "Create User"
 msgid "Create Keyword"
 msgstr "Crear Usuario"
 
-#: killay/admin/views/videos.py:354
+#: killay/admin/views/videos.py:352
 #, fuzzy, python-brace-format
 #| msgid "Page \"{self.object.title}\" was created"
 msgid "Keyword \"{self.object}\" was created"
@@ -1506,28 +1512,34 @@ msgid "Is visible in footer"
 msgstr "Es visible en footer"
 
 #: killay/pages/models.py:34
+#, fuzzy
+#| msgid "Is visible in navbar"
+msgid "Is title visible in body"
+msgstr "Es visible en menú"
+
+#: killay/pages/models.py:37
 msgid "Header mage"
 msgstr "Imagen de cabecera"
 
-#: killay/pages/models.py:36 killay/templates/admin/videos/video_form.html:23
+#: killay/pages/models.py:39 killay/templates/admin/videos/video_form.html:23
 #: killay/videos/models.py:20
 msgid "Created at"
 msgstr "Creado en"
 
-#: killay/pages/models.py:37 killay/templates/admin/videos/video_form.html:26
+#: killay/pages/models.py:40 killay/templates/admin/videos/video_form.html:26
 #: killay/videos/models.py:21
 msgid "Updated at"
 msgstr "Editado en"
 
-#: killay/pages/models.py:43
+#: killay/pages/models.py:46
 msgid "Redirect to (URL)"
 msgstr ""
 
-#: killay/pages/models.py:48
+#: killay/pages/models.py:58
 msgid "page"
 msgstr "página"
 
-#: killay/pages/models.py:49
+#: killay/pages/models.py:59
 msgid "pages"
 msgstr "páginas"
 
@@ -1558,7 +1570,7 @@ msgstr "Buscar"
 
 #: killay/templates/admin/formset_list.html:49
 #: killay/templates/admin/formset_list.html:128
-#: killay/templates/admin/generic_form.html:59
+#: killay/templates/admin/generic_form.html:60
 #: killay/templates/admin/site_configuration.html:77
 #: killay/templates/admin/site_configuration.html:116
 #: killay/templates/admin/videos/video_categorization.html:27
@@ -1630,13 +1642,18 @@ msgstr "Metadatos de video"
 msgid "It is not visible"
 msgstr "No es visible"
 
-#: killay/templates/components/navbar-mobile.html:35
-#: killay/templates/components/navbar.html:16
+#: killay/templates/components/navbar-mobile.html:40
+#: killay/templates/components/navbar.html:66
+msgid "All"
+msgstr "Todos"
+
+#: killay/templates/components/navbar-mobile.html:52
+#: killay/templates/components/navbar.html:24
 msgid "Log Out"
 msgstr "Cerrar sesión"
 
-#: killay/templates/components/navbar-mobile.html:40
-#: killay/templates/components/navbar.html:21
+#: killay/templates/components/navbar-mobile.html:57
+#: killay/templates/components/navbar.html:29
 msgid "Log In"
 msgstr "Acceder"
 
@@ -1928,9 +1945,6 @@ msgstr "No fueron encontrados videos con \"{self.query_search}\""
 
 #~ msgid "Error saving video sequences"
 #~ msgstr "Error guardando las secuencias de video"
-
-#~ msgid "All"
-#~ msgstr "Todos"
 
 #, fuzzy
 #~| msgid "Create Video"

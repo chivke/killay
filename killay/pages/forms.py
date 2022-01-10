@@ -15,10 +15,12 @@ class PageForm(forms.ModelForm):
             "is_visible",
             "is_visible_in_navbar",
             "is_visible_in_footer",
+            "is_title_visible_in_body",
             "position",
             "redirect_to",
             "header_image",
             "body",
+            "collection_site",
         ]
 
     kind = forms.ChoiceField(

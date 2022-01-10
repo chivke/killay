@@ -23,7 +23,7 @@ class HomeView(PublishRequiredMixin, TemplateView):
         return context
 
     def get_home_if_exists(self):
-        return Page.objects.get(slug="home")
+        return Page.objects.filter(slug="home").first()
 
 
 home_page_view = HomeView.as_view()

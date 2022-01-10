@@ -2,6 +2,8 @@
 .cmp-footer {
   position: fixed;
   bottom: 0;
+  right: 0;
+  left:0;
   z-index: 9999;
   max-height: 150px;
   display: flex;
@@ -19,7 +21,9 @@
   }
   .footer-right {
     justify-content: flex-end;
-
+    @media (max-width: $breakpoint) {
+      display: none;
+    }
     .link {
       color: black;
       font-size: 1.5rem;
@@ -30,7 +34,14 @@
   }
   .footer-left {
     justify-content: left;
-
+    .image {
+      @media (max-width: $breakpoint) {
+        &:not(:first-child) {
+          display: none;
+        }
+      }
+    }
+    
     .footer-logo {
       height: 4rem;
       width: auto;

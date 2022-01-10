@@ -1,10 +1,10 @@
 
 .video-detail-container {
-  margin: 2rem;
   font-family: "BrandonRegular";
 
   .header {
-    padding: 1rem 2rem;
+    padding: 3rem 4rem;
+    text-transform: uppercase;
   }
 }
 
@@ -19,9 +19,10 @@
 }
 
 .player-sequence-container {
-  padding: 1rem;
+  padding: 0 3rem;
   display: flex;
   max-height: 39vw;
+  background-color: #F5F5F5;
 
   @media (max-width: $breakpoint) {
     flex-wrap: wrap;
@@ -67,16 +68,17 @@
 .meta-categorization-container {
   display: flex;
   justify-content: space-between;
-  margin: 2rem 1rem;
+  padding: 0 3rem;
+  background-color: #F5F5F5;
 
 
   #video-meta-table{
-    max-width: 70%;
+    flex-basis: 70%;
     margin: 0;
+    padding: 1rem;
   }
   #categorization-container {
-    max-width: 25%;
-    min-width: 20%;
+    flex-basis: 25%;
     margin: 0;
   }
 

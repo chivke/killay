@@ -30,6 +30,9 @@ class Page(models.Model):
     is_visible_in_footer = models.BooleanField(
         gettext_lazy("Is visible in footer"), default=False
     )
+    is_title_visible_in_body = models.BooleanField(
+        gettext_lazy("Is title visible in body"), default=False
+    )
     header_image = models.ImageField(
         gettext_lazy("Header mage"), upload_to="page_images", null=True, blank=True
     )
@@ -41,6 +44,13 @@ class Page(models.Model):
     position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
     redirect_to = models.URLField(
         gettext_lazy("Redirect to (URL)"), null=True, blank=True
+    )
+    collection_site = models.ForeignKey(
+        "videos.VideoCollection",
+        on_delete=models.CASCADE,
+        related_name="pages",
+        null=True,
+        blank=True,
     )
 
     class Meta:

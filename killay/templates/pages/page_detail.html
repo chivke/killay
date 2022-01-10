@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}{{ object.title }} - {{ site_name }}{% endblock %}
+{% block title %}{{ object.title }} - {{ site_conf.name }}{% endblock %}
 
 {% block content %}
   {% if object.header_image %}
@@ -13,12 +13,17 @@
       "
     ></div>
   {% endif %}
-  <div id="home-container" class="txt">
-    <h1 class="header">{{object.title}}</h1>
-    <div class="ui divider"></div>
-    {% autoescape off %}
-      {{ object.body.html }}
+  <div id="home-container" class="txt flex">
+    <h1 class="home-header">
+      {% if object.is_title_visible_in_body %}
+        {{object.title}}
+      {% endif %}
+    </h1>
+    <div class="home-body">
+      {% autoescape off %}
+        {{ object.body.html }}
     {% endautoescape %}
+    </div>
   </div>
 {% endblock content %}
 

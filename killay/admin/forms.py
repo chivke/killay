@@ -7,7 +7,13 @@ from killay.admin.utils import ImageFileInput
 class SiteConfigurationForm(forms.ModelForm):
     class Meta:
         model = SiteConfiguration
-        fields = ["name", "domain", "is_published", "footer_is_visible"]
+        fields = [
+            "name",
+            "domain",
+            "is_published",
+            "footer_is_visible",
+            "collection_site",
+        ]
 
 
 class SocialMediaForm(forms.ModelForm):

@@ -11,19 +11,36 @@
       {% for page in menu_pages %}
         {% if page.is_visible or user.is_authenticated  %}
           {% if page.is_visible_in_navbar %}
-            <a
-              class="{% if page.selected %}active {% endif %}item"
-              href="{{ page.url }}"
-            >{{ page.title }}
-            </a>
+            {% if not page.collection_site or page.selected or page.collection_site.slug == current_collection.slug%}
+              <a
+                class="{% if page.selected %}active {% endif %}item"
+                href="{{ page.url }}"
+              >{{ page.title }}
+              </a>
+            {% endif %}
           {% endif %}
         {% endif %}
       {% endfor %}
-      {% for collection in menu_collections %}
+      {% if not site_conf.collection_site %}
+        {% for collection in menu_collections %}
           <a class="{% if collection.selected %}active {% endif %}item" href="{{ collection.url }}">
             {{ collection.name }}
           </a>
         {% endfor %}
+      {% else %}
+        {% for collection in menu_collections %}
+          {% if collection.selected or collection.slug == page.collection_site.slug%}
+            {% for category in collection.categories %}
+              <a
+                class="item {% if category.selected %}active{% endif %}"
+                href="{{category.url}}"
+              >{{category.name}}
+              </a>
+            {% endfor %}
+            <a class="item" href="{{collection.url}}">{% trans "All" %}</a>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
     {% endif %}
     {% with request.resolver_match.view_name as view_name %}
       {% if user.is_authenticated %}

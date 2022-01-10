@@ -6,11 +6,21 @@
 
 #home-container {
   font-family: "BrandonRegular";
-  max-width: 700px;
-  margin: 2rem auto;
   padding: 1rem;
 
   p {
     text-align: justify;
+  }
+
+  display:flex;
+  justify-content: space-between;
+
+  .home-header {
+    margin: 2rem auto;
+  }
+
+  .home-body {
+    max-width: 40vw;
+    margin: 2rem auto;
   }
 }

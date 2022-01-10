@@ -3,7 +3,15 @@
 <nav class="ui inverted secondary pointing menu">
   <div class="ui vertical segment">
     <div class="left menu" id="site-navbar-header-menu">
-      <div class="header item"><a class="text" href="/">{{ site_conf.name }}</a></div>
+      <div class="header item">
+        {% if not site_conf.collection_site or not page.collection_site and not current_collection %}
+          <a class="text" href="/">{{ site_conf.name }}</a>
+        {% elif page.collection_site %}
+          <a class="text" href="{{page.collection_site.url}}">{{ page.collection_site.name }}</a>
+        {% else %}
+          <a class="text" href="{{current_collection.url}}">{{ current_collection.name }}</a>
+        {% endif %}
+      </div>
       <div class="right menu">
         {% include "components/search.html" %}
         {% with request.resolver_match.view_name as view_name %}
@@ -29,19 +37,37 @@
         {% for page in menu_pages %}
           {% if page.is_visible or user.is_authenticated  %}
             {% if page.is_visible_in_navbar %}
-              <a
-                class="{% if page.selected %}active {% endif %}item"
-                href="{{ page.url }}"
-              >{{ page.title }}
-              </a>
+              {% if not page.collection_site or page.selected or page.collection_site.slug == current_collection.slug%}
+                <a
+                  class="{% if page.selected %}active {% endif %}item"
+                  href="{{ page.url }}"
+                >{{ page.title }}
+                </a>
+              {% endif %}
             {% endif %}
           {% endif %}
         {% endfor %}
-        {% for collection in menu_collections %}
-          <a class="{% if collection.selected %}active {% endif %}item" href="{{ collection.url }}">
-            {{ collection.name }}
-          </a>
-        {% endfor %}
+        {% if not site_conf.collection_site %}
+          {% for collection in menu_collections %}
+            <a class="{% if collection.selected %}active {% endif %}item" href="{{ collection.url }}">
+              {{ collection.name }}
+            </a>
+          {% endfor %}
+        {% else %}
+          {% for collection in menu_collections %}
+              {% if collection.selected or collection.slug == page.collection_site.slug%}
+                {% for category in collection.categories %}
+                  <a
+                    class="item {% if category.selected %}active{% endif %}"
+                    href="{{category.url}}"
+                  >{{category.name}}
+                  </a>
+                {% endfor %}
+                <a class="item" href="{{collection.url}}">{% trans "All" %}</a>
+              {% endif %}
+            {% endfor %}
+        {% endif %}
+
       </div>
     {% endif %}
   </div>

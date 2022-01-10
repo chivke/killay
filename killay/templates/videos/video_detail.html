@@ -9,7 +9,7 @@
 
 {% block content %}
   <div class="video-detail-container">
-    <h1 class="ui dividing header">{{ object.meta.title }}</h1>
+    <h1 class="ui header">{{ object.meta.title }}</h1>
 
     <div class="player-sequence-container">
       <div id="sequences-data" hidden>
@@ -57,7 +57,7 @@
       </div>
     </div>
     <div class="meta-categorization-container">
-      <table id="video-meta-table" class="ui definition table">
+      <table id="video-meta-table" class="ui table">
         <tbody>
           <tr>
             <td>{% trans "Code" %}:</td><td>{{object.code}}</td>
@@ -128,7 +128,7 @@
         </tbody>
       </table>
 
-      <div id="categorization-container" class="ui segment">
+      <div id="categorization-container">
         <div class="ui link list">
           <div class="active item">
             {% trans "Categories" %} ({{object.categorization.categories.count}})
@@ -160,7 +160,6 @@
           {% endfor %}
         </div>
       </div>
-
     </div>
   </div>
 {% endblock content %}

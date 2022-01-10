@@ -23,6 +23,14 @@
     @media (max-width: $breakpoint) {
       display: none;
     }
+    flex-wrap: wrap;
+    .item {
+      text-transform: uppercase;
+      max-width: 20vw;
+      .active {
+        background-color: black;
+      }
+    }
   }
 
   #mobile-dropdown {

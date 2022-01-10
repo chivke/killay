@@ -1,11 +1,15 @@
 
 .video-gallery-container {
-  margin: 1rem 2rem;
+  padding: 1rem 2rem;
+  background-color: #F5F5F5;
 
   .full-list-content {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
+    @media (max-width: 968px) {
+      justify-content: center;
+    }
 
     .video-selector {
       width: 28vw;
@@ -26,10 +30,11 @@
         margin: 1rem;
       }
       .video-label {
-        padding: .5rem;
+        padding: .5rem 1rem;
         color: #dedede;
         background-color: #000;
         font-family: "BrandonRegular";
+        text-transform: uppercase;
       }
       .duration-label {
         padding: .5rem;
@@ -52,22 +57,24 @@
 
 
 .header-filter-container {
-  width: 80%;
-  margin: 4rem auto;
+  padding: 4rem;
   display: flex;
   font-family: "BrandonRegular";
-  justify-content: space-around;
+  justify-content: space-between;
   @media (max-width: $breakpoint) {
     flex-flow: wrap;
   }
 
   .filter-name {
     //width: 40%;
+    font-family: "BrandonBlack" !important;
+    text-transform: uppercase;
   }
   .filter-description {
-    padding: 1rem 3rem;
+    padding: 0 10%;
+    text-align: justify;
     @media (min-width: $breakpoint) {
-      max-width: 50%;
+      max-width: 65%;
     }
   }
 }

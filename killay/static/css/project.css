@@ -19,8 +19,8 @@ h1 {
   display: flex; }
 
 .footer-spacer {
-  padding: 64px;
-  padding: 4rem; }
+  padding: 48px;
+  padding: 3rem; }
 
 .base-content-messages {
   text-align: center;
@@ -59,9 +59,17 @@ h1 {
     @media (max-width: 850px) {
       #site-navbar #site-navbar-header-menu .right.menu {
         display: none; } }
-  @media (max-width: 850px) {
-    #site-navbar #site-navbar-subheader-menu {
-      display: none; } }
+  #site-navbar #site-navbar-subheader-menu {
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+    @media (max-width: 850px) {
+      #site-navbar #site-navbar-subheader-menu {
+        display: none; } }
+    #site-navbar #site-navbar-subheader-menu .item {
+      text-transform: uppercase;
+      max-width: 20vw; }
+      #site-navbar #site-navbar-subheader-menu .item .active {
+        background-color: black; }
   #site-navbar #mobile-dropdown {
     font-size: 24px;
     font-size: 1.5rem;
@@ -241,7 +249,8 @@ h1 {
   font-family: "BrandonRegular"; }
   .video-detail-container .header {
     padding: 16px 32px;
-    padding: 1rem 2rem; }
+    padding: 1rem 2rem;
+    text-transform: uppercase; }
 
 #video-description {
   padding: 32px;
@@ -312,17 +321,23 @@ h1 {
     margin: 0; }
 
 .video-gallery-container {
-  margin: 16px 32px;
-  margin: 1rem 2rem; }
+  padding: 16px 32px;
+  padding: 1rem 2rem;
+  background-color: #F5F5F5; }
   .video-gallery-container .full-list-content {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center; }
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between; }
+    @media (max-width: 968px) {
+      .video-gallery-container .full-list-content {
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center; } }
     .video-gallery-container .full-list-content .video-selector {
       width: 28vw;
       height: 30vh;
@@ -351,11 +366,12 @@ h1 {
         margin: 16px;
         margin: 1rem; }
       .video-gallery-container .full-list-content .video-selector .video-label {
-        padding: 8px;
-        padding: .5rem;
+        padding: 8px 16px;
+        padding: .5rem 1rem;
         color: #dedede;
         background-color: #000;
-        font-family: "BrandonRegular"; }
+        font-family: "BrandonRegular";
+        text-transform: uppercase; }
       .video-gallery-container .full-list-content .video-selector .duration-label {
         padding: 8px;
         padding: .5rem;
@@ -377,25 +393,28 @@ h1 {
           justify-content: center; }
 
 .header-filter-container {
-  width: 80%;
-  margin: 64px auto;
-  margin: 4rem auto;
+  padding: 64px;
+  padding: 4rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   font-family: "BrandonRegular";
-  -ms-flex-pack: distribute;
-      justify-content: space-around; }
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
   @media (max-width: 850px) {
     .header-filter-container {
       -ms-flex-flow: wrap;
           flex-flow: wrap; } }
+  .header-filter-container .filter-name {
+    font-family: "BrandonBlack" !important;
+    text-transform: uppercase; }
   .header-filter-container .filter-description {
-    padding: 16px 48px;
-    padding: 1rem 3rem; }
+    padding: 0 10%;
+    text-align: justify; }
     @media (min-width: 850px) {
       .header-filter-container .filter-description {
-        max-width: 50%; } }
+        max-width: 65%; } }
 
 #video-list-querysearch {
   font-family: "BrandonRegular";
@@ -426,10 +445,20 @@ h1 {
 
 #home-container {
   font-family: "BrandonRegular";
-  max-width: 700px;
-  margin: 32px auto;
-  margin: 2rem auto;
   padding: 16px;
-  padding: 1rem; }
+  padding: 1rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between; }
   #home-container p {
     text-align: justify; }
+  #home-container .home-header {
+    margin: 32px auto;
+    margin: 2rem auto; }
+  #home-container .home-body {
+    max-width: 40vw;
+    margin: 32px auto;
+    margin: 2rem auto; }

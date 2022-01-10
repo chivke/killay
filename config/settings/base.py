@@ -1,11 +1,14 @@
 # Base settings
+import os
 
 from pathlib import Path
+
 import environ
 
 
 ROOT_DIR = Path(__file__).resolve(strict=True).parent.parent.parent
 APPS_DIR = ROOT_DIR / "killay"
+environ.Env.read_env(os.path.join(ROOT_DIR, ".env"))
 env = environ.Env()
 
 # General

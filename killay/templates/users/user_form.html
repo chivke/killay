@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block sidebar %}
+  {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
+  <div id="admin-main-container">
+    <form
+      id="login-form"
+      method="post"
+      action="."
+      class="ui form"
+    >
+      {% csrf_token %}
+      <div class="field">
+        <h1 class="header">{% trans "Update user" %} {{ user.username }}</h1>
+      </div>
+      {% for field in form %}
+        <div class="field">
+          <label>{{field.label_tag}}</label>
+          {{field}}
+          {% if field.errors %}
+            <div class="ui pointing red basic label">
+              {% for error in field.errors %}{{error}}{% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endfor %}
+      <div class="field">
+        <input type="submit" class="ui button admin-submit" value="{% trans 'Save' %}">
+      </div>
+      <div class="ui divider"></div>
+      <div class="field">
+        <a class="ui button admin-submit" href="{% url 'users:password_change' %}">
+          {% trans "Change Password" %}
+        </a>
+      </div>
+    </form>
+  </div>
+
+{% endblock %}

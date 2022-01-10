@@ -1,0 +1,78 @@
+
+#site-navbar {
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  font-family: "BrandonRegular";
+  display: flex;
+  align-items: center;
+  > .menu {
+    margin: 0;
+    width: 100%;
+  }
+
+  #site-navbar-header-menu {
+    overflow: hidden;
+    .right.menu {
+      @media (max-width: $breakpoint) {
+        display: none;
+      }
+    }
+  }
+  #site-navbar-subheader-menu {
+    @media (max-width: $breakpoint) {
+      display: none;
+    }
+    flex-wrap: wrap;
+    .item {
+      text-transform: uppercase;
+      max-width: 20vw;
+      .active {
+        background-color: black;
+      }
+    }
+  }
+
+  #mobile-dropdown {
+    font-size: 1.5rem;
+    margin: .5rem;
+    font-family: "BrandonRegular";
+
+    @media (min-width: $breakpoint) {
+      display: none;
+    }
+    #searchbox {
+      font-family: "BrandonRegular";
+    }
+  }
+
+  .text {
+  	font-size: 1.2rem;
+  	text-transform: uppercase;
+  	font-family: "BrandonRegular";
+  }
+  .item {
+    font-family: "BrandonRegular";
+  }
+  .ui.segment {
+  	width: 100%;
+    padding: .5rem;
+  }
+
+  #searchform {
+    > .inverted.input {
+      align-items: flex-end;
+      height: 100%;
+      padding: 0;
+
+      #searchbox {
+        margin: 10px;
+        font-family: "BrandonRegular";
+        font-size: 1rem;
+      }
+      > .icon.button {
+        padding: .2rem;
+      }
+    }
+  }
+}

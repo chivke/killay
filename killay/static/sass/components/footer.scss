@@ -1,0 +1,52 @@
+
+.cmp-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left:0;
+  z-index: 9999;
+  max-height: 150px;
+  display: flex;
+  font-family: "BrandonRegular";
+  padding: 1rem;
+  background-color: #dedede;
+  width: 100%;
+  max-height: 150px;
+
+  .footer-left,
+  .footer-right {
+    display: flex;
+    width:50%;
+    align-items: center;
+  }
+  .footer-right {
+    justify-content: flex-end;
+    @media (max-width: $breakpoint) {
+      display: none;
+    }
+    .link {
+      color: black;
+      font-size: 1.5rem;
+    }
+    .text {
+      padding-right: 1rem;
+    }
+  }
+  .footer-left {
+    justify-content: left;
+    .image {
+      @media (max-width: $breakpoint) {
+        &:not(:first-child) {
+          display: none;
+        }
+      }
+    }
+    
+    .footer-logo {
+      height: 4rem;
+      width: auto;
+      padding: 0 1rem;
+      margin:0 !important;
+    }
+  }
+}

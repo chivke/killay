@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{{list_title}}{% endblock %}
+
+{% block sidebar %}
+  {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+
+{% block content %}
+  <div id="admin-main-container">
+    <h1 class="header">{{list_title}}</h1>
+    <div class="ui divider"></div>
+    <a
+      class="ui button admin-submit"
+      href="{{create_object.link}}"
+    >{{create_object.name}}
+    </a>
+    <table class="ui celled table">
+      <thead>
+        <tr>
+          <th>#</th>
+          {% for field in model_fields%}
+            {% if field.name in list_fields %}
+              <th>{{field.verbose_name}}</th>
+            {% endif %}
+          {% endfor %}
+          <th>{% trans "Actions" %}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for object in object_list_values %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            {% for field, value in object.items %}
+              {% if field != "actions" %}
+                <td class="field">
+                {% if value is True %}
+                  <i class="ui icon circle"></i>
+                {% elif value is False %}
+                  <i class="ui icon circle outline"></i>
+                {% else %}
+                  {{value}}
+                {% endif %}
+                </td>
+              {% else %}
+                <td>
+                  {% for action_name, action in value.items %}
+                    <a
+                      class="ui button admin-submit"
+                      href="{{action.link}}"
+                    >{{action.name}}
+                    </a>
+                  {% endfor %}
+                </td>
+              {% endif %}
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}

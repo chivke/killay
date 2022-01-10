@@ -1,0 +1,26 @@
+
+.page-header-image {
+  background-size: cover;
+  height: 65vh;
+}
+
+#home-container {
+  font-family: "BrandonRegular";
+  padding: 1rem;
+
+  p {
+    text-align: justify;
+  }
+
+  display:flex;
+  justify-content: space-between;
+
+  .home-header {
+    margin: 2rem auto;
+  }
+
+  .home-body {
+    max-width: 40vw;
+    margin: 2rem auto;
+  }
+}

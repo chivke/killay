@@ -1,0 +1,54 @@
+
+<nav class="ui secondary pointing menu" id="admin-navbar">
+  <div class="ui item dropdown" id="admin-mobile-dropdown">
+    <i class="ui bars icon"></i>
+    <div class="ui secondary pointing menu">
+      {% if video_admin.selected %}
+        {% for label,item in video_admin.items %}
+          {% if item.selected %}
+            <a
+              class="{{ item.css_class }}"
+              href="{{ item.link }}"
+            >{{ item.name }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      <div class="ui divider"></div>
+      {% for label,item in video_admin.items %}
+        {% if not item.selected %}
+          <a
+            class="{{ item.css_class }}"
+            href="{{ item.link }}"
+          >{{ item.name }}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <a class="{{ admin_conf.css_class }}" href="{{ admin_conf.link }}"
+    >{{ admin_conf.name }}
+  </a>
+  {% if video_admin.selected %}
+    {% for label,item in video_admin.items %}
+      {% if item.selected %}
+        <a
+          class="{{ item.css_class }}"
+          href="{{ item.link }}"
+        >{{ item.name }}
+        </a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+  <div class="right menu">
+    {% for label,item in video_admin.items %}
+      {% if not item.selected %}
+        <a
+          class="{{ item.css_class }}"
+          href="{{ item.link }}"
+        >{{ item.name }}
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</nav>

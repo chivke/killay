@@ -51,7 +51,7 @@ def date_serializer_for_data_list(data: dict, fields: List[str]) -> dict:
 
 
 def video_bulk_create_from_csv_file(path: str, collection: str):
-    with open(path, "r") as file:
+    with open(path, "r", encoding="utf-8") as file:
         videos_data_list = list(DictReader(file))
     assert all(
         [field in videos_data_list[0] for field in VideoConstants.FIELDS_FOR_CSV_BULK]

@@ -4,7 +4,7 @@ from typing import List
 
 
 def parse_sequences_from_vtt_file(path: str) -> List[dict]:
-    with open(path, "r") as file:
+    with open(path, "r", encoding="utf-8") as file:
         lines = list(file.readlines())
     data_to_import = []
     last_line = None

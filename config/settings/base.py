@@ -19,7 +19,7 @@ SITE_ID = 1
 USE_TZ = True
 SITE_NAME = env("SITE_NAME", default="Killay Site Name")
 SITE_DOMAIN = env("SITE_DOMAIN", default="killay-site.com")
-LOCALE_PATHS = ("locale",)
+LOCALE_PATHS = (str(ROOT_DIR / "locale"),)
 
 # Database
 

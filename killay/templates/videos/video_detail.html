@@ -70,6 +70,11 @@
               <td>{% trans "Event" %}:</td><td>{{object.meta.event}}</td>
             </tr>
           {% endif %}
+          {% if  object.meta.register_date %}
+            <tr>
+              <td>{% trans "Register Date" %}:</td><td>{{object.meta.register_date}}</td>
+            </tr>
+          {% endif %}
           {% if  object.meta.description %}
             <tr>
               <td>{% trans "Description" %}:</td><td>{{object.meta.description}}</td>

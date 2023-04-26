@@ -25,6 +25,7 @@ LOCALE_PATHS = (str(ROOT_DIR / "locale"),)
 
 DATABASES = {"default": env.db("DATABASE_URL")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
+DATABASES["default"]["OPTIONS"] = {"sql_mode": "traditional"}
 
 # URLs
 
@@ -168,7 +169,7 @@ LOGGING = {
             "level": "DEBUG",
             "class": "logging.StreamHandler",
             "formatter": "verbose",
-        }
+        },
     },
     "root": {"level": "INFO", "handlers": ["console"]},
 }

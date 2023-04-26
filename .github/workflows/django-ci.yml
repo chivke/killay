@@ -32,7 +32,7 @@ jobs:
       - name: setup python environment # setting python environment to 3.9
         uses: actions/setup-python@v2
         with:
-          python-version: '3.8'
+          python-version: '3.6'
       - name: check python version # checking the python version to see if 3.9 is installed.
         run: python --version
       - name: psycopg2 prerequisites

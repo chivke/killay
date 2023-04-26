@@ -28,12 +28,12 @@ jobs:
       DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
     steps:
       - name: checkout code
-        uses: actions/checkout@v2
-      - name: setup python environment # setting python environment to 3.9
-        uses: actions/setup-python@v2
+        uses: actions/checkout@v3
+      - name: setup python environment # setting python environment to 3.6.8
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.6.15'
-      - name: check python version # checking the python version to see if 3.9 is installed.
+          python-version: '3.6.8'
+      - name: check python version # checking the python version to see if 3.6.8 is installed.
         run: python --version
       - name: psycopg2 prerequisites
         run: sudo apt-get install libpq-dev

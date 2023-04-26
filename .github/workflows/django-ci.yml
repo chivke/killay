@@ -35,13 +35,11 @@ jobs:
           python-version: '3.7'
       - name: check python version # checking the python version to see if 3.6.8 is installed.
         run: python --version
-      - name: psycopg2 prerequisites
-        run: sudo apt-get install libpq-dev
+      - name: mariadb prerequisites
+        run: sudo apt-get install -y libmariadbclient-dev
       - name: install requirements # install application requirements
         run: pip install -r requirements/local.txt
       - name: check pre-commit # check code formatting
         run: pre-commit run --all-files
-      - name: run migrations # run migrations to create table in side car db container
-        run: python manage.py migrate
       - name: run coverage & pytest # running tests
         run: coverage run -m pytest && coverage report -m

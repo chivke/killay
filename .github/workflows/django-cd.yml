@@ -12,5 +12,5 @@ jobs:
       - name: Deploy Webhook
         uses: fjogeleit/http-request-action@v1
         with:
-          url: {{ secrets.DEPLOY_WEBHOOK_URL }}
+          url: ${{ secrets.DEPLOY_WEBHOOK_URL }}
           method: 'POST'

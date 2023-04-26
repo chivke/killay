@@ -13,35 +13,35 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     services:
-      postgres:
-        image: postgres:latest
+      mariadb:
+        image: mariadb:latest
         env:
-          POSTGRES_DB: github_actions
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
+          MYSQL_DATABASE: github_actions
+          MYSQL_PASSWORD: mariadb
+          MYSQL_USER: mariadb
+          MYSQL_ROOT_PASSWORD: mariadb
+          MARIADB_ROOT_PASSWORD: mariadb
         ports:
-          - 5432:5432 # exposing 5432 port for application to use
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+          - 3306:3306 # exposing 5432 port for application to use
+        options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
+      DATABASE_URL: mysql://root:mariadb@127.0.0.1:3306/github_actions
     steps:
       - name: checkout code
-        uses: actions/checkout@v2
-      - name: setup python environment # setting python environment to 3.9
-        uses: actions/setup-python@v2
+        uses: actions/checkout@v3
+      - name: setup python environment # setting python environment to 3.6.8
+        uses: actions/setup-python@v4
         with:
-          python-version: '3.8'
-      - name: check python version # checking the python version to see if 3.9 is installed.
+          python-version: '3.7'
+      - name: check python version # checking the python version to see if 3.6.8 is installed.
         run: python --version
-      - name: psycopg2 prerequisites
-        run: sudo apt-get install libpq-dev
+      - name: mariadb prerequisites
+        run: sudo apt-get install -y libmariadbclient-dev
       - name: install requirements # install application requirements
         run: pip install -r requirements/local.txt
       - name: check pre-commit # check code formatting
         run: pre-commit run --all-files
-      - name: run migrations # run migrations to create table in side car db container
-        run: python manage.py migrate
       - name: run coverage & pytest # running tests
         run: coverage run -m pytest && coverage report -m

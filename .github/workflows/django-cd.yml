@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Deploy Webhook
-      - uses: fjogeleit/http-request-action@v1
+        uses: fjogeleit/http-request-action@v1
         with:
           url: {{ secrets.DEPLOY_WEBHOOK_URL }}
           method: 'POST'

@@ -25,7 +25,7 @@ jobs:
         ports:
           - 3306:3306 # exposing 5432 port for application to use
     env:
-      DATABASE_URL: mysql://root:mariadb@mariadb:5432/github_actions
+      DATABASE_URL: mysql://root:mariadb@localhost:5432/github_actions
     steps:
       - name: checkout code
         uses: actions/checkout@v3

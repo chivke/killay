@@ -27,7 +27,7 @@ jobs:
           - 3306:3306 # exposing 5432 port for application to use
         options: --health-cmd="mysqladmin ping" --health-interval=5s --health-timeout=2s --health-retries=3
     env:
-      DATABASE_URL: mysql://mariadb:mariadb@127.0.0.1:3306/github_actions
+      DATABASE_URL: mysql://root:mariadb@127.0.0.1:3306/github_actions
     steps:
       - name: checkout code
         uses: actions/checkout@v3

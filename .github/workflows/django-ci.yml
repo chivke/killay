@@ -18,9 +18,10 @@ jobs:
       postgres:
         image: mariadb:latest
         env:
-          MYSQL_DATABASE: github_actions
-          POSTGRES_PASSWORD: mariadb
-          MYSQL_USER: mariadb
+          MARIADB_DATABASE: github_actions
+          MARIADB_PASSWORD: mariadb
+          MARIADB_USER: mariadb
+          MARIADB_ROOT_PASSWORD: mariadb
         ports:
           - 5432:5432 # exposing 5432 port for application to use
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5

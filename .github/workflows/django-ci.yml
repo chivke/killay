@@ -16,16 +16,16 @@ jobs:
     runs-on: ubuntu-20.04
     services:
       postgres:
-        image: postgres:latest
+        image: mariadb:latest
         env:
-          POSTGRES_DB: github_actions
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
+          MYSQL_DATABASE: github_actions
+          POSTGRES_PASSWORD: mariadb
+          MYSQL_USER: mariadb
         ports:
           - 5432:5432 # exposing 5432 port for application to use
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
     env:
-      DATABASE_URL: postgres://postgres:postgres@localhost:5432/github_actions
+      DATABASE_URL: mysql://mariadb:mariadb@localhost:5432/github_actions
     steps:
       - name: checkout code
         uses: actions/checkout@v3

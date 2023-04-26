@@ -16,4 +16,5 @@ def get_application():
     from django.core.wsgi import get_wsgi_application
     return get_wsgi_application()
 
+
 application = get_application()

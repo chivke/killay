@@ -3,8 +3,17 @@ version: '3'
 volumes:
   local_postgres_data: {}
   local_postgres_data_backups: {}
+  mariadb_data: {}
 
 services:
+  mariadb:
+    image: mariadb:5.5
+    container_name: killay_mariadb
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    env_file:
+      - ./.local.env
+
   django: &django
     build:
       context: .
@@ -12,26 +21,14 @@ services:
     image: killay_local_django
     container_name: killay_django
     depends_on:
-      - postgres
+      - mariadb
     volumes:
       - .:/app:z
     env_file:
       - ./.local.env
     ports:
-      - "8000:8000"
+      - "7000:7000"
     command: /start
-
-  postgres:
-    build:
-      context: .
-      dockerfile: ./compose/local/postgres/Dockerfile
-    image: killay_local_postgres
-    container_name: killay_postgres
-    volumes:
-      - local_postgres_data:/var/lib/postgresql/data:Z
-      - local_postgres_data_backups:/backups:z
-    env_file:
-      - ./.local.env
 
   node:
     build:

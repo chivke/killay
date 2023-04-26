@@ -5,36 +5,37 @@ set -o pipefail
 set -o nounset
 
 
-if [ -z "${POSTGRES_USER}" ]; then
-    base_postgres_image_default_user='postgres'
-    export POSTGRES_USER="${base_postgres_image_default_user}"
+if [ -z "${MYSQL_USER}" ]; then
+    base_mysql_image_default_user='mysql'
+    export MYSQL_USER="${base_mysql_image_default_user}"
 fi
-export DATABASE_URL="postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+export DATABASE_URL="mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/${MYSQL_DATABASE}"
 
 postgres_ready() {
 python << END
 import sys
 
-import psycopg2
+import MySQLdb
 
 try:
-    psycopg2.connect(
-        dbname="${POSTGRES_DB}",
-        user="${POSTGRES_USER}",
-        password="${POSTGRES_PASSWORD}",
-        host="${POSTGRES_HOST}",
-        port="${POSTGRES_PORT}",
+    MySQLdb.connect(
+        host="${MYSQL_HOST}",
+        port=int("${MYSQL_PORT}"),
+        user="${MYSQL_USER}",
+        password="${MYSQL_PASSWORD}",
+        database="${MYSQL_DATABASE}",
     )
-except psycopg2.OperationalError:
+except Exception as error:
+    print(error)
     sys.exit(-1)
 sys.exit(0)
 
 END
 }
 until postgres_ready; do
-  >&2 echo 'Waiting for PostgreSQL to become available...'
+  >&2 echo 'Waiting for MariaDB to become available...'
   sleep 1
 done
->&2 echo 'PostgreSQL is available'
+>&2 echo 'MariaDB is available'
 
 exec "$@"

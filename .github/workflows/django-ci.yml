@@ -23,7 +23,7 @@ jobs:
           MYSQL_USER: mariadb
           MYSQL_ROOT_PASSWORD: mariadb
         ports:
-          - 5432:5432 # exposing 5432 port for application to use
+          - 3306:3306 # exposing 5432 port for application to use
     env:
       DATABASE_URL: mysql://root:mariadb@mariadb:5432/github_actions
     steps:

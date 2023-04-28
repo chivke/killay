@@ -2,6 +2,9 @@
 
 ## Dev Enviroment
 
+- Docker, Docker Compose
+- Precommit
+
 ### Build local dev enviroment:
 
 ```console
@@ -43,3 +46,16 @@ docker-compose run --rm django python manage.py createsuperuser
 - directly with django: `http://localhost:7000/`
 - with auto-reload: `http://localhost:3000/`
 - Browsersync UI: `http://localhost:3001/`
+
+
+### Run Tests
+
+```console
+docker-compose run --rm django python manage.py createsuperuser
+```
+
+### Run Coverage
+
+```console
+docker-compose run --rm django python manage.py coverage run -m pytest && coverage report -m
+```

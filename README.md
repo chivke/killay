@@ -38,3 +38,8 @@ docker-compose run --rm django python manage.py shell
 ```console
 docker-compose run --rm django python manage.py createsuperuser
 ```
+
+### Dev Browser
+- directly with django: `http://localhost:7000/`
+- with auto-reload: `http://localhost:3000/`
+- Browsersync UI: `http://localhost:3001/`

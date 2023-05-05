@@ -51,6 +51,7 @@ LOCAL_APPS = [
     "killay.pages.apps.PagesConfig",
     "killay.videos.apps.VideosConfig",
     "killay.admin.apps.AdminConfig",
+    "killay.archives.apps.ArchivesConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

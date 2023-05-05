@@ -25,8 +25,10 @@ LOCALE_PATHS = (str(ROOT_DIR / "locale"),)
 
 DATABASES = {"default": env.db("DATABASE_URL")}
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
-DATABASES["default"]["OPTIONS"] = {"sql_mode": "traditional"}
-
+DATABASES["default"]["OPTIONS"] = {
+    "sql_mode": "traditional",
+    "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+}
 # URLs
 
 ROOT_URLCONF = "config.urls"

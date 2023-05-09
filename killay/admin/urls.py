@@ -2,6 +2,7 @@ from django.urls import path
 
 from killay.admin.views.configuration import admin_configuration_view
 
+from killay.admin.views import archives as archives_views
 from killay.admin.views import videos as videos_views
 from killay.admin.views import users as users_views
 from killay.admin.views import pages as pages_views
@@ -13,6 +14,51 @@ app_name = "admin"
 urlpatterns = [path("", view=admin_configuration_view, name="configuration")]
 
 # Video Views
+
+urlpatterns += [
+    path("archives/", view=archives_views.admin_archives_main_view, name="archives"),
+    path(
+        "archives/archive/~create/",
+        view=archives_views.admin_archive_create_view,
+        name="archive_create",
+    ),
+    path(
+        "archives/archive/<str:slug>/",
+        view=archives_views.admin_archive_update_view,
+        name="archive_update",
+    ),
+    path(
+        "archives/collections/",
+        view=archives_views.admin_collection_list_view,
+        name="collection_list",
+    ),
+    path(
+        "archives/collections/~create/",
+        view=archives_views.admin_collection_create_view,
+        name="collection_create",
+    ),
+    path(
+        "archives/collections/<str:slug>/",
+        view=archives_views.admin_collection_update_view,
+        name="collection_update",
+    ),
+    path(
+        "archives/categories/",
+        view=archives_views.admin_category_list_view,
+        name="category_list",
+    ),
+    path(
+        "archives/categories/~create/",
+        view=archives_views.admin_category_create_view,
+        name="category_create",
+    ),
+    path(
+        "archives/categories/<str:slug>/",
+        view=archives_views.admin_category_update_view,
+        name="category_update",
+    ),
+]
+
 
 urlpatterns += [
     path("videos/~create/", view=videos_views.video_create_view, name="videos_create"),

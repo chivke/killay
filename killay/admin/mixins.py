@@ -211,6 +211,9 @@ class FormSetMixin(
     template_name = "admin/formset_list.html"
     paginate_by = 50
     compact_fields = []
+    filters = None
+    extra_context = {}
+    filter_applied = {}
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
@@ -228,6 +231,7 @@ class FormSetMixin(
 
     def apply_filters(self, queryset):
         queryset = self.set_search_filter_if_exists(queryset)
+        queryset = self.set_custom_filter_if_exists(queryset)
         self.total_of_objects = queryset.count()
         page_size = self.get_paginate_by(queryset)
         self.pagination_context = {}
@@ -255,11 +259,28 @@ class FormSetMixin(
             )
         return queryset
 
+    def set_custom_filter_if_exists(self, queryset):
+        if not self.filters:
+            return queryset
+        filters = {}
+        for keyword, field in self.filters.items():
+            value = self.request.GET.get(keyword) or self.request.POST.get(keyword)
+            value = value.strip() if value else None
+            if value:
+                filters[field] = value
+                self.filter_applied[keyword] = value
+        if filters:
+            queryset = queryset.filter(**filters)
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = self.get_extra_context()
+        if self.filters:
+            context["filter_options"] = self.get_filter_options()
         context["total_of_objects"] = self.total_of_objects
         context["title"] = self.title
         context["query_search"] = self.query_search
+        context["filter_applied"] = self.filter_applied
         context["model_name_plural"] = self.get_model_name_plural()
         context["compact_fields"] = self.compact_fields
         context.update(self.pagination_context)
@@ -268,6 +289,9 @@ class FormSetMixin(
         if "formset" not in kwargs:
             kwargs["formset"] = self.formset_class(queryset=self.object_list)
         return {**context, **kwargs}
+
+    def get_filter_options(self):
+        return {}
 
     def get_create_link(self):
         return reverse(self.create_reverse_link)
@@ -303,7 +327,7 @@ class FormSetMixin(
         return self.render_to_response(context)
 
     def get_extra_context(self):
-        return {}
+        return self.extra_context or {}
 
     def get_success_url_kwargs(self):
         return {}

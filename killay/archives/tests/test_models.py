@@ -7,14 +7,14 @@ from killay.archives.tests import recipes as archives_recipes
 class TestArchive:
     def test_str(self):
         archive = archives_recipes.archive_recipe.make()
-        assert str(archive) == f"Archive <{archive.name}>"
+        assert str(archive) == f"{archive.name} <{archive.slug}>"
 
 
 @pytest.mark.django_db
 class TestCollection:
     def test_str(self):
         collection = archives_recipes.collection_recipe.make()
-        assert str(collection) == f"Collection <{collection.name}>"
+        assert str(collection) == f"{collection.name} <{collection.slug}>"
 
 
 @pytest.mark.django_db

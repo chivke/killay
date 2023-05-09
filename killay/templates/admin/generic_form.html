@@ -15,6 +15,24 @@
 
 {% block content %}
   <div id="admin-main-container">
+    {% if main_title %}
+      <h1 class="ui dividing header">{{main_title}}</h1>
+    {% endif %}
+    {% if breadcrumb %}
+      <div class="ui breadcrumb">
+        {% for bread in breadcrumb %}
+          {% if bread.view %}
+            <a class="section" href="{% url bread.view %}">{{bread.name}}</a>
+          {% else %}
+            <div class="section">{{bread.name}}</div>
+          {% endif %}
+          <i class="right angle icon divider"></i>
+        {% endfor %}
+        <div class="section">{{form_title}}</div>
+      </div>
+      <div class="ui divider"></div>
+      <br>
+    {% endif %}
     <form
       method="post"
       action="."
@@ -24,7 +42,7 @@
     >
       {% csrf_token %}
       <div class="field">
-        <h1 class="header">{{form_title}}</h1>
+        <h2 class="header">{{form_title}}</h2>
       </div>
 
       {% if read_only_fields %}

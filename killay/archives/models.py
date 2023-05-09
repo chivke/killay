@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import gettext_lazy
+from django.urls import reverse
 
 from killay.admin.utils import InSiteManager
 from killay.archives.lib.constants import PieceConstants, ProviderConstants
@@ -33,7 +34,13 @@ class Archive(TimeBase):
     objects_in_site = InSiteManager()
 
     def __str__(self):
-        return f"Archive <{self.name}>"
+        return f"{self.name} <{self.slug}>"
+
+    def get_update_url(self):
+        return reverse(
+            "admin:archive_update",
+            kwargs={"slug": self.slug},
+        )
 
 
 class Collection(TimeBase, CategorizationBase):
@@ -61,7 +68,13 @@ class Collection(TimeBase, CategorizationBase):
     objects_in_site = InSiteManager()
 
     def __str__(self):
-        return f"Collection <{self.name}>"
+        return f"{self.name} <{self.slug}>"
+
+    def get_update_url(self):
+        return reverse(
+            "admin:collection_update",
+            kwargs={"slug": self.slug},
+        )
 
 
 class Category(TimeBase, CategorizationBase):

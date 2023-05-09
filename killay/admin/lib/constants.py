@@ -1,3 +1,6 @@
+from django.utils.translation import gettext_lazy
+
+
 class SiteConfigurationConstants:
     FACEBOOK = "facebook"
     TWITTER = "twitter"
@@ -11,3 +14,7 @@ class SiteConfigurationConstants:
         (YOUTUBE, "Youtube"),
         (VIMEO, "Vimeo"),
     ]
+
+
+class ArchivesViewConstants:
+    MAIN_TITLE = gettext_lazy("Archives Content Manager")

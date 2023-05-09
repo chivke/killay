@@ -198,8 +198,8 @@ h1 {
     margin: 3rem 0; }
 
 #formset-list-footer-pagination {
-  margin: 48px 0;
-  margin: 3rem 0;
+  margin: 32px 0;
+  margin: 2rem 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

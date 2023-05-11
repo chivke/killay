@@ -23,6 +23,11 @@ urlpatterns += [
         name="archive_create",
     ),
     path(
+        "archives/archive/<str:slug>/delete",
+        view=archives_views.admin_archive_delete_view,
+        name="archive_delete",
+    ),
+    path(
         "archives/archive/<str:slug>/",
         view=archives_views.admin_archive_update_view,
         name="archive_update",

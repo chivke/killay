@@ -1,0 +1,23 @@
+{% load i18n %}
+
+<div class="inline fields">
+  {% for field, value in extra_data.items %}
+    <div class="field">
+      <label>{{field}}</label>
+      {{value}}
+    </div>
+  {% endfor %}
+</div>
+
+<form
+  id="user-admin-create"
+  method="post"
+  class="ui form"
+>
+  {% csrf_token %}
+  <input
+    class="ui button admin-submit red"
+    type="submit"
+    value="{% trans 'Confirm' %}"
+  >
+</form>

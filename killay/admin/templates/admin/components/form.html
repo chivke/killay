@@ -1,0 +1,58 @@
+{% load i18n %}
+
+<div class="inline fields">
+  {% for field, value in extra_data.items %}
+    <div class="field">
+      <label>{{field}}</label>
+      {{value}}
+    </div>
+  {% endfor %}
+</div>
+<div class="ui divider"></div>
+<form
+  method="post"
+  action="."
+  class="ui form"
+  id="generic_form_id"
+  enctype="multipart/form-data"
+>
+  {% csrf_token %}
+
+  {% if read_only_fields %}
+    {% for field_name, field in read_only_fields.items %}
+      <div class="field">
+        <label>{{field.label}}</label>
+        {{field.value}}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% for field in form %}
+    <div class="field">
+      <label>{{field.label_tag}}</label>
+      {% if field.field.widget.input_type == "checkbox" %}
+        <div class="ui slider checkbox">
+          {{field}}
+        </div>
+      {% else %}
+        {{field}}
+      {% endif %}
+      {% if field.errors %}
+        <div class="ui pointing red basic label">
+          {% for error in field.errors %}{{error}}{% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  <div class="ui divider"></div>
+  <div class="field">
+    <input
+      type="submit"
+      class="ui button admin-submit blue"
+      value="{% trans 'Save' %}"
+    >
+    {% if delete_url %}
+      <a class="ui button red admin-submit" href="{% url delete_url form.instance.slug %}">{% trans "Delete" %}</a>
+    {% endif %}
+  </div>
+</form>

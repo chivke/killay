@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+  {{formset_title}}
+{% endblock title %}
+
+{% block sidebar %}
+  {% include "admin/components/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block content %}
+  <div id="admin-main-container">
+    {% if main_title %}
+      <h1 class="ui dividing header">{{main_title}}</h1>
+    {% else %}
+      <h1 class="ui dividing header">{{second_title}}</h1>
+    {% endif %}
+    <div class="ui grid">
+    <div class="left floated six wide column">
+      <div class="ui breadcrumb">
+        {% for bread in breadcrumb %}
+          {% if bread.view %}
+            <a class="section" href="{% url bread.view %}">{{bread.name}}</a>
+          {% else %}
+            <div class="section">{{bread.name}}</div>
+          {% endif %}
+          <i class="right angle icon divider"></i>
+        {% empty %}
+        {% endfor %}
+        <div class="section">
+          {% if second_title %}
+            {{second_title}}
+          {% else %}
+            {{main_title}}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% if extra_links %}
+      <div class="rigth floated six wide column">
+        <div class="ui breadcrumb">
+          {% for link in extra_links %}
+            {% if link.view %}
+              <a class="section" href="{% url link.view %}">{{link.name}}</a>
+            {% else %}
+              <div class="section">{{link.name}}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    </div>
+    <div class="ui divider"></div>
+    {% if main_title and second_title %}
+        <h2 class="ui dividing header">{{second_title}}</h2>
+    {% endif %}
+
+    {% if form %}
+      {% include form_template %}
+    {% endif %}
+    {% if formset %}
+      {% include formset_template %}
+    {% endif %}
+
+  </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script type="text/javascript">
+  $('.ui.checkbox')
+    .checkbox()
+  ;
+  $('.ui.dropdown')
+    .dropdown()
+  ;
+  {% for field in html_fields %}
+    var html_input_{{field}} = new Quill("#id_{{field}}", {theme: 'snow'});
+  {% endfor %}
+</script>
+{% endblock extra_js %}

@@ -51,8 +51,18 @@ class ArchiveForm(forms.ModelForm):
     )
 
 
+class ArchiveListForm(forms.ModelForm):
+    class Meta:
+        model = Archive
+        fields = ["name", "slug", "description", "position"]
+
+    name = forms.CharField(disabled=True)
+    slug = forms.CharField(disabled=True)
+    description = forms.CharField(disabled=True)
+
+
 ArchiveFormSet = forms.modelformset_factory(
-    Archive, form=ArchiveForm, extra=1, can_delete=True
+    Archive, form=ArchiveListForm, extra=0, can_delete=False
 )
 
 
@@ -66,8 +76,17 @@ class CollectionForm(forms.ModelForm):
     )
 
 
+class CollectionListForm(forms.ModelForm):
+    class Meta:
+        model = Collection
+        fields = ["name", "slug", "position", "archive"]
+
+    name = forms.CharField(disabled=True)
+    slug = forms.CharField(disabled=True)
+
+
 CollectionFormSet = forms.modelformset_factory(
-    Collection, form=CollectionForm, extra=1, can_delete=True
+    Collection, form=CollectionListForm, extra=0, can_delete=False
 )
 
 

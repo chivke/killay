@@ -7,10 +7,10 @@
 #admin-main-container {
   padding: 1rem 10vw;
   flex-basis: 100%;
-  font-family: "BrandonRegular";
+  font-family: "BrandonRegular" !important;
   max-width: 1200px;
 
-  h1,h4 {
+  h1,h2,h3,h4 {
     font-family: "BrandonRegular" !important;
   }
 }
@@ -24,3 +24,6 @@
   margin: 1rem !important;
 }
 
+.button {
+  font-family: "BrandonRegular" !important;
+}

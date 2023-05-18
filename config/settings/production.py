@@ -54,16 +54,25 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # noqa F405
     )
 ]
 
+ADMINS = env.list("ADMINS", default=[])
+
 # Email
 
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
+
 
 # Logging
 
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "filters": {"require_debug_false": {"()": "django.utils.log.RequireDebugFalse"}},
+    "filters": {
+        "require_debug_false": {"()": "django.utils.log.RequireDebugFalse"},
+        "require_debug_true": {"()": "django.utils.log.RequireDebugTrue"}
+    },
     "formatters": {
         "verbose": {
             "format": "%(levelname)s %(asctime)s %(module)s "
@@ -71,22 +80,41 @@ LOGGING = {
         }
     },
     "handlers": {
+        "console": {
+            "level": "INFO",
+            "formatter": "verbose",
+            "filters": ["require_debug_true"],
+            "class": "logging.StreamHandler",
+        },
+        "django.server": {
+            "level": "INFO",
+            "formatter": "verbose",
+            "class": "logging.StreamHandler",
+        },
         "mail_admins": {
             "level": "ERROR",
             "filters": ["require_debug_false"],
             "class": "django.utils.log.AdminEmailHandler",
         },
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
+        "error_file": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "logging.FileHandler",
+            "filename": "django.error.log",
             "formatter": "verbose",
         },
         "file": {
-            "level": "DEBUG",
+            "level": "INFO",
             "class": "logging.FileHandler",
             "filename": "django.log",
             "formatter": "verbose",
         },
     },
-    "root": {"level": "INFO", "handlers": ["console", "file"]},
+    "loggers": {
+        "django": {
+            "level": "INFO", 
+            "handlers": ["console", "file", "error_file", "mail_admins"],
+        },
+        "django.server": {"level": "INFO", "handlers": ["django.server"]},
+    },
 }

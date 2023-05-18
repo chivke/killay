@@ -53,8 +53,8 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # noqa F405
         ],
     )
 ]
-
-ADMINS = env.list("ADMINS", default=[])
+ADMIN_EMAILS = env.list("ADMINS", default=[])
+ADMINS = [(f"Admin {index}", email) for index, email in enumerate(ADMIN_EMAILS)]
 
 # Email
 
@@ -71,7 +71,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "filters": {
         "require_debug_false": {"()": "django.utils.log.RequireDebugFalse"},
-        "require_debug_true": {"()": "django.utils.log.RequireDebugTrue"}
+        "require_debug_true": {"()": "django.utils.log.RequireDebugTrue"},
     },
     "formatters": {
         "verbose": {
@@ -112,7 +112,7 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "level": "INFO", 
+            "level": "INFO",
             "handlers": ["console", "file", "error_file", "mail_admins"],
         },
         "django.server": {"level": "INFO", "handlers": ["django.server"]},

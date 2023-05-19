@@ -274,3 +274,4 @@ tags
 # Data for deploy
 .data_for_deploy
 killay/media/
+static/

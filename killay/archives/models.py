@@ -36,12 +36,6 @@ class Archive(TimeBase):
     def __str__(self):
         return f"{self.name} <{self.slug}>"
 
-    def get_update_url(self):
-        return reverse(
-            "admin:archive_update",
-            kwargs={"slug": self.slug},
-        )
-
 
 class Collection(TimeBase, CategorizationBase):
     archive = models.ForeignKey(
@@ -70,12 +64,6 @@ class Collection(TimeBase, CategorizationBase):
     def __str__(self):
         return f"{self.name} <{self.slug}>"
 
-    def get_update_url(self):
-        return reverse(
-            "admin:collection_update",
-            kwargs={"slug": self.slug},
-        )
-
 
 class Category(TimeBase, CategorizationBase):
     site = models.ForeignKey(
@@ -95,7 +83,7 @@ class Category(TimeBase, CategorizationBase):
     objects_in_site = InSiteManager()
 
     def __str__(self):
-        return f"Category <{self.name}>"
+        return self.name
 
 
 class Person(TimeBase, CategorizationBase):
@@ -116,7 +104,7 @@ class Person(TimeBase, CategorizationBase):
     objects_in_site = InSiteManager()
 
     def __str__(self):
-        return f"Person <{self.name}>"
+        return self.name
 
 
 class Keyword(TimeBase, CategorizationBase):
@@ -137,7 +125,7 @@ class Keyword(TimeBase, CategorizationBase):
     objects_in_site = InSiteManager()
 
     def __str__(self):
-        return f"Keyword <{self.name}>"
+        return self.name
 
 
 class Piece(TimeBase):

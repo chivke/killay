@@ -77,6 +77,7 @@ class ArchiveDeleteView(DeleteAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
     form_class = ArchiveForm
     reverse_url = ContentManagerConstants.VIEWS_LIST[ARCHIVE_SLUG]
+    delete_url = ContentManagerConstants.VIEWS_UPDATE[ARCHIVE_SLUG]
     extra_links = ARCHIVE_EXTRA_LINKS
 
     def get_extra_data(self) -> list:

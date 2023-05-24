@@ -25,6 +25,7 @@ class AdminView(AdminRequiredMixin, TemplateResponseMixin, View):
     breadcrumb = None
     extra_links = None
     extra_data = {}
+    extra_actions = None
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data()
@@ -38,6 +39,7 @@ class AdminView(AdminRequiredMixin, TemplateResponseMixin, View):
         context["breadcrumb"] = self.get_breadcrumb()
         context["extra_links"] = self.get_extra_links()
         context["extra_data"] = self.get_extra_data()
+        context["extra_actions"] = self.get_extra_actions()
         extra_context = self.get_extra_context()
         context.update(forms_context)
         context.update(extra_context)
@@ -64,11 +66,14 @@ class AdminView(AdminRequiredMixin, TemplateResponseMixin, View):
     def get_extra_data(self) -> str:
         return self.extra_data or {}
 
+    def get_extra_actions(self) -> str:
+        return self.extra_actions or []
+
 
 class SingleMixin(AdminView, ModelFormMixin):
     form_class = None
     form_template = "admin/components/form.html"
-    slug_field = "slug"
+    slug_field = "pk"
     name_field = "name"
     reverse_url = None
     delete_url = None
@@ -80,6 +85,14 @@ class SingleMixin(AdminView, ModelFormMixin):
         context["form_template"] = self.form_template
         context["delete_url"] = self.delete_url
         return context
+
+    def get_form(self, *args, **kwargs):
+        form = super().get_form(*args, **kwargs)
+        if not self.object and self.request.GET:
+            for field in form.fields:
+                if field in self.request.GET:
+                    form.initial[field] = self.request.GET[field]
+        return form
 
     def post(self, *args, **kwargs):
         self.object = self.get_object()
@@ -106,6 +119,17 @@ class SingleMixin(AdminView, ModelFormMixin):
     def get_slug_value(self):
         return getattr(self.object, self.slug_field) if self.slug_field else None
 
+    def get_extra_data(self) -> str:
+        if not self.object:
+            return {}
+        created_at_label = self.object.__class__.created_at.field.verbose_name
+        updated_at_label = self.object.__class__.updated_at.field.verbose_name
+        return {
+            "ID": self.object.id,
+            created_at_label: self.object.created_at,
+            updated_at_label: self.object.updated_at,
+        }
+
 
 class CreateAdminView(SingleMixin):
     form_class = None
@@ -113,6 +137,10 @@ class CreateAdminView(SingleMixin):
 
     def get_object(self) -> dict:
         return
+
+    def get_second_title(self) -> str:
+        model_name = self.form_class.Meta.model._meta.verbose_name.capitalize()
+        return f"Create {model_name}"
 
 
 class UpdateAdminView(SingleMixin):
@@ -162,6 +190,7 @@ class FormSetMixin:
     extra_context = {}
     filter_applied = {}
     page_kwarg = "page"
+    image_fields = []
 
     @property
     def model(self):
@@ -177,6 +206,7 @@ class FormSetMixin:
         context["query_search"] = self.query_search
         context["filter_applied"] = self.filter_applied
         context["compact_fields"] = self.compact_fields
+        context["image_fields"] = self.image_fields
         context.update(self.pagination_context)
         context["create_link"] = self.get_create_link()
         context["delete_url"] = self.delete_url

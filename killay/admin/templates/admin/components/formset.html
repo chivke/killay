@@ -10,7 +10,6 @@
 </div>
 <div class="ui divider"></div>
 <div class="formset-list-actions segment">
-  {{filter_applied}}
   <form
     id="searchform"
     action=""
@@ -124,7 +123,7 @@
                 </a>
             {% endif %}
             {% if delete_url %}
-                <a class="ui button red" href="{% url update_url form.instance.pk %}">
+                <a class="ui button red" href="{% url delete_url form.instance.pk %}">
                   {% trans "Delete" %}
                 </a>
             {% endif %}

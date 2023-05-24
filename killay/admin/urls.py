@@ -1,8 +1,46 @@
 from django.urls import path
+from django.views.generic.base import RedirectView
 
 from killay.admin.views.configuration import admin_configuration_view
+from killay.admin.views.content_manager.archives import (
+    admin_archive_list_view,
+    admin_archive_create_view,
+    admin_archive_delete_view,
+    admin_archive_update_view,
+)
+from killay.admin.views.content_manager.collections import (
+    admin_collection_list_view,
+    admin_collection_create_view,
+    admin_collection_delete_view,
+    admin_collection_update_view,
+)
+from killay.admin.views.content_manager.categories import (
+    admin_category_list_view,
+    admin_category_create_view,
+    admin_category_delete_view,
+    admin_category_update_view,
+)
+from killay.admin.views.content_manager.people import (
+    admin_person_list_view,
+    admin_person_create_view,
+    admin_person_delete_view,
+    admin_person_update_view,
+)
+from killay.admin.views.content_manager.keywords import (
+    admin_keyword_list_view,
+    admin_keyword_create_view,
+    admin_keyword_delete_view,
+    admin_keyword_update_view,
+)
+from killay.admin.views.content_manager.pieces import (
+    admin_piece_list_view,
+    admin_piece_create_view,
+    admin_piece_delete_view,
+    admin_piece_update_view,
+    admin_piece_meta_update_view,
+)
 
-from killay.admin.views import archives as archives_views
+
 from killay.admin.views import videos as videos_views
 from killay.admin.views import users as users_views
 from killay.admin.views import pages as pages_views
@@ -11,56 +49,165 @@ from killay.admin.views import pages as pages_views
 app_name = "admin"
 
 
-urlpatterns = [path("", view=admin_configuration_view, name="configuration")]
+urlpatterns = [
+    path("", view=admin_configuration_view, name="configuration"),
+    path(
+        "cm/",
+        view=RedirectView.as_view(pattern_name="admin:archive_list"),
+        name="content-manager",
+    ),
+]
 
-# Video Views
+# Content Manager - Archives
 
 urlpatterns += [
-    path("archives/", view=archives_views.admin_archives_main_view, name="archives"),
+    path("cm/archives/", view=admin_archive_list_view, name="archive_list"),
     path(
-        "archives/archive/~create/",
-        view=archives_views.admin_archive_create_view,
+        "cm/archives/~create/",
+        view=admin_archive_create_view,
         name="archive_create",
     ),
     path(
-        "archives/archive/<str:slug>/delete",
-        view=archives_views.admin_archive_delete_view,
+        "cm/archives/<str:slug>/delete",
+        view=admin_archive_delete_view,
         name="archive_delete",
     ),
     path(
-        "archives/archive/<str:slug>/",
-        view=archives_views.admin_archive_update_view,
+        "cm/archives/<str:slug>/",
+        view=admin_archive_update_view,
         name="archive_update",
     ),
+]
+
+# Content Manager - Collections
+
+urlpatterns += [
     path(
-        "archives/collections/",
-        view=archives_views.admin_collection_list_view,
+        "cm/collections/",
+        view=admin_collection_list_view,
         name="collection_list",
     ),
     path(
-        "archives/collections/~create/",
-        view=archives_views.admin_collection_create_view,
+        "cm/collections/~create/",
+        view=admin_collection_create_view,
         name="collection_create",
     ),
     path(
-        "archives/collections/<str:slug>/",
-        view=archives_views.admin_collection_update_view,
-        name="collection_update",
+        "cm/collections/<str:slug>/delete",
+        view=admin_collection_delete_view,
+        name="collection_delete",
     ),
     path(
-        "archives/categories/",
-        view=archives_views.admin_category_list_view,
+        "cm/collections/<str:slug>/",
+        view=admin_collection_update_view,
+        name="collection_update",
+    ),
+]
+
+
+# Content Manager - Pieces
+
+urlpatterns += [
+    path(
+        "cm/pieces/",
+        view=admin_piece_list_view,
+        name="piece_list",
+    ),
+    path(
+        "cm/pieces/~create/",
+        view=admin_piece_create_view,
+        name="piece_create",
+    ),
+    path(
+        "cm/pieces/<str:slug>/delete",
+        view=admin_piece_delete_view,
+        name="piece_delete",
+    ),
+    path(
+        "cm/pieces/<str:slug>/meta",
+        view=admin_piece_meta_update_view,
+        name="piece_meta_update",
+    ),
+    path(
+        "cm/pieces/<str:slug>/",
+        view=admin_piece_update_view,
+        name="piece_update",
+    ),
+]
+
+# Content Manager - Categories
+
+urlpatterns += [
+    path(
+        "cm/categories/",
+        view=admin_category_list_view,
         name="category_list",
     ),
     path(
-        "archives/categories/~create/",
-        view=archives_views.admin_category_create_view,
+        "cm/categories/~create/",
+        view=admin_category_create_view,
         name="category_create",
     ),
     path(
-        "archives/categories/<str:slug>/",
-        view=archives_views.admin_category_update_view,
+        "cm/categories/<str:slug>/delete",
+        view=admin_category_delete_view,
+        name="category_delete",
+    ),
+    path(
+        "cm/categories/<str:slug>/",
+        view=admin_category_update_view,
         name="category_update",
+    ),
+]
+
+
+# Content Manager - People
+
+urlpatterns += [
+    path(
+        "cm/people/",
+        view=admin_person_list_view,
+        name="person_list",
+    ),
+    path(
+        "cm/people/~create/",
+        view=admin_person_create_view,
+        name="person_create",
+    ),
+    path(
+        "cm/people/<str:slug>/delete",
+        view=admin_person_delete_view,
+        name="person_delete",
+    ),
+    path(
+        "cm/people/<str:slug>/",
+        view=admin_person_update_view,
+        name="person_update",
+    ),
+]
+
+# Content Manager - Keywords
+
+urlpatterns += [
+    path(
+        "cm/keywords/",
+        view=admin_keyword_list_view,
+        name="keyword_list",
+    ),
+    path(
+        "cm/keywords/~create/",
+        view=admin_keyword_create_view,
+        name="keyword_create",
+    ),
+    path(
+        "cm/keywords/<str:slug>/delete",
+        view=admin_keyword_delete_view,
+        name="keyword_delete",
+    ),
+    path(
+        "cm/keywords/<str:slug>/",
+        view=admin_keyword_update_view,
+        name="keyword_update",
     ),
 ]
 

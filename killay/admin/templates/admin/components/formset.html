@@ -10,6 +10,7 @@
 </div>
 <div class="ui divider"></div>
 <div class="formset-list-actions segment">
+  {{filter_applied}}
   <form
     id="searchform"
     action=""
@@ -18,10 +19,6 @@
   >
     <div class="ui action input fluid">
       <input type="text" name="q" value="{% if query_search %}{{query_search}}{% endif %}">
-
-      <button class="ui button grey" type="submit">
-        {% trans "Search" %}
-      </button>
       {% if filter_options %}
         <span style="padding-left: 5px"></span>
         {% for field, options in filter_options.items %}
@@ -43,6 +40,9 @@
           </select>
         {% endfor %}
       {% endif %}
+      <button class="ui button grey" type="submit">
+        {% trans "Search" %}
+      </button>
       {% if create_link %}
         <span style="padding-left: 15px"></span>
         <button onclick="location.href='{{create_link}}'" type="button"
@@ -98,9 +98,12 @@
             {% if field.name not in compact_fields %}
               <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
                 {% if field.field.widget.input_type == "checkbox"%}
-                  <div class="ui checkbox"> {{field}} </div>
+                  <div class="ui slider checkbox"> {{field}} </div>
+                {% elif field.name in image_fields %}
+                  <img class="ui small image" src="{{MEDIA_URL}}{{field.value}}">
                 {% elif field.field.disabled %}
                   {% if field.value %}{{field.value}}{% endif %}
+
                 {% else %}
                   {{ field }}
                 {% endif %}
@@ -116,12 +119,12 @@
             <td class="field">
               <div class="ui buttons fluid">
             {% if update_url %}
-                <a class="ui button blue" href="{% url update_url form.instance.slug %}">
+                <a class="ui button blue" href="{% url update_url form.instance.pk %}">
                   {% trans "Update" %}
                 </a>
             {% endif %}
             {% if delete_url %}
-                <a class="ui button red" href="{% url update_url form.instance.slug %}">
+                <a class="ui button red" href="{% url update_url form.instance.pk %}">
                   {% trans "Delete" %}
                 </a>
             {% endif %}

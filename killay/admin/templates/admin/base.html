@@ -10,6 +10,11 @@
   {% include "admin/components/sidebar.html" %}
 {% endblock sidebar %}
 
+{% block extra_css %}
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+  <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+{% endblock extra_css %}
+
 {% block content %}
   <div id="admin-main-container">
     {% if main_title %}

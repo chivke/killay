@@ -68,7 +68,7 @@
       </div>
     {% endif %}
   </div>
-  <table class="ui celled table">
+  <table class="ui table">
     <thead>
       <tr id="video-{{label_plural}}-head-fields">
         <th>#</th>
@@ -79,7 +79,7 @@
                 <th>{{field.label}}</th>
               {% endif %}
             {% endfor %}
-            {% if form.instance.pk %}
+            {% if form.instance.pk and update_url or delete_url%}
               <th>{% trans "Actions" %}</th>
             {% endif %}
           {% endif %}
@@ -140,6 +140,13 @@
                   {{ field }}
                 {% endif %}
               {% endfor %}
+            </td>
+          </tr>
+        {% endif %}
+        {% if row_extra_template %}
+          <tr>
+            <td colspan="100%">
+              {% include row_extra_template %}
             </td>
           </tr>
         {% endif %}

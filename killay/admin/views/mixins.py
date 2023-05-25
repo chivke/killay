@@ -74,6 +74,7 @@ class SingleMixin(AdminView, ModelFormMixin):
     form_class = None
     form_template = "admin/components/form.html"
     slug_field = "pk"
+    pk_url_kwarg = "slug"
     name_field = "name"
     reverse_url = None
     delete_url = None
@@ -100,6 +101,10 @@ class SingleMixin(AdminView, ModelFormMixin):
         if form.is_valid():
             return self.form_valid(form)
         else:
+            message = form.errors.get(
+                "__all__", gettext(f"Error not {self.action_name}")
+            )
+            messages.error(self.request, message)
             return self.form_invalid(form)
 
     def get_queryset(self):
@@ -113,7 +118,7 @@ class SingleMixin(AdminView, ModelFormMixin):
             f'{model_name} {self.name_field}="{name}" was {self.action_name}'
         )
         messages.info(self.request, message)
-        url_kwargs = {self.slug_field: slug_value} if slug_value else {}
+        url_kwargs = {self.pk_url_kwarg: slug_value} if slug_value else {}
         return reverse(self.reverse_url, kwargs=url_kwargs)
 
     def get_slug_value(self):
@@ -176,6 +181,7 @@ class DeleteAdminView(SingleMixin):
 
 
 class FormSetMixin:
+    manager_name = "objects"
     paginator_class = Paginator
     formset_class = None
     search_field = "name"
@@ -191,10 +197,12 @@ class FormSetMixin:
     filter_applied = {}
     page_kwarg = "page"
     image_fields = []
+    row_extra_template = None
 
     @property
     def model(self):
-        return self.formset_class.model
+        formset_class = self.get_formset_class()
+        return formset_class.model
 
     def get_forms_context(self, **kwargs) -> dict:
         context = {}
@@ -211,9 +219,17 @@ class FormSetMixin:
         context["create_link"] = self.get_create_link()
         context["delete_url"] = self.delete_url
         context["update_url"] = self.update_url
+        context["row_extra_template"] = self.row_extra_template
         if "formset" not in kwargs:
-            kwargs["formset"] = self.formset_class(queryset=object_list)
+            kwargs["formset"] = self.get_formset(queryset=object_list)
         return {**context, **kwargs}
+
+    def get_formset(self, queryset, **kwargs):
+        formset_class = self.get_formset_class()
+        return formset_class(queryset=queryset, **kwargs)
+
+    def get_formset_class(self):
+        return self.formset_class
 
     def get_filter_options(self):
         return {}
@@ -223,7 +239,8 @@ class FormSetMixin:
         return self.validate_formset(request=request)
 
     def get_queryset(self):
-        queryset = self.model.objects.all()
+        manager = getattr(self.model, self.manager_name)
+        queryset = manager.all()
         queryset = self.apply_filters(queryset)
         return queryset
 
@@ -275,7 +292,7 @@ class FormSetMixin:
         return reverse(self.create_url)
 
     def validate_formset(self, request, **kwargs):
-        formset = self.formset_class(
+        formset = self.get_formset(
             queryset=self.object_list, data=request.POST, **kwargs
         )
         if formset.is_valid():
@@ -345,3 +362,39 @@ class FormSetMixin:
 
 class FormSetAdminView(FormSetMixin, AdminView):
     pass
+
+
+class InlineFormSetAdminView(FormSetAdminView):
+    parent_manager_name = "objects"
+    parent_model = None
+    related_field = None
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object_list = self.get_queryset()
+        return self.validate_formset(request=request)
+
+    def get_object(self):
+        parent_manager = getattr(self.parent_model, self.parent_manager_name)
+        object_id = self.kwargs.get("slug")
+        try:
+            obj = parent_manager.get(id=object_id)
+        except self.parent_model.DoesNotExist:
+            message = gettext(f"{self.parent_model.Meta.verbose_name} not exists")
+            raise Http404(message)
+        return obj
+
+    def get_forms_context(self, **kwargs) -> dict:
+        self.object = self.get_object()
+        kwargs["object"] = self.object
+        return super().get_forms_context(**kwargs)
+
+    def get_queryset(self):
+        manager = getattr(self.model, self.manager_name)
+        inline_filter = {self.related_field: self.object.id}
+        queryset = manager.filter(**inline_filter)
+        queryset = self.apply_filters(queryset)
+        return queryset
+
+    def get_success_url_kwargs(self):
+        return {"slug": self.object.id}

@@ -1,8 +1,10 @@
 from django import forms
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext
 
 from killay.admin.models import Logo, SiteConfiguration, SocialMedia
 from killay.admin.utils import ImageFileInput
-from killay.archives.lib.constants import PieceConstants
+from killay.archives.lib.constants import PieceConstants, ProviderConstants
 from killay.archives.models import (
     Archive,
     Category,
@@ -11,6 +13,8 @@ from killay.archives.models import (
     Person,
     Piece,
     PieceMeta,
+    Provider,
+    Sequence,
 )
 
 
@@ -256,3 +260,114 @@ class PieceMetaForm(forms.ModelForm):
             "lang",
             "original_format",
         ]
+
+    register_date = forms.DateField(
+        widget=forms.TextInput(attrs={"type": "date"}), required=False
+    )
+
+
+class SequenceForm(forms.ModelForm):
+    class Meta:
+        model = Sequence
+        fields = ["title", "content", "ini", "end", "piece"]
+        widgets = {"piece": forms.HiddenInput()}
+
+    content = forms.CharField(required=False, widget=forms.Textarea(attrs={"rows": 4}))
+
+    def clean(self, *args, **kwargs):
+        validated_data = super().clean(*args, **kwargs)
+        self._clean_ini_greater_then_end()
+        return validated_data
+
+    def _clean_ini_greater_then_end(self):
+        ini = self.cleaned_data["ini"]
+        end = self.cleaned_data["end"]
+        if ini and end and ini >= end:
+            raise ValidationError("init of sequence must be greater then end")
+
+
+SequenceFormSet = forms.modelformset_factory(
+    Sequence, form=SequenceForm, extra=0, can_delete=True
+)
+
+
+class VideoProviderForm(forms.ModelForm):
+    class Meta:
+        model = Provider
+        fields = [
+            "piece",
+            "active",
+            "ply_embed_id",
+            "plyr_provider",
+        ]
+        widgets = {"piece": forms.HiddenInput()}
+
+    plyr_provider = forms.ChoiceField(
+        choices=ProviderConstants.PLYR_PROVIDER_CHOICES,
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=True,
+    )
+
+
+class ImageProviderForm(forms.ModelForm):
+    class Meta:
+        model = Provider
+        fields = [
+            "piece",
+            "active",
+            "image",
+        ]
+        widgets = {"piece": forms.HiddenInput()}
+
+
+class FileProviderForm(forms.ModelForm):
+    file_extensions = ["mp3", "ogg"]
+
+    class Meta:
+        model = Provider
+        fields = [
+            "piece",
+            "active",
+            "file",
+        ]
+        widgets = {"piece": forms.HiddenInput()}
+
+    def clean_file(self):
+        data = self.cleaned_data["file"]
+        extension = data.name[-3:]
+        if extension.lower() not in self.file_extensions:
+            raise ValidationError(gettext(f"File must be {self.file_extensions}"))
+        return data
+
+
+class DocumentProviderForm(FileProviderForm):
+    file_extensions = ["pdf"]
+
+
+def get_provider_form_by_piece_kind(
+    kind: str, formset: bool = False, **kwargs
+) -> forms.ModelForm:
+    form = None
+    if kind == PieceConstants.KIND_VIDEO:
+        form = VideoProviderForm
+    elif kind == PieceConstants.KIND_IMAGE:
+        form = ImageProviderForm
+    elif kind == PieceConstants.KIND_SOUND:
+        form = FileProviderForm
+    elif kind == PieceConstants.KIND_DOCUMENT:
+        form = DocumentProviderForm
+    if not formset:
+        return form
+    return forms.modelformset_factory(
+        Provider,
+        form=form,
+        extra=kwargs.get("extra", 0),
+        can_delete=kwargs.get("can_delete", False),
+    )
+
+
+ProviderFormSet = forms.modelformset_factory(
+    Provider, form=VideoProviderForm, extra=0, can_delete=True
+)
+
+ProviderForm = VideoProviderForm

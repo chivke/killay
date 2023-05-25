@@ -2,7 +2,6 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import gettext_lazy
-from django.urls import reverse
 
 from killay.admin.utils import InSiteManager
 from killay.archives.lib.constants import PieceConstants, ProviderConstants
@@ -51,6 +50,7 @@ class Collection(TimeBase, CategorizationBase):
         default=settings.SITE_ID,
     )
     is_visible = models.BooleanField(default=True)
+    is_restricted = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = gettext_lazy("collection")
@@ -71,6 +71,12 @@ class Category(TimeBase, CategorizationBase):
         on_delete=models.CASCADE,
         related_name="categories",
         default=settings.SITE_ID,
+    )
+    collection = models.ForeignKey(
+        Archive,
+        on_delete=models.SET_NULL,
+        related_name="categories",
+        null=True,
     )
 
     class Meta:
@@ -162,6 +168,7 @@ class Piece(TimeBase):
     keywords = models.ManyToManyField(
         "Keyword", related_name="pieces", verbose_name=gettext_lazy("Keywords")
     )
+    is_restricted = models.BooleanField(default=False)
 
     class Meta:
         verbose_name = gettext_lazy("piece")
@@ -173,6 +180,13 @@ class Piece(TimeBase):
 
     def __str__(self):
         return f"Piece <{self.code}>"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        try:
+            self.meta
+        except PieceMeta.DoesNotExist:
+            PieceMeta.objects.create(piece_id=self.pk)
 
 
 class Sequence(TimeBase):
@@ -221,13 +235,43 @@ class Provider(models.Model):
         null=False,
         blank=False,
     )
+    image = models.ImageField(
+        gettext_lazy("Image"), upload_to="piece_images", null=True
+    )
+    file = models.FileField(gettext_lazy("Image"), upload_to="piece_files", null=True)
 
     class Meta:
         verbose_name = gettext_lazy("video provider")
         verbose_name_plural = gettext_lazy("video provider")
+        ordering = ["plyr_provider"]
 
     def __str__(self):
         return f"Provider <{self.ply_embed_id}, {self.plyr_provider}>"
+
+    def save(self, *args, **kwargs):
+        if self.active:
+            other_providers = self._get_related_providers()
+            other_providers.update(active=False)
+        super().save(*args, **kwargs)
+
+    def _get_related_providers(self):
+        return self.__class__.objects.filter(piece_id=self.piece_id).exclude(id=self.id)
+
+    @property
+    def video_url(self):
+        template = ProviderConstants.URL_TEMPLATE[self.plyr_provider]
+        return template.format(
+            plyr_provider=self.plyr_provider,
+            ply_embed_id=self.ply_embed_id,
+        )
+
+    @property
+    def video_url_for_plyr(self):
+        template = ProviderConstants.URL_PLYR_TEMPLATE[self.plyr_provider]
+        return template.format(
+            plyr_provider=self.plyr_provider,
+            ply_embed_id=self.ply_embed_id,
+        )
 
 
 class PieceMeta(TimeBase):

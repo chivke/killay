@@ -21,21 +21,21 @@ class TestCollection:
 class TestCategory:
     def test_str(self):
         category = archives_recipes.category_recipe.make()
-        assert str(category) == f"Category <{category.name}>"
+        assert str(category) == category.name
 
 
 @pytest.mark.django_db
 class TestPerson:
     def test_str(self):
         person = archives_recipes.person_recipe.make()
-        assert str(person) == f"Person <{person.name}>"
+        assert str(person) == person.name
 
 
 @pytest.mark.django_db
 class TestKeyword:
     def test_str(self):
         keyword = archives_recipes.keyword_recipe.make()
-        assert str(keyword) == f"Keyword <{keyword.name}>"
+        assert str(keyword) == keyword.name
 
 
 @pytest.mark.django_db
@@ -65,5 +65,6 @@ class TestProvider:
 @pytest.mark.django_db
 class TestPieceMeta:
     def test_str(self):
-        meta = archives_recipes.piece_meta_recipe.make()
-        assert str(meta) == f"PieceMeta <of {meta.piece_id}>"
+        piece = archives_recipes.piece_recipe.make()
+        piece.save()
+        assert str(piece.meta) == f"PieceMeta <of {piece.id}>"

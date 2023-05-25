@@ -186,7 +186,7 @@ class Piece(TimeBase):
         try:
             self.meta
         except PieceMeta.DoesNotExist:
-            PieceMeta.objects.create(piece_id=self.pk)
+            self.meta, _ = PieceMeta.objects.get_or_create(piece_id=self.pk)
 
 
 class Sequence(TimeBase):

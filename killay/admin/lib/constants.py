@@ -47,6 +47,8 @@ class ContentManagerConstants:
     NAME_CATEGORY = gettext_lazy("Categories")
     NAME_PERSON = gettext_lazy("People")
     NAME_KEYWORD = gettext_lazy("Keywords")
+    NAME_SEQUENCE = gettext_lazy("Sequences")
+    NAME_PROVIDER = gettext_lazy("Providers")
 
     VIEWS_SECOND_TITLE = {
         SLUG_ARCHIVE: NAME_ARCHIVE,

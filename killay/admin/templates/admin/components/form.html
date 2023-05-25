@@ -18,7 +18,10 @@
     {% endfor %}
   {% endif %}
 
-  {% for field in form %}
+  {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+  {% endfor %}
+  {% for field in form.visible_fields %}
     <div class="field">
       <label>{{field.label_tag}}</label>
       {% if field.field.widget.input_type == "checkbox" %}

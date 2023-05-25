@@ -38,6 +38,10 @@ from killay.admin.views.content_manager.pieces import (
     admin_piece_delete_view,
     admin_piece_update_view,
     admin_piece_meta_update_view,
+    admin_piece_provider_create_view,
+    admin_piece_provider_list_view,
+    admin_piece_sequence_create_view,
+    admin_piece_sequence_list_view,
 )
 
 
@@ -68,7 +72,7 @@ urlpatterns += [
         name="archive_create",
     ),
     path(
-        "cm/archives/<str:slug>/delete",
+        "cm/archives/<str:slug>/delete/",
         view=admin_archive_delete_view,
         name="archive_delete",
     ),
@@ -93,7 +97,7 @@ urlpatterns += [
         name="collection_create",
     ),
     path(
-        "cm/collections/<str:slug>/delete",
+        "cm/collections/<str:slug>/delete/",
         view=admin_collection_delete_view,
         name="collection_delete",
     ),
@@ -119,14 +123,34 @@ urlpatterns += [
         name="piece_create",
     ),
     path(
-        "cm/pieces/<str:slug>/delete",
+        "cm/pieces/<str:slug>/delete/",
         view=admin_piece_delete_view,
         name="piece_delete",
     ),
     path(
-        "cm/pieces/<str:slug>/meta",
+        "cm/pieces/<str:slug>/meta/",
         view=admin_piece_meta_update_view,
         name="piece_meta_update",
+    ),
+    path(
+        "cm/pieces/<str:slug>/providers/~create/",
+        view=admin_piece_provider_create_view,
+        name="piece_provider_create",
+    ),
+    path(
+        "cm/pieces/<str:slug>/providers/",
+        view=admin_piece_provider_list_view,
+        name="piece_provider_list",
+    ),
+    path(
+        "cm/pieces/<str:slug>/sequences/~create/",
+        view=admin_piece_sequence_create_view,
+        name="piece_sequence_create",
+    ),
+    path(
+        "cm/pieces/<str:slug>/sequences/",
+        view=admin_piece_sequence_list_view,
+        name="piece_sequence_list",
     ),
     path(
         "cm/pieces/<str:slug>/",
@@ -149,7 +173,7 @@ urlpatterns += [
         name="category_create",
     ),
     path(
-        "cm/categories/<str:slug>/delete",
+        "cm/categories/<str:slug>/delete/",
         view=admin_category_delete_view,
         name="category_delete",
     ),
@@ -175,7 +199,7 @@ urlpatterns += [
         name="person_create",
     ),
     path(
-        "cm/people/<str:slug>/delete",
+        "cm/people/<str:slug>/delete/",
         view=admin_person_delete_view,
         name="person_delete",
     ),
@@ -200,7 +224,7 @@ urlpatterns += [
         name="keyword_create",
     ),
     path(
-        "cm/keywords/<str:slug>/delete",
+        "cm/keywords/<str:slug>/delete/",
         view=admin_keyword_delete_view,
         name="keyword_delete",
     ),

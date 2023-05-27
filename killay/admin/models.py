@@ -44,6 +44,12 @@ class SiteConfiguration(models.Model):
         self.site.save()
 
 
+class SocialMediaManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        return queryset.filter(config__site_id=settings.SITE_ID)
+
+
 class SocialMedia(models.Model):
     config = models.ForeignKey(
         SiteConfiguration, on_delete=models.CASCADE, related_name="social_medias"
@@ -64,6 +70,15 @@ class SocialMedia(models.Model):
         verbose_name_plural = gettext_lazy("social medias")
         ordering = ["position"]
 
+    objects = models.Manager()
+    objects_in_site = SocialMediaManager()
+
+
+class LogoManager(models.Manager):
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        return queryset.filter(configuration__site_id=settings.SITE_ID)
+
 
 class Logo(models.Model):
     configuration = models.ForeignKey(
@@ -78,3 +93,6 @@ class Logo(models.Model):
         verbose_name = gettext_lazy("logo")
         verbose_name_plural = gettext_lazy("logos")
         ordering = ["position"]
+
+    objects = models.Manager()
+    objects_in_site = LogoManager()

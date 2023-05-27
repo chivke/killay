@@ -316,3 +316,62 @@ class PieceMeta(TimeBase):
 
     def __str__(self):
         return f"PieceMeta <of {self.piece_id}>"
+
+
+class Place(TimeBase):
+    name = models.CharField(
+        gettext_lazy("Name"), max_length=500, null=False, blank=False
+    )
+    allowed_pieces = models.ManyToManyField(
+        Piece,
+        related_name="allowed_places",
+        verbose_name=gettext_lazy("Allowed Places"),
+    )
+    allowed_collections = models.ManyToManyField(
+        Collection,
+        related_name="allowed_places",
+        verbose_name=gettext_lazy("Allowed Places"),
+    )
+    allowed_archives = models.ManyToManyField(
+        Archive,
+        related_name="allowed_places",
+        verbose_name=gettext_lazy("Allowed Places"),
+    )
+    site = models.ForeignKey(
+        Site,
+        on_delete=models.CASCADE,
+        related_name="places",
+        default=settings.SITE_ID,
+    )
+    objects = models.Manager()
+    objects_in_site = InSiteManager()
+
+    class Meta:
+        verbose_name = gettext_lazy("place")
+        verbose_name_plural = gettext_lazy("places")
+        ordering = ["name"]
+
+    def __str__(self):
+        return f"Place <{self.name}>"
+
+
+class PlaceAddress(TimeBase):
+    place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="addresses")
+    ipv4 = models.GenericIPAddressField(
+        gettext_lazy("IP Address"),
+        unique=True,
+        null=False,
+        blank=False,
+        db_index=True,
+    )
+    description = models.CharField(
+        gettext_lazy("Description"), max_length=500, null=True, blank=True
+    )
+
+    class Meta:
+        verbose_name = gettext_lazy("address")
+        verbose_name_plural = gettext_lazy("addresses")
+        ordering = ["ipv4"]
+
+    def __str__(self):
+        return f"PlaceAddress <{self.ipv4}>"

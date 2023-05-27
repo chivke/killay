@@ -7,8 +7,6 @@ from killay.admin.forms import (
     PieceForm,
     PieceFormSet,
     PieceMetaForm,
-    ProviderForm,
-    ProviderFormSet,
     SequenceForm,
     SequenceFormSet,
     get_provider_form_by_piece_kind,
@@ -327,7 +325,6 @@ admin_piece_sequence_create_view = PieceSequenceCreateView.as_view()
 class PieceProviderListView(PieceBreadcrumMixin, InlineFormSetAdminView):
     parent_model = Piece
     related_field = "piece_id"
-    formset_class = ProviderFormSet
     reverse_url = "admin:piece_provider_list"
     search_field = "content"
     extra_links = PIECE_EXTRA_LINKS
@@ -372,7 +369,6 @@ admin_piece_provider_list_view = PieceProviderListView.as_view()
 
 class PieceProviderCreateView(PieceBreadcrumMixin, CreateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
-    form_class = ProviderForm
     name_field = "piece"
     reverse_url = "admin:piece_provider_list"
     extra_links = PIECE_EXTRA_LINKS

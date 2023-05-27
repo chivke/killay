@@ -1,7 +1,9 @@
 from django.urls import path
 from django.views.generic.base import RedirectView
 
-from killay.admin.views.configuration import admin_configuration_view
+
+from killay.admin.views import configuration as conf_views
+
 from killay.admin.views.content_manager.archives import (
     admin_archive_list_view,
     admin_archive_create_view,
@@ -43,7 +45,14 @@ from killay.admin.views.content_manager.pieces import (
     admin_piece_sequence_create_view,
     admin_piece_sequence_list_view,
 )
-
+from killay.admin.views.content_manager.places import (
+    admin_place_list_view,
+    admin_place_create_view,
+    admin_place_delete_view,
+    admin_place_update_view,
+    admin_place_address_list_view,
+    admin_place_address_create_view,
+)
 
 from killay.admin.views import videos as videos_views
 from killay.admin.views import users as users_views
@@ -53,18 +62,49 @@ from killay.admin.views import pages as pages_views
 app_name = "admin"
 
 
+# Configuration
+
 urlpatterns = [
-    path("", view=admin_configuration_view, name="configuration"),
     path(
-        "cm/",
-        view=RedirectView.as_view(pattern_name="admin:archive_list"),
-        name="content-manager",
+        "",
+        view=RedirectView.as_view(pattern_name="admin:site_configuration"),
+        name="main",
+    ),
+    path(
+        "conf/",
+        view=conf_views.admin_site_configuration_view,
+        name="site_configuration",
+    ),
+    path(
+        "conf/social-medias/",
+        view=conf_views.admin_site_social_media_list_view,
+        name="site_social_media_list",
+    ),
+    path(
+        "conf/social-medias/~create/",
+        view=conf_views.admin_site_social_media_create_view,
+        name="site_social_media_create",
+    ),
+    path(
+        "conf/logos/",
+        view=conf_views.admin_site_logo_list_view,
+        name="site_logo_list",
+    ),
+    path(
+        "conf/logos/~create/",
+        view=conf_views.admin_site_logo_create_view,
+        name="site_logo_create",
     ),
 ]
 
 # Content Manager - Archives
 
 urlpatterns += [
+    path(
+        "cm/",
+        view=RedirectView.as_view(pattern_name="admin:archive_list"),
+        name="content_manager",
+    ),
     path("cm/archives/", view=admin_archive_list_view, name="archive_list"),
     path(
         "cm/archives/~create/",
@@ -80,6 +120,37 @@ urlpatterns += [
         "cm/archives/<str:slug>/",
         view=admin_archive_update_view,
         name="archive_update",
+    ),
+]
+
+# Content Manager - Places
+
+urlpatterns += [
+    path("cm/places/", view=admin_place_list_view, name="place_list"),
+    path(
+        "cm/places/~create/",
+        view=admin_place_create_view,
+        name="place_create",
+    ),
+    path(
+        "cm/places/<str:slug>/delete/",
+        view=admin_place_delete_view,
+        name="place_delete",
+    ),
+    path(
+        "cm/places/<str:slug>/addresses/~create/",
+        view=admin_place_address_create_view,
+        name="place_address_create",
+    ),
+    path(
+        "cm/places/<str:slug>/adresses/",
+        view=admin_place_address_list_view,
+        name="place_address_list",
+    ),
+    path(
+        "cm/places/<str:slug>/",
+        view=admin_place_update_view,
+        name="place_update",
     ),
 ]
 

@@ -10,6 +10,10 @@ from killay.admin.forms import (
     CategoryForm,
     CategoryFormSet,
 )
+from killay.archives.services import (
+    get_archive_names_and_slugs,
+    get_collection_names_and_slugs,
+)
 
 
 CATEGORY_SLUG = ContentManagerConstants.SLUG_CATEGORY
@@ -29,6 +33,24 @@ class CategoryListView(FormSetAdminView):
         {"name": ContentManagerConstants.VIEWS_SECOND_TITLE[CATEGORY_SLUG]},
     ]
     extra_links = CATEGORY_EXTRA_LINKS
+    filters = {
+        ContentManagerConstants.SLUG_ARCHIVE: "collection__archive__slug",
+        ContentManagerConstants.SLUG_COLLECTION: "collection__slug",
+    }
+
+    def get_filter_options(self) -> dict:
+        archive_options = [
+            {"name": data["name"], "value": data["slug"]}
+            for data in get_archive_names_and_slugs()
+        ]
+        collection_options = [
+            {"name": data["name"], "value": data["slug"]}
+            for data in get_collection_names_and_slugs()
+        ]
+        return {
+            ContentManagerConstants.SLUG_ARCHIVE: archive_options,
+            ContentManagerConstants.SLUG_COLLECTION: collection_options,
+        }
 
 
 admin_category_list_view = CategoryListView.as_view()

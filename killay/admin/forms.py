@@ -13,6 +13,8 @@ from killay.archives.models import (
     Person,
     Piece,
     PieceMeta,
+    Place,
+    PlaceAddress,
     Provider,
     Sequence,
 )
@@ -33,33 +35,38 @@ class SiteConfigurationForm(forms.ModelForm):
 class SocialMediaForm(forms.ModelForm):
     class Meta:
         model = SocialMedia
-        fields = ["provider", "url", "is_visible", "position"]
+        fields = ["config", "provider", "url", "is_visible", "position"]
+        widgets = {"config": forms.HiddenInput()}
 
 
-SocialMediaFormSet = forms.inlineformset_factory(
-    SiteConfiguration, SocialMedia, form=SocialMediaForm, extra=1
+SocialMediaFormSet = forms.modelformset_factory(
+    SocialMedia, form=SocialMediaForm, extra=0
 )
 
 
 class LogoForm(forms.ModelForm):
     class Meta:
         model = Logo
-        fields = ["name", "image", "is_visible", "position"]
+        fields = ["configuration", "name", "image", "is_visible", "position"]
+        widgets = {"configuration": forms.HiddenInput()}
 
     image = forms.ImageField(widget=ImageFileInput())
 
 
-LogoFormSet = forms.inlineformset_factory(
-    SiteConfiguration, Logo, form=LogoForm, extra=1
-)
+LogoFormSet = forms.modelformset_factory(Logo, form=LogoForm, extra=0, can_delete=True)
 
 
 class ArchiveForm(forms.ModelForm):
     class Meta:
         model = Archive
-        fields = ["name", "slug", "description", "position"]
+        fields = ["name", "slug", "places", "description", "position"]
 
     description = forms.CharField(required=False, widget=forms.Textarea())
+    places = forms.ModelMultipleChoiceField(
+        queryset=Place.objects_in_site.all(),
+        widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
 
 
 class ArchiveListForm(forms.ModelForm):
@@ -80,11 +87,24 @@ ArchiveFormSet = forms.modelformset_factory(
 class CollectionForm(forms.ModelForm):
     class Meta:
         model = Collection
-        fields = ["archive", "name", "slug", "description", "position"]
+        fields = [
+            "archive",
+            "name",
+            "slug",
+            "is_restricted",
+            "places",
+            "description",
+            "position",
+        ]
 
     archive = forms.ModelChoiceField(
         queryset=Archive.objects_in_site.all(),
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
+    places = forms.ModelMultipleChoiceField(
+        queryset=Place.objects_in_site.all(),
+        widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
         required=False,
     )
 
@@ -111,9 +131,14 @@ CollectionFormSet = forms.modelformset_factory(
 class CategoryForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ["name", "slug", "description", "position"]
+        fields = ["name", "slug", "collection", "description", "position"]
 
     description = forms.CharField(required=False, widget=forms.Textarea())
+    collection = forms.ModelChoiceField(
+        queryset=Collection.objects_in_site.all(),
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
 
 
 class CategoryListForm(forms.ModelForm):
@@ -174,19 +199,14 @@ KeywordFormSet = forms.modelformset_factory(
 )
 
 
-CollectionFormField = forms.ModelChoiceField(
-    queryset=Collection.objects_in_site.all(),
-    widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
-    required=True,
-)
-
-
 class PieceForm(forms.ModelForm):
     class Meta:
         model = Piece
         fields = [
             "collection",
             "is_published",
+            "is_restricted",
+            "places",
             "code",
             "title",
             "kind",
@@ -196,13 +216,22 @@ class PieceForm(forms.ModelForm):
             "keywords",
         ]
 
+    places = forms.ModelMultipleChoiceField(
+        queryset=Place.objects_in_site.all(),
+        widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
     thumb = forms.ImageField(widget=ImageFileInput())
     kind = forms.ChoiceField(
         choices=PieceConstants.KIND_CHOICES,
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
         required=True,
     )
-    collection = CollectionFormField
+    collection = forms.ModelChoiceField(
+        queryset=Collection.objects_in_site.all(),
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=True,
+    )
     categories = forms.ModelMultipleChoiceField(
         queryset=Category.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
@@ -366,8 +395,62 @@ def get_provider_form_by_piece_kind(
     )
 
 
-ProviderFormSet = forms.modelformset_factory(
-    Provider, form=VideoProviderForm, extra=0, can_delete=True
+class PlaceForm(forms.ModelForm):
+    class Meta:
+        model = Place
+        fields = [
+            "name",
+            "allowed_collections",
+            "allowed_archives",
+            "allowed_pieces",
+        ]
+
+    allowed_archives = forms.ModelMultipleChoiceField(
+        queryset=Archive.objects_in_site.all(),
+        widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
+    allowed_collections = forms.ModelMultipleChoiceField(
+        queryset=Collection.objects_in_site.all(),
+        widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
+    allowed_pieces = forms.ModelMultipleChoiceField(
+        queryset=Piece.objects_in_site.all(),
+        widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
+
+
+PlaceFormSet = forms.modelformset_factory(
+    Place, form=PlaceForm, extra=0, can_delete=False
 )
 
-ProviderForm = VideoProviderForm
+IPV4_PATTERN = (
+    r"^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"
+)
+
+
+class PlaceAddressForm(forms.ModelForm):
+    class Meta:
+        model = PlaceAddress
+        fields = ["place", "ipv4", "description"]
+        widgets = {"place": forms.HiddenInput()}
+
+    ipv4 = forms.GenericIPAddressField(
+        widget=forms.TextInput(
+            attrs={
+                "pattern": IPV4_PATTERN,
+                "minlength": 7,
+                "maxlength": 15,
+                "size": 15,
+                "placeholder": "x.x.x.x",
+            }
+        ),
+        required=True,
+    )
+
+
+PlaceAddressFormSet = forms.modelformset_factory(
+    PlaceAddress, form=PlaceAddressForm, extra=0, can_delete=True
+)

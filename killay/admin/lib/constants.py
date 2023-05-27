@@ -14,6 +14,9 @@ class SiteConfigurationConstants:
         (YOUTUBE, "Youtube"),
         (VIMEO, "Vimeo"),
     ]
+    MAIN_TITLE = gettext_lazy("Site Configuration")
+    NAME_SOCIAL_MEDIA = gettext_lazy("Social Medias")
+    NAME_LOGO = gettext_lazy("Logos")
 
 
 class ArchivesViewConstants:
@@ -26,6 +29,7 @@ def _get_pattern_names(slugs: list, action: str) -> dict:
 
 class ContentManagerConstants:
     MAIN_TITLE = gettext_lazy("Content Manager")
+    SLUG_PLACE = "place"
     SLUG_ARCHIVE = "archive"
     SLUG_COLLECTION = "collection"
     SLUG_PIECE = "piece"
@@ -33,6 +37,7 @@ class ContentManagerConstants:
     SLUG_PERSON = "person"
     SLUG_KEYWORD = "keyword"
     VIEW_SLUGS = [
+        SLUG_PLACE,
         SLUG_ARCHIVE,
         SLUG_COLLECTION,
         SLUG_PIECE,
@@ -49,8 +54,11 @@ class ContentManagerConstants:
     NAME_KEYWORD = gettext_lazy("Keywords")
     NAME_SEQUENCE = gettext_lazy("Sequences")
     NAME_PROVIDER = gettext_lazy("Providers")
+    NAME_PLACE = gettext_lazy("Places")
+    NAME_ADDRESS = gettext_lazy("Addresses")
 
     VIEWS_SECOND_TITLE = {
+        SLUG_PLACE: NAME_PLACE,
         SLUG_ARCHIVE: NAME_ARCHIVE,
         SLUG_COLLECTION: NAME_COLLECTION,
         SLUG_PIECE: NAME_PIECE,
@@ -66,6 +74,7 @@ class ContentManagerConstants:
         SLUG_ARCHIVE: {
             "list": {"view": f"admin:{SLUG_ARCHIVE}_list", "name": NAME_ARCHIVE}
         },
+        SLUG_PLACE: {"list": {"view": f"admin:{SLUG_PLACE}_list", "name": NAME_PLACE}},
         SLUG_COLLECTION: {
             "list": {"view": f"admin:{SLUG_COLLECTION}_list", "name": NAME_COLLECTION}
         },

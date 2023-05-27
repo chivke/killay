@@ -9,6 +9,7 @@
   </div>
 </div>
 <div class="ui divider"></div>
+
 <div class="formset-list-actions segment">
   <form
     id="searchform"
@@ -53,113 +54,114 @@
   <div class="ui divider"></div>
 </div>
 
-<form class="ui form" method="post">
-  {% csrf_token %}
-  {{formset.management_form}}
-  <input type="hidden" name="query_search" value="{% if query_search %}{{query_search}}{% endif %}">
-  <input type="hidden" name="page_number" value="{% if page_obj.has_previous or page_obj.has_next %}{{page_obj.number}}{% endif %}">
-  <div id="formset-list-footer-pagination">
-    <div class="ui buttons">
-      <input type="submit" class="ui button grey" value="{% trans 'Save' %}">
-    </div>
-    {% if is_paginated %}
-      <div class="ui pagination menu">
-        {% include "components/paginator.html" %}
+{% if total_of_objects %}
+  <form class="ui form" method="post">
+    {% csrf_token %}
+    {{formset.management_form}}
+    <input type="hidden" name="query_search" value="{% if query_search %}{{query_search}}{% endif %}">
+    <input type="hidden" name="page_number" value="{% if page_obj.has_previous or page_obj.has_next %}{{page_obj.number}}{% endif %}">
+    <div id="formset-list-footer-pagination">
+      <div class="ui buttons">
+        <input type="submit" class="ui button grey" value="{% trans 'Save' %}">
       </div>
-    {% endif %}
-  </div>
-  <table class="ui table">
-    <thead>
-      <tr id="video-{{label_plural}}-head-fields">
-        <th>#</th>
-        {% for form in formset %}
-          {% if forloop.first %}
-            {% for field in form.visible_fields %}
-              {% if field.name not in compact_fields %}
-                <th>{{field.label}}</th>
-              {% endif %}
-            {% endfor %}
-            {% if form.instance.pk and update_url or delete_url%}
-              <th>{% trans "Actions" %}</th>
-            {% endif %}
-          {% endif %}
-        {% endfor %}
-      </tr>
-    </thead>
-    <tbody id="video-{{label_plural}}-tbody">
-      {% for form in formset %}
-        {% for hidden in form.hidden_fields %}
-          {{ hidden }}
-        {% endfor %}
-        <tr>
-          <td class="field">{{forloop.counter}}</td>
-          {% for field in form.visible_fields %}
-            {% if field.name not in compact_fields %}
-              <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
-                {% if field.field.widget.input_type == "checkbox"%}
-                  <div class="ui slider checkbox"> {{field}} </div>
-                {% elif field.name in image_fields %}
-                  <img class="ui small image" src="{{MEDIA_URL}}{{field.value}}">
-                {% elif field.field.disabled %}
-                  {% if field.value %}{{field.value}}{% endif %}
-
-                {% else %}
-                  {{ field }}
-                {% endif %}
-                {% if field.errors %}
-                  <div class="ui pointing red basic label">
-                    {% for error in field.errors %}{{error}}{% endfor %}
-                  </div>
-                {% endif %}
-              </td>
-            {% endif %}
-          {% endfor %}
-          {% if form.instance.pk %}
-            <td class="field">
-              <div class="ui buttons fluid">
-            {% if update_url %}
-                <a class="ui button blue" href="{% url update_url form.instance.pk %}">
-                  {% trans "Update" %}
-                </a>
-            {% endif %}
-            {% if delete_url %}
-                <a class="ui button red" href="{% url delete_url form.instance.pk %}">
-                  {% trans "Delete" %}
-                </a>
-            {% endif %}
-            </div>
-            </td>
-          {% endif %}
-        </tr>
-        {% if compact_fields %}
-          <tr>
-            <td></td>
-            <td colspan="100%">
+      {% if is_paginated %}
+        <div class="ui pagination menu">
+          {% include "components/paginator.html" %}
+        </div>
+      {% endif %}
+    </div>
+    <table class="ui table">
+      <thead>
+        <tr id="{{label_plural}}-head-fields">
+          <th>#</th>
+          {% for form in formset %}
+            {% if forloop.first %}
               {% for field in form.visible_fields %}
-                {% if field.name in compact_fields %}
-                  {{ field }}
+                {% if field.name not in compact_fields %}
+                  <th>{{field.label}}</th>
                 {% endif %}
               {% endfor %}
-            </td>
-          </tr>
-        {% endif %}
-        {% if row_extra_template %}
+              {% if form.instance.pk and update_url or delete_url%}
+                <th>{% trans "Actions" %}</th>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody id="{{label_plural}}-tbody">
+        {% for form in formset %}
+          {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+          {% endfor %}
           <tr>
-            <td colspan="100%">
-              {% include row_extra_template %}
-            </td>
-          </tr>
-        {% endif %}
-      {% endfor %}
-    </tbody>
-  </table>
-  <div id="formset-list-footer-pagination">
-    <input type="submit" class="ui button grey" value="{% trans 'Save' %}">
-    {% if is_paginated %}
-      <div  class="ui pagination menu">
-        {% include "components/paginator.html" %}
-      </div>
-    {% endif %}
-  </div>
+            <td class="field">{{forloop.counter}}</td>
+            {% for field in form.visible_fields %}
+              {% if field.name not in compact_fields %}
+                <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
+                  {% if field.field.widget.input_type == "checkbox"%}
+                    <div class="ui slider checkbox"> {{field}} </div>
+                  {% elif field.name in image_fields %}
+                    <img class="ui small image" src="{{MEDIA_URL}}{{field.value}}">
+                  {% elif field.field.disabled %}
+                    {% if field.value %}{{field.value}}{% endif %}
 
-</form>
+                  {% else %}
+                    {{ field }}
+                  {% endif %}
+                  {% if field.errors %}
+                    <div class="ui pointing red basic label">
+                      {% for error in field.errors %}{{error}}{% endfor %}
+                    </div>
+                  {% endif %}
+                </td>
+              {% endif %}
+            {% endfor %}
+            {% if form.instance.pk %}
+              <td class="field">
+                <div class="ui buttons fluid">
+              {% if update_url %}
+                  <a class="ui button blue" href="{% url update_url form.instance.pk %}">
+                    {% trans "Update" %}
+                  </a>
+              {% endif %}
+              {% if delete_url %}
+                  <a class="ui button red" href="{% url delete_url form.instance.pk %}">
+                    {% trans "Delete" %}
+                  </a>
+              {% endif %}
+              </div>
+              </td>
+            {% endif %}
+          </tr>
+          {% if compact_fields %}
+            <tr>
+              <td></td>
+              <td colspan="100%">
+                {% for field in form.visible_fields %}
+                  {% if field.name in compact_fields %}
+                    {{ field }}
+                  {% endif %}
+                {% endfor %}
+              </td>
+            </tr>
+          {% endif %}
+          {% if row_extra_template %}
+            <tr>
+              <td colspan="100%">
+                {% include row_extra_template %}
+              </td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+    <div id="formset-list-footer-pagination">
+      <input type="submit" class="ui button grey" value="{% trans 'Save' %}">
+      {% if is_paginated %}
+        <div  class="ui pagination menu">
+          {% include "components/paginator.html" %}
+        </div>
+      {% endif %}
+    </div>
+  </form>
+{% endif %}

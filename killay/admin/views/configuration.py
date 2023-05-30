@@ -1,5 +1,3 @@
-from django.http import HttpResponseRedirect
-from django.views.generic import UpdateView
 from django.urls import reverse
 
 from killay.admin.lib.constants import SiteConfigurationConstants
@@ -20,7 +18,7 @@ class ConfigurationUpdateView(UpdateAdminView):
     reverse_url = "admin:site_configuration"
 
     def get_object(self):
-        return SiteConfiguration.objects.current()
+        return self.request.site_configuration
 
     def get_extra_data(self) -> str:
         return {}
@@ -74,7 +72,7 @@ class SiteSocialMediaCreateView(CreateAdminView):
     name_field = "provider"
 
     def get_form(self, *args, **kwargs):
-        config = SiteConfiguration.objects.current()
+        config = self.request.site_configuration
         form = super().get_form(*args, **kwargs)
         form.initial["config"] = config.id
         return form
@@ -128,7 +126,7 @@ class SiteLogoCreateView(CreateAdminView):
     reverse_url = "admin:site_social_media_create"
 
     def get_form(self, *args, **kwargs):
-        config = SiteConfiguration.objects.current()
+        config = self.request.site_configuration
         form = super().get_form(*args, **kwargs)
         form.initial["configuration"] = config.id
         return form

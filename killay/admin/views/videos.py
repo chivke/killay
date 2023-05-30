@@ -54,7 +54,7 @@ class GetVideoAsObjectMixin:
 class VideoDeleteView(GetVideoAsObjectMixin, AdminDeleteMixin):
     model = Video
     slug_field = "code"
-    reverse_success_url = "admin:configuration"
+    reverse_success_url = "admin:site_configuration"
 
 
 video_delete_view = VideoDeleteView.as_view()

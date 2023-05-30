@@ -1,6 +1,6 @@
-from django.utils.translation import gettext
+from typing import Optional
 
-from killay.archives.models import Archive, Category, Collection, Piece
+from killay.archives.models import Archive, Collection, Piece, Place
 
 
 def get_archive_related_field_data(archive_id: int) -> dict:
@@ -25,3 +25,7 @@ def get_archive_names_and_slugs() -> list:
 
 def get_collection_names_and_slugs() -> list:
     return list(Collection.objects_in_site.values("name", "slug"))
+
+
+def get_place_from_ip_address(ip_address: str) -> Optional[Place]:
+    return Place.objects.filter(addresses__ipv4=ip_address).first()

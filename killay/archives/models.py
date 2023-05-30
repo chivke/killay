@@ -31,6 +31,8 @@ class Archive(TimeBase):
 
     objects = models.Manager()
     objects_in_site = InSiteManager()
+    is_visible = models.BooleanField(default=True)
+    is_restricted = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} <{self.slug}>"

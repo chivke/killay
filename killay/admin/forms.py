@@ -31,6 +31,9 @@ class SiteConfigurationForm(forms.ModelForm):
             "collection_site",
         ]
 
+    name = forms.CharField(required=True)
+    domain = forms.CharField(required=True)
+
 
 class SocialMediaForm(forms.ModelForm):
     class Meta:

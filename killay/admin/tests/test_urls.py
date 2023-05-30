@@ -7,8 +7,8 @@ pytestmark = pytest.mark.django_db
 
 
 def test_configuration():
-    assert reverse("admin:configuration") == "/admin/"
-    assert resolve("/admin/").view_name == "admin:configuration"
+    assert reverse("admin:site_configuration") == "/admin/conf/"
+    assert resolve("/admin/").view_name == "admin:main"
 
 
 def test_videos_update(video_categorization: VideoCategorization):

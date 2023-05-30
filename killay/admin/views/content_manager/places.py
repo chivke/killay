@@ -71,6 +71,12 @@ class PlaceUpdateView(UpdateAdminView):
             {"name": ContentManagerConstants.NAME_ADDRESS, "link": address_link},
         ]
 
+    def get_extra_data(self) -> str:
+        extra_data = super().get_extra_data()
+        if self.request.place and self.request.place.id == self.object.id:
+            extra_data[gettext("You are in this place")] = self.request.ip_address
+        return extra_data
+
 
 admin_place_update_view = PlaceUpdateView.as_view()
 
@@ -101,6 +107,12 @@ class PlaceDeleteView(DeleteAdminView):
             {"name": "General", "link": place_link},
             {"name": ContentManagerConstants.NAME_ADDRESS, "link": address_link},
         ]
+
+    def get_extra_data(self) -> str:
+        extra_data = super().get_extra_data()
+        if self.request.place and self.request.place.id == self.object.id:
+            extra_data[gettext("You are in this place")] = self.request.ip_address
+        return extra_data
 
 
 admin_place_delete_view = PlaceDeleteView.as_view()
@@ -139,6 +151,12 @@ class PlaceAddressListView(InlineFormSetAdminView):
             {"name": ContentManagerConstants.NAME_ADDRESS},
         ]
 
+    def get_extra_data(self) -> str:
+        extra_data = super().get_extra_data()
+        if self.request.place and self.request.place.id == self.object.id:
+            extra_data[gettext("You are in this place")] = self.request.ip_address
+        return extra_data
+
 
 admin_place_address_list_view = PlaceAddressListView.as_view()
 
@@ -163,6 +181,9 @@ class PlaceAddressCreateView(CreateAdminView):
         self.place = place
         form.initial["place"] = place_id
         return form
+
+    def get_extra_data(self) -> str:
+        return {gettext("Your current IP"): self.request.ip_address}
 
     def get_breadcrumb(self) -> list:
         place_kwargs = {"slug": self.place.id}

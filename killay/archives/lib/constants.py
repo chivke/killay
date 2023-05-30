@@ -1,13 +1,16 @@
+from django.utils.translation import gettext_lazy
+
+
 class PieceConstants:
     KIND_VIDEO = "VIDEO"
     KIND_IMAGE = "IMAGE"
     KIND_SOUND = "SOUND"
     KIND_DOCUMENT = "DOCUMENT"
     KIND_CHOICES = [
-        (KIND_VIDEO, "Video"),
-        (KIND_IMAGE, "Image"),
-        (KIND_SOUND, "Sound"),
-        (KIND_DOCUMENT, "Document"),
+        (KIND_VIDEO, gettext_lazy("Video")),
+        (KIND_IMAGE, gettext_lazy("Image")),
+        (KIND_SOUND, gettext_lazy("Sound")),
+        (KIND_DOCUMENT, gettext_lazy("Document")),
     ]
 
 

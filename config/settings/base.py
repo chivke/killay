@@ -76,6 +76,10 @@ PASSWORD_HASHERS = [
 
 # Middleware
 
+LOCAL_MIDDLEWARE = [
+    "killay.admin.middleware.SiteConfigurationMiddleware",
+]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -86,6 +90,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    *LOCAL_MIDDLEWARE,
 ]
 
 # Static

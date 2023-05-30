@@ -9,7 +9,7 @@ from django.db import transaction
 from django.utils.text import slugify
 
 from killay.videos.lib.constants import VideoConstants
-from killay.admin.models import Logo
+from killay.admin.models import Logo, SiteConfiguration
 from killay.pages.models import Page
 from killay.videos.models import (
     Video,
@@ -197,3 +197,7 @@ def bulk_update_data_for_deploy(
 
     if home_header_image.is_file():
         __update_home_header_image(home_header_image)
+
+
+def get_site_configuration():
+    return SiteConfiguration.objects.current()

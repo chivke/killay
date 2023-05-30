@@ -59,7 +59,15 @@ LogoFormSet = forms.modelformset_factory(Logo, form=LogoForm, extra=0, can_delet
 class ArchiveForm(forms.ModelForm):
     class Meta:
         model = Archive
-        fields = ["name", "slug", "places", "description", "position"]
+        fields = [
+            "name",
+            "slug",
+            "is_visible",
+            "is_restricted",
+            "places",
+            "description",
+            "position",
+        ]
 
     description = forms.CharField(required=False, widget=forms.Textarea())
     places = forms.ModelMultipleChoiceField(
@@ -91,6 +99,7 @@ class CollectionForm(forms.ModelForm):
             "archive",
             "name",
             "slug",
+            "is_visible",
             "is_restricted",
             "places",
             "description",

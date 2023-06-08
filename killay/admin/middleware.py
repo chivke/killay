@@ -7,7 +7,9 @@ class SiteConfigurationMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        request.site_configuration = get_site_configuration()
+        site_configuration = get_site_configuration()
+        request.site_configuration = site_configuration
+        request.viewer = site_configuration.viewer
         ip_address = self._get_ip_address(request=request)
         request.ip_address = ip_address
         request.place = get_place_from_ip_address(ip_address=ip_address)

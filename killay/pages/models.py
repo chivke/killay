@@ -59,7 +59,8 @@ class Page(models.Model):
         verbose_name_plural = gettext_lazy("pages")
         ordering = ["position"]
 
-    objects = InSiteManager()
+    objects = models.Manager()
+    objects_in_site = InSiteManager()
 
     def __str__(self):
         return f"{self.title} <{self.slug}>"

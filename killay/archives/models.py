@@ -23,6 +23,9 @@ class Archive(TimeBase):
         default=settings.SITE_ID,
     )
     position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+    image = models.ImageField(
+        gettext_lazy("Image"), upload_to="archive_images", null=True
+    )
 
     class Meta:
         verbose_name = gettext_lazy("archive")
@@ -53,6 +56,9 @@ class Collection(TimeBase, CategorizationBase):
     )
     is_visible = models.BooleanField(default=True)
     is_restricted = models.BooleanField(default=False)
+    image = models.ImageField(
+        gettext_lazy("Image"), upload_to="collection_images", null=True
+    )
 
     class Meta:
         verbose_name = gettext_lazy("collection")
@@ -66,6 +72,10 @@ class Collection(TimeBase, CategorizationBase):
     def __str__(self):
         return f"{self.name} <{self.slug}>"
 
+    @property
+    def archive_slug(self):
+        return self.archive.slug
+
 
 class Category(TimeBase, CategorizationBase):
     site = models.ForeignKey(
@@ -75,7 +85,7 @@ class Category(TimeBase, CategorizationBase):
         default=settings.SITE_ID,
     )
     collection = models.ForeignKey(
-        Archive,
+        Collection,
         on_delete=models.SET_NULL,
         related_name="categories",
         null=True,
@@ -92,6 +102,14 @@ class Category(TimeBase, CategorizationBase):
 
     def __str__(self):
         return self.name
+
+    @property
+    def collection_slug(self):
+        return self.collection.slug
+
+    @property
+    def archive_slug(self):
+        return self.collection.archive.slug
 
 
 class Person(TimeBase, CategorizationBase):
@@ -176,6 +194,7 @@ class Piece(TimeBase):
         verbose_name = gettext_lazy("piece")
         verbose_name_plural = gettext_lazy("pieces")
         ordering = ["title", "code"]
+        unique_together = ["code", "site"]
 
     objects = models.Manager()
     objects_in_site = InSiteManager()
@@ -189,6 +208,10 @@ class Piece(TimeBase):
             self.meta
         except PieceMeta.DoesNotExist:
             self.meta, _ = PieceMeta.objects.get_or_create(piece_id=self.pk)
+
+    @property
+    def active_provider(self) -> "Provider":
+        return self.providers.filter(active=True).first()
 
 
 class Sequence(TimeBase):
@@ -240,7 +263,7 @@ class Provider(models.Model):
     image = models.ImageField(
         gettext_lazy("Image"), upload_to="piece_images", null=True
     )
-    file = models.FileField(gettext_lazy("Image"), upload_to="piece_files", null=True)
+    file = models.FileField(gettext_lazy("File"), upload_to="piece_files", null=True)
 
     class Meta:
         verbose_name = gettext_lazy("video provider")
@@ -274,6 +297,26 @@ class Provider(models.Model):
             plyr_provider=self.plyr_provider,
             ply_embed_id=self.ply_embed_id,
         )
+
+    @property
+    def is_ready(self) -> bool:
+        piece_kind = self.piece.kind
+        if piece_kind == PieceConstants.KIND_VIDEO and not (
+            self.plyr_provider and self.ply_embed_id
+        ):
+            return False
+        elif piece_kind == PieceConstants.KIND_IMAGE and not self.image:
+            return False
+        elif (
+            piece_kind
+            in [
+                PieceConstants.KIND_SOUND,
+                PieceConstants.KIND_DOCUMENT,
+            ]
+            and not self.file
+        ):
+            return False
+        return self.active
 
 
 class PieceMeta(TimeBase):

@@ -11,19 +11,51 @@ from killay.admin.utils import InSiteManager
 
 class Page(models.Model):
     title = models.CharField(
-        gettext_lazy("Title"), max_length=150, null=False, blank=False
+        PageConstants.NAME_TITLE, max_length=150, null=False, blank=False
     )
     slug = models.SlugField(
-        gettext_lazy("Slug"), max_length=150, null=False, blank=False
+        PageConstants.NAME_SLUG, max_length=150, null=False, blank=False
     )
     kind = models.CharField(
-        verbose_name=gettext_lazy("Provider"),
+        verbose_name=PageConstants.NAME_KIND,
         choices=PageConstants.KIND_CHOICES,
         max_length=10,
-        default=PageConstants.PAGE,
+        default=PageConstants.KIND_PAGE,
     )
-    body = QuillField(gettext_lazy("Body"), null=True, blank=True)
-    is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
+    created_at = models.DateTimeField(PageConstants.NAME_CREATED_AT, auto_now_add=True)
+    updated_at = models.DateTimeField(PageConstants.NAME_UPDATED_AT, auto_now=True)
+    is_visible = models.BooleanField(PageConstants.NAME_IS_VISIBLE, default=False)
+    body = QuillField(PageConstants.NAME_BODY, null=True, blank=True)
+    header_image = models.ImageField(
+        PageConstants.NAME_HEADER_IMAGE, upload_to="page_images", null=True, blank=True
+    )
+    redirect_to = models.URLField(PageConstants.NAME_REDIRECT_TO, null=True, blank=True)
+    position = models.PositiveSmallIntegerField(PageConstants.NAME_POSITION, default=0)
+    archive = models.ForeignKey(
+        "archives.Archive",
+        on_delete=models.SET_NULL,
+        related_name="pages",
+        null=True,
+        blank=True,
+    )
+    collection = models.ForeignKey(
+        "archives.Collection",
+        on_delete=models.SET_NULL,
+        related_name="pages",
+        null=True,
+        blank=True,
+    )
+    place = models.ForeignKey(
+        "archives.Place",
+        on_delete=models.SET_NULL,
+        related_name="pages",
+        null=True,
+        blank=True,
+    )
+    site = models.ForeignKey(
+        Site, on_delete=models.CASCADE, related_name="pages", default=settings.SITE_ID
+    )
+
     is_visible_in_navbar = models.BooleanField(
         gettext_lazy("Is visible in navbar"), default=False
     )
@@ -33,18 +65,7 @@ class Page(models.Model):
     is_title_visible_in_body = models.BooleanField(
         gettext_lazy("Is title visible in body"), default=False
     )
-    header_image = models.ImageField(
-        gettext_lazy("Header mage"), upload_to="page_images", null=True, blank=True
-    )
-    created_at = models.DateTimeField(gettext_lazy("Created at"), auto_now_add=True)
-    updated_at = models.DateTimeField(gettext_lazy("Updated at"), auto_now=True)
-    site = models.ForeignKey(
-        Site, on_delete=models.CASCADE, related_name="pages", default=settings.SITE_ID
-    )
-    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
-    redirect_to = models.URLField(
-        gettext_lazy("Redirect to (URL)"), null=True, blank=True
-    )
+    # to deprecate
     collection_site = models.ForeignKey(
         "videos.VideoCollection",
         on_delete=models.CASCADE,
@@ -68,7 +89,7 @@ class Page(models.Model):
     def get_absolute_url(self):
         if self.is_home:
             return reverse("home")
-        elif self.kind == PageConstants.LINK:
+        elif self.kind == PageConstants.KIND_LINK:
             return self.redirect_to
         return reverse("pages:detail", kwargs={"slug": self.slug})
 

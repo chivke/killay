@@ -407,12 +407,14 @@ class ContentPipeline(ContentSerializer, PipelineBase):
 
         return filter_options
 
-    def get_piece(self, piece_code: str):
+    def get_piece(self, piece_code: str) -> Optional[Dict]:
         piece = get_public_piece(
             piece_code=piece_code,
             place=self.place,
             is_superuser=self.user.is_superuser,
         )
+        if not piece:
+            return
         piece_data = piece.__dict__
         piece_data["instance"] = piece
         piece_data["collection"] = self._serialize_collection(

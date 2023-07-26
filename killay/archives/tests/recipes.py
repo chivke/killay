@@ -34,6 +34,7 @@ category_recipe = Recipe(
     Category,
     name=seq("Local Category "),
     slug=seq("local-category-"),
+    collection=foreign_key(collection_recipe),
 )
 
 person_recipe = Recipe(

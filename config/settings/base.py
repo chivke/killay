@@ -54,6 +54,7 @@ LOCAL_APPS = [
     "killay.videos.apps.VideosConfig",
     "killay.admin.apps.AdminConfig",
     "killay.archives.apps.ArchivesConfig",
+    "killay.viewer.apps.ViewerConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -114,6 +115,7 @@ CUSTOM_CONTEXT_PROCESSORS = [
     "killay.admin.context_processors.site_context",
     "killay.pages.context_processors.pages_context",
     "killay.videos.context_processors.collections_context",
+    "killay.viewer.context_processors.general_context",
 ]
 
 TEMPLATES = [

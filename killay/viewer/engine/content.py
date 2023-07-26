@@ -72,7 +72,9 @@ class ContentSerializer:
             kwargs = {field: getattr(instance, field) for field in link_fields}
             instance_data["link"] = link_template.format(base_url=base_url, **kwargs)
             instances_data.append(instance_data)
-        label = instances[0]._meta.verbose_name_plural.capitalize()
+        label = (
+            instances[0]._meta.verbose_name_plural.capitalize() if instances else None
+        )
         return {
             "total": len(instances),
             "items": instances_data,

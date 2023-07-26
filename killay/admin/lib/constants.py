@@ -15,8 +15,20 @@ class SiteConfigurationConstants:
         (VIMEO, "Vimeo"),
     ]
     MAIN_TITLE = gettext_lazy("Site Configuration")
+    NAME_GENERAL = gettext_lazy("General")
+    NAME_VIEWER = gettext_lazy("Visualization")
     NAME_SOCIAL_MEDIA = gettext_lazy("Social Medias")
     NAME_LOGO = gettext_lazy("Logos")
+    PATTERN_GENERAL = "admin:site_configuration"
+    PATTERN_VIEWER = "admin:site_viewer"
+    PATTERN_SOCIAL_MEDIA = "admin:site_social_media_list"
+    PATTERN_LOGO = "admin:site_logo_list"
+    PATTERN_BY_NAME = {
+        NAME_GENERAL: PATTERN_GENERAL,
+        NAME_VIEWER: PATTERN_VIEWER,
+        NAME_SOCIAL_MEDIA: PATTERN_SOCIAL_MEDIA,
+        NAME_LOGO: PATTERN_LOGO,
+    }
 
 
 class ArchivesViewConstants:

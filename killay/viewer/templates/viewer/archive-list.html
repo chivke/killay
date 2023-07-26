@@ -1,0 +1,70 @@
+{% extends "viewer/base.html" %}
+
+{% load static %}
+
+{% block content %}
+  <div class="header-filter-container">
+    <h1 class="ui header huge filter-name">
+      {{archives_list_label}}
+    </h1>
+  </div>
+  <br>
+  <br>
+    <div class="ui container">
+      {% for archive in archive_list %}
+        <div class="ui segment vertical">
+          <div class="ui grid">
+            <div class="column six wide">
+              <a
+                class="ui fluid image bordered"
+                href="{{archive.link}}"
+              >
+                <img
+                  class="ui fluid image bordered"
+                  src="{% if archive.image %}{{archive.image}}{% else %}{% static 'images/default-background.svg' %}{% endif %}"
+                >
+              </a>
+            </div>
+            <div class="column ten wide">
+              <div class="ui container">
+                <h2 class="ui header dividing">
+                  <a class="ui item" href="{{archive.link}}">{{archive.name}}</a>
+                </h2>
+                <div class="text">{{archive.description}}</div>
+                <div class="ui divider"></div>
+                <div class="ui menu secondary vertical">
+                  <div class="item">
+                    <div class="header">{{archive.collections.label}} ({{archive.collections.total}})</div>
+                    <div class="menu">
+                      {% for collection in archive.collections.items %}
+                        <a class="item" href="">
+                          {{collection.name}}
+                          {% if not collection.is_visible %}
+                            <i class="eye slash outline icon"></i>
+                          {% endif %}
+                          {% if collection.is_restricted %}
+                            <i class="shield icon"></i>
+                          {% endif %}
+                        </a>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+                {% if not archive.is_visible %}
+                  <div class="ui warning message visible">
+                    {{help_texts.is_not_visible}}
+                  </div>
+                {% endif %}
+                {% if archive.is_restricted %}
+                  <div class="ui message visible">
+                    {{help_texts.is_restricted}}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}

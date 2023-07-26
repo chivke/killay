@@ -1,0 +1,29 @@
+<div class="pagination-container">
+  <div class="ui pagination menu huge">
+    {% for page_link in pagination %}
+      {% if page_link.disabled %}
+        <div class="disabled item">
+      {% else %}
+        <a class="item" href="{{page_link.link}}">
+      {% endif %}
+
+      {% if page_link.number == "first" %}
+        <i class="icon angle double left"></i>
+      {% elif page_link.number == "previous" %}
+        <i class="icon angle left"></i>
+      {% elif page_link.number == "next" %}
+        <i class="icon angle right"></i>
+      {% elif page_link.number == "last" %}
+        <i class="icon angle double right"></i>
+      {% else %}
+        {{page_link.number}}
+      {% endif %}
+
+      {% if page_link.disabled %}
+        </div>
+      {% else %}
+        </a>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>

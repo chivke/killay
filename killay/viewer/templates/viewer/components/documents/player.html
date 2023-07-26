@@ -1,0 +1,17 @@
+<div class="player-context-container">
+  <div class="player-container ui inverted segment">
+    {% if piece.provider.active %}
+      <embed
+        src="{{MEDIA_URL}}{{piece.provider.file}}"
+        width="100%"
+        height="250"
+        type="application/pdf"
+      >
+    {% endif %}
+  </div>
+  <div id="sequences-display">
+    <div
+      id="video-description"
+    >{{piece.meta.description.value}}</div>
+  </div>
+</div>

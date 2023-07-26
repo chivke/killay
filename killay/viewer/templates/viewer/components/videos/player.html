@@ -1,0 +1,46 @@
+<div class="player-sequence-container">
+  <div id="sequences-data" hidden>
+    {% for sequence in piece.sequences %}
+    {{sequence}}
+      <div
+        id="{{sequence.id}}"
+        order="{{sequence.order}}"
+        ini="{{sequence.ini_sec}}"
+        end="{{sequence.end_sec}}"
+      >
+        <div name="sequence-data-title">
+          {{sequence.title}}
+        </div>
+        <div name="sequence-data-content">
+          {% autoescape off %}{{ sequence.content }}{% endautoescape %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <div class="player-container ui inverted segment">
+  {% if piece.provider.active %}
+    <div class="plyr__video-embed" id="player">
+      <iframe
+        src="{{piece.provider.player_url}}"
+        allowfullscreen
+        allowtransparency
+        allow="autoplay"
+      ></iframe>
+    </div>
+    {% if piece.sequences %}
+      <div
+        id="sequences-menu" class="sequences-menu ui inverted vertical fluid menu"
+      ></div>
+    {% endif %}
+  {% else %}
+    <div id="no-player">{{piece.provider.message}}</div>
+  {% endif %}
+  </div>
+  <div id="sequences-display">
+    <div
+      id="video-description"
+    >{{piece.meta.description.value}}</div>
+    <h4 class="ui horizontal divider header" id="sequences-display-title">.</h4>
+    <div id="sequences-display-content"></div>
+  </div>
+</div>

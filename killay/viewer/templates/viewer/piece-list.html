@@ -1,0 +1,70 @@
+{% extends "viewer/base.html" %}
+
+{% block content %}
+
+  {% if specific_context %}
+    <div class="header-filter-container">
+      <div>
+        <span class="ui header huge filter-name">{{specific_context.title}}</span>
+        {% if  specific_context.label%}
+          <span>({{specific_context.label}})</span>
+        {% endif %}
+      </div>
+      {% if specific_context.content %}
+        <div class="filter-description">{{specific_context.content}}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  {% include "viewer/components/search-options.html" %}
+
+  <div class="video-gallery-container">
+    <div class="ui text">{{total_founded}}</div>
+    <div class="full-list-content">
+      {% for piece in page_obj %}
+        <a
+          class="ui video-selector" href="{{piece.code}}"
+          style="{% if piece.thumb %}background-image: url('{{piece.thumb.url}}');{% else %}background-color: #dedede;{% endif %}"
+        >
+          {% if not piece.is_published %}
+            <div class="not-public-label ui icon">
+              <i class="eye slash icon"></i>
+            </div>
+          {% endif %}
+          {% if piece.is_restricted %}
+            <div class="not-public-label ui icon">
+              <i class="eye shield icon"></i>
+            </div>
+          {% endif %}
+          <div class="duration-label">{{piece.meta.duration|time:"H:i:s"}}</div>
+          <div class="video-label">
+            <i
+              {% if piece.kind == 'IMAGE' %}
+                class="image icon"
+              {% elif piece.kind == 'VIDEO' %}
+                class="video icon"
+              {% elif piece.kind == 'SOUND' %}
+                class="music icon"
+              {% elif piece.kind == 'DOCUMENT' %}
+                class="file pdf icon"
+              {% endif %}
+            ></i>
+            {{piece.title}}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+    {% if is_paginated %}
+      {% include "viewer/components/pagination.html" %}
+    {% endif %}
+  </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+  <script type="text/javascript">
+    $('.ui.accordion')
+    .accordion();
+  </script>
+
+{% endblock extra_js%}

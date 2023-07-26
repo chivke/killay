@@ -1,0 +1,17 @@
+<div class="player-context-container">
+  <div class="player-container ui inverted segment">
+  	{% if piece.provider.active %}
+  	  <a
+        href="{{MEDIA_URL}}{{piece.provider.image}}"
+        target="_blank"
+      >
+  	    <img id="player-image" src="{{MEDIA_URL}}{{piece.provider.image}}">
+      </a>
+  	{% endif %}
+  </div>
+  <div id="sequences-display">
+    <div
+      id="video-description"
+    >{{piece.meta.description.value}}</div>
+  </div>
+</div>

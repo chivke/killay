@@ -1,0 +1,8 @@
+<script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+<script type="text/javascript">
+  const $player = new Plyr('#player', {invertTime: false});
+  const $sequence_engine = new SequenceEngine();
+  $player.on('ready', event => {
+    $sequence_engine.run();
+  });
+</script>

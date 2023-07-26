@@ -13,6 +13,7 @@ urlpatterns = [
     path("pages/", include("killay.pages.urls", namespace="pages")),
     path("users/", include("killay.users.urls", namespace="users")),
     path("videos/", include("killay.videos.urls", namespace="videos")),
+    path("viewer/", include("killay.viewer.urls", namespace="viewer")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

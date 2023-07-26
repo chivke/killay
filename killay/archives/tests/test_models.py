@@ -78,7 +78,7 @@ class TestSequence:
 
     def test_end_sec(self):
         sequence = archives_recipes.sequence_recipe.make(end=time(1))
-        assert sequence.ini_sec == 3600
+        assert sequence.end_sec == 3600
 
 
 @pytest.mark.django_db

@@ -320,7 +320,9 @@ class TestGetPublicPieces:
         assert public_pieces[0].id == piece.id
 
     def test_with_category(self, piece):
-        category = archives_recipes.category_recipe.make()
+        category = archives_recipes.category_recipe.make(
+            collection_id=piece.collection_id
+        )
         piece.categories.add(category.id)
         categorization = {"category": category}
         public_pieces = archives_services.get_public_pieces(

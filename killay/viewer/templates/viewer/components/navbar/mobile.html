@@ -1,0 +1,40 @@
+<div class="ui dropdown" id="mobile-dropdown">
+  <i class="bars icon"></i>
+  <div class="ui inverted secondary pointing menu" style="background: #1b1c1d;">
+    <div class="ui left input">
+      {% include "components/search.html" %}
+    </div>
+    <div class="divider"></div>
+
+    {% if site.main_menu %}
+      {% for menu in site.main_menu %}
+        <a
+          class="item{% if menu.active %} active{% endif %}"
+          href="{{menu.link}}"
+        >{{menu.name}}</a>
+      {% endfor %}
+    {% endif %}
+    <div class="divider"></div>
+    {% if site.submenus %}
+      {% for submenu in site.submenus %}
+        {% if submenu %}
+          {% for menu in submenu %}
+            <a
+              class="item{% if menu.active %} active{% endif %}"
+              href="{% if menu.link %}{{menu.link}}{% endif %}"
+              href="{{menu.link}}"
+            >{{menu.name}}</a>
+          {% endfor %}
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    <div class="divider"></div>
+    {% for item in site.user_menu %}
+      <a
+        class="item{% if not item.link %} active{% endif %}"
+        href="{% if item.link %}{{item.link}}{% endif %}"
+      >{{item.name}}
+      </a>
+    {% endfor %}
+  </div>
+</div>

@@ -1,0 +1,20 @@
+{% load i18n %}
+  <form
+    id="searchform"
+    action="{{site.menu_search.url}}"
+    method="get" accept-charset="utf-8"
+  >
+    <div class="ui inverted transparent icon input">
+      <input
+        id="searchbox"
+        class="prompt"
+        name="{{site.menu_search.key}}"
+        type="text"
+        placeholder="{{site.menu_search.placeholder}}"
+        value="{% if site.menu_search.query %}{{site.menu_search.query}}{% endif %}"
+      >
+      <button class="circular black nverted ui icon button" type="submit">
+        <i class="inverted circular search link icon"></i>
+      </button>
+    </div>
+  </form>

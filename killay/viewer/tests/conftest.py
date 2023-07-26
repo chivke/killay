@@ -6,6 +6,7 @@ from django.contrib.sessions.middleware import SessionMiddleware
 import pytest
 
 from killay.admin.middleware import SiteConfigurationMiddleware
+from killay.admin.services import get_site_configuration
 
 
 @pytest.fixture
@@ -29,3 +30,8 @@ def get_request_with_viewer(rf, user):
         return request
 
     return _get_request
+
+
+@pytest.fixture
+def site_configuration():
+    return get_site_configuration()

@@ -1,15 +1,27 @@
+from typing import Optional
+
 from django.urls import reverse
 
 from killay.admin.lib.constants import SiteConfigurationConstants
-from killay.admin.models import SiteConfiguration
 from killay.admin.forms import (
     LogoForm,
     LogoFormSet,
     SiteConfigurationForm,
     SocialMediaForm,
     SocialMediaFormSet,
+    ViewerForm,
 )
 from killay.admin.views.mixins import CreateAdminView, FormSetAdminView, UpdateAdminView
+
+
+def _get_extra_actions(current_name: Optional[str] = None) -> list:
+    extra_actions = []
+    for name, pattern in SiteConfigurationConstants.PATTERN_BY_NAME.items():
+        extra_action = {"name": name}
+        if name != current_name:
+            extra_action["link"] = reverse(pattern)
+        extra_actions.append(extra_action)
+    return extra_actions
 
 
 class ConfigurationUpdateView(UpdateAdminView):
@@ -27,22 +39,37 @@ class ConfigurationUpdateView(UpdateAdminView):
         return
 
     def get_extra_actions(self):
-        social_media_name = SiteConfigurationConstants.NAME_SOCIAL_MEDIA
-        logo_name = SiteConfigurationConstants.NAME_LOGO
-        return [
-            {"name": "General"},
-            {
-                "name": social_media_name,
-                "link": reverse("admin:site_social_media_list"),
-            },
-            {"name": logo_name, "link": reverse("admin:site_logo_list")},
-        ]
+        return _get_extra_actions(current_name=SiteConfigurationConstants.NAME_GENERAL)
 
     def get_slug_value(self):
         return
 
 
 admin_site_configuration_view = ConfigurationUpdateView.as_view()
+
+
+class ViewerUpdateView(UpdateAdminView):
+    main_title = SiteConfigurationConstants.MAIN_TITLE
+    form_class = ViewerForm
+    reverse_url = "admin:site_configuration"
+
+    def get_object(self):
+        return self.request.site_configuration.viewer
+
+    def get_extra_data(self) -> str:
+        return {}
+
+    def get_second_title(self) -> str:
+        return
+
+    def get_extra_actions(self):
+        return _get_extra_actions(current_name=SiteConfigurationConstants.NAME_VIEWER)
+
+    def get_slug_value(self):
+        return
+
+
+admin_site_viewer_view = ViewerUpdateView.as_view()
 
 
 class SiteSocialMediaListView(FormSetAdminView):
@@ -53,13 +80,9 @@ class SiteSocialMediaListView(FormSetAdminView):
     manager_name = "objects_in_site"
 
     def get_extra_actions(self):
-        social_media_name = SiteConfigurationConstants.NAME_SOCIAL_MEDIA
-        logo_name = SiteConfigurationConstants.NAME_LOGO
-        return [
-            {"name": "General", "link": reverse("admin:site_configuration")},
-            {"name": social_media_name},
-            {"name": logo_name, "link": reverse("admin:site_logo_list")},
-        ]
+        return _get_extra_actions(
+            current_name=SiteConfigurationConstants.NAME_SOCIAL_MEDIA
+        )
 
 
 admin_site_social_media_list_view = SiteSocialMediaListView.as_view()
@@ -81,16 +104,7 @@ class SiteSocialMediaCreateView(CreateAdminView):
         return
 
     def get_extra_actions(self):
-        social_media_name = SiteConfigurationConstants.NAME_SOCIAL_MEDIA
-        logo_name = SiteConfigurationConstants.NAME_LOGO
-        return [
-            {"name": "General", "link": reverse("admin:site_configuration")},
-            {
-                "name": social_media_name,
-                "link": reverse("admin:site_social_media_list"),
-            },
-            {"name": logo_name, "link": reverse("admin:site_logo_list")},
-        ]
+        return _get_extra_actions()
 
 
 admin_site_social_media_create_view = SiteSocialMediaCreateView.as_view()
@@ -105,16 +119,7 @@ class SiteLogoListView(FormSetAdminView):
     image_fields = ["image"]
 
     def get_extra_actions(self):
-        social_media_name = SiteConfigurationConstants.NAME_SOCIAL_MEDIA
-        logo_name = SiteConfigurationConstants.NAME_LOGO
-        return [
-            {"name": "General", "link": reverse("admin:site_configuration")},
-            {
-                "name": social_media_name,
-                "link": reverse("admin:site_social_media_list"),
-            },
-            {"name": logo_name},
-        ]
+        return _get_extra_actions(current_name=SiteConfigurationConstants.NAME_LOGO)
 
 
 admin_site_logo_list_view = SiteLogoListView.as_view()
@@ -135,16 +140,7 @@ class SiteLogoCreateView(CreateAdminView):
         return
 
     def get_extra_actions(self):
-        social_media_name = SiteConfigurationConstants.NAME_SOCIAL_MEDIA
-        logo_name = SiteConfigurationConstants.NAME_LOGO
-        return [
-            {"name": "General", "link": reverse("admin:site_configuration")},
-            {
-                "name": social_media_name,
-                "link": reverse("admin:site_social_media_list"),
-            },
-            {"name": logo_name, "link": reverse("admin:site_logo_list")},
-        ]
+        return _get_extra_actions()
 
 
 admin_site_logo_create_view = SiteLogoCreateView.as_view()

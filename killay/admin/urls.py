@@ -76,6 +76,11 @@ urlpatterns = [
         name="site_configuration",
     ),
     path(
+        "conf/viewer/",
+        view=conf_views.admin_site_viewer_view,
+        name="site_viewer",
+    ),
+    path(
         "conf/social-medias/",
         view=conf_views.admin_site_social_media_list_view,
         name="site_social_media_list",

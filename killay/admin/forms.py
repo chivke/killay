@@ -18,6 +18,9 @@ from killay.archives.models import (
     Provider,
     Sequence,
 )
+from killay.pages.models import Page
+from killay.viewer.lib.constants import ViewerConstants
+from killay.viewer.models import Viewer
 
 
 class SiteConfigurationForm(forms.ModelForm):
@@ -33,6 +36,44 @@ class SiteConfigurationForm(forms.ModelForm):
 
     name = forms.CharField(required=True)
     domain = forms.CharField(required=True)
+
+
+class ViewerForm(forms.ModelForm):
+    class Meta:
+        model = Viewer
+        fields = [
+            "scope",
+            "scope_archive",
+            "scope_collection",
+            "home",
+            "home_page",
+        ]
+
+    scope = forms.ChoiceField(
+        choices=ViewerConstants.SCOPE_CHOICES,
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=True,
+    )
+    scope_archive = forms.ModelChoiceField(
+        queryset=Archive.objects_in_site.all(),
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
+    scope_collection = forms.ModelChoiceField(
+        queryset=Collection.objects_in_site.all(),
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
+    home = forms.ChoiceField(
+        choices=ViewerConstants.HOME_CHOICES,
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=True,
+    )
+    home_page = forms.ModelChoiceField(
+        queryset=Page.objects_in_site.all(),
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
 
 
 class SocialMediaForm(forms.ModelForm):

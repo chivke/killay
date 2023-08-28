@@ -68,8 +68,9 @@ class PieceListView(ViewerViewBase, MultipleObjectMixin):
             "archive": self.archive,
             "collection": self.collection,
             "category": self.category,
+            "person": self.person,
+            "keyword": self.keyword,
         }
-        # self.archive_data = pipeline._serialize_archive(archive=self.archive)
         self.query_search = pipeline.get_query_search()
         self.query_params = pipeline.get_queryparams()
 
@@ -208,6 +209,7 @@ class PieceDetailView(ViewerViewBase):
             "archive": piece.collection.archive,
             "collection": piece.collection,
             "category": piece.categories.first(),
+            "piece": piece,
         }
 
     def get_view_context_data(self):

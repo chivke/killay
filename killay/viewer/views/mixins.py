@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
+from django.urls import reverse
 from django.views.generic import TemplateView
 
 from killay.viewer.lib.constants import ViewerMessageConstants
@@ -20,6 +22,11 @@ class ViewerViewBase(TemplateView):
         self.request.menu_cursor = value
 
     def dispatch(self, request, *args, **kwargs):
+        if (
+            not request.user.is_superuser
+            and not request.site_configuration.is_published
+        ):
+            return redirect(reverse("users:login"))
         if request.viewer.scope in self.out_of_scope:
             if not request.user.is_superuser:
                 url = RoutePipeline.get_root_url(request=self.request)

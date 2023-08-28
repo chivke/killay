@@ -157,6 +157,7 @@ class SiteContextPipeline:
 
     def get_site_title(self) -> str:
         viewer = self.request.viewer
+        viewer.refresh_from_db()
         if viewer.scope == ViewerConstants.SCOPE_ONE_ARCHIVE:
             site_title = viewer.scope_archive.name
         elif viewer.scope == ViewerConstants.SCOPE_ONE_COLLECTION:

@@ -1,41 +1,81 @@
 from django.conf import settings
 from django.contrib.sites.models import Site
 from django.db import models
-from django.utils.translation import gettext_lazy
 
 from killay.admin.utils import InSiteManager
-from killay.archives.lib.constants import PieceConstants, ProviderConstants
+from killay.archives.lib.constants import (
+    ArchiveConstants,
+    CategoryConstants,
+    CollectionConstants,
+    KeywordConstants,
+    PersonConstants,
+    PieceConstants,
+    PieceMetaConstants,
+    PlaceConstants,
+    PlaceAddressConstants,
+    ProviderConstants,
+    SequenceConstants,
+)
 from killay.archives.managers import CategorizationBase, SequenceManager, TimeBase
 
 
 class Archive(TimeBase):
     name = models.CharField(
-        gettext_lazy("Name"), max_length=255, null=False, blank=False
+        verbose_name=ArchiveConstants.FIELD_NAME,
+        help_text=ArchiveConstants.FIELD_NAME_HELP_TEXT,
+        max_length=255,
+        null=False,
+        blank=False,
     )
     slug = models.SlugField(
-        gettext_lazy("Slug"), max_length=255, unique=True, null=False, blank=False
+        verbose_name=ArchiveConstants.FIELD_SLUG,
+        help_text=ArchiveConstants.FIELD_SLUG_HELP_TEXT,
+        max_length=255,
+        unique=True,
+        null=False,
+        blank=False,
     )
-    description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
+    description = models.TextField(
+        verbose_name=ArchiveConstants.FIELD_DESCRIPTION,
+        help_text=ArchiveConstants.FIELD_DESCRIPTION_HELP_TEXT,
+        null=True,
+        blank=True,
+    )
     site = models.ForeignKey(
         Site,
         on_delete=models.CASCADE,
         related_name="archives",
         default=settings.SITE_ID,
     )
-    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+    position = models.PositiveSmallIntegerField(
+        verbose_name=ArchiveConstants.FIELD_POSITION,
+        help_text=ArchiveConstants.FIELD_POSITION_HELP_TEXT,
+        default=0,
+    )
     image = models.ImageField(
-        gettext_lazy("Image"), upload_to="archive_images", null=True
+        verbose_name=ArchiveConstants.FIELD_IMAGE,
+        help_text=ArchiveConstants.FIELD_IMAGE_HELP_TEXT,
+        upload_to="archive_images",
+        null=True,
+    )
+    is_visible = models.BooleanField(
+        verbose_name=ArchiveConstants.FIELD_IS_VISIBLE,
+        help_text=ArchiveConstants.FIELD_IS_VISIBLE_HELP_TEXT,
+        default=True,
+    )
+    is_restricted = models.BooleanField(
+        verbose_name=ArchiveConstants.FIELD_IS_RESTRICTED,
+        help_text=ArchiveConstants.FIELD_IS_RESTRICTED_HELP_TEXT,
+        default=False,
     )
 
     class Meta:
-        verbose_name = gettext_lazy("archive")
-        verbose_name_plural = gettext_lazy("archives")
+        verbose_name = ArchiveConstants.VERBOSE_NAME
+        verbose_name_plural = ArchiveConstants.VERBOSE_NAME_PLURAL
         ordering = ["position", "name"]
 
     objects = models.Manager()
     objects_in_site = InSiteManager()
-    is_visible = models.BooleanField(default=True)
-    is_restricted = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.name} <{self.slug}>"
@@ -44,6 +84,8 @@ class Archive(TimeBase):
 class Collection(TimeBase, CategorizationBase):
     archive = models.ForeignKey(
         Archive,
+        verbose_name=CollectionConstants.FIELD_ARCHIVE,
+        help_text=CollectionConstants.FIELD_ARCHIVE_HELP_TEXT,
         on_delete=models.CASCADE,
         related_name="collections",
         null=False,
@@ -54,15 +96,26 @@ class Collection(TimeBase, CategorizationBase):
         related_name="collections",
         default=settings.SITE_ID,
     )
-    is_visible = models.BooleanField(default=True)
-    is_restricted = models.BooleanField(default=False)
+    is_visible = models.BooleanField(
+        verbose_name=CollectionConstants.FIELD_IS_VISIBLE,
+        help_text=CollectionConstants.FIELD_IS_VISIBLE_HELP_TEXT,
+        default=True,
+    )
+    is_restricted = models.BooleanField(
+        verbose_name=CollectionConstants.FIELD_IS_RESTRICTED,
+        help_text=CollectionConstants.FIELD_IS_RESTRICTED_HELP_TEXT,
+        default=False,
+    )
     image = models.ImageField(
-        gettext_lazy("Image"), upload_to="collection_images", null=True
+        verbose_name=CollectionConstants.FIELD_IMAGE,
+        help_text=CollectionConstants.FIELD_IMAGE_HELP_TEXT,
+        upload_to="collection_images",
+        null=True,
     )
 
     class Meta:
-        verbose_name = gettext_lazy("collection")
-        verbose_name_plural = gettext_lazy("collections")
+        verbose_name = CollectionConstants.VERBOSE_NAME
+        verbose_name_plural = CollectionConstants.VERBOSE_NAME_PLURAL
         ordering = ["position", "slug"]
         unique_together = ["slug", "site"]
 
@@ -86,14 +139,16 @@ class Category(TimeBase, CategorizationBase):
     )
     collection = models.ForeignKey(
         Collection,
+        verbose_name=CategoryConstants.FIELD_COLLECTION,
+        help_text=CategoryConstants.FIELD_COLLECTION_HELP_TEXT,
         on_delete=models.SET_NULL,
         related_name="categories",
         null=True,
     )
 
     class Meta:
-        verbose_name = gettext_lazy("category")
-        verbose_name_plural = gettext_lazy("categories")
+        verbose_name = CategoryConstants.VERBOSE_NAME
+        verbose_name_plural = CategoryConstants.VERBOSE_NAME_PLURAL
         ordering = ["position", "slug"]
         unique_together = ["slug", "site"]
 
@@ -121,8 +176,8 @@ class Person(TimeBase, CategorizationBase):
     )
 
     class Meta:
-        verbose_name = gettext_lazy("person")
-        verbose_name_plural = gettext_lazy("people")
+        verbose_name = PersonConstants.VERBOSE_NAME
+        verbose_name_plural = PersonConstants.VERBOSE_NAME_PLURAL
         ordering = ["position", "slug"]
         unique_together = ["slug", "site"]
 
@@ -142,8 +197,8 @@ class Keyword(TimeBase, CategorizationBase):
     )
 
     class Meta:
-        verbose_name = gettext_lazy("keyword")
-        verbose_name_plural = gettext_lazy("keywords")
+        verbose_name = KeywordConstants.VERBOSE_NAME
+        verbose_name_plural = KeywordConstants.VERBOSE_NAME_PLURAL
         ordering = ["position", "slug"]
         unique_together = ["slug", "site"]
 
@@ -155,16 +210,34 @@ class Keyword(TimeBase, CategorizationBase):
 
 
 class Piece(TimeBase):
-    code = models.SlugField(gettext_lazy("Code"), null=False, blank=False)
+    code = models.SlugField(
+        verbose_name=PieceConstants.FIELD_CODE,
+        help_text=PieceConstants.FIELD_CODE_HELP_TEXT,
+        null=False,
+        blank=False,
+    )
     title = models.CharField(
-        gettext_lazy("Title"), max_length=512, null=False, blank=False
+        verbose_name=PieceConstants.FIELD_TITLE,
+        help_text=PieceConstants.FIELD_TITLE_HELP_TEXT,
+        max_length=512,
+        null=False,
+        blank=False,
     )
     thumb = models.ImageField(
-        gettext_lazy("Thumb"), upload_to="piece_thumbs", null=True, blank=True
+        verbose_name=PieceConstants.FIELD_THUMB,
+        help_text=PieceConstants.FIELD_THUMB_HELP_TEXT,
+        upload_to="piece_thumbs",
+        null=True,
+        blank=True,
     )
-    is_published = models.BooleanField(gettext_lazy("Published"), default=False)
+    is_published = models.BooleanField(
+        verbose_name=PieceConstants.FIELD_IS_PUBLISHED,
+        help_text=PieceConstants.FIELD_IS_PUBLISHED_HELP_TEXT,
+        default=False,
+    )
     kind = models.CharField(
-        gettext_lazy("Kind"),
+        verbose_name=PieceConstants.FIELD_KIND,
+        help_text=PieceConstants.FIELD_KIND_HELP_TEXT,
         choices=PieceConstants.KIND_CHOICES,
         max_length=50,
         null=False,
@@ -172,6 +245,8 @@ class Piece(TimeBase):
     )
     collection = models.ForeignKey(
         Collection,
+        verbose_name=PieceConstants.FIELD_COLLECTION,
+        help_text=PieceConstants.FIELD_COLLECTION_HELP_TEXT,
         on_delete=models.CASCADE,
         related_name="pieces",
         null=False,
@@ -180,19 +255,32 @@ class Piece(TimeBase):
         Site, on_delete=models.CASCADE, related_name="pieces", default=settings.SITE_ID
     )
     categories = models.ManyToManyField(
-        "Category", related_name="pieces", verbose_name=gettext_lazy("Categories")
+        "Category",
+        related_name="pieces",
+        verbose_name=PieceConstants.FIELD_CATEGORIES,
+        help_text=PieceConstants.FIELD_CATEGORIES_HELP_TEXT,
     )
     people = models.ManyToManyField(
-        "Person", related_name="pieces", verbose_name=gettext_lazy("People")
+        "Person",
+        related_name="pieces",
+        verbose_name=PieceConstants.FIELD_PEOPLE,
+        help_text=PieceConstants.FIELD_PEOPLE_HELP_TEXT,
     )
     keywords = models.ManyToManyField(
-        "Keyword", related_name="pieces", verbose_name=gettext_lazy("Keywords")
+        "Keyword",
+        related_name="pieces",
+        verbose_name=PieceConstants.FIELD_KEYWORDS,
+        help_text=PieceConstants.FIELD_KEYWORDS_HELP_TEXT,
     )
-    is_restricted = models.BooleanField(default=False)
+    is_restricted = models.BooleanField(
+        verbose_name=PieceConstants.FIELD_IS_RESTRICTED,
+        help_text=PieceConstants.FIELD_IS_RESTRICTED_HELP_TEXT,
+        default=False,
+    )
 
     class Meta:
-        verbose_name = gettext_lazy("piece")
-        verbose_name_plural = gettext_lazy("pieces")
+        verbose_name = PieceConstants.VERBOSE_NAME
+        verbose_name_plural = PieceConstants.VERBOSE_NAME_PLURAL
         ordering = ["title", "code"]
         unique_together = ["code", "site"]
 
@@ -217,28 +305,47 @@ class Piece(TimeBase):
 class Sequence(TimeBase):
     piece = models.ForeignKey(Piece, on_delete=models.CASCADE, related_name="sequences")
     title = models.CharField(
-        gettext_lazy("Title"), max_length=500, null=True, blank=True
+        verbose_name=SequenceConstants.FIELD_TITLE,
+        help_text=SequenceConstants.FIELD_TITLE_HELP_TEXT,
+        max_length=500,
+        null=True,
+        blank=True,
     )
-    content = models.TextField(gettext_lazy("Content"), null=True, blank=True)
-    ini = models.TimeField(gettext_lazy("Initiation"), null=False, blank=False)
-    end = models.TimeField(gettext_lazy("End"), null=False, blank=False)
+    content = models.TextField(
+        verbose_name=SequenceConstants.FIELD_CONTENT,
+        help_text=SequenceConstants.FIELD_CONTENT_HELP_TEXT,
+        null=True,
+        blank=True,
+    )
+    ini = models.TimeField(
+        verbose_name=SequenceConstants.FIELD_INI,
+        help_text=SequenceConstants.FIELD_INI_HELP_TEXT,
+        null=False,
+        blank=False,
+    )
+    end = models.TimeField(
+        verbose_name=SequenceConstants.FIELD_END,
+        help_text=SequenceConstants.FIELD_END_HELP_TEXT,
+        null=False,
+        blank=False,
+    )
 
     class Meta:
-        verbose_name = gettext_lazy("sequence")
-        verbose_name_plural = gettext_lazy("sequences")
+        verbose_name = SequenceConstants.VERBOSE_NAME
+        verbose_name_plural = SequenceConstants.VERBOSE_NAME_PLURAL
         ordering = ["ini"]
 
     objects = SequenceManager()
 
     @property
     def ini_sec(self):
-        return self.__time_to_seconds(self.ini)
+        return self._time_to_seconds(self.ini)
 
     @property
     def end_sec(self):
-        return self.__time_to_seconds(self.end)
+        return self._time_to_seconds(self.end)
 
-    def __time_to_seconds(self, time):
+    def _time_to_seconds(self, time):
         return (time.hour * 60 + time.minute) * 60 + time.second
 
     def __str__(self):
@@ -247,28 +354,51 @@ class Sequence(TimeBase):
 
 class Provider(models.Model):
     piece = models.ForeignKey(Piece, on_delete=models.CASCADE, related_name="providers")
-    active = models.BooleanField(gettext_lazy("Active"), default=False)
-    online = models.BooleanField(gettext_lazy("Online"), default=False)
-    checked_at = models.DateTimeField(gettext_lazy("Checked at"), null=True, blank=True)
+    active = models.BooleanField(
+        verbose_name=ProviderConstants.FIELD_ACTIVE,
+        help_text=ProviderConstants.FIELD_ACTIVE_HELP_TEXT,
+        default=False,
+    )
     ply_embed_id = models.CharField(
-        gettext_lazy("Ply Embed ID"), max_length=500, null=False, blank=False
+        verbose_name=ProviderConstants.FIELD_PLY_EMBED_ID,
+        help_text=ProviderConstants.FIELD_PLY_EMBED_ID_HELP_TEXT,
+        max_length=500,
+        null=False,
+        blank=False,
     )
     plyr_provider = models.CharField(
-        gettext_lazy("Ply Provider"),
+        verbose_name=ProviderConstants.FIELD_PLYR_PROVIDER,
+        help_text=ProviderConstants.FIELD_PLYR_PROVIDER_HELP_TEXT,
         choices=ProviderConstants.PLYR_PROVIDER_CHOICES,
         max_length=50,
         null=False,
         blank=False,
     )
     image = models.ImageField(
-        gettext_lazy("Image"), upload_to="piece_images", null=True
+        verbose_name=ProviderConstants.FIELD_IMAGE,
+        help_text=ProviderConstants.FIELD_IMAGE_HELP_TEXT,
+        upload_to="piece_images",
+        null=True,
     )
-    file = models.FileField(gettext_lazy("File"), upload_to="piece_files", null=True)
+    file = models.FileField(
+        verbose_name=ProviderConstants.FIELD_FILE,
+        help_text=ProviderConstants.FIELD_FILE_HELP_TEXT,
+        upload_to="piece_files",
+        null=True,
+    )
+
+    # to implement:
+    online = models.BooleanField(
+        verbose_name=ProviderConstants.FIELD_ONLINE, default=False
+    )
+    checked_at = models.DateTimeField(
+        verbose_name=ProviderConstants.FIELD_CHECKED_AT, null=True, blank=True
+    )
 
     class Meta:
-        verbose_name = gettext_lazy("video provider")
-        verbose_name_plural = gettext_lazy("video provider")
-        ordering = ["plyr_provider"]
+        verbose_name = ProviderConstants.VERBOSE_NAME
+        verbose_name_plural = ProviderConstants.VERBOSE_NAME_PLURAL
+        ordering = ["active"]
 
     def __str__(self):
         return f"Provider <{self.ply_embed_id}, {self.plyr_provider}>"
@@ -322,42 +452,94 @@ class Provider(models.Model):
 class PieceMeta(TimeBase):
     piece = models.OneToOneField(Piece, on_delete=models.CASCADE, related_name="meta")
     event = models.CharField(
-        gettext_lazy("Event"), max_length=500, null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_EVENT,
+        help_text=PieceMetaConstants.FIELD_EVENT_HELP_TEXT,
+        max_length=500,
+        null=True,
+        blank=True,
     )
-    description = models.TextField(gettext_lazy("Description"), null=True, blank=True)
+    description = models.TextField(
+        verbose_name=PieceMetaConstants.FIELD_DESCRIPTION,
+        help_text=PieceMetaConstants.FIELD_DESCRIPTION_HELP_TEXT,
+        null=True,
+        blank=True,
+    )
     description_date = models.DateField(
-        gettext_lazy("Description Date"), null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_DESCRIPTION_DATE,
+        help_text=PieceMetaConstants.FIELD_DESCRIPTION_DATE_HELP_TEXT,
+        null=True,
+        blank=True,
     )
     location = models.CharField(
-        gettext_lazy("Location"), max_length=500, null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_LOCATION,
+        help_text=PieceMetaConstants.FIELD_LOCATION_HELP_TEXT,
+        max_length=500,
+        null=True,
+        blank=True,
     )
-    duration = models.TimeField(gettext_lazy("Duration"), null=True, blank=True)
+    duration = models.TimeField(
+        verbose_name=PieceMetaConstants.FIELD_DURATION,
+        help_text=PieceMetaConstants.FIELD_DURATION_HELP_TEXT,
+        null=True,
+        blank=True,
+    )
     register_date = models.DateField(
-        gettext_lazy("Register Date"), null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_REGISTER_DATE,
+        help_text=PieceMetaConstants.FIELD_REGISTER_DATE_HELP_TEXT,
+        null=True,
+        blank=True,
     )
     register_author = models.CharField(
-        gettext_lazy("Register Author"), max_length=500, null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_REGISTER_AUTHOR,
+        help_text=PieceMetaConstants.FIELD_REGISTER_AUTHOR_HELP_TEXT,
+        max_length=500,
+        null=True,
+        blank=True,
     )
     productor = models.CharField(
-        gettext_lazy("Productor"), max_length=500, null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_PRODUCTOR,
+        help_text=PieceMetaConstants.FIELD_PRODUCTOR_HELP_TEXT,
+        max_length=500,
+        null=True,
+        blank=True,
     )
-    notes = models.TextField(gettext_lazy("Notes"), null=True, blank=True)
+    notes = models.TextField(
+        verbose_name=PieceMetaConstants.FIELD_NOTES,
+        help_text=PieceMetaConstants.FIELD_NOTES_HELP_TEXT,
+        null=True,
+        blank=True,
+    )
     archivist_notes = models.TextField(
-        gettext_lazy("Archivist Notes"), null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_ARCHIVIST_NOTES,
+        help_text=PieceMetaConstants.FIELD_ARCHIVIST_NOTES_HELP_TEXT,
+        null=True,
+        blank=True,
     )
     documentary_unit = models.CharField(
-        gettext_lazy("Documentary Unit"), max_length=500, null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_DOCUMENTARY_UNIT,
+        help_text=PieceMetaConstants.FIELD_DOCUMENTARY_UNIT_HELP_TEXT,
+        max_length=500,
+        null=True,
+        blank=True,
     )
     lang = models.CharField(
-        gettext_lazy("Language"), max_length=500, null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_LANG,
+        help_text=PieceMetaConstants.FIELD_LANG_HELP_TEXT,
+        max_length=500,
+        null=True,
+        blank=True,
     )
     original_format = models.CharField(
-        gettext_lazy("Original Format"), max_length=500, null=True, blank=True
+        verbose_name=PieceMetaConstants.FIELD_ORIGINAL_FORMAT,
+        help_text=PieceMetaConstants.FIELD_ORIGINAL_FORMAT_HELP_TEXT,
+        max_length=500,
+        null=True,
+        blank=True,
     )
 
     class Meta:
-        verbose_name = gettext_lazy("piece metadata")
-        verbose_name_plural = gettext_lazy("piece metadatas")
+        verbose_name = PieceMetaConstants.VERBOSE_NAME
+        verbose_name_plural = PieceMetaConstants.VERBOSE_NAME_PLURAL
 
     def __str__(self):
         return f"PieceMeta <of {self.piece_id}>"
@@ -365,22 +547,29 @@ class PieceMeta(TimeBase):
 
 class Place(TimeBase):
     name = models.CharField(
-        gettext_lazy("Name"), max_length=500, null=False, blank=False
+        verbose_name=PlaceConstants.FIELD_NAME,
+        help_text=PlaceConstants.FIELD_NAME_HELP_TEXT,
+        max_length=500,
+        null=False,
+        blank=False,
     )
     allowed_pieces = models.ManyToManyField(
         Piece,
         related_name="allowed_places",
-        verbose_name=gettext_lazy("Allowed Places"),
+        verbose_name=PlaceConstants.FIELD_ALLOWED_PIECES,
+        help_text=PlaceConstants.FIELD_ALLOWED_PIECES_HELP_TEXT,
     )
     allowed_collections = models.ManyToManyField(
         Collection,
         related_name="allowed_places",
-        verbose_name=gettext_lazy("Allowed Places"),
+        verbose_name=PlaceConstants.FIELD_ALLOWED_COLLECTIONS,
+        help_text=PlaceConstants.FIELD_ALLOWED_COLLECTIONS_HELP_TEXT,
     )
     allowed_archives = models.ManyToManyField(
         Archive,
         related_name="allowed_places",
-        verbose_name=gettext_lazy("Allowed Places"),
+        verbose_name=PlaceConstants.FIELD_ALLOWED_ARCHIVES,
+        help_text=PlaceConstants.FIELD_ALLOWED_ARCHIVES_HELP_TEXT,
     )
     site = models.ForeignKey(
         Site,
@@ -392,8 +581,8 @@ class Place(TimeBase):
     objects_in_site = InSiteManager()
 
     class Meta:
-        verbose_name = gettext_lazy("place")
-        verbose_name_plural = gettext_lazy("places")
+        verbose_name = PlaceConstants.VERBOSE_NAME
+        verbose_name_plural = PlaceConstants.VERBOSE_NAME_PLURAL
         ordering = ["name"]
 
     def __str__(self):
@@ -403,19 +592,24 @@ class Place(TimeBase):
 class PlaceAddress(TimeBase):
     place = models.ForeignKey(Place, on_delete=models.CASCADE, related_name="addresses")
     ipv4 = models.GenericIPAddressField(
-        gettext_lazy("IP Address"),
+        verbose_name=PlaceAddressConstants.FIELD_IPV4,
+        help_text=PlaceAddressConstants.FIELD_IPV4_HELP_TEXT,
         unique=True,
         null=False,
         blank=False,
         db_index=True,
     )
     description = models.CharField(
-        gettext_lazy("Description"), max_length=500, null=True, blank=True
+        verbose_name=PlaceAddressConstants.FIELD_DESCRIPTION,
+        help_text=PlaceAddressConstants.FIELD_DESCRIPTION_HELP_TEXT,
+        max_length=500,
+        null=True,
+        blank=True,
     )
 
     class Meta:
-        verbose_name = gettext_lazy("address")
-        verbose_name_plural = gettext_lazy("addresses")
+        verbose_name = PlaceAddressConstants.VERBOSE_NAME
+        verbose_name_plural = PlaceAddressConstants.VERBOSE_NAME_PLURAL
         ordering = ["ipv4"]
 
     def __str__(self):

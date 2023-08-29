@@ -19,15 +19,12 @@ KEYWORD_EXTRA_LINKS = get_content_manager_extra_links(view_slug=KEYWORD_SLUG)
 class KeywordListView(FormSetAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
     second_title = ContentManagerConstants.VIEWS_SECOND_TITLE[KEYWORD_SLUG]
+    description = ContentManagerConstants.DESCRIPTION_KEYWORD
     formset_class = KeywordFormSet
     reverse_url = ContentManagerConstants.VIEWS_LIST[KEYWORD_SLUG]
     update_url = ContentManagerConstants.VIEWS_UPDATE[KEYWORD_SLUG]
     delete_url = ContentManagerConstants.VIEWS_DELETE[KEYWORD_SLUG]
     create_url = ContentManagerConstants.VIEWS_CREATE[KEYWORD_SLUG]
-    breadcrumb = [
-        ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_ARCHIVE]["list"],
-        {"name": second_title},
-    ]
     extra_links = KEYWORD_EXTRA_LINKS
 
 
@@ -35,13 +32,13 @@ admin_keyword_list_view = KeywordListView.as_view()
 
 
 _common_bredcrumb = [
-    ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_ARCHIVE]["list"],
     ContentManagerConstants.DICT_LINK[KEYWORD_SLUG]["list"],
 ]
 
 
 class KeywordCreateView(CreateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_KEYWORD
     form_class = KeywordForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[KEYWORD_SLUG]
     breadcrumb = [*_common_bredcrumb, {"name": "New Keyword"}]
@@ -58,6 +55,7 @@ class KeywordBreadcrumMixin:
 
 class KeywordUpdateView(KeywordBreadcrumMixin, UpdateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_KEYWORD
     form_class = KeywordForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[KEYWORD_SLUG]
     delete_url = ContentManagerConstants.VIEWS_DELETE[KEYWORD_SLUG]
@@ -69,6 +67,7 @@ admin_keyword_update_view = KeywordUpdateView.as_view()
 
 class KeywordDeleteView(KeywordBreadcrumMixin, DeleteAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_KEYWORD
     form_class = KeywordForm
     reverse_url = ContentManagerConstants.VIEWS_LIST[KEYWORD_SLUG]
     extra_links = KEYWORD_EXTRA_LINKS

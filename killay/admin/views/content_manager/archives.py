@@ -22,6 +22,7 @@ ARCHIVE_EXTRA_LINKS = get_content_manager_extra_links(view_slug=ARCHIVE_SLUG)
 class ArchiveListView(FormSetAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
     second_title = ContentManagerConstants.VIEWS_SECOND_TITLE[ARCHIVE_SLUG]
+    description = ContentManagerConstants.DESCRIPTION_ARCHIVE
     formset_class = ArchiveFormSet
     reverse_url = ContentManagerConstants.VIEWS_LIST[ARCHIVE_SLUG]
     update_url = ContentManagerConstants.VIEWS_UPDATE[ARCHIVE_SLUG]
@@ -38,6 +39,7 @@ _common_bredcrumb = [ContentManagerConstants.DICT_LINK[ARCHIVE_SLUG]["list"]]
 
 class ArchiveCreateView(CreateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_ARCHIVE
     form_class = ArchiveForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[ARCHIVE_SLUG]
     extra_links = ARCHIVE_EXTRA_LINKS
@@ -49,6 +51,7 @@ admin_archive_create_view = ArchiveCreateView.as_view()
 
 class ArchiveUpdateView(UpdateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_ARCHIVE
     form_class = ArchiveForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[ARCHIVE_SLUG]
     delete_url = ContentManagerConstants.VIEWS_DELETE[ARCHIVE_SLUG]
@@ -75,6 +78,7 @@ admin_archive_update_view = ArchiveUpdateView.as_view()
 
 class ArchiveDeleteView(DeleteAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_ARCHIVE
     form_class = ArchiveForm
     reverse_url = ContentManagerConstants.VIEWS_LIST[ARCHIVE_SLUG]
     delete_url = ContentManagerConstants.VIEWS_UPDATE[ARCHIVE_SLUG]

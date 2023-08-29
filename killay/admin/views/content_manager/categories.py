@@ -23,6 +23,7 @@ CATEGORY_EXTRA_LINKS = get_content_manager_extra_links(view_slug=CATEGORY_SLUG)
 class CategoryListView(FormSetAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
     second_title = ContentManagerConstants.VIEWS_SECOND_TITLE[CATEGORY_SLUG]
+    description = ContentManagerConstants.DESCRIPTION_CATEGORY
     formset_class = CategoryFormSet
     reverse_url = ContentManagerConstants.VIEWS_LIST[CATEGORY_SLUG]
     update_url = ContentManagerConstants.VIEWS_UPDATE[CATEGORY_SLUG]
@@ -30,6 +31,9 @@ class CategoryListView(FormSetAdminView):
     create_url = ContentManagerConstants.VIEWS_CREATE[CATEGORY_SLUG]
     breadcrumb = [
         ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_ARCHIVE]["list"],
+        ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_COLLECTION][
+            "list"
+        ],
         {"name": ContentManagerConstants.VIEWS_SECOND_TITLE[CATEGORY_SLUG]},
     ]
     extra_links = CATEGORY_EXTRA_LINKS
@@ -58,12 +62,14 @@ admin_category_list_view = CategoryListView.as_view()
 
 _common_bredcrumb = [
     ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_ARCHIVE]["list"],
+    ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_COLLECTION]["list"],
     ContentManagerConstants.DICT_LINK[CATEGORY_SLUG]["list"],
 ]
 
 
 class CategoryCreateView(CreateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_CATEGORY
     form_class = CategoryForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[CATEGORY_SLUG]
     breadcrumb = [*_common_bredcrumb, {"name": "New Category"}]
@@ -80,6 +86,7 @@ class CategoryBreadcrumMixin:
 
 class CategoryUpdateView(CategoryBreadcrumMixin, UpdateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_CATEGORY
     form_class = CategoryForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[CATEGORY_SLUG]
     delete_url = ContentManagerConstants.VIEWS_DELETE[CATEGORY_SLUG]
@@ -91,6 +98,7 @@ admin_category_update_view = CategoryUpdateView.as_view()
 
 class CategoryDeleteView(CategoryBreadcrumMixin, DeleteAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_CATEGORY
     form_class = CategoryForm
     reverse_url = ContentManagerConstants.VIEWS_LIST[CATEGORY_SLUG]
     extra_links = CATEGORY_EXTRA_LINKS

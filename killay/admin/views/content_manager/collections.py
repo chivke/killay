@@ -24,6 +24,7 @@ COLLECTION_EXTRA_LINKS = get_content_manager_extra_links(view_slug=COLLECTION_SL
 class CollectionListView(FormSetAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
     second_title = ContentManagerConstants.VIEWS_SECOND_TITLE[COLLECTION_SLUG]
+    description = ContentManagerConstants.DESCRIPTION_COLLECTION
     formset_class = CollectionFormSet
     reverse_url = ContentManagerConstants.VIEWS_LIST[COLLECTION_SLUG]
     update_url = ContentManagerConstants.VIEWS_UPDATE[COLLECTION_SLUG]
@@ -55,6 +56,7 @@ _common_bredcrumb = [
 
 class CollectionCreateView(CreateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_COLLECTION
     form_class = CollectionForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[COLLECTION_SLUG]
     extra_links = COLLECTION_EXTRA_LINKS
@@ -66,8 +68,14 @@ admin_collection_create_view = CollectionCreateView.as_view()
 
 class CollectionBreadcrumMixin:
     def get_breadcrumb(self) -> list:
+        archives = ContentManagerConstants.DICT_LINK[
+            ContentManagerConstants.SLUG_ARCHIVE
+        ]["list"]
+        collections = ContentManagerConstants.DICT_LINK[
+            ContentManagerConstants.SLUG_COLLECTION
+        ]["list"]
         archive = self._get_archive_bread()
-        return [archive, {"name": self.object.name}]
+        return [archives, archive, collections, {"name": self.object.name}]
 
     def _get_archive_bread(self) -> dict:
         archive_view = ContentManagerConstants.VIEWS_UPDATE[
@@ -82,6 +90,7 @@ class CollectionBreadcrumMixin:
 
 class CollectionUpdateView(CollectionBreadcrumMixin, UpdateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_COLLECTION
     form_class = CollectionForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[COLLECTION_SLUG]
     delete_url = ContentManagerConstants.VIEWS_DELETE[COLLECTION_SLUG]
@@ -111,6 +120,7 @@ admin_collection_update_view = CollectionUpdateView.as_view()
 class CollectionDeleteView(CollectionBreadcrumMixin, DeleteAdminView):
     form_class = CollectionForm
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_COLLECTION
     reverse_url = ContentManagerConstants.VIEWS_LIST[COLLECTION_SLUG]
     delete_url = ContentManagerConstants.VIEWS_UPDATE[COLLECTION_SLUG]
     extra_links = COLLECTION_EXTRA_LINKS

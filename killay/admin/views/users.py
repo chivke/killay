@@ -1,66 +1,72 @@
-from django.contrib import messages
-from django.views.generic import CreateView
-from django.urls import reverse, reverse_lazy
-
-from killay.admin.mixins import (
-    AdminDeleteMixin,
-    AdminListMixin,
-    AdminRequiredMixin,
-    AdminUpdateMixin,
+from killay.admin.lib.constants import UserManagerConstants
+from killay.admin.views.mixins import (
+    CreateAdminView,
+    DeleteAdminView,
+    FormSetAdminView,
+    UpdateAdminView,
 )
-from killay.users.models import User
-from killay.users.forms import UserCreationForm, UserUpdateForm
-from django.utils.translation import gettext, gettext_lazy
+from killay.users.forms import UserCreationForm, UserUpdateForm, UserFormSet
 
 
-class UserCreateView(AdminRequiredMixin, CreateView):
-    form_class = UserCreationForm
-    template_name = "admin/generic_form.html"
-    extra_context = {"form_title": gettext_lazy("Create User")}
-
-    def get_success_url(self):
-        messages.info(self.request, gettext(f"User {self.object.username} was created"))
-        return reverse("admin:users_update", kwargs={"slug": self.object.username})
-
-
-user_create_view = UserCreateView.as_view()
-
-
-class UserUpdateView(AdminUpdateMixin):
-    model = User
-    form_class = UserUpdateForm
-    slug_field = "username"
-    read_only_fields = ["date_joined", "last_login"]
-    reverse_success_url = "admin:users_update"
-
-
-user_update_view = UserUpdateView.as_view()
-
-
-class UserListView(AdminListMixin):
-    model = User
-    slug_key = "username"
-    list_title = gettext_lazy("Users Administration")
-    list_fields = ["is_superuser", "username", "email"]
-    action_links = {
-        "create_object": {
-            "name": gettext_lazy("Create"),
-            "link": reverse_lazy("admin:users_create"),
-        }
-    }
-    object_action_links = {
-        "update_object": {"name": gettext_lazy("Update"), "link": "admin:users_update"},
-        "delete_object": {"name": gettext_lazy("Delete"), "link": "admin:users_delete"},
-    }
+class UserListView(FormSetAdminView):
+    main_title = UserManagerConstants.MAIN_TITLE
+    formset_class = UserFormSet
+    reverse_url = UserManagerConstants.PATTERN_LIST
+    update_url = UserManagerConstants.PATTERN_UPDATE
+    delete_url = UserManagerConstants.PATTERN_DELETE
+    create_url = UserManagerConstants.PATTERN_CREATE
+    breadcrumb = []
+    extra_links = []
 
 
 user_list_view = UserListView.as_view()
 
 
-class UserDeleteView(AdminDeleteMixin):
-    model = User
-    slug_field = "username"
-    reverse_success_url = "admin:users_list"
+_common_bredcrumb = [
+    {
+        "name": UserManagerConstants.LIST_LABEL,
+        "view": UserManagerConstants.PATTERN_LIST,
+    },
+]
+
+
+class UserCreateView(CreateAdminView):
+    main_title = UserManagerConstants.MAIN_TITLE
+    form_class = UserCreationForm
+    reverse_url = UserManagerConstants.PATTERN_UPDATE
+    breadcrumb = [*_common_bredcrumb, {"name": "New User"}]
+    extra_links = []
+    name_field = "username"
+
+
+user_create_view = UserCreateView.as_view()
+
+
+class UserUpdateView(UpdateAdminView):
+    main_title = UserManagerConstants.MAIN_TITLE
+    form_class = UserUpdateForm
+    reverse_url = UserManagerConstants.PATTERN_UPDATE
+    delete_url = UserManagerConstants.PATTERN_DELETE
+    extra_links = []
+    name_field = "username"
+
+    def get_breadcrumb(self) -> list:
+        return [*_common_bredcrumb, {"name": self.object.username}]
+
+
+user_update_view = UserUpdateView.as_view()
+
+
+class UserDeleteView(DeleteAdminView):
+    main_title = UserManagerConstants.MAIN_TITLE
+    form_class = UserUpdateForm
+    reverse_url = UserManagerConstants.PATTERN_LIST
+    delete_url = UserManagerConstants.PATTERN_UPDATE
+    extra_links = []
+    name_field = "username"
+
+    def get_breadcrumb(self) -> list:
+        return [*_common_bredcrumb, {"name": self.object.username}]
 
 
 user_delete_view = UserDeleteView.as_view()

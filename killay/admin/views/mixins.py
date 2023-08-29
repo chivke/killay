@@ -22,6 +22,7 @@ class AdminView(AdminRequiredMixin, TemplateResponseMixin, View):
     extra_context = None
     main_title = None
     second_title = None
+    description = None
     breadcrumb = None
     extra_links = None
     extra_data = {}
@@ -36,6 +37,7 @@ class AdminView(AdminRequiredMixin, TemplateResponseMixin, View):
         forms_context = self.get_forms_context(**kwargs)
         context["main_title"] = self.get_main_title()
         context["second_title"] = self.get_second_title()
+        context["description"] = self.get_description()
         context["breadcrumb"] = self.get_breadcrumb()
         context["extra_links"] = self.get_extra_links()
         context["extra_data"] = self.get_extra_data()
@@ -56,6 +58,9 @@ class AdminView(AdminRequiredMixin, TemplateResponseMixin, View):
 
     def get_second_title(self) -> str:
         return self.second_title
+
+    def get_description(self) -> str:
+        return self.description
 
     def get_breadcrumb(self) -> str:
         return self.breadcrumb or []
@@ -79,12 +84,14 @@ class SingleMixin(AdminView, ModelFormMixin):
     reverse_url = None
     delete_url = None
     action_name = None
+    html_fields = None
 
     def get_forms_context(self, **kwargs) -> dict:
         self.object = self.get_object()
         context = super(ModelFormMixin, self).get_context_data(**kwargs)
         context["form_template"] = self.form_template
         context["delete_url"] = self.delete_url
+        context["html_fields"] = self.html_fields
         return context
 
     def get_form(self, *args, **kwargs):
@@ -224,12 +231,15 @@ class FormSetMixin:
             kwargs["formset"] = self.get_formset(queryset=object_list)
         return {**context, **kwargs}
 
-    def get_formset(self, queryset, **kwargs):
+    def get_formset(self, *args, **kwargs):
         formset_class = self.get_formset_class()
-        return formset_class(queryset=queryset, **kwargs)
+        return formset_class(*args, **kwargs)
 
     def get_formset_class(self):
         return self.formset_class
+
+    def get_extra_data(self) -> dict:
+        return {"Total": self.total_of_objects}
 
     def get_filter_options(self):
         return {}
@@ -293,7 +303,7 @@ class FormSetMixin:
 
     def validate_formset(self, request, **kwargs):
         formset = self.get_formset(
-            queryset=self.object_list, data=request.POST, **kwargs
+            request.POST, request.FILES, queryset=self.object_list, **kwargs
         )
         if formset.is_valid():
             return self.formset_valid(formset)

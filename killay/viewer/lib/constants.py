@@ -28,6 +28,33 @@ class ViewerConstants:
         (HOME_PAGE, gettext_lazy("Page")),
         (HOME_DEFAULT, gettext_lazy("Default")),
     ]
+    HELP_TEXT_SCOPE = gettext_lazy(
+        "Determines the scope of the content to be viewed by the public, "
+        "which can be reduced to a single archive or collection"
+    )
+    HELP_TEXT_SCOPE_ARCHIVE = gettext_lazy(
+        "In case of selecting the scope in a single archive, "
+        "the archive must be specified"
+    )
+    HELP_TEXT_SCOPE_COLLECTION = gettext_lazy(
+        "In case of selecting the scope in a single collection, "
+        "the collection must be specified"
+    )
+    HELP_TEXT_HOME = gettext_lazy(
+        "Indicates if the home page will be used by default "
+        "(depending on the scope) or a specific page will be assigned"
+    )
+    HELP_TEXT_HOME_PAGE = gettext_lazy(
+        "In case of selecting the home by page this must be selected"
+    )
+
+    ERROR_SCOPE_ONE_ARCHIVE = gettext_lazy(
+        "The one archive option requires to be specified"
+    )
+    ERROR_SCOPE_ONE_COLLECTION = gettext_lazy(
+        "The one collection option requires to be specified"
+    )
+
     KEY_ARCHIVE = "archive"
     KEY_COLLECTION = "collection"
     KEY_CATEGORY = "category"

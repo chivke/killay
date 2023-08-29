@@ -33,6 +33,7 @@ PIECE_EXTRA_LINKS = get_content_manager_extra_links(view_slug=PIECE_SLUG)
 class PieceListView(FormSetAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
     second_title = ContentManagerConstants.VIEWS_SECOND_TITLE[PIECE_SLUG]
+    description = ContentManagerConstants.DESCRIPTION_PIECE
     formset_class = PieceFormSet
     reverse_url = ContentManagerConstants.VIEWS_LIST[PIECE_SLUG]
     update_url = ContentManagerConstants.VIEWS_UPDATE[PIECE_SLUG]
@@ -42,6 +43,9 @@ class PieceListView(FormSetAdminView):
     image_fields = ["thumb"]
     breadcrumb = [
         ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_ARCHIVE]["list"],
+        ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_COLLECTION][
+            "list"
+        ],
         {"name": ContentManagerConstants.VIEWS_SECOND_TITLE[PIECE_SLUG]},
     ]
     extra_links = PIECE_EXTRA_LINKS
@@ -70,12 +74,14 @@ admin_piece_list_view = PieceListView.as_view()
 
 _common_bredcrumb = [
     ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_ARCHIVE]["list"],
+    ContentManagerConstants.DICT_LINK[ContentManagerConstants.SLUG_COLLECTION]["list"],
     ContentManagerConstants.DICT_LINK[PIECE_SLUG]["list"],
 ]
 
 
 class PieceCreateView(CreateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_PIECE
     form_class = PieceForm
     name_field = "title"
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[PIECE_SLUG]
@@ -144,6 +150,7 @@ class PieceBreadcrumMixin:
 class PieceUpdateView(PieceBreadcrumMixin, UpdateAdminView):
     form_class = PieceForm
     name_field = "title"
+    description = ContentManagerConstants.DESCRIPTION_PIECE_GENERAL
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[PIECE_SLUG]
     delete_url = ContentManagerConstants.VIEWS_DELETE[PIECE_SLUG]
     extra_links = PIECE_EXTRA_LINKS
@@ -174,6 +181,7 @@ class PieceDeleteView(PieceBreadcrumMixin, DeleteAdminView):
     form_class = PieceForm
     name_field = "title"
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_PIECE
     reverse_url = ContentManagerConstants.VIEWS_LIST[PIECE_SLUG]
     delete_url = ContentManagerConstants.VIEWS_UPDATE[PIECE_SLUG]
     extra_links = PIECE_EXTRA_LINKS
@@ -190,6 +198,7 @@ admin_piece_delete_view = PieceDeleteView.as_view()
 
 
 class PieceMetaUpdateView(PieceBreadcrumMixin, UpdateAdminView):
+    description = ContentManagerConstants.DESCRIPTION_PIECE_META
     parent_model = Piece
     parent_manager_name = "objects_in_site"
     form_class = PieceMetaForm
@@ -237,6 +246,7 @@ admin_piece_meta_update_view = PieceMetaUpdateView.as_view()
 
 
 class PieceSequenceListView(PieceBreadcrumMixin, InlineFormSetAdminView):
+    description = ContentManagerConstants.DESCRIPTION_PIECE_SEQUENCES
     parent_model = Piece
     related_field = "piece_id"
     formset_class = SequenceFormSet
@@ -276,6 +286,7 @@ admin_piece_sequence_list_view = PieceSequenceListView.as_view()
 
 
 class PieceSequenceCreateView(PieceBreadcrumMixin, CreateAdminView):
+    description = ContentManagerConstants.DESCRIPTION_PIECE_SEQUENCES
     main_title = ContentManagerConstants.MAIN_TITLE
     form_class = SequenceForm
     name_field = "title"
@@ -323,6 +334,7 @@ admin_piece_sequence_create_view = PieceSequenceCreateView.as_view()
 
 
 class PieceProviderListView(PieceBreadcrumMixin, InlineFormSetAdminView):
+    description = ContentManagerConstants.DESCRIPTION_PIECE_PROVIDERS
     parent_model = Piece
     related_field = "piece_id"
     reverse_url = "admin:piece_provider_list"
@@ -368,10 +380,15 @@ admin_piece_provider_list_view = PieceProviderListView.as_view()
 
 
 class PieceProviderCreateView(PieceBreadcrumMixin, CreateAdminView):
+    description = ContentManagerConstants.DESCRIPTION_PIECE_PROVIDERS
     main_title = ContentManagerConstants.MAIN_TITLE
     name_field = "piece"
     reverse_url = "admin:piece_provider_list"
     extra_links = PIECE_EXTRA_LINKS
+
+    @property
+    def form_class(self):
+        return self.get_form_class()
 
     def get_slug_value(self):
         return self.object.piece_id

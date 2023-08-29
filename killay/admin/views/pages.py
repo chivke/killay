@@ -1,71 +1,74 @@
-from django.contrib import messages
-from django.views.generic import CreateView
-from django.urls import reverse, reverse_lazy
-
-from killay.admin.mixins import (
-    AdminDeleteMixin,
-    AdminListMixin,
-    AdminRequiredMixin,
-    AdminUpdateMixin,
+from killay.admin.forms import PageForm, PageFormSet
+from killay.admin.lib.constants import PageManagerConstants
+from killay.admin.views.mixins import (
+    CreateAdminView,
+    DeleteAdminView,
+    FormSetAdminView,
+    UpdateAdminView,
 )
-from killay.pages.models import Page
-from killay.pages.forms import PageForm
-from django.utils.translation import gettext, gettext_lazy
 
 
-class PageCreateView(AdminRequiredMixin, CreateView):
-    form_class = PageForm
-    template_name = "admin/generic_form.html"
-    extra_context = {"title": gettext_lazy("Create Page")}
-    html_fields = ["body"]
-
-    def get_success_url(self):
-        messages.info(self.request, gettext(f'Page "{self.object.title}" was created'))
-        return reverse("admin:pages_update", kwargs={"slug": self.object.slug})
-
-
-page_create_view = PageCreateView.as_view()
-
-
-class PageUpdateView(AdminUpdateMixin):
-    model = Page
-    form_class = PageForm
-    read_only_fields = ["created_at", "updated_at"]
-    reverse_success_url = "admin:pages_update"
-
-
-page_update_view = PageUpdateView.as_view()
-
-
-class PageListView(AdminListMixin):
-    model = Page
-    list_fields = [
-        "title",
-        "slug",
-        "kind",
-        "is_visible",
-        "is_visible_in_navbar",
-        "is_visible_in_footer",
-    ]
-    list_title = gettext_lazy("Pages Administration")
-    action_links = {
-        "create_object": {
-            "name": gettext_lazy("Create"),
-            "link": reverse_lazy("admin:pages_create"),
-        }
-    }
-    object_action_links = {
-        "update_object": {"name": gettext_lazy("Update"), "link": "admin:pages_update"},
-        "delete_object": {"name": gettext_lazy("Delete"), "link": "admin:pages_delete"},
-    }
+class PageListView(FormSetAdminView):
+    main_title = PageManagerConstants.MAIN_TITLE
+    formset_class = PageFormSet
+    reverse_url = PageManagerConstants.PATTERN_LIST
+    update_url = PageManagerConstants.PATTERN_UPDATE
+    delete_url = PageManagerConstants.PATTERN_DELETE
+    create_url = PageManagerConstants.PATTERN_CREATE
+    breadcrumb = []
+    extra_links = []
 
 
 page_list_view = PageListView.as_view()
 
 
-class PageDeleteView(AdminDeleteMixin):
-    model = Page
-    reverse_success_url = "admin:pages_list"
+_common_bredcrumb = [
+    {
+        "name": PageManagerConstants.PAGE_LIST_LABEL,
+        "view": PageManagerConstants.PATTERN_LIST,
+    },
+]
+
+
+class PageCreateView(CreateAdminView):
+    main_title = PageManagerConstants.MAIN_TITLE
+    form_class = PageForm
+    reverse_url = PageManagerConstants.PATTERN_UPDATE
+    breadcrumb = [*_common_bredcrumb, {"name": "New Page"}]
+    extra_links = []
+    name_field = "title"
+    html_fields = ["body"]
+
+
+page_create_view = PageCreateView.as_view()
+
+
+class PageUpdateView(UpdateAdminView):
+    main_title = PageManagerConstants.MAIN_TITLE
+    form_class = PageForm
+    reverse_url = PageManagerConstants.PATTERN_UPDATE
+    delete_url = PageManagerConstants.PATTERN_DELETE
+    extra_links = []
+    name_field = "title"
+    html_fields = ["body"]
+
+    def get_breadcrumb(self) -> list:
+        return [*_common_bredcrumb, {"name": self.object.title}]
+
+
+page_update_view = PageUpdateView.as_view()
+
+
+class PageDeleteView(DeleteAdminView):
+    main_title = PageManagerConstants.MAIN_TITLE
+    form_class = PageForm
+    reverse_url = PageManagerConstants.PATTERN_LIST
+    delete_url = PageManagerConstants.PATTERN_UPDATE
+    extra_links = []
+    name_field = "title"
+
+    def get_breadcrumb(self) -> list:
+        return [*_common_bredcrumb, {"name": self.object.title}]
 
 
 page_delete_view = PageDeleteView.as_view()

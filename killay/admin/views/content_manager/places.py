@@ -26,6 +26,7 @@ PLACE_EXTRA_LINKS = get_content_manager_extra_links(view_slug=PLACE_SLUG)
 
 class PlaceListView(FormSetAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_PLACE
     second_title = ContentManagerConstants.VIEWS_SECOND_TITLE[PLACE_SLUG]
     formset_class = PlaceFormSet
     reverse_url = ContentManagerConstants.VIEWS_LIST[PLACE_SLUG]
@@ -45,6 +46,7 @@ admin_place_list_view = PlaceListView.as_view()
 
 class PlaceCreateView(CreateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_PLACE
     form_class = PlaceForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[PLACE_SLUG]
     breadcrumb = [*_common_bredcrumb, {"name": "New Place"}]
@@ -55,6 +57,8 @@ admin_place_create_view = PlaceCreateView.as_view()
 
 
 class PlaceUpdateView(UpdateAdminView):
+    main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_PLACE
     form_class = PlaceForm
     reverse_url = ContentManagerConstants.VIEWS_UPDATE[PLACE_SLUG]
     delete_url = ContentManagerConstants.VIEWS_DELETE[PLACE_SLUG]
@@ -82,8 +86,9 @@ admin_place_update_view = PlaceUpdateView.as_view()
 
 
 class PlaceDeleteView(DeleteAdminView):
-    form_class = PlaceForm
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_PLACE
+    form_class = PlaceForm
     reverse_url = ContentManagerConstants.VIEWS_LIST[PLACE_SLUG]
     delete_url = ContentManagerConstants.VIEWS_UPDATE[PLACE_SLUG]
     extra_links = PLACE_EXTRA_LINKS
@@ -119,6 +124,8 @@ admin_place_delete_view = PlaceDeleteView.as_view()
 
 
 class PlaceAddressListView(InlineFormSetAdminView):
+    main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_PLACE_ADDRESSES
     parent_model = Place
     related_field = "place_id"
     formset_class = PlaceAddressFormSet
@@ -163,6 +170,7 @@ admin_place_address_list_view = PlaceAddressListView.as_view()
 
 class PlaceAddressCreateView(CreateAdminView):
     main_title = ContentManagerConstants.MAIN_TITLE
+    description = ContentManagerConstants.DESCRIPTION_PLACE_ADDRESSES
     form_class = PlaceAddressForm
     name_field = "ipv4"
     reverse_url = "admin:place_address_list"

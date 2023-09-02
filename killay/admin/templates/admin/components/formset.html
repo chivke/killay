@@ -1,15 +1,5 @@
 {% load i18n %}
 
-<div class="inline fields">
-  <div class="field">
-    <label>
-      {% trans "Total" %}{% if query_search %}{% trans " for the search" %}{% endif %}:
-    </label>
-    {{total_of_objects }}
-  </div>
-</div>
-<div class="ui divider"></div>
-
 <div class="formset-list-actions segment">
   <form
     id="searchform"
@@ -78,7 +68,7 @@
             {% if forloop.first %}
               {% for field in form.visible_fields %}
                 {% if field.name not in compact_fields %}
-                  <th>{{field.label}}</th>
+                  <th title="{{field.help_text}}">{{field.label}}</th>
                 {% endif %}
               {% endfor %}
               {% if form.instance.pk and update_url or delete_url%}
@@ -97,7 +87,7 @@
             <td class="field">{{forloop.counter}}</td>
             {% for field in form.visible_fields %}
               {% if field.name not in compact_fields %}
-                <td class="field {% if field.errors %}error{% endif %}" data-label="{{field.help_text}}">
+                <td class="field {% if field.errors %}error{% endif %}" title="{{field.help_text}}">
                   {% if field.field.widget.input_type == "checkbox"%}
                     <div class="ui slider checkbox"> {{field}} </div>
                   {% elif field.name in image_fields %}
@@ -139,7 +129,9 @@
               <td colspan="100%">
                 {% for field in form.visible_fields %}
                   {% if field.name in compact_fields %}
-                    {{ field }}
+                    <div title="{{field.help_text}}">
+                      {{ field }}
+                    </div>
                   {% endif %}
                 {% endfor %}
               </td>

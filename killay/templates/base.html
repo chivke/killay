@@ -19,6 +19,9 @@
     {% endblock extra_css %}
   </head>
   <body>
+    {% if request.user.is_superuser %}
+      {% include "admin/navbar.html" %}
+    {% endif %}
     <div class="ui inverted segment" id="site-navbar">
       {% include 'components/navbar-mobile.html' %}
       {% include 'components/navbar.html' %}

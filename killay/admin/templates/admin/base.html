@@ -3,16 +3,22 @@
 {% load i18n %}
 
 {% block title %}
-  {{formset_title}}
+  {{main_title}}
+  {% if second_title %}
+    - {{second_title}}
+  {% endif %}
 {% endblock title %}
 
 {% block sidebar %}
-  {% include "admin/components/sidebar.html" %}
+  {% include "admin/sidebar.html" %}
 {% endblock sidebar %}
 
 {% block extra_css %}
   <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
   <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+  {% if form.media %}
+    {{form.media}}
+  {% endif %}
 {% endblock extra_css %}
 
 {% block content %}
@@ -22,33 +28,25 @@
     {% else %}
       <h1 class="ui dividing header">{{second_title}}</h1>
     {% endif %}
-    <div class="ui grid">
 
     {% if extra_links %}
-      <div class="rigth floated wide column">
-        <div class="ui breadcrumb">
-          {% for link in extra_links %}
-            {% if link.view or link.link %}
-              <a
-                class="section"
-                href="{% if link.link %}{{link.link}}{% else %}{% url link.view %}{% endif %}"
-              >{{link.name}}</a>
-            {% else %}
-              <div class="section">{{link.name}}</div>
-            {% endif %}
-            {% if not forloop.last %}
-              <i class="right icon divider">|</i>
-            {% endif %}
-            {% empty %}
-          {% endfor %}
-        </div>
+      <div class="ui breadcrumb">
+        {% for link in extra_links %}
+          {% if link.view or link.link %}
+            <a
+              class="section"
+              href="{% if link.link %}{{link.link}}{% else %}{% url link.view %}{% endif %}"
+            >{{link.name}}</a>
+          {% else %}
+            <div class="section">{{link.name}}</div>
+          {% endif %}
+          {% if not forloop.last %}
+            <i class="right icon divider">|</i>
+          {% endif %}
+          {% empty %}
+        {% endfor %}
       </div>
-    {% endif %}
-
-    </div>
-    <div class="ui divider"></div>
-    {% if main_title and second_title %}
-        <h2 class="ui dividing header">{{second_title}}</h2>
+      <div class="ui divider"></div>
     {% endif %}
 
     {% if breadcrumb %}
@@ -68,6 +66,14 @@
           {% empty %}
         {% endfor %}
       </div>
+      <div class="ui divider"></div>
+    {% endif %}
+
+    {% if main_title and second_title %}
+      <h2 class="ui dividing header">{{second_title}}</h2>
+    {% endif %}
+    {% if description %}
+      <div class="text description">{{description}}</div>
       <div class="ui divider"></div>
     {% endif %}
 
@@ -115,6 +121,7 @@
 {% endblock content %}
 
 {% block extra_js %}
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
 <script type="text/javascript">
   $('.ui.checkbox')
     .checkbox()
@@ -122,8 +129,5 @@
   $('.ui.dropdown')
     .dropdown()
   ;
-  {% for field in html_fields %}
-    var html_input_{{field}} = new Quill("#id_{{field}}", {theme: 'snow'});
-  {% endfor %}
 </script>
 {% endblock extra_js %}

@@ -20,7 +20,7 @@
   </head>
   <body>
     {% if request.user.is_superuser %}
-      {% show_admin_navbar %}
+      {% include "admin/navbar.html" %}
     {% endif %}
 
     {% include 'viewer/components/navbar/main.html' %}

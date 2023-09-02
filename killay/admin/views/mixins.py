@@ -303,7 +303,7 @@ class FormSetMixin:
 
     def validate_formset(self, request, **kwargs):
         formset = self.get_formset(
-            request.POST, request.FILES, queryset=self.object_list, **kwargs
+            data=request.POST, files=request.FILES, queryset=self.object_list, **kwargs
         )
         if formset.is_valid():
             return self.formset_valid(formset)

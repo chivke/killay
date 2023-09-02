@@ -1,7 +1,10 @@
-import pytest
+from unittest import mock
 
 from django.test import RequestFactory, Client
 from django.urls import resolve
+
+import pytest
+
 
 from killay.videos.models import (
     Video,
@@ -51,6 +54,7 @@ class TestVideoCreateView:
         video_collection: VideoCollection,
         rf_msg: RequestFactory,
     ):
+        mock.patch("killay.videos.models.requests")
         data = {"code": "fake", "title": "fake", "collection": video_collection.id}
         data_formset = {**PROVIDERS_FORMSET_DATA}
         data_formset["providers-0-plyr_provider"] = "vimeo"
@@ -101,6 +105,7 @@ class TestVideoUpdateView:
         video_categorization: VideoCategorization,
         rf_msg: RequestFactory,
     ):
+        mock.patch("killay.videos.models.requests")
         video = video_categorization.video
         collection = video_categorization.collection
         url = f"/admin/videos/c/{collection.slug}/{video.code}/~update/"

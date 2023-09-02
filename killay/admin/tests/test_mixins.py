@@ -10,7 +10,6 @@ from killay.admin.mixins import (
     AdminUpdateMixin,
 )
 from killay.admin.models import SiteConfiguration
-from killay.pages.forms import PageForm
 
 pytestmark = pytest.mark.django_db
 

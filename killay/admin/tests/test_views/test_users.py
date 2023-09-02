@@ -48,6 +48,7 @@ class TestUserUpdateView:
     def test_update(self, admin_user: User, client: Client):
         new_email = "fake@localhost"
         data = {
+            "username": admin_user.username,
             "email": new_email,
         }
         client.force_login(admin_user)

@@ -10,9 +10,10 @@ from killay.admin.middleware import SiteConfigurationMiddleware
 pytestmark = pytest.mark.django_db
 
 
-def test_site_context(rf: RequestFactory):
+def test_site_context(user, rf: RequestFactory):
     get_response = mock.Mock()
     request = rf.get("/")
+    request.user = user
     middleware = SiteConfigurationMiddleware(get_response)
     middleware(request)
     site = site_context(request)

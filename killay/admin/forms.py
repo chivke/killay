@@ -2,9 +2,22 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
 
+from killay.admin.lib.constants import LogoConstants
 from killay.admin.models import Logo, SiteConfiguration, SocialMedia
 from killay.admin.utils import ImageFileInput
-from killay.archives.lib.constants import PieceConstants, ProviderConstants
+from killay.archives.lib.constants import (
+    ArchiveConstants,
+    CategoryConstants,
+    CollectionConstants,
+    KeywordConstants,
+    PersonConstants,
+    PieceConstants,
+    PieceMetaConstants,
+    PlaceConstants,
+    PlaceAddressConstants,
+    ProviderConstants,
+    SequenceConstants,
+)
 from killay.archives.models import (
     Archive,
     Category,
@@ -18,6 +31,7 @@ from killay.archives.models import (
     Provider,
     Sequence,
 )
+from killay.pages.lib.constants import PageConstants
 from killay.pages.models import Page
 from killay.viewer.lib.constants import ViewerConstants
 from killay.viewer.models import Viewer
@@ -31,11 +45,7 @@ class SiteConfigurationForm(forms.ModelForm):
             "domain",
             "is_published",
             "footer_is_visible",
-            "collection_site",
         ]
-
-    name = forms.CharField(required=True)
-    domain = forms.CharField(required=True)
 
 
 class ViewerForm(forms.ModelForm):
@@ -53,27 +63,49 @@ class ViewerForm(forms.ModelForm):
         choices=ViewerConstants.SCOPE_CHOICES,
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
         required=True,
+        help_text=ViewerConstants.HELP_TEXT_SCOPE,
     )
     scope_archive = forms.ModelChoiceField(
         queryset=Archive.objects_in_site.all(),
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
         required=False,
+        help_text=ViewerConstants.HELP_TEXT_SCOPE_ARCHIVE,
     )
     scope_collection = forms.ModelChoiceField(
         queryset=Collection.objects_in_site.all(),
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
         required=False,
+        help_text=ViewerConstants.HELP_TEXT_SCOPE_COLLECTION,
     )
     home = forms.ChoiceField(
         choices=ViewerConstants.HOME_CHOICES,
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        help_text=ViewerConstants.HELP_TEXT_HOME,
         required=True,
     )
     home_page = forms.ModelChoiceField(
         queryset=Page.objects_in_site.all(),
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        help_text=ViewerConstants.HELP_TEXT_HOME_PAGE,
         required=False,
     )
+
+    def clean(self, *args, **kwargs):
+        cleaned_data = super().clean(*args, **kwargs)
+        scope = cleaned_data.get("scope")
+        if scope == ViewerConstants.SCOPE_ONE_ARCHIVE and not cleaned_data.get(
+            "scope_archive"
+        ):
+            raise ValidationError(
+                {"scope_archive": ViewerConstants.ERROR_SCOPE_ONE_ARCHIVE}
+            )
+
+        if scope == ViewerConstants.SCOPE_ONE_COLLECTION and not cleaned_data.get(
+            "scope_collection"
+        ):
+            raise ValidationError(
+                {"scope_collection": ViewerConstants.ERROR_SCOPE_ONE_COLLECTION}
+            )
 
 
 class SocialMediaForm(forms.ModelForm):
@@ -94,7 +126,10 @@ class LogoForm(forms.ModelForm):
         fields = ["configuration", "name", "image", "is_visible", "position"]
         widgets = {"configuration": forms.HiddenInput()}
 
-    image = forms.ImageField(widget=ImageFileInput())
+    image = forms.ImageField(
+        widget=ImageFileInput(),
+        help_text=LogoConstants.FIELD_IMAGE_HELP_TEXT,
+    )
 
 
 LogoFormSet = forms.modelformset_factory(Logo, form=LogoForm, extra=0, can_delete=True)
@@ -113,8 +148,14 @@ class ArchiveForm(forms.ModelForm):
             "position",
         ]
 
-    description = forms.CharField(required=False, widget=forms.Textarea())
+    description = forms.CharField(
+        help_text=ArchiveConstants.FIELD_DESCRIPTION_HELP_TEXT,
+        required=False,
+        widget=forms.Textarea(),
+    )
     places = forms.ModelMultipleChoiceField(
+        label=ArchiveConstants.FIELD_PLACES,
+        help_text=ArchiveConstants.FIELD_PLACES_HELP_TEXT,
         queryset=Place.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
         required=False,
@@ -126,9 +167,16 @@ class ArchiveListForm(forms.ModelForm):
         model = Archive
         fields = ["name", "slug", "description", "position"]
 
-    name = forms.CharField(disabled=True)
-    slug = forms.CharField(disabled=True)
-    description = forms.CharField(disabled=True)
+    name = forms.CharField(
+        help_text=ArchiveConstants.FIELD_NAME_HELP_TEXT,
+        disabled=True,
+    )
+    slug = forms.CharField(
+        help_text=ArchiveConstants.FIELD_SLUG_HELP_TEXT, disabled=True
+    )
+    description = forms.CharField(
+        help_text=ArchiveConstants.FIELD_DESCRIPTION_HELP_TEXT, disabled=True
+    )
 
 
 ArchiveFormSet = forms.modelformset_factory(
@@ -151,14 +199,34 @@ class CollectionForm(forms.ModelForm):
         ]
 
     archive = forms.ModelChoiceField(
+        help_text=CollectionConstants.FIELD_ARCHIVE_HELP_TEXT,
         queryset=Archive.objects_in_site.all(),
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
-        required=False,
+        required=True,
     )
     places = forms.ModelMultipleChoiceField(
+        help_text=CollectionConstants.FIELD_PLACES_HELP_TEXT,
         queryset=Place.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
         required=False,
+    )
+    name = forms.CharField(
+        label=CollectionConstants.FIELD_NAME,
+        help_text=CollectionConstants.FIELD_NAME_HELP_TEXT,
+    )
+    slug = forms.SlugField(
+        label=CollectionConstants.FIELD_SLUG,
+        help_text=CollectionConstants.FIELD_SLUG_HELP_TEXT,
+    )
+    description = forms.CharField(
+        label=CollectionConstants.FIELD_DESCRIPTION,
+        help_text=CollectionConstants.FIELD_DESCRIPTION_HELP_TEXT,
+        widget=forms.Textarea(),
+        required=False,
+    )
+    position = forms.IntegerField(
+        label=CollectionConstants.FIELD_POSITION,
+        help_text=CollectionConstants.FIELD_POSITION_HELP_TEXT,
     )
 
 
@@ -167,12 +235,21 @@ class CollectionListForm(forms.ModelForm):
         model = Collection
         fields = ["name", "slug", "position", "archive"]
 
-    name = forms.CharField(disabled=True)
-    slug = forms.CharField(disabled=True)
+    name = forms.CharField(
+        help_text=CollectionConstants.FIELD_NAME_HELP_TEXT, disabled=True
+    )
+    slug = forms.CharField(
+        help_text=CollectionConstants.FIELD_SLUG_HELP_TEXT, disabled=True
+    )
     archive = forms.ModelChoiceField(
         queryset=Archive.objects_in_site.all(),
+        help_text=CollectionConstants.FIELD_ARCHIVE_HELP_TEXT,
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
         required=False,
+    )
+    position = forms.IntegerField(
+        label=CollectionConstants.FIELD_POSITION,
+        help_text=CollectionConstants.FIELD_POSITION_HELP_TEXT,
     )
 
 
@@ -186,21 +263,55 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ["name", "slug", "collection", "description", "position"]
 
-    description = forms.CharField(required=False, widget=forms.Textarea())
+    name = forms.CharField(
+        label=CategoryConstants.FIELD_NAME,
+        help_text=CategoryConstants.FIELD_NAME_HELP_TEXT,
+    )
+    slug = forms.SlugField(
+        label=CategoryConstants.FIELD_SLUG,
+        help_text=CategoryConstants.FIELD_SLUG_HELP_TEXT,
+    )
+    description = forms.CharField(
+        label=CategoryConstants.FIELD_DESCRIPTION,
+        help_text=CategoryConstants.FIELD_DESCRIPTION_HELP_TEXT,
+        widget=forms.Textarea(),
+        required=False,
+    )
+    position = forms.IntegerField(
+        label=CategoryConstants.FIELD_POSITION,
+        help_text=CategoryConstants.FIELD_POSITION_HELP_TEXT,
+    )
     collection = forms.ModelChoiceField(
+        label=CategoryConstants.FIELD_COLLECTION,
+        help_text=CategoryConstants.FIELD_COLLECTION_HELP_TEXT,
         queryset=Collection.objects_in_site.all(),
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
-        required=False,
+        required=True,
     )
 
 
 class CategoryListForm(forms.ModelForm):
     class Meta:
         model = Category
-        fields = ["name", "slug", "position"]
+        fields = ["name", "slug", "position", "collection"]
 
-    name = forms.CharField(disabled=True)
-    slug = forms.CharField(disabled=True)
+    name = forms.CharField(
+        help_text=CategoryConstants.FIELD_NAME_HELP_TEXT, disabled=True
+    )
+    slug = forms.CharField(
+        help_text=CategoryConstants.FIELD_SLUG_HELP_TEXT, disabled=True
+    )
+    position = forms.IntegerField(
+        label=CategoryConstants.FIELD_POSITION,
+        help_text=CategoryConstants.FIELD_POSITION_HELP_TEXT,
+    )
+    collection = forms.ModelChoiceField(
+        label=CategoryConstants.FIELD_COLLECTION,
+        help_text=CategoryConstants.FIELD_COLLECTION_HELP_TEXT,
+        queryset=Collection.objects_in_site.all(),
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=True,
+    )
 
 
 CategoryFormSet = forms.modelformset_factory(
@@ -213,7 +324,24 @@ class PersonForm(forms.ModelForm):
         model = Person
         fields = ["name", "slug", "description", "position"]
 
-    description = forms.CharField(required=False, widget=forms.Textarea())
+    name = forms.CharField(
+        label=PersonConstants.FIELD_NAME,
+        help_text=PersonConstants.FIELD_NAME_HELP_TEXT,
+    )
+    slug = forms.SlugField(
+        label=PersonConstants.FIELD_SLUG,
+        help_text=PersonConstants.FIELD_SLUG_HELP_TEXT,
+    )
+    description = forms.CharField(
+        label=PersonConstants.FIELD_DESCRIPTION,
+        help_text=PersonConstants.FIELD_DESCRIPTION_HELP_TEXT,
+        widget=forms.Textarea(),
+        required=False,
+    )
+    position = forms.IntegerField(
+        label=PersonConstants.FIELD_POSITION,
+        help_text=PersonConstants.FIELD_POSITION_HELP_TEXT,
+    )
 
 
 class PersonListForm(forms.ModelForm):
@@ -221,8 +349,16 @@ class PersonListForm(forms.ModelForm):
         model = Person
         fields = ["name", "slug", "position"]
 
-    name = forms.CharField(disabled=True)
-    slug = forms.CharField(disabled=True)
+    name = forms.CharField(
+        help_text=PersonConstants.FIELD_NAME_HELP_TEXT, disabled=True
+    )
+    slug = forms.CharField(
+        help_text=PersonConstants.FIELD_SLUG_HELP_TEXT, disabled=True
+    )
+    position = forms.IntegerField(
+        label=PersonConstants.FIELD_POSITION,
+        help_text=PersonConstants.FIELD_POSITION_HELP_TEXT,
+    )
 
 
 PersonFormSet = forms.modelformset_factory(
@@ -235,7 +371,24 @@ class KeywordForm(forms.ModelForm):
         model = Keyword
         fields = ["name", "slug", "description", "position"]
 
-    description = forms.CharField(required=False, widget=forms.Textarea())
+    name = forms.CharField(
+        label=KeywordConstants.FIELD_NAME,
+        help_text=KeywordConstants.FIELD_NAME_HELP_TEXT,
+    )
+    slug = forms.SlugField(
+        label=KeywordConstants.FIELD_SLUG,
+        help_text=KeywordConstants.FIELD_SLUG_HELP_TEXT,
+    )
+    description = forms.CharField(
+        label=KeywordConstants.FIELD_DESCRIPTION,
+        help_text=KeywordConstants.FIELD_DESCRIPTION_HELP_TEXT,
+        widget=forms.Textarea(),
+        required=False,
+    )
+    position = forms.IntegerField(
+        label=KeywordConstants.FIELD_POSITION,
+        help_text=KeywordConstants.FIELD_POSITION_HELP_TEXT,
+    )
 
 
 class KeywordListForm(forms.ModelForm):
@@ -243,8 +396,16 @@ class KeywordListForm(forms.ModelForm):
         model = Keyword
         fields = ["name", "slug", "position"]
 
-    name = forms.CharField(disabled=True)
-    slug = forms.CharField(disabled=True)
+    name = forms.CharField(
+        help_text=KeywordConstants.FIELD_NAME_HELP_TEXT, disabled=True
+    )
+    slug = forms.CharField(
+        help_text=KeywordConstants.FIELD_SLUG_HELP_TEXT, disabled=True
+    )
+    position = forms.IntegerField(
+        label=KeywordConstants.FIELD_POSITION,
+        help_text=KeywordConstants.FIELD_POSITION_HELP_TEXT,
+    )
 
 
 KeywordFormSet = forms.modelformset_factory(
@@ -256,46 +417,63 @@ class PieceForm(forms.ModelForm):
     class Meta:
         model = Piece
         fields = [
+            "code",
             "collection",
+            "kind",
+            "title",
+            "thumb",
             "is_published",
             "is_restricted",
             "places",
-            "code",
-            "title",
-            "kind",
-            "thumb",
             "categories",
             "people",
             "keywords",
         ]
 
     places = forms.ModelMultipleChoiceField(
+        label=PieceConstants.FIELD_PLACES,
+        help_text=PieceConstants.FIELD_PLACES_HELP_TEXT,
         queryset=Place.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
         required=False,
     )
-    thumb = forms.ImageField(widget=ImageFileInput())
+    thumb = forms.ImageField(
+        label=PieceConstants.FIELD_THUMB,
+        help_text=PieceConstants.FIELD_THUMB_HELP_TEXT,
+        widget=ImageFileInput(),
+        required=False,
+    )
     kind = forms.ChoiceField(
+        label=PieceConstants.FIELD_KIND,
+        help_text=PieceConstants.FIELD_KIND_HELP_TEXT,
         choices=PieceConstants.KIND_CHOICES,
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
         required=True,
     )
     collection = forms.ModelChoiceField(
+        label=PieceConstants.FIELD_COLLECTION,
+        help_text=PieceConstants.FIELD_COLLECTION_HELP_TEXT,
         queryset=Collection.objects_in_site.all(),
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
         required=True,
     )
     categories = forms.ModelMultipleChoiceField(
+        label=PieceConstants.FIELD_CATEGORIES,
+        help_text=PieceConstants.FIELD_CATEGORIES_HELP_TEXT,
         queryset=Category.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
         required=False,
     )
     people = forms.ModelMultipleChoiceField(
+        label=PieceConstants.FIELD_PEOPLE,
+        help_text=PieceConstants.FIELD_PEOPLE_HELP_TEXT,
         queryset=Person.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
         required=False,
     )
     keywords = forms.ModelMultipleChoiceField(
+        label=PieceConstants.FIELD_KEYWORDS,
+        help_text=PieceConstants.FIELD_KEYWORDS_HELP_TEXT,
         queryset=Keyword.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
         required=False,
@@ -313,10 +491,27 @@ class PieceListForm(forms.ModelForm):
             "is_published",
         ]
 
-    code = forms.CharField(disabled=True)
-    kind = forms.CharField(disabled=True)
-    title = forms.CharField(disabled=True)
-    thumb = forms.ImageField(widget=ImageFileInput(), disabled=True)
+    code = forms.CharField(
+        label=PieceConstants.FIELD_CODE,
+        help_text=PieceConstants.FIELD_CODE_HELP_TEXT,
+        disabled=True,
+    )
+    kind = forms.CharField(
+        label=PieceConstants.FIELD_KIND,
+        help_text=PieceConstants.FIELD_KIND_HELP_TEXT,
+        disabled=True,
+    )
+    title = forms.CharField(
+        label=PieceConstants.FIELD_TITLE,
+        help_text=PieceConstants.FIELD_TITLE_HELP_TEXT,
+        disabled=True,
+    )
+    thumb = forms.ImageField(
+        label=PieceConstants.FIELD_THUMB,
+        help_text=PieceConstants.FIELD_THUMB_HELP_TEXT,
+        widget=ImageFileInput(),
+        disabled=True,
+    )
 
 
 PieceFormSet = forms.modelformset_factory(
@@ -344,7 +539,9 @@ class PieceMetaForm(forms.ModelForm):
         ]
 
     register_date = forms.DateField(
-        widget=forms.TextInput(attrs={"type": "date"}), required=False
+        widget=forms.TextInput(attrs={"type": "date"}),
+        help_text=PieceMetaConstants.FIELD_REGISTER_DATE_HELP_TEXT,
+        required=False,
     )
 
 
@@ -354,7 +551,11 @@ class SequenceForm(forms.ModelForm):
         fields = ["title", "content", "ini", "end", "piece"]
         widgets = {"piece": forms.HiddenInput()}
 
-    content = forms.CharField(required=False, widget=forms.Textarea(attrs={"rows": 4}))
+    content = forms.CharField(
+        required=False,
+        widget=forms.Textarea(attrs={"rows": 4}),
+        help_text=SequenceConstants.FIELD_CONTENT_HELP_TEXT,
+    )
 
     def clean(self, *args, **kwargs):
         validated_data = super().clean(*args, **kwargs)
@@ -365,7 +566,7 @@ class SequenceForm(forms.ModelForm):
         ini = self.cleaned_data["ini"]
         end = self.cleaned_data["end"]
         if ini and end and ini >= end:
-            raise ValidationError("init of sequence must be greater then end")
+            raise ValidationError({"ini": "init of sequence must be greater then end"})
 
 
 SequenceFormSet = forms.modelformset_factory(
@@ -388,6 +589,7 @@ class VideoProviderForm(forms.ModelForm):
         choices=ProviderConstants.PLYR_PROVIDER_CHOICES,
         widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
         required=True,
+        help_text=ProviderConstants.FIELD_PLYR_PROVIDER_HELP_TEXT,
     )
 
 
@@ -414,12 +616,14 @@ class FileProviderForm(forms.ModelForm):
         ]
         widgets = {"piece": forms.HiddenInput()}
 
-    def clean_file(self):
-        data = self.cleaned_data["file"]
-        extension = data.name[-3:]
+    def clean(self):
+        file = self.cleaned_data.get("file")
+        if not file:
+            return self.cleaned_data
+        extension = file.name[-3:]
         if extension.lower() not in self.file_extensions:
             raise ValidationError(gettext(f"File must be {self.file_extensions}"))
-        return data
+        return self.cleaned_data
 
 
 class DocumentProviderForm(FileProviderForm):
@@ -440,6 +644,9 @@ def get_provider_form_by_piece_kind(
         form = DocumentProviderForm
     if not formset:
         return form
+    form.Meta.fields = [
+        field for field in form.Meta.fields if field not in ["image", "file"]
+    ]
     return forms.modelformset_factory(
         Provider,
         form=form,
@@ -462,15 +669,18 @@ class PlaceForm(forms.ModelForm):
         queryset=Archive.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
         required=False,
+        help_text=PlaceConstants.FIELD_ALLOWED_ARCHIVES_HELP_TEXT,
     )
     allowed_collections = forms.ModelMultipleChoiceField(
         queryset=Collection.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
+        help_text=PlaceConstants.FIELD_ALLOWED_COLLECTIONS_HELP_TEXT,
         required=False,
     )
     allowed_pieces = forms.ModelMultipleChoiceField(
         queryset=Piece.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
+        help_text=PlaceConstants.FIELD_ALLOWED_PIECES_HELP_TEXT,
         required=False,
     )
 
@@ -501,9 +711,68 @@ class PlaceAddressForm(forms.ModelForm):
             }
         ),
         required=True,
+        help_text=PlaceAddressConstants.FIELD_IPV4_HELP_TEXT,
     )
 
 
 PlaceAddressFormSet = forms.modelformset_factory(
     PlaceAddress, form=PlaceAddressForm, extra=0, can_delete=True
+)
+
+
+class PageForm(forms.ModelForm):
+    class Meta:
+        model = Page
+        fields = [
+            "title",
+            "slug",
+            "kind",
+            "is_visible",
+            "is_visible_in_navbar",
+            "is_visible_in_footer",
+            "is_title_visible_in_body",
+            "position",
+            "redirect_to",
+            "header_image",
+            "body",
+            "archive",
+            "collection",
+            "place",
+        ]
+
+    kind = forms.ChoiceField(
+        widget=forms.Select(attrs={"class": "ui fluid dropdown"}),
+        required=True,
+        choices=PageConstants.KIND_CHOICES,
+        help_text=PageConstants.FIELD_KIND_HELP_TEXT,
+    )
+    header_image = forms.ImageField(
+        help_text=PageConstants.FIELD_HEADER_IMAGE_HELP_TEXT,
+        widget=ImageFileInput(),
+        required=False,
+    )
+
+
+class PageListForm(forms.ModelForm):
+    class Meta:
+        model = Page
+        fields = [
+            "title",
+            "slug",
+            "kind",
+            "is_visible",
+            "is_visible_in_navbar",
+            "is_visible_in_footer",
+            "position",
+        ]
+
+    title = forms.CharField(
+        disabled=True, help_text=PageConstants.FIELD_TITLE_HELP_TEXT
+    )
+    slug = forms.CharField(disabled=True, help_text=PageConstants.FIELD_SLUG_HELP_TEXT)
+    kind = forms.CharField(disabled=True, help_text=PageConstants.FIELD_KIND_HELP_TEXT)
+
+
+PageFormSet = forms.modelformset_factory(
+    Page, form=PageListForm, extra=0, can_delete=False
 )

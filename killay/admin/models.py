@@ -3,7 +3,11 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import gettext_lazy
 
-from killay.admin.lib.constants import SiteConfigurationConstants
+from killay.admin.lib.constants import (
+    LogoConstants,
+    SiteConfigurationConstants,
+    SocialMediaConstants,
+)
 
 
 class SiteConfigurationManager(models.Manager):
@@ -13,12 +17,26 @@ class SiteConfigurationManager(models.Manager):
 
 class SiteConfiguration(models.Model):
     name = models.CharField(
-        gettext_lazy("Name of Site"), max_length=250, default=settings.SITE_NAME
+        SiteConfigurationConstants.FIELD_NAME,
+        help_text=SiteConfigurationConstants.FIELD_NAME_HELP_TEXT,
+        max_length=250,
+        default=settings.SITE_NAME,
+        null=False,
+        blank=False,
     )
     domain = models.CharField(
-        gettext_lazy("Domain"), max_length=250, default=settings.SITE_DOMAIN
+        SiteConfigurationConstants.FIELD_DOMAIN,
+        help_text=SiteConfigurationConstants.FIELD_DOMAIN_HELP_TEXT,
+        max_length=250,
+        default=settings.SITE_DOMAIN,
+        null=False,
+        blank=False,
     )
-    is_published = models.BooleanField(gettext_lazy("Is published"), default=True)
+    is_published = models.BooleanField(
+        SiteConfigurationConstants.FIELD_IS_PUBLISHED,
+        help_text=SiteConfigurationConstants.FIELD_IS_PUBLISHED_HELP_TEXT,
+        default=True,
+    )
     site = models.ForeignKey(
         Site,
         on_delete=models.CASCADE,
@@ -26,14 +44,16 @@ class SiteConfiguration(models.Model):
         default=settings.SITE_ID,
     )
     footer_is_visible = models.BooleanField(
-        gettext_lazy("Footer is visible"), default=True
+        SiteConfigurationConstants.FIELD_FOOTER_IS_VISIBLE,
+        help_text=SiteConfigurationConstants.FIELD_FOOTER_IS_VISIBLE_HELP_TEXT,
+        default=True,
     )
     collection_site = models.BooleanField(
         gettext_lazy("Collection site"), default=False
     )
 
     class Meta:
-        verbose_name = gettext_lazy("Site Configuration")
+        verbose_name = SiteConfigurationConstants.VERBOSE_NAME
 
     objects = SiteConfigurationManager()
 
@@ -55,19 +75,31 @@ class SocialMedia(models.Model):
         SiteConfiguration, on_delete=models.CASCADE, related_name="social_medias"
     )
     provider = models.CharField(
-        verbose_name=gettext_lazy("Provider"),
+        verbose_name=SocialMediaConstants.FIELD_PROVIDER,
         choices=SiteConfigurationConstants.PROVIDER_CHOICES,
+        help_text=SocialMediaConstants.FIELD_PROVIDER_HELP_TEXT,
         max_length=150,
         null=False,
         blank=False,
     )
-    url = models.URLField(gettext_lazy("URL"))
-    is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
-    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+    url = models.URLField(
+        SocialMediaConstants.FIELD_URL,
+        help_text=SocialMediaConstants.FIELD_URL_HELP_TEXT,
+    )
+    is_visible = models.BooleanField(
+        SocialMediaConstants.FIELD_IS_VISIBLE,
+        help_text=SocialMediaConstants.FIELD_IS_VISIBLE_HELP_TEXT,
+        default=False,
+    )
+    position = models.PositiveSmallIntegerField(
+        SocialMediaConstants.FIELD_POSITION,
+        help_text=SocialMediaConstants.FIELD_POSITION_HELP_TEXT,
+        default=0,
+    )
 
     class Meta:
-        verbose_name = gettext_lazy("social media")
-        verbose_name_plural = gettext_lazy("social medias")
+        verbose_name = SocialMediaConstants.VERBOSE_NAME
+        verbose_name_plural = SocialMediaConstants.VERBOSE_NAME_PLURAL
         ordering = ["position"]
 
     objects = models.Manager()
@@ -84,14 +116,30 @@ class Logo(models.Model):
     configuration = models.ForeignKey(
         SiteConfiguration, on_delete=models.CASCADE, related_name="logos"
     )
-    name = models.CharField(gettext_lazy("Name"), max_length=255)
-    image = models.ImageField(gettext_lazy("Image"), upload_to="logos")
-    is_visible = models.BooleanField(gettext_lazy("Is visible"), default=False)
-    position = models.PositiveSmallIntegerField(gettext_lazy("Position"), default=0)
+    name = models.CharField(
+        LogoConstants.FIELD_NAME,
+        help_text=LogoConstants.FIELD_NAME_HELP_TEXT,
+        max_length=255,
+    )
+    image = models.ImageField(
+        LogoConstants.FIELD_IMAGE,
+        help_text=LogoConstants.FIELD_IMAGE_HELP_TEXT,
+        upload_to="logos",
+    )
+    is_visible = models.BooleanField(
+        LogoConstants.FIELD_IS_VISIBLE,
+        help_text=LogoConstants.FIELD_IS_VISIBLE_HELP_TEXT,
+        default=False,
+    )
+    position = models.PositiveSmallIntegerField(
+        LogoConstants.FIELD_POSITION,
+        help_text=LogoConstants.FIELD_POSITION_HELP_TEXT,
+        default=0,
+    )
 
     class Meta:
-        verbose_name = gettext_lazy("logo")
-        verbose_name_plural = gettext_lazy("logos")
+        verbose_name = LogoConstants.VERBOSE_NAME
+        verbose_name_plural = LogoConstants.VERBOSE_NAME_PLURAL
         ordering = ["position"]
 
     objects = models.Manager()

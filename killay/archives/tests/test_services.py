@@ -1,4 +1,5 @@
 import pytest
+from datetime import datetime, time, date
 
 from killay.archives import services as archives_services
 from killay.archives.tests import recipes as archives_recipes
@@ -578,3 +579,115 @@ def test_get_keyword_filter_options():
     assert result[0]["label"] == keyword.name
     assert result[0]["slug"] == keyword.slug
     assert result[0]["active"] is False
+
+
+@pytest.mark.django_db
+def test_bulk_create_piece():
+    collection = archives_recipes.collection_recipe.make()
+    data = {
+        "collection_id": collection.id,
+        "code": "fake-code",
+        "title": "fake",
+        "is_published": True,
+        "kind": "VIDEO",
+    }
+    returned_pieces = archives_services.bulk_create_pieces(data_list=[data])
+    assert returned_pieces[0].code == data["code"]
+
+
+@pytest.mark.django_db
+def test_bulk_add_piece_categories():
+    piece = archives_recipes.piece_recipe.make()
+    category = archives_recipes.category_recipe.make(collection_id=piece.collection_id)
+    data = (piece.id, [category.id])
+    archives_services.bulk_add_piece_categories(pieces_categories_data=[data])
+    assert piece.categories.filter(id=category.pk).exists()
+
+
+@pytest.mark.django_db
+def test_bulk_add_piece_people_by_texts():
+    piece = archives_recipes.piece_recipe.make()
+    current_person = archives_recipes.person_recipe.make(
+        name="Current Person ", slug="current-person"
+    )
+    data = (
+        piece.id,
+        [
+            current_person.name,
+            "?Current Person",
+            "New Person",
+        ],
+    )
+    assert piece.keywords.count() == 1
+    archives_services.bulk_add_piece_people_by_texts(piece_people_data=[data])
+    assert piece.people.count() == 3
+
+
+@pytest.mark.django_db
+def test_bulk_add_piece_keyword_by_texts():
+    piece = archives_recipes.piece_recipe.make()
+    current_keyword = archives_recipes.keyword_recipe.make(
+        name="Current keyword ", slug="current-keyword"
+    )
+    data = (
+        piece.id,
+        [
+            current_keyword.name,
+            "?Current keyword",
+            "New keyword",
+        ],
+    )
+    assert piece.keywords.count() == 1
+    archives_services.bulk_add_piece_keyword_by_texts(piece_keyword_data=[data])
+    assert piece.keywords.count() == 3
+
+
+@pytest.mark.django_db
+def test_bulk_create_meta_pieces():
+    piece = archives_recipes.piece_recipe.make()
+    piece_without_meta = archives_recipes.piece_recipe.make()
+    piece.meta.__class__.objects.filter(piece_id=piece_without_meta.id).delete()
+    meta_data = {
+        "event": "fake",
+        "description": "fake",
+        "description_date": "2000-1-1",
+        "location": "fake",
+        "duration": "00:00:01",
+        "register_date": "2000-1-1",
+        "register_author": "fake",
+        "productor": "fake",
+        "notes": "fake",
+        "archivist_notes": "fake",
+        "documentary_unit": "fake",
+        "lang": "fake",
+        "original_format": "fake",
+    }
+    archives_services.bulk_create_meta_pieces(
+        piece_meta_data=[
+            (piece.id, meta_data),
+            (piece_without_meta.id, meta_data),
+        ]
+    )
+    piece.refresh_from_db()
+    piece_without_meta.refresh_from_db()
+    for field, value in meta_data.items():
+        if "_date" in field:
+            assert getattr(piece.meta, field) == date(2000, 1, 1)
+            assert getattr(piece_without_meta.meta, field) == date(2000, 1, 1)
+        elif field == "duration":
+            assert piece.meta.duration == time(0, 0, 1)
+            assert piece_without_meta.meta.duration == time(0, 0, 1)
+        else:
+            assert getattr(piece.meta, field) == value
+            assert getattr(piece_without_meta.meta, field) == value
+
+
+@pytest.mark.django_db
+def test_bulk_create_piece_video_provider():
+    piece = archives_recipes.piece_recipe.make()
+    video_data = {"ply_embed_id": "fake-embed-id", "plyr_provider": "vimeo"}
+    archives_services.bulk_create_piece_video_provider(
+        piece_video_data=[(piece.id, video_data)]
+    )
+    assert piece.providers.first().ply_embed_id == video_data["ply_embed_id"]
+    assert piece.providers.first().plyr_provider == video_data["plyr_provider"]

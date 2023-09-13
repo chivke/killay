@@ -1,6 +1,7 @@
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Tuple
 
-from django.db.models import Q
+from django.db.models import Q, QuerySet
+from django.utils.text import slugify
 
 from killay.archives.models import (
     Archive,
@@ -9,8 +10,186 @@ from killay.archives.models import (
     Keyword,
     Person,
     Piece,
+    PieceMeta,
     Place,
+    Provider,
 )
+
+
+def bulk_create_pieces(data_list):
+    instances = [Piece(**data) for data in data_list]
+    objs = Piece.objects_in_site.bulk_create(instances)
+    return Piece.objects_in_site.filter(code__in=[obj.code for obj in objs])
+
+
+def bulk_add_piece_categories(
+    pieces_categories_data: List[Tuple[int, List[int]]],
+):
+    instances = []
+    for piece_id, categories in pieces_categories_data:
+        partial_instances = [
+            Piece.categories.through(
+                piece_id=piece_id,
+                category_id=category_id,
+            )
+            for category_id in categories
+        ]
+        instances.extend(partial_instances)
+    return Piece.categories.through.objects.bulk_create(instances)
+
+
+def _bulk_add_many_to_many_by_list_text(
+    data_list: List[Tuple[int, List[str]]],
+    parent_model,
+    parent_model_field,
+    related_model,
+    related_model_field,
+    through_field_name,
+):
+    unique_names = set()
+    for parent_id, related_names in data_list:
+        unique_names = unique_names | set(related_names)
+    current_instances = related_model.objects_in_site.filter(
+        name__in=list(unique_names)
+    )
+    current_map = {obj.name.lower(): obj for obj in current_instances}
+    current_slug_map = {obj.slug: obj for obj in current_instances}
+    instances_for_create = [
+        related_model(name=name, slug=slugify(name))
+        for name in unique_names
+        if (name.lower() not in current_map and slugify(name) not in current_slug_map)
+    ]
+    related_model.objects_in_site.bulk_create(objs=instances_for_create)
+    created_instances = related_model.objects_in_site.filter(
+        slug__in=[obj.slug for obj in instances_for_create]
+    )
+    created_map = {obj.name.lower(): obj for obj in created_instances}
+    created_slug_map = {obj.slug: obj for obj in created_instances}
+    instances = []
+    through_class = getattr(parent_model, through_field_name).through
+
+    for parent_id, related_names in data_list:
+        related_ids = set()
+        for name in related_names:
+            name_lower = name.lower()
+            if name_lower in current_map:
+                related_ids.add(current_map[name_lower].id)
+                continue
+
+            if name_lower in created_map:
+                related_ids.add(created_map[name_lower].id)
+                continue
+
+            slug = slugify(name)
+            if slug in current_slug_map:
+                related_ids.add(current_slug_map[slug].id)
+                continue
+            if slug in created_slug_map:
+                related_ids.add(created_slug_map[slug].id)
+                continue
+        if related_ids:
+            partial_instances = [
+                through_class(
+                    **{
+                        parent_model_field: parent_id,
+                        related_model_field: _id,
+                    }
+                )
+                for _id in related_ids
+            ]
+            instances.extend(partial_instances)
+    if instances:
+        return through_class.objects.bulk_create(objs=instances)
+
+
+def bulk_add_piece_people_by_texts(piece_people_data: List[Tuple[int, List[str]]]):
+    return _bulk_add_many_to_many_by_list_text(
+        data_list=piece_people_data,
+        parent_model=Piece,
+        parent_model_field="piece_id",
+        related_model=Person,
+        related_model_field="person_id",
+        through_field_name="people",
+    )
+
+
+def bulk_create_meta_pieces(piece_meta_data: List[Tuple[int, Dict]]):
+    current_meta_list = PieceMeta.objects.filter(
+        piece_id__in=[piece_id for piece_id, _ in piece_meta_data]
+    )
+    current_meta_map = {meta.piece_id: meta.id for meta in current_meta_list}
+    instances = [
+        PieceMeta(id=current_meta_map.get(piece_id), piece_id=piece_id, **meta_data)
+        for piece_id, meta_data in piece_meta_data
+    ]
+    instances_for_create = [obj for obj in instances if not obj.id]
+    instances_for_update = [obj for obj in instances if obj.id]
+    if instances_for_create:
+        PieceMeta.objects.bulk_create(objs=instances_for_create)
+    if instances_for_update:
+        PieceMeta.objects.bulk_update(
+            objs=instances_for_update,
+            fields=[
+                "event",
+                "description",
+                "description_date",
+                "location",
+                "duration",
+                "register_date",
+                "register_author",
+                "productor",
+                "notes",
+                "archivist_notes",
+                "documentary_unit",
+                "lang",
+                "original_format",
+            ],
+        )
+
+
+def bulk_add_piece_keyword_by_texts(
+    piece_keyword_data,
+):
+    return _bulk_add_many_to_many_by_list_text(
+        data_list=piece_keyword_data,
+        parent_model=Piece,
+        parent_model_field="piece_id",
+        related_model=Keyword,
+        related_model_field="keyword_id",
+        through_field_name="keywords",
+    )
+
+
+def bulk_create_piece_video_provider(piece_video_data: List[Tuple[int, Dict]]):
+    instances = [
+        Provider(
+            piece_id=piece_id,
+            active=video_data.get("active", True),
+            ply_embed_id=video_data.get("ply_embed_id"),
+            plyr_provider=video_data.get("plyr_provider"),
+        )
+        for piece_id, video_data in piece_video_data
+    ]
+    return Provider.objects.bulk_create(objs=instances)
+
+
+def get_pieces_fields_data():
+    fields_data = {
+        field.name: {"label": field.verbose_name, "description": field.help_text}
+        for field in Piece._meta.fields
+    }
+    many_to_many_fields_data = {
+        field.name: {"label": field.verbose_name, "description": field.help_text}
+        for field in Piece._meta.many_to_many
+    }
+    return {**fields_data, **many_to_many_fields_data}
+
+
+def get_meta_pieces_fields_data():
+    return {
+        field.name: {"label": field.verbose_name, "description": field.help_text}
+        for field in PieceMeta._meta.fields
+    }
 
 
 def get_archive_names_and_slugs() -> List[Dict]:
@@ -78,6 +257,18 @@ def get_collection_related_field_data(collection_id: int) -> dict:
     return {
         Piece._meta.verbose_name_plural.capitalize(): total_pieces,
     }
+
+
+def get_all_collections() -> list:
+    return Collection.objects_in_site.all()
+
+
+def get_all_categories() -> QuerySet:
+    return Category.objects_in_site.all()
+
+
+def get_pieces_queryset() -> QuerySet:
+    return Piece.objects_in_site.all()
 
 
 def get_collection_names_and_slugs() -> list:

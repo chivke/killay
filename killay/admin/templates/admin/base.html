@@ -95,9 +95,11 @@
         <div class="ui breadcrumb">
           {% for action in extra_actions %}
             {% if action.link %}
-              <a class="section" href="{{action.link}}">{{action.name}}</a>
+              <a
+                class="section" href="{{action.link}}" {% if action.desc %}title="{{action.desc}}"{% endif %}
+              >{{action.name}}</a>
             {% else %}
-              <div class="section">{{action.name}}</div>
+              <div class="section" {% if action.desc %}title="{{action.desc}}"{% endif %}>{{action.name}}</div>
             {% endif %}
             {% if not forloop.last %}
               <i class="right icon divider">|</i>
@@ -128,6 +130,9 @@
   ;
   $('.ui.dropdown')
     .dropdown()
+  ;
+  $('.ui.accordion')
+    .accordion()
   ;
 </script>
 {% endblock extra_js %}

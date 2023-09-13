@@ -3,56 +3,15 @@ from django.views.generic.base import RedirectView
 
 
 from killay.admin.views import configuration as conf_views
+from killay.admin.views.content_manager import bulk_actions as bulk_views
 
-from killay.admin.views.content_manager.archives import (
-    admin_archive_list_view,
-    admin_archive_create_view,
-    admin_archive_delete_view,
-    admin_archive_update_view,
-)
-from killay.admin.views.content_manager.collections import (
-    admin_collection_list_view,
-    admin_collection_create_view,
-    admin_collection_delete_view,
-    admin_collection_update_view,
-)
-from killay.admin.views.content_manager.categories import (
-    admin_category_list_view,
-    admin_category_create_view,
-    admin_category_delete_view,
-    admin_category_update_view,
-)
-from killay.admin.views.content_manager.people import (
-    admin_person_list_view,
-    admin_person_create_view,
-    admin_person_delete_view,
-    admin_person_update_view,
-)
-from killay.admin.views.content_manager.keywords import (
-    admin_keyword_list_view,
-    admin_keyword_create_view,
-    admin_keyword_delete_view,
-    admin_keyword_update_view,
-)
-from killay.admin.views.content_manager.pieces import (
-    admin_piece_list_view,
-    admin_piece_create_view,
-    admin_piece_delete_view,
-    admin_piece_update_view,
-    admin_piece_meta_update_view,
-    admin_piece_provider_create_view,
-    admin_piece_provider_list_view,
-    admin_piece_sequence_create_view,
-    admin_piece_sequence_list_view,
-)
-from killay.admin.views.content_manager.places import (
-    admin_place_list_view,
-    admin_place_create_view,
-    admin_place_delete_view,
-    admin_place_update_view,
-    admin_place_address_list_view,
-    admin_place_address_create_view,
-)
+from killay.admin.views.content_manager import archives as archives_views
+from killay.admin.views.content_manager import collections as collections_views
+from killay.admin.views.content_manager import categories as categories_views
+from killay.admin.views.content_manager import people as people_views
+from killay.admin.views.content_manager import keywords as keywords_views
+from killay.admin.views.content_manager import pieces as pieces_views
+from killay.admin.views.content_manager import places as places_views
 
 from killay.admin.views import videos as videos_views
 from killay.admin.views import users as users_views
@@ -102,28 +61,50 @@ urlpatterns = [
     ),
 ]
 
-# Content Manager - Archives
+# Content Manager
 
 urlpatterns += [
     path(
         "cm/",
-        view=RedirectView.as_view(pattern_name="admin:archive_list"),
+        view=RedirectView.as_view(pattern_name="admin:bulk_action_list"),
         name="content_manager",
     ),
-    path("cm/archives/", view=admin_archive_list_view, name="archive_list"),
+    path(
+        "cm/bulk-actions/",
+        view=bulk_views.bulk_action_list_view,
+        name="bulk_action_list",
+    ),
+    path(
+        "cm/bulk-actions/<str:action>/",
+        view=bulk_views.bulk_action_view,
+        name="bulk_action",
+    ),
+    path(
+        "cm/bulk-actions/<str:action>/template/",
+        view=bulk_views.bulk_action_template_view,
+        name="bulk_action_template",
+    ),
+]
+
+# Content Manager - Archives
+
+urlpatterns += [
+    path(
+        "cm/archives/", view=archives_views.admin_archive_list_view, name="archive_list"
+    ),
     path(
         "cm/archives/~create/",
-        view=admin_archive_create_view,
+        view=archives_views.admin_archive_create_view,
         name="archive_create",
     ),
     path(
         "cm/archives/<str:slug>/delete/",
-        view=admin_archive_delete_view,
+        view=archives_views.admin_archive_delete_view,
         name="archive_delete",
     ),
     path(
         "cm/archives/<str:slug>/",
-        view=admin_archive_update_view,
+        view=archives_views.admin_archive_update_view,
         name="archive_update",
     ),
 ]
@@ -131,30 +112,30 @@ urlpatterns += [
 # Content Manager - Places
 
 urlpatterns += [
-    path("cm/places/", view=admin_place_list_view, name="place_list"),
+    path("cm/places/", view=places_views.admin_place_list_view, name="place_list"),
     path(
         "cm/places/~create/",
-        view=admin_place_create_view,
+        view=places_views.admin_place_create_view,
         name="place_create",
     ),
     path(
         "cm/places/<str:slug>/delete/",
-        view=admin_place_delete_view,
+        view=places_views.admin_place_delete_view,
         name="place_delete",
     ),
     path(
         "cm/places/<str:slug>/addresses/~create/",
-        view=admin_place_address_create_view,
+        view=places_views.admin_place_address_create_view,
         name="place_address_create",
     ),
     path(
         "cm/places/<str:slug>/adresses/",
-        view=admin_place_address_list_view,
+        view=places_views.admin_place_address_list_view,
         name="place_address_list",
     ),
     path(
         "cm/places/<str:slug>/",
-        view=admin_place_update_view,
+        view=places_views.admin_place_update_view,
         name="place_update",
     ),
 ]
@@ -164,22 +145,22 @@ urlpatterns += [
 urlpatterns += [
     path(
         "cm/collections/",
-        view=admin_collection_list_view,
+        view=collections_views.admin_collection_list_view,
         name="collection_list",
     ),
     path(
         "cm/collections/~create/",
-        view=admin_collection_create_view,
+        view=collections_views.admin_collection_create_view,
         name="collection_create",
     ),
     path(
         "cm/collections/<str:slug>/delete/",
-        view=admin_collection_delete_view,
+        view=collections_views.admin_collection_delete_view,
         name="collection_delete",
     ),
     path(
         "cm/collections/<str:slug>/",
-        view=admin_collection_update_view,
+        view=collections_views.admin_collection_update_view,
         name="collection_update",
     ),
 ]
@@ -190,47 +171,47 @@ urlpatterns += [
 urlpatterns += [
     path(
         "cm/pieces/",
-        view=admin_piece_list_view,
+        view=pieces_views.admin_piece_list_view,
         name="piece_list",
     ),
     path(
         "cm/pieces/~create/",
-        view=admin_piece_create_view,
+        view=pieces_views.admin_piece_create_view,
         name="piece_create",
     ),
     path(
         "cm/pieces/<str:slug>/delete/",
-        view=admin_piece_delete_view,
+        view=pieces_views.admin_piece_delete_view,
         name="piece_delete",
     ),
     path(
         "cm/pieces/<str:slug>/meta/",
-        view=admin_piece_meta_update_view,
+        view=pieces_views.admin_piece_meta_update_view,
         name="piece_meta_update",
     ),
     path(
         "cm/pieces/<str:slug>/providers/~create/",
-        view=admin_piece_provider_create_view,
+        view=pieces_views.admin_piece_provider_create_view,
         name="piece_provider_create",
     ),
     path(
         "cm/pieces/<str:slug>/providers/",
-        view=admin_piece_provider_list_view,
+        view=pieces_views.admin_piece_provider_list_view,
         name="piece_provider_list",
     ),
     path(
         "cm/pieces/<str:slug>/sequences/~create/",
-        view=admin_piece_sequence_create_view,
+        view=pieces_views.admin_piece_sequence_create_view,
         name="piece_sequence_create",
     ),
     path(
         "cm/pieces/<str:slug>/sequences/",
-        view=admin_piece_sequence_list_view,
+        view=pieces_views.admin_piece_sequence_list_view,
         name="piece_sequence_list",
     ),
     path(
         "cm/pieces/<str:slug>/",
-        view=admin_piece_update_view,
+        view=pieces_views.admin_piece_update_view,
         name="piece_update",
     ),
 ]
@@ -240,22 +221,22 @@ urlpatterns += [
 urlpatterns += [
     path(
         "cm/categories/",
-        view=admin_category_list_view,
+        view=categories_views.admin_category_list_view,
         name="category_list",
     ),
     path(
         "cm/categories/~create/",
-        view=admin_category_create_view,
+        view=categories_views.admin_category_create_view,
         name="category_create",
     ),
     path(
         "cm/categories/<str:slug>/delete/",
-        view=admin_category_delete_view,
+        view=categories_views.admin_category_delete_view,
         name="category_delete",
     ),
     path(
         "cm/categories/<str:slug>/",
-        view=admin_category_update_view,
+        view=categories_views.admin_category_update_view,
         name="category_update",
     ),
 ]
@@ -266,22 +247,22 @@ urlpatterns += [
 urlpatterns += [
     path(
         "cm/people/",
-        view=admin_person_list_view,
+        view=people_views.admin_person_list_view,
         name="person_list",
     ),
     path(
         "cm/people/~create/",
-        view=admin_person_create_view,
+        view=people_views.admin_person_create_view,
         name="person_create",
     ),
     path(
         "cm/people/<str:slug>/delete/",
-        view=admin_person_delete_view,
+        view=people_views.admin_person_delete_view,
         name="person_delete",
     ),
     path(
         "cm/people/<str:slug>/",
-        view=admin_person_update_view,
+        view=people_views.admin_person_update_view,
         name="person_update",
     ),
 ]
@@ -291,22 +272,22 @@ urlpatterns += [
 urlpatterns += [
     path(
         "cm/keywords/",
-        view=admin_keyword_list_view,
+        view=keywords_views.admin_keyword_list_view,
         name="keyword_list",
     ),
     path(
         "cm/keywords/~create/",
-        view=admin_keyword_create_view,
+        view=keywords_views.admin_keyword_create_view,
         name="keyword_create",
     ),
     path(
         "cm/keywords/<str:slug>/delete/",
-        view=admin_keyword_delete_view,
+        view=keywords_views.admin_keyword_delete_view,
         name="keyword_delete",
     ),
     path(
         "cm/keywords/<str:slug>/",
-        view=admin_keyword_update_view,
+        view=keywords_views.admin_keyword_update_view,
         name="keyword_update",
     ),
 ]

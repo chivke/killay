@@ -181,6 +181,13 @@ class AdminNavContext:
         }
 
     def _get_content_manager(self):
+        bulk_action_item = self._get_basic_item(
+            pattern=ContentManagerConstants.VIEWS_LIST[
+                ContentManagerConstants.SLUG_BULK_ACTION
+            ],
+            label=ContentManagerConstants.NAME_BULK_ACTION,
+            icon="cloud upload",
+        )
         place_item = self._get_basic_item(
             pattern=ContentManagerConstants.VIEWS_LIST[
                 ContentManagerConstants.SLUG_PLACE
@@ -233,6 +240,7 @@ class AdminNavContext:
         return {
             "label": ContentManagerConstants.MAIN_TITLE,
             "items": [
+                bulk_action_item,
                 place_item,
                 archive_item,
                 collection_item,

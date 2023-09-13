@@ -616,14 +616,15 @@ class FileProviderForm(forms.ModelForm):
         ]
         widgets = {"piece": forms.HiddenInput()}
 
-    def clean(self):
-        file = self.cleaned_data.get("file")
+    def clean(self, *args, **kwargs):
+        cleaned_data = super().clean(*args, **kwargs)
+        file = cleaned_data.get("file")
         if not file:
-            return self.cleaned_data
+            return cleaned_data
         extension = file.name[-3:]
         if extension.lower() not in self.file_extensions:
             raise ValidationError(gettext(f"File must be {self.file_extensions}"))
-        return self.cleaned_data
+        return cleaned_data
 
 
 class DocumentProviderForm(FileProviderForm):

@@ -1,3 +1,4 @@
+from datetime import date, time
 from django.utils.translation import gettext_lazy
 
 
@@ -71,6 +72,7 @@ def _get_pattern_names(slugs: list, action: str) -> dict:
 
 class ContentManagerConstants:
     MAIN_TITLE = gettext_lazy("Content Manager")
+    SLUG_BULK_ACTION = "bulk_action"
     SLUG_PLACE = "place"
     SLUG_ARCHIVE = "archive"
     SLUG_COLLECTION = "collection"
@@ -79,6 +81,7 @@ class ContentManagerConstants:
     SLUG_PERSON = "person"
     SLUG_KEYWORD = "keyword"
     VIEW_SLUGS = [
+        SLUG_BULK_ACTION,
         SLUG_PLACE,
         SLUG_ARCHIVE,
         SLUG_COLLECTION,
@@ -88,6 +91,7 @@ class ContentManagerConstants:
         SLUG_KEYWORD,
     ]
 
+    NAME_BULK_ACTION = gettext_lazy("Bulk Actions")
     NAME_ARCHIVE = gettext_lazy("Archives")
     NAME_COLLECTION = gettext_lazy("Collections")
     NAME_PIECE = gettext_lazy("Pieces")
@@ -99,6 +103,10 @@ class ContentManagerConstants:
     NAME_PLACE = gettext_lazy("Places")
     NAME_ADDRESS = gettext_lazy("Addresses")
 
+    DESCRIPTION_BULK_ACTION = gettext_lazy(
+        "It allows executing bulk actions to manipulate the content. "
+        "These work through an excel file (xlsx) that is loaded into the system."
+    )
     DESCRIPTION_PLACE = gettext_lazy(
         "It refers to the places from where the public "
         "could access restricted content"
@@ -141,6 +149,7 @@ class ContentManagerConstants:
     )
 
     VIEWS_SECOND_TITLE = {
+        SLUG_BULK_ACTION: NAME_BULK_ACTION,
         SLUG_PLACE: NAME_PLACE,
         SLUG_ARCHIVE: NAME_ARCHIVE,
         SLUG_COLLECTION: NAME_COLLECTION,
@@ -154,6 +163,9 @@ class ContentManagerConstants:
     VIEWS_UPDATE = _get_pattern_names(slugs=VIEW_SLUGS, action="update")
     VIEWS_DELETE = _get_pattern_names(slugs=VIEW_SLUGS, action="delete")
     DICT_LINK = {
+        SLUG_BULK_ACTION: {
+            "list": {"view": f"admin:{SLUG_BULK_ACTION}_list", "name": NAME_BULK_ACTION}
+        },
         SLUG_ARCHIVE: {
             "list": {"view": f"admin:{SLUG_ARCHIVE}_list", "name": NAME_ARCHIVE}
         },
@@ -246,3 +258,109 @@ class UserManagerConstants:
     PATTERN_UPDATE = "admin:users_update"
     PATTERN_DELETE = "admin:users_delete"
     LIST_LABEL = gettext_lazy("Users List")
+
+
+class BulkActionConstants:
+    TYPE_PIECE_CREATE = "piece_create"
+    TYPES = [TYPE_PIECE_CREATE]
+
+    TYPE_NAME_PIECE_CREATE = gettext_lazy("Bulk Create Pieces")
+    TYPE_NAMES = {TYPE_PIECE_CREATE: TYPE_NAME_PIECE_CREATE}
+    TYPE_DESCRIPTION_PIECE_CREATE = gettext_lazy(
+        "This tool allows you to load an excel file with a series of pieces "
+        "to be created. You can only add fields that do not involve uploading "
+        "files (images, documents, sounds, files, etc.), "
+        "the remaining fields must be updated piece by piece."
+    )
+    TYPE_DESCRIPTIONS = {TYPE_PIECE_CREATE: TYPE_DESCRIPTION_PIECE_CREATE}
+
+    ACTION_TYPE_LABEL = gettext_lazy("Action Type")
+    ACTION_TYPE_HELP_TEXT = gettext_lazy("Type of bulk action to execute")
+    XLS_FILE_LABEL = gettext_lazy("XLS File")
+    XLS_FILE_HELP_TEXT = gettext_lazy("Excel file (xls) to be processed")
+    ERROR_WRONG_FILE = gettext_lazy("Wrong file extension, must be excel file")
+    ERROR_WRONG_VALUE_TYPE = gettext_lazy(
+        "Wrong value type for {field} field, must be {field_types}"
+    )
+    ERROR_FILE_IS_EMPTY = gettext_lazy("The file does not contain rows with data")
+    ERROR_FIELD_IS_REQUIRED = gettext_lazy("{field} field is required")
+    ERROR_FIELD_BOOL = gettext_lazy('Must be "TRUE" or "FALSE"')
+    ERROR_FIELD_NOT_SLUG = gettext_lazy(
+        '{field} field must be slug (only letters, numbers and "-" or "_").'
+    )
+    KEY_FALSE = "FALSE"
+    KEY_TRUE = "TRUE"
+    BOOL_KEYS = [KEY_TRUE, KEY_FALSE]
+    TEMPLATE_ID = "[id={id}]"
+    FILE_CONTENT_TYPE = (
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    FILE_NAME_TEMPLATE = "template_{action_type}.xlsx"
+    SECTION_COLUMNS_TITLE = gettext_lazy("File Columns")
+    SECTION_COLUMNS_DESCRIPTION = gettext_lazy(
+        "Here you can review the detail of the columns of the file to be uploaded"
+    )
+    TITLE_REQUIRED_COLS = gettext_lazy("Required Columns")
+    TITLE_NON_REQUIRED_COLS = gettext_lazy("Non Required Columns")
+    TITLE_TEMPLATE = gettext_lazy("Download the template")
+    DESCRIPTION_TEMPLATE = gettext_lazy(
+        "You can download here a template with all the fields usable "
+        "by this bulk action."
+    )
+    COLUMN_DATA_FIELDS = [
+        gettext_lazy("Column Name"),
+        gettext_lazy("Name"),
+        gettext_lazy("Description"),
+        gettext_lazy("Format"),
+    ]
+    VIDEO_URL_LABEL = gettext_lazy("Video URL")
+    VIDEO_URL_DESCRIPTION = gettext_lazy(
+        "Video URL from Youtube or Vimeo, " "like https://www.youtube.com/watch?v=CODE"
+    )
+    FILE_FORMAT_FIELD_DESCRIPTIONS = {
+        str: gettext_lazy("Plain text"),
+        bool: gettext_lazy("Only TRUE or FALSE"),
+        int: gettext_lazy("Only numbers"),
+        date: gettext_lazy("Must be in this format: YYYY:MM:DD"),
+        time: gettext_lazy("Must be in this format: HH:MM:SS"),
+        (str, int): gettext_lazy(
+            "It can be the text suggested in the " "template or directly the ID number"
+        ),
+        list: gettext_lazy(
+            "It allows a list of texts, they have to be "
+            'separated by commas, like: "word,another-word"'
+        ),
+    }
+    ROW_TEMPLATE = gettext_lazy("Row {row}")
+    FORMAT_DATES_ALLOWED = [
+        "%Y-%m-%d",
+        "%Y/%m/%d",
+        "%d-%m-%Y",
+        "%d/%m/%Y",
+    ]
+    ERROR_DATE_WRONG_FORMAT = gettext_lazy(
+        "date '{value}' does not match formats {formats}"
+    )
+    ERROR_TIME_WRONG_FORMAT = gettext_lazy(
+        "time'{value}' does not match formats HH:MM:SS"
+    )
+    RESULT_SUCCESS_TITLE = gettext_lazy("Successful Loading Result")
+    RESULT_ERROR_TITLE = gettext_lazy("Loading Errors Detected")
+    RESULT_DATA_ERRORS_LABEL = gettext_lazy(
+        "The file contains the following errors in its data"
+    )
+    RESULT_FILE_ERRORS_LABEL = gettext_lazy("The file contains errors")
+
+
+class BulkActionMessageConstants:
+    ERROR_WRONG_KIND = gettext_lazy("{value} is not a valid kind, must use: {kinds}")
+    ERROR_WRONG_URL = gettext_lazy("{value} is not a correct URL")
+    ERROR_UNKNOWN_PROVIDER = gettext_lazy(
+        'url "{value}" is not from a known provider, must be: {providers}'
+    )
+    ERROR_DOES_NOT_EXIST = gettext_lazy("{value} for {field} field does not exist")
+    ERROR_ALREADY_EXIST = gettext_lazy("{value} for {field} field already exist")
+    ERROR_NOT_BELONG_TO = gettext_lazy(
+        "{value} {type} not belog to {other_value} {other_type}"
+    )
+    ERROR_IS_REPEATED = gettext_lazy("{value} for {field} is repeated")

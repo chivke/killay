@@ -1,0 +1,145 @@
+
+{% if result %}
+    <h3
+      class="ui dividing header {% if result.is_valid %}green{% else %}red{% endif %}"
+    >{{result.title}}</h3>
+    {% if result.is_valid %}
+
+    {% else %}
+      {% if result.data_errors %}
+          <table class="ui celled table">
+            <thead>
+              <tr><th>{{result.data_errors_label}}</th></tr>
+            </thead>
+            <tbody>
+              {% for error in result.data_errors %}
+                <tr><td class="error">{{error}}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      {% else %}
+          <table class="ui celled table">
+            <thead>
+              <tr><th>{{result.file_errors_label}}</th></tr>
+            </thead>
+            <tbody>
+              {% for error in result.file_errors %}
+                <tr><td class="error">{{error}}</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+      {% endif %}
+    {% endif %}
+{% endif %}
+
+{% if file_headers %}
+  <h3 class="ui dividing header">{{file_headers.template_title}}</h3>
+  <div class="text description">{{file_headers.template_description}}</div>
+  <br>
+  <a class="ui button green" href="{{file_headers.template_link}}">Donwload</a>
+  <div class="ui divider"></div>
+
+  <h3 class="ui dividing header">{{file_headers.title}}</h3>
+  {% if file_headers.description %}
+    <div class="text description">{{file_headers.description}}</div>
+    <br>
+  {% endif %}
+  {% if file_headers.required_cols %}
+    <div class="ui fluid accordion">
+      <div class="title">
+        <i class="dropdown icon"></i>
+        {{file_headers.required_title}} ({{file_headers.required_cols|length}})
+      </div>
+      <div class="content">
+        <table class="ui very basic collapsing celled table">
+          <thead>
+            <tr>
+              {% for field in file_headers.column_data_fields %}
+                <th>{{field}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for col in file_headers.required_cols %}
+              <tr>
+                <th>{{col.name}}</th>
+                <td>{% if col.label %}{{col.label}}{% endif %}</td>
+                <td>{% if col.description %}{{col.description}}{% endif %}</td>
+                <td>{% if col.format %}{{col.format}}{% endif %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+  {% if file_headers.non_required_cols %}
+    <div class="ui fluid accordion">
+      <div class="title">
+        <i class="dropdown icon"></i>
+        {{file_headers.non_required_title}} ({{file_headers.non_required_cols|length}})
+      </div>
+      <div class="content">
+        <table class="ui very basic collapsing celled table">
+          <thead>
+            <tr>
+              {% for field in file_headers.column_data_fields %}
+                <th>{{field}}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for col in file_headers.non_required_cols %}
+              <tr>
+                <th>{{col.name}}</th>
+                <td>{% if col.label %}{{col.label}}{% endif %}</td>
+                <td>{% if col.description %}{{col.description}}{% endif %}</td>
+                <td>{% if col.format %}{{col.format}}{% endif %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% endif %}
+  <div class="ui divider"></div>
+{% endif %}
+
+<form
+  method="post"
+  action="."
+  class="ui form"
+  id="generic_form_id"
+  enctype="multipart/form-data"
+>
+  {% csrf_token %}
+  {% for hidden in form.hidden_fields %}{{ hidden }}{% endfor %}
+
+  {% for field in form.visible_fields %}
+    <div class="field {% if field.field.required %}required{% endif %}">
+      <label>{{field.label_tag}}</label>
+      {% if field.field.widget.input_type == "checkbox" %}
+        <div class="ui slider checkbox">
+          {{field}}
+        </div>
+      {% else %}
+        {{field}}
+      {% endif %}
+      <div>{{field.help_text}}</div>
+
+      {% if field.errors %}
+        <div class="ui pointing red basic label">
+          {% for error in field.errors %}{{error}}{% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  <div class="ui divider"></div>
+  <div class="field">
+    <input
+      type="submit"
+      class="ui button admin-submit blue"
+      value="Send"
+    >
+  </div>
+</form>

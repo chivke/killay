@@ -160,11 +160,15 @@ class Category(TimeBase, CategorizationBase):
 
     @property
     def collection_slug(self):
-        return self.collection.slug
+        return self.collection.slug if self.collection_id else None
 
     @property
     def archive_slug(self):
-        return self.collection.archive.slug
+        return (
+            self.collection.archive.slug
+            if self.collection_id and self.collection.archive_id
+            else None
+        )
 
 
 class Person(TimeBase, CategorizationBase):

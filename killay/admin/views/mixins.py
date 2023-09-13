@@ -62,16 +62,16 @@ class AdminView(AdminRequiredMixin, TemplateResponseMixin, View):
     def get_description(self) -> str:
         return self.description
 
-    def get_breadcrumb(self) -> str:
+    def get_breadcrumb(self) -> list:
         return self.breadcrumb or []
 
-    def get_extra_links(self) -> str:
+    def get_extra_links(self) -> list:
         return self.extra_links or []
 
-    def get_extra_data(self) -> str:
+    def get_extra_data(self) -> list:
         return self.extra_data or {}
 
-    def get_extra_actions(self) -> str:
+    def get_extra_actions(self) -> list:
         return self.extra_actions or []
 
 
@@ -108,11 +108,12 @@ class SingleMixin(AdminView, ModelFormMixin):
         if form.is_valid():
             return self.form_valid(form)
         else:
-            message = form.errors.get(
-                "__all__", gettext(f"Error not {self.action_name}")
-            )
+            message = self.get_error_message(form=form)
             messages.error(self.request, message)
             return self.form_invalid(form)
+
+    def get_error_message(self, form):
+        return form.errors.get("__all__", gettext(f"Error not {self.action_name}"))
 
     def get_queryset(self):
         return self.form_class.Meta.model.objects.all()

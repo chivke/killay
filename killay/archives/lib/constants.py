@@ -136,6 +136,7 @@ class PieceConstants:
         (KIND_SOUND, gettext_lazy("Sound")),
         (KIND_DOCUMENT, gettext_lazy("Document")),
     ]
+    KIND_LIST = [KIND_VIDEO, KIND_IMAGE, KIND_SOUND, KIND_DOCUMENT]
     VERBOSE_NAME = gettext_lazy("piece")
     VERBOSE_NAME_PLURAL = gettext_lazy("pieces")
     FIELD_CODE = gettext_lazy("Code")
@@ -215,6 +216,7 @@ class ProviderConstants:
 
     YOUTUBE = "youtube"
     VIMEO = "vimeo"
+    PLYR_PROVIDER_LIST = [YOUTUBE, VIMEO]
     PLYR_PROVIDER_CHOICES = [(YOUTUBE, "Youtube"), (VIMEO, "Vimeo")]
     URL_TEMPLATE = {
         YOUTUBE: ("https://player.{plyr_provider}.com/embed/{ply_embed_id}"),
@@ -231,6 +233,8 @@ class ProviderConstants:
             "title=false&amp;speed=true&amp;transparent=0&amp;gesture=media"
         ),
     }
+    YOUTUBE_ID_REGEX = r"https:\/\/[w.]*youtube.com/watch\?v=([A-Za-z0-9]*)"
+    VIMEO_ID_REGEX = r"https:\/\/[w.]*vimeo.com/([0-9]*)"
 
 
 class PieceMetaConstants:

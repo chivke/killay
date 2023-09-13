@@ -1,3 +1,4 @@
+{% load i18n %}
 
 {% if result %}
     <h3
@@ -36,7 +37,7 @@
   <h3 class="ui dividing header">{{file_headers.template_title}}</h3>
   <div class="text description">{{file_headers.template_description}}</div>
   <br>
-  <a class="ui button green" href="{{file_headers.template_link}}">Donwload</a>
+  <a class="ui button green" href="{{file_headers.template_link}}">{% trans "Download" %}</a>
   <div class="ui divider"></div>
 
   <h3 class="ui dividing header">{{file_headers.title}}</h3>
@@ -139,7 +140,7 @@
     <input
       type="submit"
       class="ui button admin-submit blue"
-      value="Send"
+      value="{% trans 'Send' %}"
     >
   </div>
 </form>

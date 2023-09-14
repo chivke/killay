@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}
+  {{main_title}}
+  {% if second_title %}
+    - {{second_title}}
+  {% endif %}
+{% endblock title %}
+
+{% block sidebar %}
+  {% include "admin/sidebar.html" %}
+{% endblock sidebar %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+  <script src="https://cdn.plyr.io/3.6.8/plyr.polyfilled.js"></script>
+  {% if form.media %}
+    {{form.media}}
+  {% endif %}
+{% endblock extra_css %}
+
+{% block content %}
+  <div id="admin-main-container">
+    {% if main_title %}
+      <h1 class="ui dividing header">{{main_title}}</h1>
+    {% else %}
+      <h1 class="ui dividing header">{{second_title}}</h1>
+    {% endif %}
+
+    {% if extra_links %}
+      <div class="ui breadcrumb">
+        {% for link in extra_links %}
+          {% if link.view or link.link %}
+            <a
+              class="section"
+              href="{% if link.link %}{{link.link}}{% else %}{% url link.view %}{% endif %}"
+            >{{link.name}}</a>
+          {% else %}
+            <div class="section">{{link.name}}</div>
+          {% endif %}
+          {% if not forloop.last %}
+            <i class="right icon divider">|</i>
+          {% endif %}
+          {% empty %}
+        {% endfor %}
+      </div>
+      <div class="ui divider"></div>
+    {% endif %}
+
+    {% if breadcrumb %}
+      <div class="ui breadcrumb">
+        {% for bread in breadcrumb %}
+          {% if bread.view or bread.link %}
+            <a
+              class="section"
+              href="{% if bread.link %}{{bread.link}}{% else %}{% url bread.view %}{% endif %}"
+            >{{bread.name}}</a>
+          {% else %}
+            <div class="section">{{bread.name}}</div>
+          {% endif %}
+          {% if not forloop.last %}
+            <i class="right angle icon divider"></i>
+          {% endif %}
+          {% empty %}
+        {% endfor %}
+      </div>
+      <div class="ui divider"></div>
+    {% endif %}
+
+    {% if main_title and second_title %}
+      <h2 class="ui dividing header">{{second_title}}</h2>
+    {% endif %}
+    {% if description %}
+      <div class="text description">{{description}}</div>
+      <div class="ui divider"></div>
+    {% endif %}
+
+    {% if extra_data %}
+      <table class="ui compact definition table">
+        <tbody>
+          {% for field, value in extra_data.items %}
+            <tr>
+              <td class="collapsing">{{field}}</td>
+              <td>{{value}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="ui divider"></div>
+    {% endif %}
+    {% if extra_actions %}
+      <div class="rigth floated six wide column">
+        <div class="ui breadcrumb">
+          {% for action in extra_actions %}
+            {% if action.link %}
+              <a
+                class="section" href="{{action.link}}" {% if action.desc %}title="{{action.desc}}"{% endif %}
+              >{{action.name}}</a>
+            {% else %}
+              <div class="section" {% if action.desc %}title="{{action.desc}}"{% endif %}>{{action.name}}</div>
+            {% endif %}
+            {% if not forloop.last %}
+              <i class="right icon divider">|</i>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      <div class="ui divider"></div>
+    {% endif %}
+
+
+    {% if form %}
+      {% include form_template %}
+    {% endif %}
+    {% if formset %}
+      {% include formset_template %}
+    {% endif %}
+
+  </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<script type="text/javascript">
+  $('.ui.checkbox')
+    .checkbox()
+  ;
+  $('.ui.dropdown')
+    .dropdown()
+  ;
+  $('.ui.accordion')
+    .accordion()
+  ;
+</script>
+{% endblock extra_js %}

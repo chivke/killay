@@ -1,0 +1,50 @@
+{% extends "viewer/base.html" %}
+{% load i18n %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+{% endblock extra_css %}
+
+{% block title %}
+  {{piece.title}} - {{piece.collection.name}}
+{% endblock title %}
+
+{% block content %}
+  <div class="video-detail-container">
+    <h1 class="ui header">{{ piece.title }}</h1>
+    {% if player_template %}
+      {% include player_template %}
+    {% endif %}
+    <div class="meta-categorization-container">
+      <table id="video-meta-table" class="ui table">
+        <tbody>
+          {% for field_name, field in piece.meta.items %}
+            <tr id="piece-meta-{{field_name}}">
+              <td class="label">{{field.label}}:</td>
+              <td class="value">{{field.value}}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div id="categorization-container">
+        {% for field_name, field in piece.categorization.items %}
+          <div class="ui link list">
+            <div class="active item">
+              {{field.label}} ({{field.total}})
+            </div>
+            {% for item in field.items %}
+              <a class="item" href="{{item.link}}">{{item.name}}</a>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}
+
+{% block extra_js %}
+  {% if piece.kind == "VIDEO" or piece.kind == "SOUND" %}
+    {% include "viewer/components/videos/script.html" %}
+  {% endif %}
+{% endblock extra_js %}

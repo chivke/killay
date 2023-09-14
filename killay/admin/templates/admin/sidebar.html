@@ -1,0 +1,42 @@
+<div
+  id="admin-sidebar"
+  class="ui secondary vertical pointing menu"
+>
+  <a
+    class="item {% if request.resolver_match.view_name == 'users:update' %} active{% endif %}"
+    href="{% url 'users:update' %}"
+  >@{{request.user.username}}
+  </a>
+  {% if request.user.is_superuser %}
+    {% for element in admin_nav.general reversed %}
+      {% if element.items %}
+        <div class="item">
+          <div class="header">{{element.label}}</div>
+          <div class="menu">
+            {% for item in element.items %}
+              <a
+                class="item {% if item.active %}active{% endif %}"
+                href="{{item.link}}"
+              >
+                {% if item.icon %}
+                  <i class="{{item.icon}} icon"></i>
+                {% endif %}
+                {{item.label}}
+              </a>
+            {% endfor %}
+          </div>
+        </div>
+      {% else %}
+        <a
+          class="item {% if element.active %}active{% endif %}"
+          href="{{element.link}}"
+        >
+          {% if element.icon %}
+            <i class="{{element.icon}} icon"></i>
+          {% endif %}
+          {{element.label}}
+        </a>
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+</div>

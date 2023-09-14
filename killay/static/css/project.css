@@ -10,7 +10,7 @@
   font-family: "BrandonLight";
   src: url("../fonts/BrandonGrotesque-Light.otf"); }
 
-h1 {
+h1, h2, h3, h4 {
   font-family: "BrandonLight" !important; }
 
 .base-content-container {
@@ -172,9 +172,9 @@ h1 {
   padding: 1rem 10vw;
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
-  font-family: "BrandonRegular";
+  font-family: "BrandonRegular" !important;
   max-width: 1200px; }
-  #admin-main-container h1, #admin-main-container h4 {
+  #admin-main-container h1, #admin-main-container h2, #admin-main-container h3, #admin-main-container h4 {
     font-family: "BrandonRegular" !important; }
 
 #admin-sidebar {
@@ -184,6 +184,9 @@ h1 {
   font-family: "BrandonRegular" !important;
   margin: 16px !important;
   margin: 1rem !important; }
+
+.button {
+  font-family: "BrandonRegular" !important; }
 
 #formset-list-container {
   margin: 5% 10%; }
@@ -198,8 +201,8 @@ h1 {
     margin: 3rem 0; }
 
 #formset-list-footer-pagination {
-  margin: 48px 0;
-  margin: 3rem 0;
+  margin: 32px 0;
+  margin: 2rem 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;

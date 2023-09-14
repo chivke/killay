@@ -1,7 +1,10 @@
+from unittest import mock
+
+from django.test import RequestFactory, Client
+from django.urls import resolve
+
 import pytest
 
-from django.test import RequestFactory
-from django.urls import resolve
 
 from killay.videos.models import (
     Video,
@@ -39,11 +42,9 @@ PROVIDERS_FORMSET_DATA = {
 
 
 class TestVideoCreateView:
-    def test_get(self, admin_user: User, rf: RequestFactory):
-        request = rf.get("/admin/videos/~create/")
-        request.resolver_match = resolve("/admin/videos/~create/")
-        request.user = admin_user
-        response = video_create_view(request)
+    def test_get(self, admin_user: User, client: Client):
+        client.force_login(admin_user)
+        response = client.get("/admin/videos/~create/")
         assert response.render()
         assert response.status_code == 200
 
@@ -53,6 +54,7 @@ class TestVideoCreateView:
         video_collection: VideoCollection,
         rf_msg: RequestFactory,
     ):
+        mock.patch("killay.videos.models.requests")
         data = {"code": "fake", "title": "fake", "collection": video_collection.id}
         data_formset = {**PROVIDERS_FORMSET_DATA}
         data_formset["providers-0-plyr_provider"] = "vimeo"
@@ -86,15 +88,13 @@ class TestVideoUpdateView:
         self,
         admin_user: User,
         video_categorization: VideoCategorization,
-        rf: RequestFactory,
+        client: Client,
     ):
+        client.force_login(admin_user)
         video = video_categorization.video
         collection = video_categorization.collection
         url = f"/admin/videos/c/{collection.slug}/{video.code}/~update/"
-        request = rf.get(url)
-        request.user = admin_user
-        request.resolver_match = resolve(url)
-        response = video_update_view(request, **request.resolver_match.kwargs)
+        response = client.get(url)
         assert response.status_code == 200
         assert response.render()
         assert video.meta.title in str(response.content)
@@ -105,6 +105,7 @@ class TestVideoUpdateView:
         video_categorization: VideoCategorization,
         rf_msg: RequestFactory,
     ):
+        mock.patch("killay.videos.models.requests")
         video = video_categorization.video
         collection = video_categorization.collection
         url = f"/admin/videos/c/{collection.slug}/{video.code}/~update/"
@@ -143,15 +144,13 @@ class TestVideoDeleteView:
         self,
         admin_user: User,
         video_categorization: VideoCategorization,
-        rf: RequestFactory,
+        client: Client,
     ):
+        client.force_login(admin_user)
         video = video_categorization.video
         collection = video_categorization.collection
         url = f"/admin/videos/c/{collection.slug}/{video.code}/~delete/"
-        request = rf.get(url)
-        request.user = admin_user
-        request.resolver_match = resolve(url)
-        response = video_delete_view(request, **request.resolver_match.kwargs)
+        response = client.get(url)
         assert response.status_code == 200
         assert response.render()
         assert video.code in str(response.content)
@@ -188,15 +187,13 @@ class TestVideoSequencesListView:
         self,
         admin_user: User,
         video_categorization: VideoCategorization,
-        rf: RequestFactory,
+        client: Client,
     ):
+        client.force_login(admin_user)
         video = video_categorization.video
         collection = video_categorization.collection
         url = f"/admin/videos/c/{collection.slug}/{video.code}/~sequences/"
-        request = rf.get(url)
-        request.user = admin_user
-        request.resolver_match = resolve(url)
-        response = video_sequences_list_view(request, **request.resolver_match.kwargs)
+        response = client.get(url)
         assert response.status_code == 200
         assert response.render()
         assert video.code in str(response.content)
@@ -248,16 +245,13 @@ class TestVideoSequenceCreateView:
         admin_user: User,
         video_categorization: VideoCategorization,
         video_sequence,
-        rf: RequestFactory,
+        client: Client,
     ):
+        client.force_login(admin_user)
         video = video_categorization.video
         collection = video_categorization.collection
         url = f"/admin/videos/c/{collection.slug}/{video.code}/~sequences/create/"
-        request = rf.get(url)
-        request.user = admin_user
-        request.resolver_match = resolve(url)
-        response = video_sequences_create_view(request, **request.resolver_match.kwargs)
-
+        response = client.get(url)
         assert response.status_code == 200
         assert response.render()
         assert video.code in str(response.content)
@@ -286,15 +280,13 @@ class TestVideoCategorizationUpdateView:
         self,
         admin_user: User,
         video_categorization: VideoCategorization,
-        rf: RequestFactory,
+        client: Client,
     ):
+        client.force_login(admin_user)
         video = video_categorization.video
         collection = video_categorization.collection
         url = f"/admin/videos/c/{collection.slug}/{video.code}/~categorization/"
-        request = rf.get(url)
-        request.user = admin_user
-        request.resolver_match = resolve(url)
-        response = video_categorization_view(request, **request.resolver_match.kwargs)
+        response = client.get(url)
         assert response.status_code == 200
         assert response.render()
         assert video.meta.title in str(response.content)
@@ -363,13 +355,9 @@ CATEGORY_FORMSET_DATA = {
 
 
 class TestVideoCategoryListView:
-    def test_get(
-        self, admin_user: User, video_category: VideoCategory, rf: RequestFactory
-    ):
-        request = rf.get("/admin/videos/~categories/")
-        request.user = admin_user
-        request.resolver_match = resolve("/admin/videos/~categories/")
-        response = video_categories_view(request)
+    def test_get(self, admin_user: User, video_category: VideoCategory, client: Client):
+        client.force_login(admin_user)
+        response = client.get("/admin/videos/~categories/")
         assert response.status_code == 200
         assert response.render()
         assert video_category.name in str(response.content)
@@ -430,11 +418,9 @@ class TestVideoCategoryListView:
 
 
 class TestVideoPeopleListView:
-    def test_get(self, admin_user: User, video_person: VideoPerson, rf: RequestFactory):
-        request = rf.get("/admin/videos/~people/")
-        request.user = admin_user
-        request.resolver_match = resolve("/admin/videos/~people/")
-        response = video_people_view(request)
+    def test_get(self, admin_user: User, video_person: VideoPerson, client: Client):
+        client.force_login(admin_user)
+        response = client.get("/admin/videos/~people/")
         assert response.status_code == 200
         assert response.render()
         assert video_person.name in str(response.content)
@@ -475,13 +461,9 @@ class TestVideoPeopleListView:
 
 
 class TestVideoKeywordListView:
-    def test_get(
-        self, admin_user: User, video_keyword: VideoKeyword, rf: RequestFactory
-    ):
-        request = rf.get("/admin/videos/~keywords/")
-        request.resolver_match = resolve("/admin/videos/~keywords/")
-        request.user = admin_user
-        response = video_keywords_view(request)
+    def test_get(self, admin_user: User, video_keyword: VideoKeyword, client: Client):
+        client.force_login(admin_user)
+        response = client.get("/admin/videos/~keywords/")
         assert response.status_code == 200
         assert response.render()
         assert video_keyword.name in str(response.content)

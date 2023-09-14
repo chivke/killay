@@ -12,7 +12,46 @@
 
 {% block content %}
   <div id="admin-main-container">
-    <h1 class="ui dividing header">{{title}}</h1>
+    {% if main_title %}
+      <h1 class="ui dividing header">{{main_title}}</h1>
+    {% else %}
+      <h1 class="ui dividing header">{{title}}</h1>
+    {% endif %}
+    <div class="ui grid">
+    {% if breadcrumb %}
+      <div class="left floated six wide column">
+        <div class="ui breadcrumb">
+          {% for bread in breadcrumb %}
+            {% if bread.view %}
+              <a class="section" href="{% url bread.view %}">{{bread.name}}</a>
+            {% else %}
+              <div class="section">{{bread.name}}</div>
+            {% endif %}
+            <i class="right angle icon divider"></i>
+          {% endfor %}
+          <div class="section">{{title}}</div>
+        </div>
+      </div>
+    {% endif %}
+    {% if extra_links %}
+      <div class="rigth floated six wide column">
+        <div class="ui breadcrumb">
+          {% for bread in extra_links %}
+            {% if bread.view %}
+              <a class="section" href="{% url bread.view %}">{{bread.name}}</a>
+            {% else %}
+              <div class="section">{{bread.name}}</div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+
+    </div>
+    <div class="ui divider"></div>
+    {% if main_title %}
+        <h2 class="ui dividing header">{{title}}</h2>
+    {% endif %}
     <div class="inline fields">
       <div class="field">
         <label>
@@ -29,12 +68,40 @@
         method="get"
         accept-charset="utf-8"
       >
-        <div class="ui action input">
+        <div class="ui action input fluid">
           <input type="text" name="q" value="{% if query_search %}{{query_search}}{% endif %}">
+
           <button class="ui button" type="submit">
             {% trans "Search" %}
           </button>
+          {% if filter_options %}
+            <span style="padding-left: 5px"></span>
+            {% for field, options in filter_options.items %}
+              <select class="ui dropdown button" name="{{field}}">
+                <i class="filter icon"></i>
+                  <option class="item" value=" ">Select {{field}}</option>
+                  {% for option in options %}
+                    <option
+                      class="item"
+                      value="{{option.value}}"
+                      {% for applied_key, value in filter_applied.items %}
+                        {% if field == applied_key and option.value == value %}
+                          selected
+                        {% endif %}
+                      {% endfor %}
+
+                    >{{option.name}}</option>
+                  {% endfor %}
+              </select>
+            {% endfor %}
+          {% endif %}
+          {% if create_link %}
+            <span style="padding-left: 15px"></span>
+            <button onclick="location.href='{{create_link}}'" type="button"
+            class="ui button">{% trans "Create" %}</button>
+          {% endif %}
         </div>
+
       </form>
       <div class="ui divider"></div>
     </div>
@@ -47,10 +114,6 @@
       <div id="formset-list-footer-pagination">
         <div class="ui buttons">
           <input type="submit" class="ui button" value="{% trans 'Save' %}">
-          {% if create_link %}
-            <button onclick="location.href='{{create_link}}'" type="button"
-            class="ui button">{% trans "Create" %}</button>
-          {% endif %}
         </div>
         {% if is_paginated %}
           <div class="ui pagination menu">

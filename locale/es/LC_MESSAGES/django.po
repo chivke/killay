@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-15 09:54-0600\n"
+"POT-Creation-Date: 2023-09-13 14:21-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,1183 +18,623 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: env/lib/python3.9/site-packages/django/contrib/messages/apps.py:7
-msgid "Messages"
+#: killay/admin/forms.py:626
+#, python-brace-format
+msgid "File must be {self.file_extensions}"
+msgstr "El archivo debe ser {self.file_extensions}"
+
+#: killay/admin/lib/constants.py:6
+#: killay/templates/admin/components/sidebar.html:14
+#: killay/templates/admin/site_configuration.html:10
+msgid "Site Configuration"
+msgstr "Configuración del Sitio"
+
+#: killay/admin/lib/constants.py:19
+msgid "Configuration"
+msgstr "Configuración"
+
+#: killay/admin/lib/constants.py:20
+msgid "General"
+msgstr "General"
+
+#: killay/admin/lib/constants.py:21
+msgid "Visualization"
+msgstr "Visualización"
+
+#: killay/admin/lib/constants.py:22
+msgid "Social Medias"
+msgstr "Redes Sociales"
+
+#: killay/admin/lib/constants.py:23
+#: killay/templates/admin/site_configuration.html:78
+msgid "Logos"
+msgstr "Logos"
+
+#: killay/admin/lib/constants.py:24
+#: killay/templates/admin/components/sidebar.html:22
+msgid "Pages"
+msgstr "Páginas"
+
+#: killay/admin/lib/constants.py:25
+#: killay/templates/admin/components/sidebar.html:18 killay/users/apps.py:7
+msgid "Users"
+msgstr "Usuarios"
+
+#: killay/admin/lib/constants.py:38
+msgid "Name of Site"
+msgstr "Nombre del Sitio"
+
+#: killay/admin/lib/constants.py:40
+msgid "Site name, can be omitted with certain display options"
 msgstr ""
 
-#: env/lib/python3.9/site-packages/django/contrib/sitemaps/apps.py:7
-msgid "Site Maps"
-msgstr ""
+#: killay/admin/lib/constants.py:42
+msgid "Domain"
+msgstr "Dominio"
 
-#: env/lib/python3.9/site-packages/django/contrib/staticfiles/apps.py:9
-msgid "Static Files"
-msgstr ""
+#: killay/admin/lib/constants.py:43
+msgid "Domain of the site (example.com)"
+msgstr "Dominio del sitio (example.com)"
 
-#: env/lib/python3.9/site-packages/django/contrib/syndication/apps.py:7
-msgid "Syndication"
-msgstr ""
+#: killay/admin/lib/constants.py:44 killay/archives/lib/constants.py:150
+msgid "Is published"
+msgstr "Está publicado"
 
-#: env/lib/python3.9/site-packages/django/core/paginator.py:45
-msgid "That page number is not an integer"
-msgstr ""
+#: killay/admin/lib/constants.py:46
+msgid "If the site is not published, you will need to log in to visit it"
+msgstr "Si el sitio no está piublicado, necesitará logearse para visitarlo"
 
-#: env/lib/python3.9/site-packages/django/core/paginator.py:47
-msgid "That page number is less than 1"
-msgstr ""
+#: killay/admin/lib/constants.py:48
+msgid "Footer is visible"
+msgstr "Pie del sitio es visible"
 
-#: env/lib/python3.9/site-packages/django/core/paginator.py:52
-msgid "That page contains no results"
-msgstr ""
+#: killay/admin/lib/constants.py:50
+msgid "Indicates whether or not the footer will be displayed"
+msgstr "Indica si el pie de sitio será mostrado o no"
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:32
-msgid "Enter a valid value."
-msgstr ""
+#: killay/admin/lib/constants.py:52
+msgid "General site configuration options"
+msgstr "Opciones de configuración general del sitio"
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:103
-#: env/lib/python3.9/site-packages/django/forms/fields.py:659
-msgid "Enter a valid URL."
+#: killay/admin/lib/constants.py:54
+msgid "Site archival content display options and preferences"
 msgstr ""
+"Opciones de visualización y preferencias del contenido archivístico del sitio"
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:155
-msgid "Enter a valid integer."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:166
-msgid "Enter a valid email address."
-msgstr ""
-
-#. Translators: "letters" means latin letters: a-z and A-Z.
-#: env/lib/python3.9/site-packages/django/core/validators.py:240
+#: killay/admin/lib/constants.py:57
 msgid ""
-"Enter a valid “slug” consisting of letters, numbers, underscores or hyphens."
+"Allows you to manage institutional social networks to be displayed on the "
+"site"
 msgstr ""
+"Permite gestionar las redes sociales institucionales mostradas en el sitio"
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:247
+#: killay/admin/lib/constants.py:61
+msgid "Allows you to manage institutional logos to be displayed on the site"
+msgstr "Permite gestionar los logos institucionales mostrados en el sitio"
+
+#: killay/admin/lib/constants.py:66
+msgid "Archives Content Manager"
+msgstr "Gestor de Contenido de Archivos"
+
+#: killay/admin/lib/constants.py:74
+msgid "Content Manager"
+msgstr "Gestor de Contenido"
+
+#: killay/admin/lib/constants.py:94
+msgid "Bulk Actions"
+msgstr "Acciones Masivas"
+
+#: killay/admin/lib/constants.py:95 killay/archives/apps.py:7
+#: killay/viewer/lib/constants.py:100
+msgid "Archives"
+msgstr "Archivos"
+
+#: killay/admin/lib/constants.py:96
+#: killay/admin/templatetags/admin_navbar.py:22
+#: killay/viewer/lib/constants.py:101
+msgid "Collections"
+msgstr "Colecciones"
+
+#: killay/admin/lib/constants.py:97
+msgid "Pieces"
+msgstr "Piezas"
+
+#: killay/admin/lib/constants.py:98
+#: killay/admin/templatetags/admin_navbar.py:23
+#: killay/archives/lib/constants.py:160
+#: killay/templates/videos/video_detail.html:139
+#: killay/templates/videos/video_filtered_list.html:20
+#: killay/videos/models.py:245 killay/viewer/lib/constants.py:102
+msgid "Categories"
+msgstr "Categorías"
+
+#: killay/admin/lib/constants.py:99
+#: killay/admin/templatetags/admin_navbar.py:24
+#: killay/archives/lib/constants.py:162
+#: killay/templates/videos/video_detail.html:149 killay/videos/models.py:248
+#: killay/viewer/lib/constants.py:103
+msgid "People"
+msgstr "Gente"
+
+#: killay/admin/lib/constants.py:100
+#: killay/admin/templatetags/admin_navbar.py:25
+#: killay/archives/lib/constants.py:164
+#: killay/templates/videos/video_detail.html:159 killay/videos/models.py:251
+#: killay/viewer/lib/constants.py:104
+msgid "Keywords"
+msgstr "Palabras Clave"
+
+#: killay/admin/lib/constants.py:101
+#: killay/admin/templatetags/admin_navbar.py:61
+#: killay/templates/admin/videos/video_sequences_list.html:14
+msgid "Sequences"
+msgstr "Sequencias"
+
+#: killay/admin/lib/constants.py:102
+msgid "Providers"
+msgstr "Proveedores"
+
+#: killay/admin/lib/constants.py:103
+msgid "Places"
+msgstr "Lugares"
+
+#: killay/admin/lib/constants.py:104
+msgid "Addresses"
+msgstr "Direcciones"
+
+#: killay/admin/lib/constants.py:107
 msgid ""
-"Enter a valid “slug” consisting of Unicode letters, numbers, underscores, or "
-"hyphens."
+"It allows executing bulk actions to manipulate the content. These work "
+"through an excel file (xlsx) that is loaded into the system."
 msgstr ""
+"Permite ejecutar acciones masivas para manipular el contenido. Funciona a "
+"través de archivos excel (xlsx) que son cargos al sistema."
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:256
-#: env/lib/python3.9/site-packages/django/core/validators.py:276
-msgid "Enter a valid IPv4 address."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:261
-#: env/lib/python3.9/site-packages/django/core/validators.py:277
-msgid "Enter a valid IPv6 address."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:271
-#: env/lib/python3.9/site-packages/django/core/validators.py:275
-msgid "Enter a valid IPv4 or IPv6 address."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:305
-msgid "Enter only digits separated by commas."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:311
-#, python-format
-msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:343
-#, python-format
-msgid "Ensure this value is less than or equal to %(limit_value)s."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:352
-#, python-format
-msgid "Ensure this value is greater than or equal to %(limit_value)s."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:362
-#, python-format
+#: killay/admin/lib/constants.py:111
 msgid ""
-"Ensure this value has at least %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at least %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
+"It refers to the places from where the public could access restricted content"
+msgstr ""
+"Se refiere a los lugares desde donde el público puede acceder a contenido "
+"restringido"
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:377
-#, python-format
+#: killay/admin/lib/constants.py:115
+msgid "IP addresses associated with this place"
+msgstr "Direcciones IP asociadas con el lugar"
+
+#: killay/admin/lib/constants.py:118
 msgid ""
-"Ensure this value has at most %(limit_value)d character (it has "
-"%(show_value)d)."
-msgid_plural ""
-"Ensure this value has at most %(limit_value)d characters (it has "
-"%(show_value)d)."
-msgstr[0] ""
-msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:396
-#: env/lib/python3.9/site-packages/django/forms/fields.py:291
-#: env/lib/python3.9/site-packages/django/forms/fields.py:326
-msgid "Enter a number."
+"Archives are the broadest classification to group pieces, and can be "
+"subdivided into collections"
 msgstr ""
+"Los archivos son la clasificación más amplia para agrupar piezas, pudiendo "
+"ser subdivididos en colecciones."
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:398
-#, python-format
-msgid "Ensure that there are no more than %(max)s digit in total."
-msgid_plural "Ensure that there are no more than %(max)s digits in total."
-msgstr[0] ""
-msgstr[1] ""
+#: killay/admin/lib/constants.py:122
+msgid "Collections are groupings required to classify pieces within an archive"
+msgstr ""
+"Las colecciones son agrupamientos requeridos para clasificar piezas dentro "
+"de un archivo"
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:403
-#, python-format
-msgid "Ensure that there are no more than %(max)s decimal place."
-msgid_plural "Ensure that there are no more than %(max)s decimal places."
-msgstr[0] ""
-msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/core/validators.py:408
-#, python-format
+#: killay/admin/lib/constants.py:125
 msgid ""
-"Ensure that there are no more than %(max)s digit before the decimal point."
-msgid_plural ""
-"Ensure that there are no more than %(max)s digits before the decimal point."
-msgstr[0] ""
-msgstr[1] ""
+"Pieces are the display units in multimedia format (videos, images, sounds "
+"and documents)."
+msgstr ""
+"Las piezas son unidades de exhibición de múltiples formatos (videos, "
+"imágenes, sonidos y documentos)."
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:470
-#, python-format
+#: killay/admin/lib/constants.py:129
+msgid "Edition of fundamental fields of the piece and its categorization"
+msgstr "Edición de los campos fundamentales de la pieza y su categorización"
+
+#: killay/admin/lib/constants.py:131
+msgid "Edition of metadata field of the piece"
+msgstr "Edición de los campos de metadatos de la pieza"
+
+#: killay/admin/lib/constants.py:133
 msgid ""
-"File extension “%(extension)s” is not allowed. Allowed extensions are: "
-"%(allowed_extensions)s."
+"The sequences allow you to add text content to certain moments of a piece of "
+"the video or sound kind"
 msgstr ""
+"Las secuencias permiten añadir contenido de texto a ciertos momentos para "
+"piezas del tipo video o sonido"
 
-#: env/lib/python3.9/site-packages/django/core/validators.py:522
-msgid "Null characters are not allowed."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/base.py:1184
-#: env/lib/python3.9/site-packages/django/forms/models.py:759
-msgid "and"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/base.py:1186
-#, python-format
-msgid "%(model_name)s with this %(field_labels)s already exists."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:104
-#, python-format
-msgid "Value %(value)r is not a valid choice."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:105
-msgid "This field cannot be null."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:106
-msgid "This field cannot be blank."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:107
-#, python-format
-msgid "%(model_name)s with this %(field_label)s already exists."
-msgstr ""
-
-#. Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
-#. Eg: "Title must be unique for pub_date year"
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:111
-#, python-format
+#: killay/admin/lib/constants.py:137
 msgid ""
-"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+"The providers allow you to manage the content of the piece to be displayed "
+"on the site"
 msgstr ""
+"Los proveedores permiten gestionar el contenido de las piezas a ser mostrado "
+"en el sitio"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:130
-#, python-format
-msgid "Field of type: %(field_type)s"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:937
-#, python-format
-msgid "“%(value)s” value must be either True or False."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:938
-#, python-format
-msgid "“%(value)s” value must be either True, False, or None."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:940
-msgid "Boolean (Either True or False)"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:981
-#, python-format
-msgid "String (up to %(max_length)s)"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1045
-msgid "Comma-separated integers"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1094
-#, python-format
+#: killay/admin/lib/constants.py:141
 msgid ""
-"“%(value)s” value has an invalid date format. It must be in YYYY-MM-DD "
-"format."
+"The categories are subdivisions of the pieces of the collections for their "
+"more precise classification"
 msgstr ""
+"Las categorías son subdivisiones de las piezas de una colección para una "
+"clasificación más precisa"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1096
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1239
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD) but it is an invalid "
-"date."
-msgstr ""
+#: killay/admin/lib/constants.py:145
+msgid "People are subjects related to pieces of the site"
+msgstr "Gente son sujetos relacionados a las piezas del sitio"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1099
-msgid "Date (without time)"
-msgstr ""
+#: killay/admin/lib/constants.py:148
+msgid "Keywords are concepts related to the pieces within the site"
+msgstr "Palabras claves son conceptos relacionados con las piezas del sitio"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1237
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
-"uuuuuu]][TZ] format."
-msgstr ""
+#: killay/admin/lib/constants.py:190
+msgid "social media"
+msgstr "redes sociales"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1241
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
-"[TZ]) but it is an invalid date/time."
-msgstr ""
+#: killay/admin/lib/constants.py:191
+msgid "social medias"
+msgstr "redes sociales"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1245
-msgid "Date (with time)"
-msgstr ""
+#: killay/admin/lib/constants.py:192
+msgid "Provider"
+msgstr "Proveedor"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1393
-#, python-format
-msgid "“%(value)s” value must be a decimal number."
-msgstr ""
+#: killay/admin/lib/constants.py:193
+msgid "Social network provider"
+msgstr "Proveedor de red social"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1395
-msgid "Decimal number"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1534
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in [DD] [[HH:]MM:]ss[."
-"uuuuuu] format."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1537
-#: killay/templates/videos/video_detail.html:95 killay/videos/models.py:81
-msgid "Duration"
-msgstr "Duración"
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1587
-msgid "Email address"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1610
-msgid "File path"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1676
-#, python-format
-msgid "“%(value)s” value must be a float."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1678
-msgid "Floating point number"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1716
-#, python-format
-msgid "“%(value)s” value must be an integer."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1718
-msgid "Integer"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1801
-msgid "Big (8 byte) integer"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1817
-msgid "IPv4 address"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1848
-msgid "IP address"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1928
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1929
-#, python-format
-msgid "“%(value)s” value must be either None, True or False."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1931
-msgid "Boolean (Either True, False or None)"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1966
-msgid "Positive integer"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1979
-msgid "Positive small integer"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:1993
-#, python-format
-msgid "Slug (up to %(max_length)s)"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2025
-msgid "Small integer"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2032
-msgid "Text"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2060
-#, python-format
-msgid ""
-"“%(value)s” value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
-"format."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2062
-#, python-format
-msgid ""
-"“%(value)s” value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
-"invalid time."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2065
-msgid "Time"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2191
-#: killay/admin/models.py:58
+#: killay/admin/lib/constants.py:194
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2213
-msgid "Raw binary data"
-msgstr ""
+#: killay/admin/lib/constants.py:195
+msgid "Social network profile URL"
+msgstr "URL del perfil de la red social"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2278
-#, python-format
-msgid "“%(value)s” is not a valid UUID."
-msgstr ""
+#: killay/admin/lib/constants.py:196 killay/admin/lib/constants.py:214
+#: killay/archives/lib/constants.py:22 killay/archives/lib/constants.py:54
+#: killay/pages/lib/constants.py:15 killay/videos/models.py:19
+msgid "Is visible"
+msgstr "Es visible"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/__init__.py:2280
-msgid "Universally unique identifier"
-msgstr ""
+#: killay/admin/lib/constants.py:198
+msgid "Indicates if the social network will be visible to the public"
+msgstr "Indica si la red social será visible al público"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/files.py:221
-msgid "File"
-msgstr ""
+#: killay/admin/lib/constants.py:200 killay/admin/lib/constants.py:218
+#: killay/archives/lib/constants.py:15 killay/archives/lib/constants.py:49
+#: killay/archives/lib/constants.py:85 killay/archives/lib/constants.py:103
+#: killay/archives/lib/constants.py:121 killay/archives/managers.py:21
+#: killay/pages/lib/constants.py:25 killay/videos/models.py:267
+msgid "Position"
+msgstr "Posición"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/files.py:360
-#: killay/admin/models.py:73
+#: killay/admin/lib/constants.py:202 killay/admin/lib/constants.py:220
+#: killay/archives/lib/constants.py:17 killay/archives/lib/constants.py:51
+#: killay/archives/lib/constants.py:87 killay/archives/lib/constants.py:105
+#: killay/archives/lib/constants.py:123 killay/pages/lib/constants.py:27
+msgid ""
+"Determines the position in which it will be displayed, the smaller the "
+"number, the earlier it will be located"
+msgstr ""
+"Determina la posición en que será mostrada, mientras más pequeña más "
+"adelante será localizada"
+
+#: killay/admin/lib/constants.py:208
+msgid "logo"
+msgstr "logo"
+
+#: killay/admin/lib/constants.py:209
+msgid "logos"
+msgstr "logos"
+
+#: killay/admin/lib/constants.py:210 killay/admin/lib/constants.py:312
+#: killay/archives/lib/constants.py:7 killay/archives/lib/constants.py:41
+#: killay/archives/lib/constants.py:77 killay/archives/lib/constants.py:95
+#: killay/archives/lib/constants.py:113 killay/archives/lib/constants.py:274
+#: killay/archives/managers.py:15 killay/videos/models.py:261
+msgid "Name"
+msgstr "Nombre"
+
+#: killay/admin/lib/constants.py:211
+msgid "Name of the logo"
+msgstr "Nombre del logo"
+
+#: killay/admin/lib/constants.py:212 killay/archives/lib/constants.py:20
+#: killay/archives/lib/constants.py:62 killay/archives/lib/constants.py:135
+#: killay/archives/lib/constants.py:206
 msgid "Image"
 msgstr "Imagen"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/related.py:778
-#, python-format
-msgid "%(model)s instance with %(field)s %(value)r does not exist."
-msgstr ""
+#: killay/admin/lib/constants.py:213
+msgid "Logo image"
+msgstr "Imagen del logo"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/related.py:780
-msgid "Foreign Key (type determined by related field)"
-msgstr ""
+#: killay/admin/lib/constants.py:216
+msgid "Indicates if the logo will be visible to the public"
+msgstr "Indica si el logo será visible al público"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/related.py:1012
-msgid "One-to-one relationship"
-msgstr ""
+#: killay/admin/lib/constants.py:226
+#: killay/admin/templatetags/admin_navbar.py:29
+msgid "Administrator"
+msgstr "Administrador"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/related.py:1066
-#, python-format
-msgid "%(from)s-%(to)s relationship"
-msgstr ""
+#: killay/admin/lib/constants.py:228 killay/archives/lib/constants.py:249
+#: killay/templates/videos/video_detail.html:90 killay/videos/models.py:79
+msgid "Location"
+msgstr "Locación"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/related.py:1067
-#, python-format
-msgid "%(from)s-%(to)s relationships"
-msgstr ""
+#: killay/admin/lib/constants.py:229
+msgid "Update place"
+msgstr "Editar lugar"
 
-#: env/lib/python3.9/site-packages/django/db/models/fields/related.py:1109
-msgid "Many-to-many relationship"
-msgstr ""
+#: killay/admin/lib/constants.py:230
+msgid "Add place"
+msgstr "Añadir lugar"
 
-#. Translators: If found as last label character, these punctuation
-#. characters will prevent the default label_suffix to be appended to the label
-#: env/lib/python3.9/site-packages/django/forms/boundfield.py:149
-msgid ":?.!"
-msgstr ""
+#: killay/admin/lib/constants.py:231
+msgid "Update IP Address"
+msgstr "Editar dirección IP"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:53
-msgid "This field is required."
-msgstr ""
+#: killay/admin/lib/constants.py:232
+msgid "Add IP Address"
+msgstr "Añadir dirección IP"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:246
-msgid "Enter a whole number."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/fields.py:397
-#: env/lib/python3.9/site-packages/django/forms/fields.py:1127
-msgid "Enter a valid date."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/fields.py:421
-#: env/lib/python3.9/site-packages/django/forms/fields.py:1128
-msgid "Enter a valid time."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/fields.py:443
-msgid "Enter a valid date/time."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/fields.py:472
-msgid "Enter a valid duration."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/fields.py:473
+#: killay/admin/lib/constants.py:237
 #, python-brace-format
-msgid "The number of days must be between {min_days} and {max_days}."
-msgstr ""
+msgid "Update Piece ({code})"
+msgstr "Editar Pieza ({code})"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:533
-msgid "No file was submitted. Check the encoding type on the form."
-msgstr ""
+#: killay/admin/lib/constants.py:238
+#, python-brace-format
+msgid "Update Archive ({slug})"
+msgstr "Editar Archivo ({slug})"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:534
-msgid "No file was submitted."
-msgstr ""
+#: killay/admin/lib/constants.py:239
+#, python-brace-format
+msgid "Update Collection ({slug})"
+msgstr "Editar Colección ({slug})"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:535
-msgid "The submitted file is empty."
-msgstr ""
+#: killay/admin/lib/constants.py:240
+#, python-brace-format
+msgid "Update Category ({slug})"
+msgstr "Editar Categoría ({slug})"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:537
-#, python-format
-msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
-msgid_plural ""
-"Ensure this filename has at most %(max)d characters (it has %(length)d)."
-msgstr[0] ""
-msgstr[1] ""
+#: killay/admin/lib/constants.py:241
+#, python-brace-format
+msgid "Update Person ({slug})"
+msgstr "Editar Persona ({slug})"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:540
-msgid "Please either submit a file or check the clear checkbox, not both."
-msgstr ""
+#: killay/admin/lib/constants.py:242
+#, python-brace-format
+msgid "Update Keyword ({slug})"
+msgstr "Editar Palabra Clave ({slug})"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:601
+#: killay/admin/lib/constants.py:246
+msgid "Pages Manager"
+msgstr "Gestor de Páginas"
+
+#: killay/admin/lib/constants.py:251
+msgid "Page List"
+msgstr "Lista de Páginas"
+
+#: killay/admin/lib/constants.py:255
+msgid "Users Manager"
+msgstr "Gestor de Usuarios"
+
+#: killay/admin/lib/constants.py:260
+msgid "Users List"
+msgstr "Lista de Usuarios"
+
+#: killay/admin/lib/constants.py:267
+msgid "Bulk Create Pieces"
+msgstr "Creación Masiva de Piezas"
+
+#: killay/admin/lib/constants.py:270
 msgid ""
-"Upload a valid image. The file you uploaded was either not an image or a "
-"corrupted image."
+"This tool allows you to load an excel file with a series of pieces to be "
+"created. You can only add fields that do not involve uploading files "
+"(images, documents, sounds, files, etc.), the remaining fields must be "
+"updated piece by piece."
 msgstr ""
+"Esta herramienta permite cargar un archivo excel con una serie de piezas "
+"para ser creadas. Solo puedes añadir campos que no impliquen subir archivos "
+"(imagenes, documentos, sonidos, etc.), los demás campos deberán ser editados "
+"pieza por pieza."
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:763
-#: env/lib/python3.9/site-packages/django/forms/fields.py:853
-#: env/lib/python3.9/site-packages/django/forms/models.py:1275
-#, python-format
-msgid "Select a valid choice. %(value)s is not one of the available choices."
-msgstr ""
+#: killay/admin/lib/constants.py:277
+msgid "Action Type"
+msgstr "Tipo de Acciones"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:854
-#: env/lib/python3.9/site-packages/django/forms/fields.py:969
-#: env/lib/python3.9/site-packages/django/forms/models.py:1274
-msgid "Enter a list of values."
-msgstr ""
+#: killay/admin/lib/constants.py:278
+msgid "Type of bulk action to execute"
+msgstr "Tipo de acción masiva a ser ejecutada"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:970
-msgid "Enter a complete value."
-msgstr ""
+#: killay/admin/lib/constants.py:279
+msgid "XLS File"
+msgstr "Archivo XLSX"
 
-#: env/lib/python3.9/site-packages/django/forms/fields.py:1186
-msgid "Enter a valid UUID."
-msgstr ""
+#: killay/admin/lib/constants.py:280
+msgid "Excel file (xls) to be processed"
+msgstr "Archivo excel (xlsx) a ser procesado"
 
-#. Translators: This is the default suffix added to form field labels
-#: env/lib/python3.9/site-packages/django/forms/forms.py:81
-msgid ":"
-msgstr ""
+#: killay/admin/lib/constants.py:281
+msgid "Wrong file extension, must be excel file"
+msgstr "Extensión del archivo errada, debe ser un archivo excel"
 
-#: env/lib/python3.9/site-packages/django/forms/forms.py:207
-#, python-format
-msgid "(Hidden field %(name)s) %(error)s"
-msgstr ""
+#: killay/admin/lib/constants.py:283
+#, python-brace-format
+msgid "Wrong value type for {field} field, must be {field_types}"
+msgstr "Tipo de valor errado para el campo {field}, debe ser {field_types}"
 
-#: env/lib/python3.9/site-packages/django/forms/formsets.py:93
-msgid "ManagementForm data is missing or has been tampered with"
-msgstr ""
+#: killay/admin/lib/constants.py:285
+msgid "The file does not contain rows with data"
+msgstr "El archivo no contiene filas con datos"
 
-#: env/lib/python3.9/site-packages/django/forms/formsets.py:345
-#, python-format
-msgid "Please submit %d or fewer forms."
-msgid_plural "Please submit %d or fewer forms."
-msgstr[0] ""
-msgstr[1] ""
+#: killay/admin/lib/constants.py:286
+#, python-brace-format
+msgid "{field} field is required"
+msgstr "campo {field} es requerido"
 
-#: env/lib/python3.9/site-packages/django/forms/formsets.py:352
-#, python-format
-msgid "Please submit %d or more forms."
-msgid_plural "Please submit %d or more forms."
-msgstr[0] ""
-msgstr[1] ""
+#: killay/admin/lib/constants.py:287
+msgid "Must be \"TRUE\" or \"FALSE\""
+msgstr "Debe ser \"TRUE\" o \"FALSE\""
 
-#: env/lib/python3.9/site-packages/django/forms/formsets.py:379
-#: env/lib/python3.9/site-packages/django/forms/formsets.py:386
-#: killay/templates/admin/videos/video_sequences_list.html:30
-msgid "Order"
-msgstr "Orden"
+#: killay/admin/lib/constants.py:289
+#, python-brace-format
+msgid "{field} field must be slug (only letters, numbers and \"-\" or \"_\")."
+msgstr "campo {field} debe ser slug (solo letras, números o \"-\" or \"_\")."
 
-#: env/lib/python3.9/site-packages/django/forms/formsets.py:391
-#: killay/admin/templatetags/admin_navbar.py:57 killay/admin/views/pages.py:59
-#: killay/admin/views/users.py:53
-msgid "Delete"
-msgstr "Eliminar"
+#: killay/admin/lib/constants.py:299
+msgid "File Columns"
+msgstr "Columnas del Archivo"
 
-#: env/lib/python3.9/site-packages/django/forms/models.py:754
-#, python-format
-msgid "Please correct the duplicate data for %(field)s."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/models.py:758
-#, python-format
-msgid "Please correct the duplicate data for %(field)s, which must be unique."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/models.py:764
-#, python-format
+#: killay/admin/lib/constants.py:301
 msgid ""
-"Please correct the duplicate data for %(field_name)s which must be unique "
-"for the %(lookup)s in %(date_field)s."
-msgstr ""
+"Here you can review the detail of the columns of the file to be uploaded"
+msgstr "Acá puedes revisar el detalle de las columnas del archivo a ser subido"
 
-#: env/lib/python3.9/site-packages/django/forms/models.py:773
-msgid "Please correct the duplicate values below."
-msgstr ""
+#: killay/admin/lib/constants.py:303
+msgid "Required Columns"
+msgstr "Columnas Requeridas"
 
-#: env/lib/python3.9/site-packages/django/forms/models.py:1094
-msgid "The inline value did not match the parent instance."
-msgstr ""
+#: killay/admin/lib/constants.py:304
+msgid "Non Required Columns"
+msgstr "Columnas No Requeridas"
 
-#: env/lib/python3.9/site-packages/django/forms/models.py:1161
-msgid "Select a valid choice. That choice is not one of the available choices."
-msgstr ""
+#: killay/admin/lib/constants.py:305
+msgid "Download the template"
+msgstr "Descarga la plantilla"
 
-#: env/lib/python3.9/site-packages/django/forms/models.py:1277
-#, python-format
-msgid "“%(pk)s” is not a valid value."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/utils.py:162
-#, python-format
+#: killay/admin/lib/constants.py:307
 msgid ""
-"%(datetime)s couldn’t be interpreted in time zone %(current_timezone)s; it "
-"may be ambiguous or it may not exist."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/widgets.py:395
-msgid "Clear"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/widgets.py:396
-msgid "Currently"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/widgets.py:397
-msgid "Change"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/widgets.py:709
-msgid "Unknown"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/widgets.py:710
-msgid "Yes"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/forms/widgets.py:711
-msgid "No"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/template/defaultfilters.py:788
-msgid "yes,no,maybe"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/template/defaultfilters.py:817
-#: env/lib/python3.9/site-packages/django/template/defaultfilters.py:834
-#, python-format
-msgid "%(size)d byte"
-msgid_plural "%(size)d bytes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/template/defaultfilters.py:836
-#, python-format
-msgid "%s KB"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/template/defaultfilters.py:838
-#, python-format
-msgid "%s MB"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/template/defaultfilters.py:840
-#, python-format
-msgid "%s GB"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/template/defaultfilters.py:842
-#, python-format
-msgid "%s TB"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/template/defaultfilters.py:844
-#, python-format
-msgid "%s PB"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dateformat.py:62
-msgid "p.m."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dateformat.py:63
-msgid "a.m."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dateformat.py:68
-msgid "PM"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dateformat.py:69
-msgid "AM"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dateformat.py:150
-msgid "midnight"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dateformat.py:152
-msgid "noon"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:6
-msgid "Monday"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:6
-msgid "Tuesday"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:6
-msgid "Wednesday"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:6
-msgid "Thursday"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:6
-msgid "Friday"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:7
-msgid "Saturday"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:7
-msgid "Sunday"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:10
-msgid "Mon"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:10
-msgid "Tue"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:10
-msgid "Wed"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:10
-msgid "Thu"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:10
-msgid "Fri"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:11
-msgid "Sat"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:11
-msgid "Sun"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:14
-msgid "January"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:14
-msgid "February"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:14
-msgid "March"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:14
-msgid "April"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:14
-msgid "May"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:14
-msgid "June"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:15
-msgid "July"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:15
-msgid "August"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:15
-msgid "September"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:15
-msgid "October"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:15
-msgid "November"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:16
-msgid "December"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:19
-msgid "jan"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:19
-msgid "feb"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:19
-msgid "mar"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:19
-msgid "apr"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:19
-msgid "may"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:19
-msgid "jun"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:20
-msgid "jul"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:20
-msgid "aug"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:20
-msgid "sep"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:20
-msgid "oct"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:20
-msgid "nov"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:20
-msgid "dec"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:23
-msgctxt "abbrev. month"
-msgid "Jan."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:24
-msgctxt "abbrev. month"
-msgid "Feb."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:25
-msgctxt "abbrev. month"
-msgid "March"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:26
-msgctxt "abbrev. month"
-msgid "April"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:27
-msgctxt "abbrev. month"
-msgid "May"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:28
-msgctxt "abbrev. month"
-msgid "June"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:29
-msgctxt "abbrev. month"
-msgid "July"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:30
-msgctxt "abbrev. month"
-msgid "Aug."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:31
-msgctxt "abbrev. month"
-msgid "Sept."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:32
-msgctxt "abbrev. month"
-msgid "Oct."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:33
-msgctxt "abbrev. month"
-msgid "Nov."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:34
-msgctxt "abbrev. month"
-msgid "Dec."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:37
-msgctxt "alt. month"
-msgid "January"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:38
-msgctxt "alt. month"
-msgid "February"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:39
-msgctxt "alt. month"
-msgid "March"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:40
-msgctxt "alt. month"
-msgid "April"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:41
-msgctxt "alt. month"
-msgid "May"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:42
-msgctxt "alt. month"
-msgid "June"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:43
-msgctxt "alt. month"
-msgid "July"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:44
-msgctxt "alt. month"
-msgid "August"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:45
-msgctxt "alt. month"
-msgid "September"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:46
-msgctxt "alt. month"
-msgid "October"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:47
-msgctxt "alt. month"
-msgid "November"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/dates.py:48
-msgctxt "alt. month"
-msgid "December"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/ipv6.py:8
-msgid "This is not a valid IPv6 address."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/text.py:69
-#, python-format
-msgctxt "String to return when truncating text"
-msgid "%(truncated_text)s…"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/text.py:235
-msgid "or"
-msgstr ""
-
-#. Translators: This string is used as a separator between list elements
-#: env/lib/python3.9/site-packages/django/utils/text.py:254
-#: env/lib/python3.9/site-packages/django/utils/timesince.py:83
-msgid ", "
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/utils/timesince.py:9
-#, python-format
-msgid "%d year"
-msgid_plural "%d years"
-msgstr[0] ""
-msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/utils/timesince.py:10
-#, python-format
-msgid "%d month"
-msgid_plural "%d months"
-msgstr[0] ""
-msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/utils/timesince.py:11
-#, python-format
-msgid "%d week"
-msgid_plural "%d weeks"
-msgstr[0] ""
-msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/utils/timesince.py:12
-#, python-format
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/utils/timesince.py:13
-#, python-format
-msgid "%d hour"
-msgid_plural "%d hours"
-msgstr[0] ""
-msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/utils/timesince.py:14
-#, python-format
-msgid "%d minute"
-msgid_plural "%d minutes"
-msgstr[0] ""
-msgstr[1] ""
-
-#: env/lib/python3.9/site-packages/django/utils/timesince.py:72
-msgid "0 minutes"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/csrf.py:110
-msgid "Forbidden"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/csrf.py:111
-msgid "CSRF verification failed. Request aborted."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/csrf.py:115
+"You can download here a template with all the fields usable by this bulk "
+"action."
+msgstr ""
+"Puedes descargar acá la plantilla con todos los campos usables por la acción "
+"masiva."
+
+#: killay/admin/lib/constants.py:311
+msgid "Column Name"
+msgstr "Nombre de la Columna"
+
+#: killay/admin/lib/constants.py:313 killay/archives/lib/constants.py:13
+#: killay/archives/lib/constants.py:47 killay/archives/lib/constants.py:83
+#: killay/archives/lib/constants.py:101 killay/archives/lib/constants.py:119
+#: killay/archives/lib/constants.py:245 killay/archives/lib/constants.py:295
+#: killay/archives/managers.py:20 killay/templates/videos/video_detail.html:80
+#: killay/videos/models.py:74 killay/videos/models.py:266
+msgid "Description"
+msgstr "Descripción"
+
+#: killay/admin/lib/constants.py:314
+msgid "Format"
+msgstr "Formato"
+
+#: killay/admin/lib/constants.py:316
+msgid "Video URL"
+msgstr "URL del Video"
+
+#: killay/admin/lib/constants.py:318
 msgid ""
-"You are seeing this message because this HTTPS site requires a “Referer "
-"header” to be sent by your Web browser, but none was sent. This header is "
-"required for security reasons, to ensure that your browser is not being "
-"hijacked by third parties."
+"Video URL from Youtube or Vimeo, like https://www.youtube.com/watch?v=CODE"
 msgstr ""
+"URL del video de Youtube o Vimeo, como https://www.youtube.com/watch?v=CODE"
 
-#: env/lib/python3.9/site-packages/django/views/csrf.py:120
+#: killay/admin/lib/constants.py:321
+msgid "Plain text"
+msgstr "Texto plano"
+
+#: killay/admin/lib/constants.py:322
+msgid "Only TRUE or FALSE"
+msgstr "Solo TRUE o FALSE"
+
+#: killay/admin/lib/constants.py:323
+msgid "Only numbers"
+msgstr "Solo números"
+
+#: killay/admin/lib/constants.py:324
+msgid "Must be in this format: YYYY:MM:DD"
+msgstr "Debe ser en este formato: AAAA:MM:DD"
+
+#: killay/admin/lib/constants.py:325
+msgid "Must be in this format: HH:MM:SS"
+msgstr "Debe ser en este formato: HH:MM:SS"
+
+#: killay/admin/lib/constants.py:327
+msgid "It can be the text suggested in the template or directly the ID number"
+msgstr ""
+"Puede ser el texto sugerido en la plantilla o directamente el número ID"
+
+#: killay/admin/lib/constants.py:330
 msgid ""
-"If you have configured your browser to disable “Referer” headers, please re-"
-"enable them, at least for this site, or for HTTPS connections, or for “same-"
-"origin” requests."
+"It allows a list of texts, they have to be separated by commas, like: \"word,"
+"another-word\""
 msgstr ""
+"Permite una lista de textos, estos deben estar separados por comas, como: "
+"\"palabra,otra-palabra\""
 
-#: env/lib/python3.9/site-packages/django/views/csrf.py:124
-msgid ""
-"If you are using the <meta name=\"referrer\" content=\"no-referrer\"> tag or "
-"including the “Referrer-Policy: no-referrer” header, please remove them. The "
-"CSRF protection requires the “Referer” header to do strict referer checking. "
-"If you’re concerned about privacy, use alternatives like <a rel=\"noreferrer"
-"\" …> for links to third-party sites."
-msgstr ""
+#: killay/admin/lib/constants.py:334
+#, python-brace-format
+msgid "Row {row}"
+msgstr "Fila {row}"
 
-#: env/lib/python3.9/site-packages/django/views/csrf.py:132
-msgid ""
-"You are seeing this message because this site requires a CSRF cookie when "
-"submitting forms. This cookie is required for security reasons, to ensure "
-"that your browser is not being hijacked by third parties."
-msgstr ""
+#: killay/admin/lib/constants.py:342
+#, python-brace-format
+msgid "date '{value}' does not match formats {formats}"
+msgstr "fecha '{value}' no calza con un formato válido: {formats}"
 
-#: env/lib/python3.9/site-packages/django/views/csrf.py:137
-msgid ""
-"If you have configured your browser to disable cookies, please re-enable "
-"them, at least for this site, or for “same-origin” requests."
-msgstr ""
+#: killay/admin/lib/constants.py:345
+#, python-brace-format
+msgid "time'{value}' does not match formats HH:MM:SS"
+msgstr "tiempo '{value}' no calza con un formato válido: HH:MM:SS"
 
-#: env/lib/python3.9/site-packages/django/views/csrf.py:142
-msgid "More information is available with DEBUG=True."
-msgstr ""
+#: killay/admin/lib/constants.py:347
+msgid "Successful Loading Result"
+msgstr "Resultado de Carga Exitosa"
 
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:41
-msgid "No year specified"
-msgstr ""
+#: killay/admin/lib/constants.py:348
+msgid "Loading Errors Detected"
+msgstr "Errores de Carga Detectados"
 
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:61
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:111
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:208
-msgid "Date out of range"
-msgstr ""
+#: killay/admin/lib/constants.py:350
+msgid "The file contains the following errors in its data"
+msgstr "El archivo contiene los siguientes errores en sus datos"
 
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:90
-msgid "No month specified"
-msgstr ""
+#: killay/admin/lib/constants.py:352
+msgid "The file contains errors"
+msgstr "El archivo contiene errores"
 
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:142
-msgid "No day specified"
-msgstr ""
+#: killay/admin/lib/constants.py:356
+#, python-brace-format
+msgid "{value} is not a valid kind, must use: {kinds}"
+msgstr "{value} no es un tipo valido, debe ser: {kinds}"
 
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:188
-msgid "No week specified"
-msgstr ""
+#: killay/admin/lib/constants.py:357
+#, python-brace-format
+msgid "{value} is not a correct URL"
+msgstr "{value} no es una URL correcta"
 
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:338
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:367
-#, python-format
-msgid "No %(verbose_name_plural)s available"
-msgstr ""
+#: killay/admin/lib/constants.py:359
+#, python-brace-format
+msgid "url \"{value}\" is not from a known provider, must be: {providers}"
+msgstr "url \"{value}\" no es de un proveedor conocido, debe ser: {providers}"
 
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:589
-#, python-format
-msgid ""
-"Future %(verbose_name_plural)s not available because %(class_name)s."
-"allow_future is False."
-msgstr ""
+#: killay/admin/lib/constants.py:361
+#, python-brace-format
+msgid "{value} for {field} field does not exist"
+msgstr "{value} del campo {field} no existe"
 
-#: env/lib/python3.9/site-packages/django/views/generic/dates.py:623
-#, python-format
-msgid "Invalid date string “%(datestr)s” given format “%(format)s”"
-msgstr ""
+#: killay/admin/lib/constants.py:362
+#, python-brace-format
+msgid "{value} for {field} field already exist"
+msgstr "{value} del campo {field} ya existe"
 
-#: env/lib/python3.9/site-packages/django/views/generic/detail.py:54
-#, python-format
-msgid "No %(verbose_name)s found matching the query"
-msgstr ""
+#: killay/admin/lib/constants.py:364
+#, python-brace-format
+msgid "{value} {type} not belog to {other_value} {other_type}"
+msgstr "{type} {value} no pertenece a {other_type} {other_value}"
 
-#: env/lib/python3.9/site-packages/django/views/generic/list.py:67
-msgid "Page is not “last”, nor can it be converted to an int."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/generic/list.py:72
-#, python-format
-msgid "Invalid page (%(page_number)s): %(message)s"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/generic/list.py:154
-#, python-format
-msgid "Empty list and “%(class_name)s.allow_empty” is False."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/static.py:40
-msgid "Directory indexes are not allowed here."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/static.py:42
-#, python-format
-msgid "“%(path)s” does not exist"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/static.py:80
-#, python-format
-msgid "Index of %(directory)s"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:7
-msgid "Django: the Web framework for perfectionists with deadlines."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:346
-#, python-format
-msgid ""
-"View <a href=\"https://docs.djangoproject.com/en/%(version)s/releases/\" "
-"target=\"_blank\" rel=\"noopener\">release notes</a> for Django %(version)s"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:368
-msgid "The install worked successfully! Congratulations!"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:369
-#, python-format
-msgid ""
-"You are seeing this page because <a href=\"https://docs.djangoproject.com/en/"
-"%(version)s/ref/settings/#debug\" target=\"_blank\" rel=\"noopener"
-"\">DEBUG=True</a> is in your settings file and you have not configured any "
-"URLs."
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:384
-msgid "Django Documentation"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:385
-msgid "Topics, references, &amp; how-to’s"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:396
-msgid "Tutorial: A Polling App"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:397
-msgid "Get started with Django"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:408
-msgid "Django Community"
-msgstr ""
-
-#: env/lib/python3.9/site-packages/django/views/templates/default_urlconf.html:409
-msgid "Connect, get help, or contribute"
-msgstr ""
+#: killay/admin/lib/constants.py:366
+#, python-brace-format
+msgid "{value} for {field} is repeated"
+msgstr "{value} de {field} está repetido"
 
 #: killay/admin/mixins.py:82
 #, python-brace-format
@@ -1221,191 +661,175 @@ msgstr "Eliminar {self.model._meta.verbose_name}"
 msgid "Error saving Video"
 msgstr "Error guardando el video"
 
-#: killay/admin/mixins.py:315
+#: killay/admin/mixins.py:339 killay/admin/views/mixins.py:339
 #, fuzzy, python-brace-format
 #| msgid "Video {self.label_plural} saved successfully"
 msgid "{self.model._meta.verbose_name_plural} saved successfully"
 msgstr "{self.label_plural} guardada exitosamente"
 
-#: killay/admin/mixins.py:318
+#: killay/admin/mixins.py:342 killay/admin/views/mixins.py:342
 #, fuzzy, python-brace-format
 #| msgid "Delete {self.model._meta.verbose_name}"
 msgid "Error saving {self.model._meta.verbose_name_plural}"
 msgstr "Eliminar {self.model._meta.verbose_name}"
 
-#: killay/admin/mixins.py:342 killay/videos/views.py:38
+#: killay/admin/mixins.py:366 killay/videos/views.py:38
 #: killay/videos/views.py:88
 #, fuzzy
 #| msgid "No video provider"
 msgid "Not video found"
 msgstr "Sin proveedor de Video"
 
-#: killay/admin/mixins.py:347
+#: killay/admin/mixins.py:371
 #, fuzzy, python-brace-format
 #| msgid "Delete {self.model._meta.verbose_name}"
 msgid "{self.model._meta.verbose_name} "
 msgstr "Eliminar {self.model._meta.verbose_name}"
 
-#: killay/admin/mixins.py:353
+#: killay/admin/mixins.py:377
 #, fuzzy, python-brace-format
 #| msgid "Delete {self.model._meta.verbose_name}"
 msgid "Error saving {self.model._meta.verbose_name} "
 msgstr "Eliminar {self.model._meta.verbose_name}"
 
-#: killay/admin/models.py:16
-msgid "Name of Site"
-msgstr "Nombre del Sitio"
-
-#: killay/admin/models.py:19
-msgid "Domain"
-msgstr "Dominio"
-
-#: killay/admin/models.py:21
-msgid "Is published"
-msgstr "Está publicado"
-
-#: killay/admin/models.py:29
-msgid "Footer is visible"
-msgstr "Footer es visible"
-
-#: killay/admin/models.py:32
-#, fuzzy
-#| msgid "Actions"
+#: killay/admin/models.py:52
 msgid "Collection site"
+msgstr ""
+
+#: killay/admin/templates/admin/components/bulk_action.html:40
+msgid "Download"
+msgstr "Descargar"
+
+#: killay/admin/templates/admin/components/bulk_action.html:143
+msgid "Send"
+msgstr "Enviar"
+
+#: killay/admin/templates/admin/components/delete.html:13
+#: killay/templates/admin/generic_delete.html:24
+msgid "Confirm"
+msgstr "Confirmar"
+
+#: killay/admin/templates/admin/components/delete.html:16
+msgid "Back"
+msgstr "Atras"
+
+#: killay/admin/templates/admin/components/form.html:48
+#: killay/admin/templates/admin/components/formset.html:55
+#: killay/admin/templates/admin/components/formset.html:151
+#: killay/templates/admin/formset_list.html:116
+#: killay/templates/admin/formset_list.html:191
+#: killay/templates/admin/generic_form.html:78
+#: killay/templates/admin/site_configuration.html:77
+#: killay/templates/admin/site_configuration.html:116
+#: killay/templates/admin/videos/video_categorization.html:27
+#: killay/templates/admin/videos/video_categorization.html:41
+#: killay/templates/admin/videos/video_form.html:55
+#: killay/templates/admin/videos/video_form.html:122
+#: killay/templates/admin/videos/video_form.html:162
+#: killay/templates/admin/videos/video_sequences_list.html:26
+#: killay/templates/admin/videos/video_sequences_list.html:68
+#: killay/templates/users/login.html:44
+#: killay/templates/users/password_change_form.html:29
+#: killay/templates/users/password_reset_confirm.html:34
+#: killay/templates/users/user_form.html:34
+msgid "Save"
+msgstr "Guardar"
+
+#: killay/admin/templates/admin/components/form.html:51
+#: killay/admin/templates/admin/components/formset.html:119
+#: killay/admin/templatetags/admin_navbar.py:58
+msgid "Delete"
+msgstr "Eliminar"
+
+#: killay/admin/templates/admin/components/formset.html:34
+#: killay/templates/admin/formset_list.html:75
+#: killay/templates/components/search.html:15
+#: killay/viewer/lib/constants.py:118
+msgid "Search"
+msgstr "Buscar"
+
+#: killay/admin/templates/admin/components/formset.html:39
+#: killay/templates/admin/formset_list.html:101
+msgid "Create"
+msgstr "Crear"
+
+#: killay/admin/templates/admin/components/formset.html:75
+#: killay/templates/admin/generic_list.html:29
+msgid "Actions"
 msgstr "Acciones"
 
-#: killay/admin/models.py:36 killay/templates/admin/components/sidebar.html:14
-#: killay/templates/admin/site_configuration.html:10
-msgid "Site Configuration"
-msgstr "Configuración del Sitio"
-
-#: killay/admin/models.py:52 killay/pages/models.py:20
-#, fuzzy
-#| msgid "Ply Provider"
-msgid "Provider"
-msgstr "Proveedor"
-
-#: killay/admin/models.py:59 killay/admin/models.py:74
-#: killay/pages/models.py:26 killay/videos/models.py:19
-msgid "Is visible"
-msgstr "Es visible"
-
-#: killay/admin/models.py:60 killay/admin/models.py:75
-#: killay/pages/models.py:44 killay/videos/models.py:267
-msgid "Position"
-msgstr "Posición"
-
-#: killay/admin/models.py:63
-#, fuzzy
-#| msgid "Social Media"
-msgid "social media"
-msgstr "Redes Sociales"
-
-#: killay/admin/models.py:64
-#, fuzzy
-#| msgid "Social Media"
-msgid "social medias"
-msgstr "Redes Sociales"
-
-#: killay/admin/models.py:72 killay/videos/models.py:261
-msgid "Name"
-msgstr "Nombre"
-
-#: killay/admin/models.py:78
-msgid "logo"
-msgstr ""
-
-#: killay/admin/models.py:79
-msgid "logos"
-msgstr ""
+#: killay/admin/templates/admin/components/formset.html:114
+#: killay/admin/templatetags/admin_navbar.py:57
+#: killay/templates/admin/formset_list.html:136
+#: killay/templates/admin/formset_list.html:170
+#: killay/templates/videos/video_filtered_list.html:44
+msgid "Update"
+msgstr "Editar"
 
 #: killay/admin/templatetags/admin_navbar.py:21
 #: killay/templates/admin/videos/video_form.html:14
 msgid "Create Video"
 msgstr "Crear Video"
 
-#: killay/admin/templatetags/admin_navbar.py:22
-#, fuzzy
-#| msgid "Actions"
-msgid "Collections"
-msgstr "Acciones"
-
-#: killay/admin/templatetags/admin_navbar.py:23
-#: killay/templates/videos/video_detail.html:139
-#: killay/templates/videos/video_filtered_list.html:20
-#: killay/videos/models.py:245
-msgid "Categories"
-msgstr "Categorías"
-
-#: killay/admin/templatetags/admin_navbar.py:24
-#: killay/templates/videos/video_detail.html:149 killay/videos/models.py:248
-msgid "People"
-msgstr "Gente"
-
-#: killay/admin/templatetags/admin_navbar.py:25
-#: killay/templates/videos/video_detail.html:159 killay/videos/models.py:251
-msgid "Keywords"
-msgstr "Palabras Clave"
-
-#: killay/admin/templatetags/admin_navbar.py:29
-msgid "Administrator"
-msgstr "Administrador"
-
-#: killay/admin/templatetags/admin_navbar.py:56 killay/admin/views/pages.py:58
-#: killay/admin/views/users.py:52 killay/templates/admin/formset_list.html:73
-#: killay/templates/admin/formset_list.html:107
-#: killay/templates/videos/video_filtered_list.html:44
-msgid "Update"
-msgstr "Editar"
-
-#: killay/admin/templatetags/admin_navbar.py:60
-#: killay/templates/admin/videos/video_sequences_list.html:14
-msgid "Sequences"
-msgstr "Sequencias"
-
-#: killay/admin/templatetags/admin_navbar.py:65
+#: killay/admin/templatetags/admin_navbar.py:66
 #: killay/templates/admin/videos/video_categorization.html:10
 #: killay/templates/admin/videos/video_form.html:126
 msgid "Categorization"
 msgstr "Categorización"
 
-#: killay/admin/views/pages.py:19
-msgid "Create Page"
-msgstr "Crear Página"
-
-#: killay/admin/views/pages.py:23
+#: killay/admin/views/content_manager/pieces.py:215
 #, fuzzy, python-brace-format
-#| msgid "Page \"{self.object.title}\" was created"
-msgid "Page \"{self.object.title}\" was created"
-msgstr "Página \"{self.object.username}\" fue creada"
+msgid "{self.parent_model._meta.verbose_name} not exists"
+msgstr "{self.parent_model._meta.verbose_name} no existe"
 
-#: killay/admin/views/pages.py:50
-msgid "Pages Administration"
-msgstr "Administración de Páginas"
+#: killay/admin/views/content_manager/pieces.py:304
+#: killay/admin/views/content_manager/pieces.py:400
+#, fuzzy, python-brace-format
+msgid "{Piece.Meta.verbose_name} not exists"
+msgstr "{Piece.Meta.verbose_name} no existe"
 
-#: killay/admin/views/pages.py:53 killay/admin/views/users.py:47
-#: killay/templates/admin/formset_list.html:52
-msgid "Create"
-msgstr "Crear"
+#: killay/admin/views/content_manager/places.py:81
+#: killay/admin/views/content_manager/places.py:119
+#: killay/admin/views/content_manager/places.py:164
+msgid "You are in this place"
+msgstr "Estás en este lugar"
 
-#: killay/admin/views/users.py:19
-msgid "Create User"
-msgstr "Crear Usuario"
+#: killay/admin/views/content_manager/places.py:187
+#, fuzzy, python-brace-format
+msgid "{Place.Meta.verbose_name} not exists"
+msgstr "{Place.Meta.verbose_name} no existe"
 
-#: killay/admin/views/users.py:22
+#: killay/admin/views/content_manager/places.py:194
+msgid "Your current IP"
+msgstr "Tu IP actual"
+
+#: killay/admin/views/mixins.py:116
+#, fuzzy, python-brace-format
+msgid "Error not {self.action_name}"
+msgstr "Error en {self.action_name}"
+
+#: killay/admin/views/mixins.py:126
 #, python-brace-format
-msgid "User {self.object.username} was created"
-msgstr "Usuario {self.object.username} fue creado"
+msgid "{model_name} {self.name_field}=\"{name}\" was {self.action_name}"
+msgstr "{model_name} {self.name_field}=\"{name}\" fue {self.action_name}"
 
-#: killay/admin/views/users.py:43
-msgid "Users Administration"
-msgstr "Administración de Usuarios"
+#: killay/admin/views/mixins.py:361
+msgid "Page is not “last”, nor can it be converted to an int."
+msgstr "Página no es \"last\" o no puede ser convertida en número"
+
+#: killay/admin/views/mixins.py:369
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr "Página inválida (%(page_number)s): %(message)s"
+
+#: killay/admin/views/mixins.py:394
+#, fuzzy, python-brace-format
+msgid "{self.parent_model.Meta.verbose_name} not exists"
+msgstr "{self.parent_model.Meta.verbose_name} no existe"
 
 #: killay/admin/views/videos.py:50
-#, fuzzy
-#| msgid "Video Categories"
 msgid "Video not exists"
-msgstr "Categorías de video"
+msgstr "Video no existe"
 
 #: killay/admin/views/videos.py:78 killay/admin/views/videos.py:99
 #, python-brace-format
@@ -1511,7 +935,208 @@ msgstr "Crear Usuario"
 msgid "Keyword \"{self.object}\" was created"
 msgstr "Página \"{self.object.username}\" fue creada"
 
-#: killay/pages/models.py:14
+#: killay/archives/lib/constants.py:5
+msgid "archive"
+msgstr "archivo"
+
+#: killay/archives/lib/constants.py:6
+msgid "archives"
+msgstr "archivos"
+
+#: killay/archives/lib/constants.py:8
+msgid "Name of the Archive"
+msgstr "Nombre del Archivo"
+
+#: killay/archives/lib/constants.py:9 killay/archives/lib/constants.py:43
+#: killay/archives/lib/constants.py:79 killay/archives/lib/constants.py:97
+#: killay/archives/lib/constants.py:115 killay/archives/managers.py:18
+#: killay/pages/lib/constants.py:9 killay/videos/models.py:264
+msgid "Slug"
+msgstr "Slug"
+
+#: killay/archives/lib/constants.py:11
+msgid "Slug of the archive, must be unique in the site"
+msgstr "Slug del archivo, debe ser único en el sitio"
+
+#: killay/archives/lib/constants.py:14
+msgid "Description of the archive"
+msgstr "Descripción del archivo"
+
+#: killay/archives/lib/constants.py:21
+msgid "Representative image of the archive"
+msgstr "Imagen representativa del archivo"
+
+#: killay/archives/lib/constants.py:24
+msgid "Indicates if the archive will be visible to the public"
+msgstr "Indica si el archivo es visible al público"
+
+#: killay/archives/lib/constants.py:26 killay/archives/lib/constants.py:58
+#: killay/archives/lib/constants.py:166
+msgid "Is restricted"
+msgstr "Es restringido"
+
+#: killay/archives/lib/constants.py:28
+msgid "Indicates if the archive will be restricted to some public"
+msgstr "Indica que el archivo será restringido a cierto público"
+
+#: killay/archives/lib/constants.py:30 killay/archives/lib/constants.py:64
+#: killay/archives/lib/constants.py:170
+msgid "Restricted to this places"
+msgstr "Restringido a estos lugares"
+
+#: killay/archives/lib/constants.py:32
+msgid "If the archive is restricted it will be visible only in these places"
+msgstr "Si el archivo es restringido será visible únicamente en estos lugares"
+
+#: killay/archives/lib/constants.py:37 killay/videos/models.py:286
+msgid "collection"
+msgstr "colección"
+
+#: killay/archives/lib/constants.py:38 killay/videos/models.py:287
+msgid "collections"
+msgstr "colecciones"
+
+#: killay/archives/lib/constants.py:39 killay/pages/lib/constants.py:30
+msgid "Archive"
+msgstr "Archivo"
+
+#: killay/archives/lib/constants.py:40
+msgid "Archive to which the collection belongs"
+msgstr "Archivo al que pertenece la colección"
+
+#: killay/archives/lib/constants.py:42
+msgid "Name of the collection"
+msgstr "Nombre de la colección"
+
+#: killay/archives/lib/constants.py:45
+msgid "Slug of the collection, must be unique in the site"
+msgstr "Slug de la colección, debe ser único en el sitio"
+
+#: killay/archives/lib/constants.py:48
+msgid "Description of the collection"
+msgstr "Descripción de la colección"
+
+#: killay/archives/lib/constants.py:56
+msgid "Indicates if the collection will be visible to the public"
+msgstr "Indica si la colección será visible al público"
+
+#: killay/archives/lib/constants.py:60
+msgid "Indicates if the collection will be restricted to some public"
+msgstr "Indica si la colección será restringida a cierto público"
+
+#: killay/archives/lib/constants.py:63
+msgid "Representative image of the collection"
+msgstr "Imagen representativa de la colección"
+
+#: killay/archives/lib/constants.py:66
+msgid "If the collection is restricted it will be visible only in these places"
+msgstr ""
+"Si la colección es restringida será visible únicamente en estos lugares"
+
+#: killay/archives/lib/constants.py:71 killay/videos/models.py:309
+msgid "category"
+msgstr "categoría"
+
+#: killay/archives/lib/constants.py:72 killay/videos/models.py:310
+msgid "categories"
+msgstr "categorías"
+
+#: killay/archives/lib/constants.py:73 killay/archives/lib/constants.py:158
+#: killay/pages/lib/constants.py:34 killay/videos/models.py:242
+#: killay/videos/models.py:305 killay/videos/models.py:330
+#: killay/videos/models.py:355
+msgid "Collection"
+msgstr "Colección"
+
+#: killay/archives/lib/constants.py:75
+msgid "Collection to which the category belongs"
+msgstr "Colección a la que la categoría pertenece"
+
+#: killay/archives/lib/constants.py:78
+msgid "Name of the category"
+msgstr "Nombre de la categoría"
+
+#: killay/archives/lib/constants.py:81
+msgid "Slug of the category, must be unique in the site"
+msgstr "Slug de la categoría, debe ser única en el sitio"
+
+#: killay/archives/lib/constants.py:84
+msgid "Description of the category"
+msgstr "Descripción de la categoría"
+
+#: killay/archives/lib/constants.py:93 killay/videos/models.py:334
+msgid "person"
+msgstr "persona"
+
+#: killay/archives/lib/constants.py:94 killay/videos/models.py:335
+msgid "people"
+msgstr "gente"
+
+#: killay/archives/lib/constants.py:96
+msgid "Name of the person"
+msgstr "Nombre de la persona"
+
+#: killay/archives/lib/constants.py:99
+msgid "Slug of the person, must be unique in the site"
+msgstr "Slug de la persona, debe ser único en el sitio"
+
+#: killay/archives/lib/constants.py:102
+msgid "Description of the person"
+msgstr "Descripción de la persona"
+
+#: killay/archives/lib/constants.py:111 killay/videos/models.py:359
+msgid "keyword"
+msgstr "palabra clave"
+
+#: killay/archives/lib/constants.py:112 killay/videos/models.py:360
+msgid "keywords"
+msgstr "palabras claves"
+
+#: killay/archives/lib/constants.py:114
+msgid "Name of the keyword"
+msgstr "Nombre de la palabra clave"
+
+#: killay/archives/lib/constants.py:117
+msgid "Slug of the keyword, must be unique in the site"
+msgstr "Slug de la palabra clave, debe ser único en el sitio"
+
+#: killay/archives/lib/constants.py:120
+msgid "Description of the keyword"
+msgstr "Descripción de la palabra clave"
+
+#: killay/archives/lib/constants.py:134
+msgid "Video"
+msgstr "Video"
+
+#: killay/archives/lib/constants.py:136
+msgid "Sound"
+msgstr "Sonido"
+
+#: killay/archives/lib/constants.py:137
+msgid "Document"
+msgstr "Documento"
+
+#: killay/archives/lib/constants.py:140
+msgid "piece"
+msgstr "pieza"
+
+#: killay/archives/lib/constants.py:141
+msgid "pieces"
+msgstr "piezas"
+
+#: killay/archives/lib/constants.py:142
+#: killay/templates/admin/videos/video_categorization.html:13
+#: killay/templates/admin/videos/video_sequences_list.html:17
+#: killay/templates/videos/video_detail.html:63 killay/videos/models.py:17
+msgid "Code"
+msgstr "Código"
+
+#: killay/archives/lib/constants.py:143
+msgid "Code of the piece, must be unique in the site"
+msgstr "Código de la pieza, debe ser único en el sitio"
+
+#: killay/archives/lib/constants.py:144 killay/archives/lib/constants.py:179
+#: killay/pages/lib/constants.py:7
 #: killay/templates/admin/videos/video_categorization.html:16
 #: killay/templates/admin/videos/video_form.html:20
 #: killay/templates/admin/videos/video_sequences_list.html:20
@@ -1520,110 +1145,461 @@ msgstr "Página \"{self.object.username}\" fue creada"
 msgid "Title"
 msgstr "Título"
 
-#: killay/pages/models.py:17 killay/videos/models.py:264
-msgid "Slug"
-msgstr "Slug"
+#: killay/archives/lib/constants.py:145
+msgid "Title of the piece"
+msgstr "Título de la pieza"
 
-#: killay/pages/models.py:25
-msgid "Body"
+#: killay/archives/lib/constants.py:146 killay/videos/models.py:23
+msgid "Thumb"
+msgstr "Miniatura"
+
+#: killay/archives/lib/constants.py:148
+msgid "thumbnail of representative image of the piece"
+msgstr "miniatura de una imagen representativa de la pieza"
+
+#: killay/archives/lib/constants.py:152
+msgid ""
+"If the piece is not published, you will need to log in as admin to visit it"
+msgstr ""
+"Si la pieza no está publicada, necesitarás logearte como administrador para "
+"visitarla"
+
+#: killay/archives/lib/constants.py:154 killay/pages/lib/constants.py:11
+#: killay/viewer/lib/constants.py:99
+msgid "Kind"
+msgstr "Tipo"
+
+#: killay/archives/lib/constants.py:156
+msgid "Kind of the piece (video, sound, image or document)"
+msgstr "Tipo de pieza (video, sonido, imagen o documento)"
+
+#: killay/archives/lib/constants.py:159
+msgid "Collection to which the piece belongs"
+msgstr "Colección a la que pertenece la pieza"
+
+#: killay/archives/lib/constants.py:161
+msgid "Categories to which the piece belongs"
+msgstr "Categorías a las que pertence la pieza"
+
+#: killay/archives/lib/constants.py:163
+msgid "People who relate to the piece"
+msgstr "Gente relacionada con la pieza"
+
+#: killay/archives/lib/constants.py:165
+msgid "Keywords related to the piece"
+msgstr "Palabras claves relacionadas con la pieza"
+
+#: killay/archives/lib/constants.py:168
+msgid "Indicates if the piece will be restricted to some public"
+msgstr "Indica si la pieza será restringida a cierto público"
+
+#: killay/archives/lib/constants.py:172
+msgid "If the piece is restricted it will be visible only in these places"
+msgstr "Si esta pieza está restringida solo será visible en estos lugares"
+
+#: killay/archives/lib/constants.py:177
+msgid "sequence"
+msgstr "sequencia"
+
+#: killay/archives/lib/constants.py:178
+msgid "sequences"
+msgstr "sequencias"
+
+#: killay/archives/lib/constants.py:180
+msgid "Title of piece sequence"
+msgstr "Título de secuencia de pieza"
+
+#: killay/archives/lib/constants.py:181 killay/videos/models.py:198
+msgid "Content"
 msgstr "Contenido"
 
-#: killay/pages/models.py:28
-msgid "Is visible in navbar"
-msgstr "Es visible en menú"
+#: killay/archives/lib/constants.py:182
+msgid "Tex content of piece sequence"
+msgstr "Contenido de texto de la secuencia de pieza"
 
-#: killay/pages/models.py:31
-msgid "Is visible in footer"
-msgstr "Es visible en footer"
+#: killay/archives/lib/constants.py:183 killay/videos/models.py:199
+msgid "Initiation"
+msgstr "Inicio"
 
-#: killay/pages/models.py:34
+#: killay/archives/lib/constants.py:184
+msgid "Initiation time of piece sequence"
+msgstr "Tiempo de inicio de la sequencia de pieza"
+
+#: killay/archives/lib/constants.py:185 killay/videos/models.py:200
+msgid "End"
+msgstr "Fin"
+
+#: killay/archives/lib/constants.py:186
+msgid "End time of piece sequence"
+msgstr "Tiempo de fin de la secuencia de pieza"
+
+#: killay/archives/lib/constants.py:190
+msgid "provider"
+msgstr "proveedor"
+
+#: killay/archives/lib/constants.py:191
+msgid "providers"
+msgstr "proveedores"
+
+#: killay/archives/lib/constants.py:192 killay/videos/models.py:111
+msgid "Active"
+msgstr "Activo"
+
+#: killay/archives/lib/constants.py:194
+msgid ""
+"Determines if the provider is active, only one provider can be active at a "
+"time"
+msgstr ""
+"Determina si un proveedor está activo, solo un proveedor puede estar activo "
+"al mismo tiempo"
+
+#: killay/archives/lib/constants.py:197
+msgid "Video Embed ID"
+msgstr ""
+
+#: killay/archives/lib/constants.py:199
+msgid ""
+"Video ID to be embedded in the player, field used by pieces of kind video"
+msgstr ""
+"ID de video para ser usada por el visualizador, campo usado para las piezas "
+"del tipo video"
+
+#: killay/archives/lib/constants.py:201
+msgid "Video Provider"
+msgstr "Proveedor de Video"
+
+#: killay/archives/lib/constants.py:203
+msgid ""
+"Video provider associated with the embed ID, field used by pieces of kind "
+"video"
+msgstr ""
+"Proveedor de video asociado con el embed ID, campo usado por las piezas de "
+"tipo video"
+
+#: killay/archives/lib/constants.py:208
+msgid "Image hosted on the server, field used by pieces of kind image"
+msgstr ""
+"Imagen almacenada en el servidor, campo usado por las piezas del tipo imagen"
+
+#: killay/archives/lib/constants.py:210
+msgid "File"
+msgstr "Archivo"
+
+#: killay/archives/lib/constants.py:212
+msgid ""
+"File hosted on the server, field used by pieces of kind document and sound"
+msgstr ""
+"Archivo almacenado en el servidor, campo usado por las piezas de tipo "
+"documento o sonido"
+
+#: killay/archives/lib/constants.py:214
+#: killay/templates/admin/videos/video_form.html:69 killay/videos/models.py:112
+msgid "Online"
+msgstr "En línea"
+
+#: killay/archives/lib/constants.py:215
+msgid "Online Checked At"
+msgstr "En línea checkeado en"
+
+#: killay/archives/lib/constants.py:241
+msgid "piece metadata"
+msgstr "metadatos de pieza"
+
+#: killay/archives/lib/constants.py:242
+msgid "piece metadatas"
+msgstr "metadatos de piezas"
+
+#: killay/archives/lib/constants.py:243
+#: killay/templates/videos/video_detail.html:70 killay/videos/models.py:72
+msgid "Event"
+msgstr "Evento"
+
+#: killay/archives/lib/constants.py:244
+msgid "Event related to the piece"
+msgstr "Evento relacionado con la pieza"
+
+#: killay/archives/lib/constants.py:246
+msgid "Description of the piece"
+msgstr "Descripción de la pieza"
+
+#: killay/archives/lib/constants.py:247
+#: killay/templates/videos/video_detail.html:85 killay/videos/models.py:76
+msgid "Description Date"
+msgstr "Fecha de la descripción"
+
+#: killay/archives/lib/constants.py:248
+msgid "Date of the description"
+msgstr "Fecha de la descripción"
+
+#: killay/archives/lib/constants.py:250
+msgid "Location related to the piece"
+msgstr "Locación relacionada con la pieza"
+
+#: killay/archives/lib/constants.py:251
+#: killay/templates/videos/video_detail.html:95 killay/videos/models.py:81
+msgid "Duration"
+msgstr "Duración"
+
+#: killay/archives/lib/constants.py:252
+msgid "Piece duration if applicable"
+msgstr "Duración de la pieza si aplica"
+
+#: killay/archives/lib/constants.py:253
+#: killay/templates/videos/video_detail.html:75 killay/videos/models.py:83
+msgid "Register Date"
+msgstr "Fecha de registro"
+
+#: killay/archives/lib/constants.py:254
+msgid "Register date of the piece"
+msgstr "Fecha de registro de la pieza"
+
+#: killay/archives/lib/constants.py:255
+#: killay/templates/videos/video_detail.html:100 killay/videos/models.py:86
+msgid "Register Author"
+msgstr "Autor del registro"
+
+#: killay/archives/lib/constants.py:256
+msgid "Author of the piece record"
+msgstr "Author del registro de la pieza"
+
+#: killay/archives/lib/constants.py:257
+#: killay/templates/videos/video_detail.html:105 killay/videos/models.py:89
+msgid "Productor"
+msgstr "Productor"
+
+#: killay/archives/lib/constants.py:258
+msgid "Productor of the piece"
+msgstr "Productor de la pieza"
+
+#: killay/archives/lib/constants.py:259
+#: killay/templates/videos/video_detail.html:110 killay/videos/models.py:91
+msgid "Notes"
+msgstr "Notas"
+
+#: killay/archives/lib/constants.py:260
+msgid "Notes related to the piece"
+msgstr "Notas relacionadas con la pieza"
+
+#: killay/archives/lib/constants.py:261
+#: killay/templates/videos/video_detail.html:115 killay/videos/models.py:93
+msgid "Archivist Notes"
+msgstr "Notas del archivero"
+
+#: killay/archives/lib/constants.py:262
 #, fuzzy
-#| msgid "Is visible in navbar"
-msgid "Is title visible in body"
-msgstr "Es visible en menú"
+#| msgid "Archivist Notes"
+msgid "Archivist notes of the piece"
+msgstr "Notas del archivero sobre la pieza"
 
-#: killay/pages/models.py:37
-msgid "Header mage"
-msgstr "Imagen de cabecera"
+#: killay/archives/lib/constants.py:263
+#: killay/templates/videos/video_detail.html:120 killay/videos/models.py:96
+msgid "Documentary Unit"
+msgstr "Unidad documental"
 
-#: killay/pages/models.py:39 killay/templates/admin/videos/video_form.html:23
-#: killay/videos/models.py:20
+#: killay/archives/lib/constants.py:264
+msgid "Documentary unit of the piece"
+msgstr "Unidad documental de la pieza"
+
+#: killay/archives/lib/constants.py:265
+#: killay/templates/videos/video_detail.html:125 killay/videos/models.py:99
+msgid "Language"
+msgstr "Lenguaje"
+
+#: killay/archives/lib/constants.py:266
+msgid "Language of the piece"
+msgstr "Lenguaje de la pieza"
+
+#: killay/archives/lib/constants.py:267
+#: killay/templates/videos/video_detail.html:130 killay/videos/models.py:102
+msgid "Original Format"
+msgstr "Formato original"
+
+#: killay/archives/lib/constants.py:268
+msgid "Original format of the piece"
+msgstr "Formato original de la pieza"
+
+#: killay/archives/lib/constants.py:272
+msgid "place"
+msgstr "lugar"
+
+#: killay/archives/lib/constants.py:273
+msgid "places"
+msgstr "lugares"
+
+#: killay/archives/lib/constants.py:275
+msgid "Name of the place"
+msgstr "Nombre del lugar"
+
+#: killay/archives/lib/constants.py:276
+msgid "Allowed Pieces"
+msgstr "Piezas permitidas"
+
+#: killay/archives/lib/constants.py:278
+msgid "Restricted pieces that are allowed to see from the place"
+msgstr "Piezas restringidas que están accesibles desde el lugar"
+
+#: killay/archives/lib/constants.py:280
+msgid "Allowed Collections"
+msgstr "Colecciones permitidas"
+
+#: killay/archives/lib/constants.py:282
+msgid "Restricted collections that are allowed to see from the place"
+msgstr "Colecciones restringidas que están accesibles desde el lugar"
+
+#: killay/archives/lib/constants.py:284
+msgid "Allowed Archives"
+msgstr "Archivos permitidos"
+
+#: killay/archives/lib/constants.py:286
+msgid "Restricted archives that are allowed to see from the place"
+msgstr "Archivos restringidos que son accesibles desde el lugar"
+
+#: killay/archives/lib/constants.py:291
+msgid "place address"
+msgstr "dirección del lugar"
+
+#: killay/archives/lib/constants.py:292
+msgid "place addresses"
+msgstr "direcciones del lugar"
+
+#: killay/archives/lib/constants.py:293
+msgid "IP Address"
+msgstr "Dirección IP"
+
+#: killay/archives/lib/constants.py:294
+msgid "IP Address of the place"
+msgstr "Dirección IP del lugar"
+
+#: killay/archives/lib/constants.py:296
+msgid "Description of the place address"
+msgstr "Descripción de la dirección del lugar"
+
+#: killay/archives/managers.py:6 killay/pages/lib/constants.py:13
+#: killay/templates/admin/videos/video_form.html:23
+#: killay/users/lib/constants.py:5 killay/videos/models.py:20
 msgid "Created at"
 msgstr "Creado en"
 
-#: killay/pages/models.py:40 killay/templates/admin/videos/video_form.html:26
-#: killay/videos/models.py:21
+#: killay/archives/managers.py:7 killay/pages/lib/constants.py:14
+#: killay/templates/admin/videos/video_form.html:26
+#: killay/users/lib/constants.py:6 killay/videos/models.py:21
 msgid "Updated at"
 msgstr "Editado en"
 
-#: killay/pages/models.py:46
-msgid "Redirect to (URL)"
-msgstr ""
-
-#: killay/pages/models.py:58
+#: killay/pages/lib/constants.py:5
 msgid "page"
 msgstr "página"
 
-#: killay/pages/models.py:59
+#: killay/pages/lib/constants.py:6
 msgid "pages"
 msgstr "páginas"
+
+#: killay/pages/lib/constants.py:8
+msgid "Title of the page"
+msgstr "Título de la página"
+
+#: killay/pages/lib/constants.py:10
+msgid "Slug of the page, must be unique in the site"
+msgstr "Slug de la página, debe ser único en el sitio"
+
+#: killay/pages/lib/constants.py:12
+msgid "Kind of the page (page or redirect to link)"
+msgstr "Tipo de página (página normal o redirige a un link)"
+
+#: killay/pages/lib/constants.py:17
+msgid "Indicates if the page will be visible to the public"
+msgstr "Indica si la página será visible al público"
+
+#: killay/pages/lib/constants.py:19
+msgid "Body"
+msgstr "Contenido"
+
+#: killay/pages/lib/constants.py:20
+msgid "Page body to render in HTML"
+msgstr "Cuerpo de la página a ser redenrizado en HTML"
+
+#: killay/pages/lib/constants.py:21
+msgid "Header image"
+msgstr "Imagen de cabecera"
+
+#: killay/pages/lib/constants.py:22
+msgid "Header image of the page"
+msgstr "Imagen de cabecera de la página"
+
+#: killay/pages/lib/constants.py:23
+msgid "Redirect to"
+msgstr "Redirige a"
+
+#: killay/pages/lib/constants.py:24
+msgid "URL to be redirected"
+msgstr "URL a ser redirigida"
+
+#: killay/pages/lib/constants.py:32
+msgid "Allows you to associate the page to a specific archive"
+msgstr "Permite asociar la página con un archivo específico"
+
+#: killay/pages/lib/constants.py:36
+msgid "Allows you to associate the page to a specific collection"
+msgstr "Permite asociar la página con una colección específica"
+
+#: killay/pages/lib/constants.py:38
+msgid "Place"
+msgstr "Lugar"
+
+#: killay/pages/lib/constants.py:40
+msgid "Allows you to associate the page to a specific place"
+msgstr "Permite asociar la página con un lugar específico"
+
+#: killay/pages/lib/constants.py:42
+msgid "Is visible in navbar"
+msgstr "Es visible en menú"
+
+#: killay/pages/lib/constants.py:44
+msgid "Indicates whether a page link appears in the navigation bar"
+msgstr "Indica si aparece un link de la página en la barra de navegación"
+
+#: killay/pages/lib/constants.py:46
+msgid "Is visible in footer"
+msgstr "Es visible en footer"
+
+#: killay/pages/lib/constants.py:48
+msgid "Indicates whether a page link appears in the footer"
+msgstr "Indica si un link de la página aparece en el pie del sitio"
+
+#: killay/pages/lib/constants.py:50
+#, fuzzy
+#| msgid "Is visible in navbar"
+msgid "Is title visible in body"
+msgstr "Si es visible el título en el cuerpo"
+
+#: killay/pages/lib/constants.py:52
+msgid "Indicates whether a page title appears in the body"
+msgstr "Indica si el título de la página será visible en el cuerpo"
+
+#: killay/pages/lib/constants.py:58 killay/viewer/lib/constants.py:28
+msgid "Page"
+msgstr "Página"
+
+#: killay/pages/lib/constants.py:59
+msgid "Link"
+msgstr "Enlace"
 
 #: killay/templates/admin/components/field_image_input.html:27
 msgid "Upload"
 msgstr "Subir"
 
-#: killay/templates/admin/components/sidebar.html:18 killay/users/apps.py:7
-msgid "Users"
-msgstr "Usuarios"
-
-#: killay/templates/admin/components/sidebar.html:22
-msgid "Pages"
-msgstr "Páginas"
-
-#: killay/templates/admin/formset_list.html:19
+#: killay/templates/admin/formset_list.html:58
 msgid "Total"
-msgstr ""
+msgstr "Total"
 
-#: killay/templates/admin/formset_list.html:19
+#: killay/templates/admin/formset_list.html:58
 msgid " for the search"
 msgstr " para la búsqueda"
-
-#: killay/templates/admin/formset_list.html:35
-#: killay/templates/components/search.html:15
-msgid "Search"
-msgstr "Buscar"
-
-#: killay/templates/admin/formset_list.html:49
-#: killay/templates/admin/formset_list.html:128
-#: killay/templates/admin/generic_form.html:60
-#: killay/templates/admin/site_configuration.html:77
-#: killay/templates/admin/site_configuration.html:116
-#: killay/templates/admin/videos/video_categorization.html:27
-#: killay/templates/admin/videos/video_categorization.html:41
-#: killay/templates/admin/videos/video_form.html:55
-#: killay/templates/admin/videos/video_form.html:122
-#: killay/templates/admin/videos/video_form.html:162
-#: killay/templates/admin/videos/video_sequences_list.html:26
-#: killay/templates/admin/videos/video_sequences_list.html:68
-#: killay/templates/users/login.html:44
-#: killay/templates/users/password_change_form.html:29
-#: killay/templates/users/password_reset_confirm.html:34
-#: killay/templates/users/user_form.html:34
-msgid "Save"
-msgstr "Guardar"
 
 #: killay/templates/admin/generic_delete.html:12
 #, fuzzy, python-format
 msgid "Are you sure you want to delete \"%(object)s\"?"
 msgstr "Estás seguro que quieres eliminar \"%(object)s\"?"
-
-#: killay/templates/admin/generic_delete.html:24
-msgid "Confirm"
-msgstr "Confirmar"
-
-#: killay/templates/admin/generic_list.html:29
-msgid "Actions"
-msgstr "Acciones"
 
 #: killay/templates/admin/site_configuration.html:17
 #: killay/templates/admin/videos/video_form.html:38
@@ -1634,33 +1610,21 @@ msgstr "Campos del sistema"
 msgid "Social Media"
 msgstr "Redes Sociales"
 
-#: killay/templates/admin/site_configuration.html:78
-msgid "Logos"
-msgstr ""
-
-#: killay/templates/admin/videos/video_categorization.html:13
-#: killay/templates/admin/videos/video_sequences_list.html:17
-#: killay/templates/videos/video_detail.html:63 killay/videos/models.py:17
-msgid "Code"
-msgstr "Código"
-
 #: killay/templates/admin/videos/video_form.html:59
 msgid "Video Providers"
 msgstr "Proveedores de Video"
-
-#: killay/templates/admin/videos/video_form.html:69 killay/videos/models.py:112
-msgid "Online"
-msgstr "En línea"
 
 #: killay/templates/admin/videos/video_form.html:107
 msgid "Watch"
 msgstr "Ver"
 
 #: killay/templates/admin/videos/video_form.html:145
-#, fuzzy
-#| msgid "video metadata"
 msgid "Metadata"
-msgstr "Metadatos de video"
+msgstr "Metadatos"
+
+#: killay/templates/admin/videos/video_sequences_list.html:30
+msgid "Order"
+msgstr "Orden"
 
 #: killay/templates/components/footer.html:21
 #: killay/templates/components/footer.html:34
@@ -1668,17 +1632,18 @@ msgid "It is not visible"
 msgstr "No es visible"
 
 #: killay/templates/components/navbar-mobile.html:40
-#: killay/templates/components/navbar.html:66
+#: killay/templates/components/navbar.html:66 killay/viewer/lib/constants.py:5
+#: killay/viewer/lib/constants.py:21
 msgid "All"
 msgstr "Todos"
 
 #: killay/templates/components/navbar-mobile.html:52
-#: killay/templates/components/navbar.html:24
+#: killay/templates/components/navbar.html:24 killay/viewer/lib/constants.py:7
 msgid "Log Out"
 msgstr "Cerrar sesión"
 
 #: killay/templates/components/navbar-mobile.html:57
-#: killay/templates/components/navbar.html:29
+#: killay/templates/components/navbar.html:29 killay/viewer/lib/constants.py:6
 msgid "Log In"
 msgstr "Acceder"
 
@@ -1748,60 +1713,11 @@ msgstr "Editar usuario"
 msgid "No video provider"
 msgstr "Sin proveedor de Video"
 
-#: killay/templates/videos/video_detail.html:70 killay/videos/models.py:72
-msgid "Event"
-msgstr "Evento"
-
-#: killay/templates/videos/video_detail.html:75 killay/videos/models.py:83
-msgid "Register Date"
-msgstr "Fecha de registro"
-
-#: killay/templates/videos/video_detail.html:80 killay/videos/models.py:74
-#: killay/videos/models.py:266
-msgid "Description"
-msgstr "Descripción"
-
-#: killay/templates/videos/video_detail.html:85 killay/videos/models.py:76
-msgid "Description Date"
-msgstr "Fecha de descripción"
-
-#: killay/templates/videos/video_detail.html:90 killay/videos/models.py:79
-msgid "Location"
-msgstr "Locación"
-
-#: killay/templates/videos/video_detail.html:100 killay/videos/models.py:86
-msgid "Register Author"
-msgstr "Autor del registro"
-
-#: killay/templates/videos/video_detail.html:105 killay/videos/models.py:89
-msgid "Productor"
-msgstr "Productor"
-
-#: killay/templates/videos/video_detail.html:110 killay/videos/models.py:91
-msgid "Notes"
-msgstr "Notas"
-
-#: killay/templates/videos/video_detail.html:115 killay/videos/models.py:93
-msgid "Archivist Notes"
-msgstr "Notas del archivero"
-
-#: killay/templates/videos/video_detail.html:120 killay/videos/models.py:96
-msgid "Documentary Unit"
-msgstr "Unidad documental"
-
-#: killay/templates/videos/video_detail.html:125 killay/videos/models.py:99
-msgid "Language"
-msgstr "Lenguaje"
-
-#: killay/templates/videos/video_detail.html:130 killay/videos/models.py:102
-msgid "Original Format"
-msgstr "Formato original"
-
 #: killay/templates/videos/video_list.html:5
 msgid "Result for"
 msgstr "Resultados para"
 
-#: killay/users/forms.py:27
+#: killay/users/forms.py:28
 msgid "This username has already been taken."
 msgstr ""
 
@@ -1812,15 +1728,11 @@ msgstr "Usuario {self.object.username} editado"
 
 #: killay/users/views.py:62
 msgid "We have sent you an e-mail with your reset link"
-msgstr ""
+msgstr "Hemos enviado un correo con un enlace de reestablecimiento"
 
 #: killay/users/views.py:75 killay/users/views.py:87
 msgid "Your password is now changed."
-msgstr ""
-
-#: killay/videos/models.py:23
-msgid "Thumb"
-msgstr "Miniatura"
+msgstr "Tu contraseña ha sido cambiada"
 
 #: killay/videos/models.py:33
 msgid "video"
@@ -1837,10 +1749,6 @@ msgstr "Metadatos de video"
 #: killay/videos/models.py:107
 msgid "video metadatas"
 msgstr "Metadatos de videos"
-
-#: killay/videos/models.py:111
-msgid "Active"
-msgstr "Activo"
 
 #: killay/videos/models.py:113
 msgid "Checked at"
@@ -1860,18 +1768,6 @@ msgstr "Proveedores Ply"
 msgid "video provider"
 msgstr "Sin proveedor de Video"
 
-#: killay/videos/models.py:198
-msgid "Content"
-msgstr "Contenido"
-
-#: killay/videos/models.py:199
-msgid "Initiation"
-msgstr "Inicio"
-
-#: killay/videos/models.py:200
-msgid "End"
-msgstr "Fin"
-
 #: killay/videos/models.py:203
 #, fuzzy
 #| msgid "Video Sequences"
@@ -1883,13 +1779,6 @@ msgstr "Sequencias de Video"
 #| msgid "Video Sequences"
 msgid "video sequences"
 msgstr "Sequencias de Video"
-
-#: killay/videos/models.py:242 killay/videos/models.py:305
-#: killay/videos/models.py:330 killay/videos/models.py:355
-#, fuzzy
-#| msgid "Location"
-msgid "Collection"
-msgstr "Locación"
 
 #: killay/videos/models.py:255
 #, fuzzy
@@ -1903,46 +1792,6 @@ msgstr "Categorización"
 msgid "video categorizations"
 msgstr "Categorización"
 
-#: killay/videos/models.py:286
-#, fuzzy
-#| msgid "Location"
-msgid "collection"
-msgstr "Locación"
-
-#: killay/videos/models.py:287
-#, fuzzy
-#| msgid "Actions"
-msgid "collections"
-msgstr "Acciones"
-
-#: killay/videos/models.py:309
-#, fuzzy
-#| msgid "categories"
-msgid "category"
-msgstr "categorías"
-
-#: killay/videos/models.py:310
-msgid "categories"
-msgstr "categorías"
-
-#: killay/videos/models.py:334
-msgid "person"
-msgstr ""
-
-#: killay/videos/models.py:335
-msgid "people"
-msgstr "gente"
-
-#: killay/videos/models.py:359
-#, fuzzy
-#| msgid "keywords"
-msgid "keyword"
-msgstr "palabras clave"
-
-#: killay/videos/models.py:360
-msgid "keywords"
-msgstr "palabras clave"
-
 #: killay/videos/views.py:103
 msgid "Not collection found"
 msgstr ""
@@ -1952,49 +1801,126 @@ msgstr ""
 msgid "Videos with \"{self.query_search}\" not founded."
 msgstr "No fueron encontrados videos con \"{self.query_search}\""
 
+#: killay/viewer/apps.py:7
+msgid "Viewer"
+msgstr "Visualizador"
+
+#: killay/viewer/lib/constants.py:15
+msgid "Scope"
+msgstr "Alcance"
+
+#: killay/viewer/lib/constants.py:16
+msgid "Home"
+msgstr "Inicio"
+
+#: killay/viewer/lib/constants.py:22
+msgid "One Archive"
+msgstr "Un Archivo"
+
+#: killay/viewer/lib/constants.py:23
+msgid "One Collection"
+msgstr "Una Colección"
+
+#: killay/viewer/lib/constants.py:29
+msgid "Default"
+msgstr "Por Defecto"
+
+#: killay/viewer/lib/constants.py:32
+msgid ""
+"Determines the scope of the content to be viewed by the public, which can be "
+"reduced to a single archive or collection"
+msgstr ""
+"Determina el alcance del contenido a ser visualizado por el público, puede "
+"ser reducido a un solo archivo o colección"
+
+#: killay/viewer/lib/constants.py:36
+msgid ""
+"In case of selecting the scope in a single archive, the archive must be "
+"specified"
+msgstr ""
+"En el caso de seleccionar un alcance de un solo archivo, el archivo debe ser "
+"especificado"
+
+#: killay/viewer/lib/constants.py:40
+msgid ""
+"In case of selecting the scope in a single collection, the collection must "
+"be specified"
+msgstr ""
+"En el caso de seleccionar un alcance de una sola colección, la colección "
+"debe ser especificada"
+
+#: killay/viewer/lib/constants.py:44
+msgid ""
+"Indicates if the home page will be used by default (depending on the scope) "
+"or a specific page will be assigned"
+msgstr ""
+"Indica si la página de inicio será la por defecto (dependiendo del alcance) "
+"o una página específica será asignada"
+
+#: killay/viewer/lib/constants.py:48
+msgid "In case of selecting the home by page this must be selected"
+msgstr ""
+"En caso de seleccionar por inicio una página específica, ésta debe ser "
+"seleccionada"
+
+#: killay/viewer/lib/constants.py:52
+msgid "The one archive option requires to be specified"
+msgstr "La opción de un archivo requiere ser especificado"
+
+#: killay/viewer/lib/constants.py:55
+msgid "The one collection option requires to be specified"
+msgstr "La opción de una colección requiere ser especificada"
+
+#: killay/viewer/lib/constants.py:97
+#, python-brace-format
+msgid "this view is not publicly visible because it is out of scope ({scope})"
+msgstr ""
+"esta vista no es públicamente visible porque está fuera del alcance ({scope})"
+
+#: killay/viewer/lib/constants.py:105
+#, fuzzy, python-brace-format
+msgid "Archives of {site}"
+msgstr "Archivos de {site}"
+
+#: killay/viewer/lib/constants.py:106
 #, fuzzy
-#~| msgid "categories"
-#~ msgid "Category"
-#~ msgstr "categorías"
+msgid "Is not visible"
+msgstr "No es visible"
 
-#~ msgid "Update {self.object}"
-#~ msgstr "Editar {self.object}"
+#: killay/viewer/lib/constants.py:107
+msgid "Is restricted to physical places"
+msgstr "Es restringido a lugares físicos"
 
-#~ msgid "Error saving video {self.label_plural}"
-#~ msgstr "Error guardando video {self.label_plural}"
+#: killay/viewer/lib/constants.py:116
+msgid "Piece does not exist"
+msgstr "Pieza no existe"
 
-#~ msgid "Video sequences saved successfully"
-#~ msgstr "Secuencias de video guardadas exitosamente"
+#: killay/viewer/lib/constants.py:117
+msgid "Search Options"
+msgstr "Opciones de Búsqueda"
 
-#~ msgid "Error saving video sequences"
-#~ msgstr "Error guardando las secuencias de video"
+#: killay/viewer/lib/constants.py:119
+#, python-brace-format
+msgid "{applied_filters} applied filters"
+msgstr "{applied_filters} filtros aplicados"
 
-#, fuzzy
-#~| msgid "Create Video"
-#~ msgid "Create user"
-#~ msgstr "Crear Video"
+#: killay/viewer/lib/constants.py:120
+#, python-brace-format
+msgid "{number} pieces were found"
+msgstr "{number} piezas fueron encontradas"
 
-#, fuzzy
-#~| msgid "Users"
-#~ msgid "Username"
-#~ msgstr "Usuarios"
+#: killay/viewer/lib/constants.py:139
+msgid "No provider for this piece"
+msgstr "No hay proveedor para esta pieza"
 
-#~ msgid "Video categories saved successfully"
-#~ msgstr "Categorias guardadas exitosamente"
+#: killay/viewer/lib/constants.py:140
+msgid "Category"
+msgstr "Categoría"
 
-#~ msgid "Error saving video categories"
-#~ msgstr "Error guardando categorías"
+#: killay/viewer/lib/constants.py:141
+msgid "Person"
+msgstr "Persona"
 
-#~ msgid "Video people saved successfully"
-#~ msgstr "Gente guardada exitosamente"
-
-#~ msgid "Video keywords saved successfully"
-#~ msgstr "Palabras clave guardadas exitosamente"
-
-#, fuzzy
-#~| msgid "Error saving the Video"
-#~ msgid "Error saving video keywords"
-#~ msgstr "Error guardando el video"
-
-#~ msgid "Meta fields"
-#~ msgstr "Campos Meta"
+#: killay/viewer/lib/constants.py:142
+msgid "Keyword"
+msgstr "Palabra Clave"

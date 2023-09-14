@@ -24,6 +24,22 @@ from killay.videos.models import (
 
 
 class VideoMigrator:
+    meta_fields = [
+        "event",
+        "description",
+        "description_date",
+        "location",
+        "duration",
+        "register_date",
+        "register_author",
+        "productor",
+        "notes",
+        "archivist_notes",
+        "documentary_unit",
+        "lang",
+        "original_format",
+    ]
+
     def __init__(self, name: str, slug: str, description: str) -> None:
         self._archive = Archive(name=name, slug=slug, description=description)
 
@@ -91,9 +107,10 @@ class VideoMigrator:
                 index="id",
             )
             meta = self._get_meta(video=video, piece=piece)
+            meta.id = piece.meta.id
             meta_instances.append(meta)
             pieces.append(piece)
-        PieceMeta.objects.bulk_create(meta_instances)
+        PieceMeta.objects.bulk_update(meta_instances, fields=self.meta_fields)
         return pieces
 
     def _create_piece_with_categorization(self, video) -> Piece:
@@ -125,22 +142,7 @@ class VideoMigrator:
         return piece
 
     def _get_meta(self, video, piece) -> PieceMeta:
-        meta_fields = [
-            "event",
-            "description",
-            "description_date",
-            "location",
-            "duration",
-            "register_date",
-            "register_author",
-            "productor",
-            "notes",
-            "archivist_notes",
-            "documentary_unit",
-            "lang",
-            "original_format",
-        ]
-        kwargs = {field: getattr(video.meta, field) for field in meta_fields}
+        kwargs = {field: getattr(video.meta, field) for field in self.meta_fields}
         return PieceMeta(**kwargs, piece_id=piece.id)
 
     def _create_from(

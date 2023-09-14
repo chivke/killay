@@ -1,0 +1,14 @@
+<nav class="ui secondary pointing menu" id="admin-navbar">
+  <a
+    class="header item {% if admin_nav.root.active %}active{% endif %}"
+    href="{{admin_nav.root.link}}"
+  >{{admin_nav.root.label}}</a>
+  {% for element in admin_nav.specific %}
+      {% include "admin/menu.html" %}
+    {% endfor %}
+  <div class="right menu">
+    {% for element in admin_nav.general %}
+      {% include "admin/menu.html" %}
+    {% endfor %}
+  </div>
+</nav>

@@ -1,0 +1,47 @@
+
+{% with form.instance as provider %}
+  {% if provider.piece.kind == "IMAGE" %}
+    <div style="max-width: 50%; margin: auto;">
+      <img
+        src="{{MEDIA_URL}}{{provider.image}}"
+        style="max-width:100%"
+      >
+    </div>
+
+  {% elif provider.piece.kind == "SOUND" %}
+    <div style="max-width: 50%; margin: auto;">
+      <audio id="player-{{provider.id}}" controls>
+        <source src="{{MEDIA_URL}}{{provider.file}}" type="audio/mp3" />
+      </audio>
+    </div>
+
+  {% elif provider.piece.kind == "VIDEO" %}
+    <div
+      class="plyr__video-embed"
+      id="player-{{provider.id}}"
+      style="max-width: 50%; margin: auto;"
+    >
+      <iframe
+        src="{{provider.video_url_for_plyr}}"
+        allowfullscreen
+        allowtransparency
+        allow="autoplay"
+      ></iframe>
+    </div>
+  {% elif provider.piece.kind == "DOCUMENT" %}
+    <div style="max-width: 50%; margin: auto;">
+      <embed
+        src="{{MEDIA_URL}}{{provider.file}}"
+        width="100%"
+        height="250"
+        type="application/pdf"
+      >
+    </div>
+  {% endif %}
+
+  {% if provider.piece.kind == "VIDEO" or provider.piece.kind == "SOUND" %}
+    <script type="text/javascript">
+      const $player_{{provider.id}} = new Plyr('#player-{{provider.id}}', {invertTime: false});
+    </script>
+  {% endif %}
+{% endwith %}

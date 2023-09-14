@@ -27,8 +27,9 @@ def show_admin_navbar(context):
     navbar_context = {
         "admin_conf": {
             "name": gettext_lazy("Administrator"),
-            "link": reverse("admin:configuration"),
-            "css_class": "header " + _get_css_class(view_name, "admin:configuration"),
+            "link": reverse("admin:site_configuration"),
+            "css_class": "header "
+            + _get_css_class(view_name, "admin:site_configuration"),
         },
         "video_admin": {
             video_admin_link[0]: {

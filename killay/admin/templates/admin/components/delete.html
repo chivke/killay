@@ -1,0 +1,18 @@
+{% load i18n %}
+
+
+<form
+  id="user-admin-create"
+  method="post"
+  class="ui form"
+>
+  {% csrf_token %}
+  <input
+    class="ui button admin-submit red"
+    type="submit"
+    value="{% trans 'Confirm' %}"
+  >
+  {% if delete_url %}
+    <a class="ui button admin-submit" href="{% url delete_url form.instance.id %}">{% trans "Back" %}</a>
+  {% endif %}
+</form>

@@ -54,6 +54,7 @@ LOCAL_APPS = [
     "killay.videos.apps.VideosConfig",
     "killay.admin.apps.AdminConfig",
     "killay.archives.apps.ArchivesConfig",
+    "killay.viewer.apps.ViewerConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -76,6 +77,10 @@ PASSWORD_HASHERS = [
 
 # Middleware
 
+LOCAL_MIDDLEWARE = [
+    "killay.admin.middleware.SiteConfigurationMiddleware",
+]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -86,6 +91,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    *LOCAL_MIDDLEWARE,
 ]
 
 # Static
@@ -109,12 +115,13 @@ CUSTOM_CONTEXT_PROCESSORS = [
     "killay.admin.context_processors.site_context",
     "killay.pages.context_processors.pages_context",
     "killay.videos.context_processors.collections_context",
+    "killay.viewer.context_processors.general_context",
 ]
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [str(APPS_DIR / "templates")],
+        "DIRS": [str(APPS_DIR / "templates"), str(APPS_DIR / "admin" / "templates")],
         "OPTIONS": {
             "loaders": [
                 "django.template.loaders.filesystem.Loader",
@@ -147,7 +154,7 @@ FIXTURE_DIRS = (str(APPS_DIR / "fixtures"),)
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
 SECURE_BROWSER_XSS_FILTER = True
-X_FRAME_OPTIONS = "DENY"
+X_FRAME_OPTIONS = "SAMEORIGIN"
 
 # Email
 

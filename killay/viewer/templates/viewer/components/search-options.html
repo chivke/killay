@@ -1,0 +1,50 @@
+  <div class="ui styled fluid accordion">
+    <div class="title {% if search.query %}active{% endif %}">
+      <i class="dropdown icon"></i>
+        {{search.label_name}} ({{search.applied_filters_message}})
+    </div>
+    <div class="content {% if search.query %}active{% endif %}">
+      <form
+        id="advenced-search"
+        action="."
+        method="get"
+        accept-charset="utf-8"
+      >
+        <div class="ui fluid action input">
+          {% for field, option in search.filter_options.items %}
+            {% if option.items %}
+              <select class="ui selection fluid compact dropdown" name="{{field}}">
+                <option value=" " class="default">{{option.label}}</option>
+                {% for item in option.items %}
+                  {{item}}
+                  <option
+                    value="{{item.slug}}"
+                    {% if item.active %}selected{% endif %}
+                  >{{item.label}}</option>
+                {% endfor %}
+              </select>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="ui fluid action input">
+          <input
+            name="search"
+            type="text"
+            {% if search.query %}
+              value="{{search.query}}"
+            {% endif %}
+          >
+          <select class="ui selection dropdown" name="{{search.kind_options.field}}">
+            <option value=" " class="default">{{search.kind_options.label}}</option>
+            {% for option in search.kind_options.items %}
+              <option
+                value="{{option.value}}"
+                {% if option.active %}selected{% endif %}
+              >{{option.label}}</option>
+            {% endfor %}
+          </select>
+          <button class="ui button" type="submit">{{search.action_name}}</button>
+        </div>
+      </form>
+    </div>
+  </div>

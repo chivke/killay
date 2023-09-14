@@ -11,9 +11,9 @@ pytestmark = pytest.mark.django_db
 
 class TestShowAdminNavbar:
     def test_admin_conf(self, admin_user, rf: RequestFactory):
-        request = rf.get("/admin/")
+        request = rf.get("/admin/conf/")
         request.user = admin_user
-        request.resolver_match = resolve("/admin/")
+        request.resolver_match = resolve("/admin/conf/")
         context = Context({"request": request})
         template_to_render = Template(
             "{% load admin_navbar %}" "{% show_admin_navbar %}"

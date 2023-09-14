@@ -5,9 +5,4 @@ from django.utils.translation import gettext_lazy as _
 class UsersConfig(AppConfig):
     name = "killay.users"
     verbose_name = _("Users")
-
-    def ready(self):
-        try:
-            import killay.users.signals  # noqa F401
-        except ImportError:
-            pass
+    default_auto_field = "django.db.models.BigAutoField"

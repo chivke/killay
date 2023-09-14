@@ -10,6 +10,8 @@ from killay.archives.models import (
     Person,
     Piece,
     PieceMeta,
+    Place,
+    PlaceAddress,
     Provider,
     Sequence,
 )
@@ -32,6 +34,7 @@ category_recipe = Recipe(
     Category,
     name=seq("Local Category "),
     slug=seq("local-category-"),
+    collection=foreign_key(collection_recipe),
 )
 
 person_recipe = Recipe(
@@ -58,6 +61,10 @@ piece_recipe = Recipe(
 )
 
 piece_meta_recipe = Recipe(PieceMeta, piece=foreign_key(piece_recipe, one_to_one=True))
+
+place_recipe = Recipe(Place)
+
+place_address_recipe = Recipe(PlaceAddress, place=foreign_key(place_recipe))
 
 sequence_recipe = Recipe(
     Sequence,

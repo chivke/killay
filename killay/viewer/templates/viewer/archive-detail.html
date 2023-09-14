@@ -1,0 +1,39 @@
+{% extends "viewer/base.html" %}
+
+{% block content %}
+  <div
+    class="page-header-image"
+    style="
+      background-image: url('{{archive_data.image}}');
+      background-color: #dedede;
+      height: 20vh;
+    "
+  ></div>
+  <div class="header-filter-container">
+    <h1 class="ui header huge filter-name">{{archive_data.name}}</h1>
+    <div class="filter-description">
+      {{archive_data.description}}
+    </div>
+  </div>
+
+  <div class="ui container center">
+    <h2 class="ui header dividing">{{archive_data.collections.label}}</h2>
+    <div class="ui link cards">
+      {% for collection in archive_data.collections.items %}
+        <div class="card">
+          <div class="image">
+            <img src="{{collection.image}}">
+          </div>
+          <div class="content">
+            <div class="header">
+              {{collection.name}}
+            </div>
+            <div class="description">
+              {{collection.description}}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock content %}

@@ -1,0 +1,43 @@
+
+{% if element.items %}
+  <div class="ui pointing dropdown link item">
+    <i class="{{element.icon}} icon"></i>
+    <span class="text">{{element.label}} </span>
+    <i class="dropdown icon"></i>
+    <div class="menu">
+      {% for item in element.items %}
+        {% if item.header %}
+          <div class="header">{{item.header}}</div>
+          <div class="divider"></div>
+        {% endif %}
+        {% if item.label == "divider" %}
+          <div class="divider"></div>
+        {% else %}
+          <a
+            class="item {% if item.active %}active{% endif %}"
+            href="{{item.link}}"
+          >
+            {% if item.icon %}
+              <i class="{{item.icon}} icon"></i>
+            {% endif %}
+            {{item.label}}
+          </a>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% else %}
+  {% if element.link %}
+    <a
+      class="item {% if element.active %}active{% endif %}"
+      href="{{element.link}}"
+    >
+      {% if element.icon %}
+        <i class="{{element.icon}} icon"></i>
+      {% endif %}
+      {{element.label}}
+    </a>
+  {% else %}
+    <div class="item">{{element.label}}</div>
+  {% endif %}
+{% endif %}

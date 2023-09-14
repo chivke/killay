@@ -1,0 +1,54 @@
+{% load i18n %}
+
+<form
+  method="post"
+  action="."
+  class="ui form"
+  id="generic_form_id"
+  enctype="multipart/form-data"
+>
+  {% csrf_token %}
+
+  {% if read_only_fields %}
+    {% for field_name, field in read_only_fields.items %}
+      <div class="field">
+        <label>{{field.label}}</label>
+        {{field.value}}
+      </div>
+    {% endfor %}
+  {% endif %}
+
+  {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+  {% endfor %}
+  {% for field in form.visible_fields %}
+    <div class="field {% if field.field.required %}required{% endif %}">
+      <label>{{field.label_tag}}</label>
+      {% if field.field.widget.input_type == "checkbox" %}
+        <div class="ui slider checkbox">
+          {{field}}
+        </div>
+      {% else %}
+        {{field}}
+      {% endif %}
+      <div>{{field.help_text}}</div>
+
+      {% if field.errors %}
+        <div class="ui pointing red basic label">
+          {% for error in field.errors %}{{error}}{% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% endfor %}
+  <div class="ui divider"></div>
+  <div class="field">
+    <input
+      type="submit"
+      class="ui button admin-submit blue"
+      value="{% trans 'Save' %}"
+    >
+    {% if delete_url %}
+      <a class="ui button red admin-submit" href="{% url delete_url form.instance.pk %}">{% trans "Delete" %}</a>
+    {% endif %}
+  </div>
+</form>

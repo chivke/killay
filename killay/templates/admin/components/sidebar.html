@@ -9,8 +9,8 @@
   </a>
   {% if request.user.is_superuser %}
     <a
-      class="item {% if view_name == 'admin:configuration' %} active{% endif %}"
-      href="{% url 'admin:configuration' %}"
+      class="item {% if view_name == 'admin:site_configuration' %} active{% endif %}"
+      href="{% url 'admin:site_configuration' %}"
     >{% trans "Site Configuration" %}
     </a>
     <a class="item {% if view_name == 'admin:users_list' %} active{% endif %}"

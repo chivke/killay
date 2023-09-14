@@ -1,61 +1,153 @@
-from django.http import HttpResponseRedirect
-from django.views.generic import UpdateView
+from typing import Optional
+
 from django.urls import reverse
 
-from killay.admin.mixins import AdminRequiredMixin
-from killay.admin.models import SiteConfiguration
+from killay.admin.lib.constants import SiteConfigurationConstants
+from killay.admin.forms import (
+    LogoForm,
+    LogoFormSet,
+    SiteConfigurationForm,
+    SocialMediaForm,
+    SocialMediaFormSet,
+    ViewerForm,
+)
+from killay.admin.views.mixins import CreateAdminView, FormSetAdminView, UpdateAdminView
 
-from killay.admin.forms import SiteConfigurationForm, SocialMediaFormSet, LogoFormSet
+
+def _get_extra_links(current_name: Optional[str] = None) -> list:
+    extra_links = []
+    for name, pattern in SiteConfigurationConstants.PATTERN_BY_NAME.items():
+        extra_link = {"name": name}
+        if name != current_name:
+            extra_link["link"] = reverse(pattern)
+        extra_links.append(extra_link)
+    return extra_links
 
 
-class SiteConfigurationUpdateView(AdminRequiredMixin, UpdateView):
+class ConfigurationUpdateView(UpdateAdminView):
+    main_title = SiteConfigurationConstants.MAIN_TITLE
+    description = SiteConfigurationConstants.DESCRIPTION_GENERAL
     form_class = SiteConfigurationForm
-    formset_class = SocialMediaFormSet
-    logo_formset_class = LogoFormSet
-    template_name = "admin/site_configuration.html"
+    reverse_url = "admin:site_configuration"
 
     def get_object(self):
-        return SiteConfiguration.objects.current()
+        return self.request.site_configuration
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data()
-        return {
-            **context,
-            "formset": self.get_formset(),
-            "logo_formset": self.get_logo_formset(),
-            **kwargs,
-        }
+    def get_extra_data(self) -> str:
+        return {}
 
-    def get_formset(self, **kwargs):
-        return self.formset_class(**kwargs, instance=self.object)
+    def get_second_title(self) -> str:
+        return SiteConfigurationConstants.NAME_GENERAL
 
-    def get_logo_formset(self, **kwargs):
-        return self.logo_formset_class(**kwargs, instance=self.object)
+    def get_extra_links(self):
+        return _get_extra_links(current_name=SiteConfigurationConstants.NAME_GENERAL)
 
-    def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form = self.get_form()
-        formset = self.get_formset(data=request.POST)
-        logo_formset = self.get_logo_formset(data=request.POST, files=request.FILES)
-        if form.is_valid() and formset.is_valid() and logo_formset.is_valid():
-            return self.form_formset_valid(form, formset, logo_formset)
-        else:
-            return self.form_formset_invalid(form, formset, logo_formset)
+    def get_slug_value(self):
+        return
 
-    def form_formset_valid(self, form, formset, logo_formset):
-        for _form in [form, formset, logo_formset]:
-            if _form.has_changed():
-                _form.save()
-        return HttpResponseRedirect(self.get_success_url())
 
-    def form_formset_invalid(self, form, formset, logo_formset):
-        context = self.get_context_data(
-            form=form, formset=formset, logo_formset=logo_formset
+admin_site_configuration_view = ConfigurationUpdateView.as_view()
+
+
+class ViewerUpdateView(UpdateAdminView):
+    main_title = SiteConfigurationConstants.MAIN_TITLE
+    description = SiteConfigurationConstants.DESCRIPTION_VIEWER
+    form_class = ViewerForm
+    reverse_url = SiteConfigurationConstants.PATTERN_VIEWER
+    name_field = "id"
+
+    def get_object(self):
+        return self.request.site_configuration.viewer
+
+    def get_extra_data(self) -> str:
+        return {}
+
+    def get_second_title(self) -> str:
+        return SiteConfigurationConstants.NAME_VIEWER
+
+    def get_extra_links(self):
+        return _get_extra_links(current_name=SiteConfigurationConstants.NAME_VIEWER)
+
+    def get_slug_value(self):
+        return
+
+
+admin_site_viewer_view = ViewerUpdateView.as_view()
+
+
+class SiteSocialMediaListView(FormSetAdminView):
+    main_title = SiteConfigurationConstants.MAIN_TITLE
+    second_title = SiteConfigurationConstants.NAME_SOCIAL_MEDIA
+    description = SiteConfigurationConstants.DESCRIPTION_SOCIAL_MEDIA
+    formset_class = SocialMediaFormSet
+    reverse_url = "admin:site_social_media_list"
+    create_url = "admin:site_social_media_create"
+    manager_name = "objects_in_site"
+
+    def get_extra_links(self):
+        return _get_extra_links(
+            current_name=SiteConfigurationConstants.NAME_SOCIAL_MEDIA
         )
-        return self.render_to_response(context)
-
-    def get_success_url(self):
-        return reverse("admin:configuration")
 
 
-admin_configuration_view = SiteConfigurationUpdateView.as_view()
+admin_site_social_media_list_view = SiteSocialMediaListView.as_view()
+
+
+class SiteSocialMediaCreateView(CreateAdminView):
+    main_title = SiteConfigurationConstants.MAIN_TITLE
+    form_class = SocialMediaForm
+    reverse_url = "admin:site_social_media_list"
+    name_field = "provider"
+
+    def get_form(self, *args, **kwargs):
+        config = self.request.site_configuration
+        form = super().get_form(*args, **kwargs)
+        form.initial["config"] = config.id
+        return form
+
+    def get_slug_value(self):
+        return
+
+    def get_extra_links(self):
+        return _get_extra_links()
+
+
+admin_site_social_media_create_view = SiteSocialMediaCreateView.as_view()
+
+
+class SiteLogoListView(FormSetAdminView):
+    main_title = SiteConfigurationConstants.MAIN_TITLE
+    second_title = SiteConfigurationConstants.NAME_LOGO
+    description = SiteConfigurationConstants.DESCRIPTION_LOGO
+    formset_class = LogoFormSet
+    reverse_url = "admin:site_logo_list"
+    create_url = "admin:site_logo_create"
+    manager_name = "objects_in_site"
+    image_fields = ["image"]
+
+    def get_extra_links(self):
+        return _get_extra_links(current_name=SiteConfigurationConstants.NAME_LOGO)
+
+
+admin_site_logo_list_view = SiteLogoListView.as_view()
+
+
+class SiteLogoCreateView(CreateAdminView):
+    main_title = SiteConfigurationConstants.MAIN_TITLE
+    form_class = LogoForm
+    reverse_url = "admin:site_social_media_create"
+
+    def get_form(self, *args, **kwargs):
+        config = self.request.site_configuration
+        form = super().get_form(*args, **kwargs)
+        form.initial["configuration"] = config.id
+        return form
+
+    def get_slug_value(self):
+        return
+
+    def get_extra_links(self):
+        return _get_extra_links()
+
+
+admin_site_logo_create_view = SiteLogoCreateView.as_view()

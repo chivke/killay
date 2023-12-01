@@ -8,7 +8,7 @@ from killay.viewer.lib.constants import ViewerConstants
 
 @pytest.mark.django_db
 class TestRootView:
-    root_path = "/viewer/"
+    root_path = "/"
 
     def test_default(self, client, user):
         client.force_login(user)

@@ -22,7 +22,7 @@ class TestPipelineBase:
     def test_get_piece_list_base_url(self, get_request_with_viewer):
         request = get_request_with_viewer()
         pipeline = PipelineBase(request=request)
-        assert pipeline._get_piece_list_base_url() == "/viewer/pieces/"
+        assert pipeline._get_piece_list_base_url() == "/pieces/"
 
     def test_get_url_param(self, get_request_with_viewer):
         fake_key = "fake"

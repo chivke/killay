@@ -14,7 +14,11 @@ from killay.pages.services import (
     get_public_menu_pages,
 )
 from killay.viewer.engine.base import PipelineBase
-from killay.viewer.lib.constants import ViewerConstants, ViewerPatternConstants
+from killay.viewer.lib.constants import (
+    ViewerConstants,
+    ViewerPatternConstants,
+    SiteContextConstants,
+)
 
 
 class MenuBase(PipelineBase):
@@ -74,6 +78,17 @@ class MenuBase(PipelineBase):
                 "active": is_active,
             }
             category_links.append(category_link)
+        collection = self.cursor.get("collection")
+        all_pieces = {
+            "name": SiteContextConstants.NAME_ALL,
+            "link": (
+                base_url
+                if not collection
+                else f"{base_url}?collection={collection.slug}"
+            ),
+            "active": (collection and not selected_category),
+        }
+        category_links.append(all_pieces)
         return category_links
 
     def _get_archive_page_links(self, archive_id: int) -> List[Dict]:

@@ -30,7 +30,7 @@ class TestRoutePipeline:
     def test_get_root_url(self, get_request_with_viewer):
         request = get_request_with_viewer()
         root_url = RoutePipeline.get_root_url(request=request)
-        assert root_url == "/viewer/archives/"
+        assert root_url == "/archives/"
 
     def test_get_root_url_with_home_page(self, get_request_with_viewer):
         request = get_request_with_viewer()

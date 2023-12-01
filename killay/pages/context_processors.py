@@ -21,7 +21,6 @@ def pages_context(request):
                 "is_visible": page.is_visible,
                 "is_visible_in_navbar": page.is_visible_in_navbar,
                 "is_visible_in_footer": page.is_visible_in_footer,
-                "collection_site": page.collection_site,
             }
             for page in Page.objects.all()
         ]

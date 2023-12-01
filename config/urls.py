@@ -4,16 +4,12 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import include, path
 from django.views import defaults as default_views
 
-from killay.pages.views import home_page_view
-
 
 urlpatterns = [
-    path("", view=home_page_view, name="home"),
+    path("", include("killay.viewer.urls", namespace="viewer")),
     path("admin/", include("killay.admin.urls", namespace="admin")),
     path("pages/", include("killay.pages.urls", namespace="pages")),
     path("users/", include("killay.users.urls", namespace="users")),
-    path("videos/", include("killay.videos.urls", namespace="videos")),
-    path("viewer/", include("killay.viewer.urls", namespace="viewer")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

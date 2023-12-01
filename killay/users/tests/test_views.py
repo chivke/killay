@@ -27,11 +27,10 @@ class TestUserUpdateView:
         view.kwargs = {}
         assert view.get_object() == user
 
-    def test_update(self, user: User, rf_msg: RequestFactory):
+    def test_update(self, user: User, client):
         data = {"email": "new@localhost"}
-        request = rf_msg("post", "/users/~update/", data)
-        request.user = user
-        response = user_update_view(request)
+        client.force_login(user)
+        response = client.post("/users/~update/", data)
         assert response.status_code == 302
         user.refresh_from_db()
         assert user.email == data["email"]

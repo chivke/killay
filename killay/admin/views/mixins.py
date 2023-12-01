@@ -2,17 +2,29 @@ from django.contrib import messages
 from django.contrib.auth.mixins import AccessMixin
 from django.core.paginator import Paginator, InvalidPage
 from django.http import Http404, HttpResponseRedirect
-from django.views.generic import View, DeleteView, ListView
+from django.views.generic import View  # , DeleteView, ListView
 from django.views.generic.edit import ModelFormMixin
 from django.views.generic.base import TemplateResponseMixin
-from django.views.generic.list import MultipleObjectMixin
+
+# from django.views.generic.list import MultipleObjectMixin
 from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy
+
+
+from killay.admin.models import SiteConfiguration
 
 
 class AdminRequiredMixin(AccessMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated or not request.user.is_superuser:
+            return self.handle_no_permission()
+        return super().dispatch(request, *args, **kwargs)
+
+
+class PublishRequiredMixin(AccessMixin):
+    def dispatch(self, request, *args, **kwargs):
+        conf = SiteConfiguration.objects.current()
+        if not conf.is_published and not request.user.is_authenticated:
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
 

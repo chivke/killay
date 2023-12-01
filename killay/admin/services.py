@@ -1,18 +1,8 @@
-# from csv import DictReader
 from datetime import datetime
 
-# from pathlib import Path
 from typing import List
 
-# from django.core import serializers
-# from django.conf import settings
-# from django.db import transaction
-# from django.utils.text import slugify
-
-# from killay.videos.lib.constants import VideoConstants
 from killay.admin.models import SiteConfiguration
-
-# from killay.pages.models import Page
 
 
 def date_serializer_for_data_list(data: dict, fields: List[str]) -> dict:

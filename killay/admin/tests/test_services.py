@@ -1,16 +1,8 @@
 import pytest
 
-# from csv import DictWriter
 from datetime import datetime
 
-# from factory import Faker
-# from django.core import serializers
-
 from killay.admin import services as admin_services
-
-# from killay.videos.lib.constants import VideoConstants
-# from killay.videos.models import Video
-# from killay.pages.models import Page
 
 
 pytestmark = pytest.mark.django_db

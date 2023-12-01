@@ -2,11 +2,10 @@ from django.contrib import messages
 from django.contrib.auth.mixins import AccessMixin
 from django.core.paginator import Paginator, InvalidPage
 from django.http import Http404, HttpResponseRedirect
-from django.views.generic import View  # , DeleteView, ListView
+from django.views.generic import View
 from django.views.generic.edit import ModelFormMixin
 from django.views.generic.base import TemplateResponseMixin
 
-# from django.views.generic.list import MultipleObjectMixin
 from django.urls import reverse
 from django.utils.translation import gettext, gettext_lazy
 

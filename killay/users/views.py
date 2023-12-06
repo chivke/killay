@@ -49,6 +49,11 @@ class UserLoginView(auth_views.LoginView):
     redirect_authenticated_user = True
     template_name = "users/login.html"
 
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        context.pop("site")
+        return context
+
 
 user_login_view = UserLoginView.as_view()
 

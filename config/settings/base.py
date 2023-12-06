@@ -97,7 +97,7 @@ MIDDLEWARE = [
 # Static
 
 STATIC_ROOT = str(ROOT_DIR / "static")
-STATIC_URL = "/static/"
+STATIC_URL = env("STATIC_URL", default="/static/")
 STATICFILES_DIRS = [str(APPS_DIR / "static")]
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -107,7 +107,7 @@ STATICFILES_FINDERS = [
 # Media
 
 MEDIA_ROOT = str(APPS_DIR / "media")
-MEDIA_URL = "/media/"
+MEDIA_URL = env("MEDIA_URL", default="/media/")
 
 # Template
 

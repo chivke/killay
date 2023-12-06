@@ -86,7 +86,11 @@ class MenuBase(PipelineBase):
                 if not collection
                 else f"{base_url}?collection={collection.slug}"
             ),
-            "active": (collection and not selected_category),
+            "active": (
+                collection
+                and not selected_category
+                and not self.cursor.get("type") == "page"
+            ),
         }
         category_links.append(all_pieces)
         return category_links

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-09-13 14:21-0500\n"
+"POT-Creation-Date: 2023-12-06 15:03-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,8 +24,6 @@ msgid "File must be {self.file_extensions}"
 msgstr "El archivo debe ser {self.file_extensions}"
 
 #: killay/admin/lib/constants.py:6
-#: killay/templates/admin/components/sidebar.html:14
-#: killay/templates/admin/site_configuration.html:10
 msgid "Site Configuration"
 msgstr "Configuración del Sitio"
 
@@ -46,17 +44,14 @@ msgid "Social Medias"
 msgstr "Redes Sociales"
 
 #: killay/admin/lib/constants.py:23
-#: killay/templates/admin/site_configuration.html:78
 msgid "Logos"
 msgstr "Logos"
 
 #: killay/admin/lib/constants.py:24
-#: killay/templates/admin/components/sidebar.html:22
 msgid "Pages"
 msgstr "Páginas"
 
-#: killay/admin/lib/constants.py:25
-#: killay/templates/admin/components/sidebar.html:18 killay/users/apps.py:7
+#: killay/admin/lib/constants.py:25 killay/users/apps.py:7
 msgid "Users"
 msgstr "Usuarios"
 
@@ -129,9 +124,7 @@ msgstr "Acciones Masivas"
 msgid "Archives"
 msgstr "Archivos"
 
-#: killay/admin/lib/constants.py:96
-#: killay/admin/templatetags/admin_navbar.py:22
-#: killay/viewer/lib/constants.py:101
+#: killay/admin/lib/constants.py:96 killay/viewer/lib/constants.py:101
 msgid "Collections"
 msgstr "Colecciones"
 
@@ -139,34 +132,22 @@ msgstr "Colecciones"
 msgid "Pieces"
 msgstr "Piezas"
 
-#: killay/admin/lib/constants.py:98
-#: killay/admin/templatetags/admin_navbar.py:23
-#: killay/archives/lib/constants.py:160
-#: killay/templates/videos/video_detail.html:139
-#: killay/templates/videos/video_filtered_list.html:20
-#: killay/videos/models.py:245 killay/viewer/lib/constants.py:102
+#: killay/admin/lib/constants.py:98 killay/archives/lib/constants.py:160
+#: killay/viewer/lib/constants.py:102
 msgid "Categories"
 msgstr "Categorías"
 
-#: killay/admin/lib/constants.py:99
-#: killay/admin/templatetags/admin_navbar.py:24
-#: killay/archives/lib/constants.py:162
-#: killay/templates/videos/video_detail.html:149 killay/videos/models.py:248
+#: killay/admin/lib/constants.py:99 killay/archives/lib/constants.py:162
 #: killay/viewer/lib/constants.py:103
 msgid "People"
 msgstr "Gente"
 
-#: killay/admin/lib/constants.py:100
-#: killay/admin/templatetags/admin_navbar.py:25
-#: killay/archives/lib/constants.py:164
-#: killay/templates/videos/video_detail.html:159 killay/videos/models.py:251
+#: killay/admin/lib/constants.py:100 killay/archives/lib/constants.py:164
 #: killay/viewer/lib/constants.py:104
 msgid "Keywords"
 msgstr "Palabras Clave"
 
 #: killay/admin/lib/constants.py:101
-#: killay/admin/templatetags/admin_navbar.py:61
-#: killay/templates/admin/videos/video_sequences_list.html:14
 msgid "Sequences"
 msgstr "Sequencias"
 
@@ -289,7 +270,7 @@ msgstr "URL del perfil de la red social"
 
 #: killay/admin/lib/constants.py:196 killay/admin/lib/constants.py:214
 #: killay/archives/lib/constants.py:22 killay/archives/lib/constants.py:54
-#: killay/pages/lib/constants.py:15 killay/videos/models.py:19
+#: killay/pages/lib/constants.py:15
 msgid "Is visible"
 msgstr "Es visible"
 
@@ -301,7 +282,7 @@ msgstr "Indica si la red social será visible al público"
 #: killay/archives/lib/constants.py:15 killay/archives/lib/constants.py:49
 #: killay/archives/lib/constants.py:85 killay/archives/lib/constants.py:103
 #: killay/archives/lib/constants.py:121 killay/archives/managers.py:21
-#: killay/pages/lib/constants.py:25 killay/videos/models.py:267
+#: killay/pages/lib/constants.py:25
 msgid "Position"
 msgstr "Posición"
 
@@ -328,7 +309,7 @@ msgstr "logos"
 #: killay/archives/lib/constants.py:7 killay/archives/lib/constants.py:41
 #: killay/archives/lib/constants.py:77 killay/archives/lib/constants.py:95
 #: killay/archives/lib/constants.py:113 killay/archives/lib/constants.py:274
-#: killay/archives/managers.py:15 killay/videos/models.py:261
+#: killay/archives/managers.py:15
 msgid "Name"
 msgstr "Nombre"
 
@@ -351,12 +332,10 @@ msgid "Indicates if the logo will be visible to the public"
 msgstr "Indica si el logo será visible al público"
 
 #: killay/admin/lib/constants.py:226
-#: killay/admin/templatetags/admin_navbar.py:29
 msgid "Administrator"
 msgstr "Administrador"
 
 #: killay/admin/lib/constants.py:228 killay/archives/lib/constants.py:249
-#: killay/templates/videos/video_detail.html:90 killay/videos/models.py:79
 msgid "Location"
 msgstr "Locación"
 
@@ -518,8 +497,7 @@ msgstr "Nombre de la Columna"
 #: killay/archives/lib/constants.py:47 killay/archives/lib/constants.py:83
 #: killay/archives/lib/constants.py:101 killay/archives/lib/constants.py:119
 #: killay/archives/lib/constants.py:245 killay/archives/lib/constants.py:295
-#: killay/archives/managers.py:20 killay/templates/videos/video_detail.html:80
-#: killay/videos/models.py:74 killay/videos/models.py:266
+#: killay/archives/managers.py:20
 msgid "Description"
 msgstr "Descripción"
 
@@ -636,62 +614,6 @@ msgstr "{type} {value} no pertenece a {other_type} {other_value}"
 msgid "{value} for {field} is repeated"
 msgstr "{value} de {field} está repetido"
 
-#: killay/admin/mixins.py:82
-#, python-brace-format
-msgid "{self.model._meta.verbose_name} \"{self.object}\" was updated"
-msgstr "{self.model._meta.verbose_name} \"{self.object}\" fue editado"
-
-#: killay/admin/mixins.py:101
-#, fuzzy, python-brace-format
-#| msgid "{self.model._meta.verbose_name} \"{self.object}\" was updated"
-msgid "Update {self.object._meta.verbose_name} {self.object}"
-msgstr "{self.model._meta.verbose_name} \"{self.object}\" fue editado"
-
-#: killay/admin/mixins.py:113
-#, python-brace-format
-msgid "{self.model._meta.verbose_name} \"{self.object}\" was deleted"
-msgstr "{self.model._meta.verbose_name} \"{self.object}\" se eliminó"
-
-#: killay/admin/mixins.py:120
-#, python-brace-format
-msgid "Delete {self.model._meta.verbose_name}"
-msgstr "Eliminar {self.model._meta.verbose_name}"
-
-#: killay/admin/mixins.py:183
-msgid "Error saving Video"
-msgstr "Error guardando el video"
-
-#: killay/admin/mixins.py:339 killay/admin/views/mixins.py:339
-#, fuzzy, python-brace-format
-#| msgid "Video {self.label_plural} saved successfully"
-msgid "{self.model._meta.verbose_name_plural} saved successfully"
-msgstr "{self.label_plural} guardada exitosamente"
-
-#: killay/admin/mixins.py:342 killay/admin/views/mixins.py:342
-#, fuzzy, python-brace-format
-#| msgid "Delete {self.model._meta.verbose_name}"
-msgid "Error saving {self.model._meta.verbose_name_plural}"
-msgstr "Eliminar {self.model._meta.verbose_name}"
-
-#: killay/admin/mixins.py:366 killay/videos/views.py:38
-#: killay/videos/views.py:88
-#, fuzzy
-#| msgid "No video provider"
-msgid "Not video found"
-msgstr "Sin proveedor de Video"
-
-#: killay/admin/mixins.py:371
-#, fuzzy, python-brace-format
-#| msgid "Delete {self.model._meta.verbose_name}"
-msgid "{self.model._meta.verbose_name} "
-msgstr "Eliminar {self.model._meta.verbose_name}"
-
-#: killay/admin/mixins.py:377
-#, fuzzy, python-brace-format
-#| msgid "Delete {self.model._meta.verbose_name}"
-msgid "Error saving {self.model._meta.verbose_name} "
-msgstr "Eliminar {self.model._meta.verbose_name}"
-
 #: killay/admin/models.py:52
 msgid "Collection site"
 msgstr ""
@@ -705,7 +627,6 @@ msgid "Send"
 msgstr "Enviar"
 
 #: killay/admin/templates/admin/components/delete.html:13
-#: killay/templates/admin/generic_delete.html:24
 msgid "Confirm"
 msgstr "Confirmar"
 
@@ -713,69 +634,41 @@ msgstr "Confirmar"
 msgid "Back"
 msgstr "Atras"
 
+#: killay/admin/templates/admin/components/field_image_input.html:27
+msgid "Upload"
+msgstr "Subir"
+
 #: killay/admin/templates/admin/components/form.html:48
 #: killay/admin/templates/admin/components/formset.html:55
 #: killay/admin/templates/admin/components/formset.html:151
-#: killay/templates/admin/formset_list.html:116
-#: killay/templates/admin/formset_list.html:191
-#: killay/templates/admin/generic_form.html:78
-#: killay/templates/admin/site_configuration.html:77
-#: killay/templates/admin/site_configuration.html:116
-#: killay/templates/admin/videos/video_categorization.html:27
-#: killay/templates/admin/videos/video_categorization.html:41
-#: killay/templates/admin/videos/video_form.html:55
-#: killay/templates/admin/videos/video_form.html:122
-#: killay/templates/admin/videos/video_form.html:162
-#: killay/templates/admin/videos/video_sequences_list.html:26
-#: killay/templates/admin/videos/video_sequences_list.html:68
-#: killay/templates/users/login.html:44
-#: killay/templates/users/password_change_form.html:29
-#: killay/templates/users/password_reset_confirm.html:34
-#: killay/templates/users/user_form.html:34
+#: killay/users/templates/users/login.html:43
+#: killay/users/templates/users/password_change_form.html:29
+#: killay/users/templates/users/password_reset_confirm.html:34
+#: killay/users/templates/users/user_form.html:34
 msgid "Save"
 msgstr "Guardar"
 
 #: killay/admin/templates/admin/components/form.html:51
 #: killay/admin/templates/admin/components/formset.html:119
-#: killay/admin/templatetags/admin_navbar.py:58
 msgid "Delete"
 msgstr "Eliminar"
 
 #: killay/admin/templates/admin/components/formset.html:34
-#: killay/templates/admin/formset_list.html:75
-#: killay/templates/components/search.html:15
 #: killay/viewer/lib/constants.py:118
 msgid "Search"
 msgstr "Buscar"
 
 #: killay/admin/templates/admin/components/formset.html:39
-#: killay/templates/admin/formset_list.html:101
 msgid "Create"
 msgstr "Crear"
 
 #: killay/admin/templates/admin/components/formset.html:75
-#: killay/templates/admin/generic_list.html:29
 msgid "Actions"
 msgstr "Acciones"
 
 #: killay/admin/templates/admin/components/formset.html:114
-#: killay/admin/templatetags/admin_navbar.py:57
-#: killay/templates/admin/formset_list.html:136
-#: killay/templates/admin/formset_list.html:170
-#: killay/templates/videos/video_filtered_list.html:44
 msgid "Update"
 msgstr "Editar"
-
-#: killay/admin/templatetags/admin_navbar.py:21
-#: killay/templates/admin/videos/video_form.html:14
-msgid "Create Video"
-msgstr "Crear Video"
-
-#: killay/admin/templatetags/admin_navbar.py:66
-#: killay/templates/admin/videos/video_categorization.html:10
-#: killay/templates/admin/videos/video_form.html:126
-msgid "Categorization"
-msgstr "Categorización"
 
 #: killay/admin/views/content_manager/pieces.py:215
 #, fuzzy, python-brace-format
@@ -803,137 +696,41 @@ msgstr "{Place.Meta.verbose_name} no existe"
 msgid "Your current IP"
 msgstr "Tu IP actual"
 
-#: killay/admin/views/mixins.py:116
+#: killay/admin/views/mixins.py:127
 #, fuzzy, python-brace-format
 msgid "Error not {self.action_name}"
 msgstr "Error en {self.action_name}"
 
-#: killay/admin/views/mixins.py:126
+#: killay/admin/views/mixins.py:137
 #, python-brace-format
 msgid "{model_name} {self.name_field}=\"{name}\" was {self.action_name}"
 msgstr "{model_name} {self.name_field}=\"{name}\" fue {self.action_name}"
 
-#: killay/admin/views/mixins.py:361
+#: killay/admin/views/mixins.py:350
+#, fuzzy, python-brace-format
+#| msgid "Video {self.label_plural} saved successfully"
+msgid "{self.model._meta.verbose_name_plural} saved successfully"
+msgstr "{self.label_plural} guardada exitosamente"
+
+#: killay/admin/views/mixins.py:353
+#, fuzzy, python-brace-format
+#| msgid "Delete {self.model._meta.verbose_name}"
+msgid "Error saving {self.model._meta.verbose_name_plural}"
+msgstr "Eliminar {self.model._meta.verbose_name}"
+
+#: killay/admin/views/mixins.py:372
 msgid "Page is not “last”, nor can it be converted to an int."
 msgstr "Página no es \"last\" o no puede ser convertida en número"
 
-#: killay/admin/views/mixins.py:369
+#: killay/admin/views/mixins.py:380
 #, python-format
 msgid "Invalid page (%(page_number)s): %(message)s"
 msgstr "Página inválida (%(page_number)s): %(message)s"
 
-#: killay/admin/views/mixins.py:394
+#: killay/admin/views/mixins.py:405
 #, fuzzy, python-brace-format
 msgid "{self.parent_model.Meta.verbose_name} not exists"
 msgstr "{self.parent_model.Meta.verbose_name} no existe"
-
-#: killay/admin/views/videos.py:50
-msgid "Video not exists"
-msgstr "Video no existe"
-
-#: killay/admin/views/videos.py:78 killay/admin/views/videos.py:99
-#, python-brace-format
-msgid "Video [{self.object.code}] saved successfully"
-msgstr "Video [{self.object.code}] guardado exitosamente"
-
-#: killay/admin/views/videos.py:115
-#: killay/templates/admin/videos/video_sequences_list.html:5
-msgid "Video Sequences"
-msgstr "Sequencias de Video"
-
-#: killay/admin/views/videos.py:128
-#, fuzzy
-#| msgid "Video Sequences"
-msgid "Create Video Sequence"
-msgstr "Sequencias de Video"
-
-#: killay/admin/views/videos.py:143
-msgid "Video not found"
-msgstr ""
-
-#: killay/admin/views/videos.py:157
-#, fuzzy, python-brace-format
-#| msgid "Page \"{self.object.title}\" was created"
-msgid "Video Sequence \"{self.object.title}\" was created"
-msgstr "Página \"{self.object.username}\" fue creada"
-
-#: killay/admin/views/videos.py:196
-msgid "Video categorization saved successfully"
-msgstr "Categorización de video guardada exitosamente"
-
-#: killay/admin/views/videos.py:206
-msgid "Error saving video categorization"
-msgstr "Error guardando la categorización de video"
-
-#: killay/admin/views/videos.py:217
-#, fuzzy
-#| msgid "Video People"
-msgid "Video Collections"
-msgstr "Gente en videos"
-
-#: killay/admin/views/videos.py:227
-#, fuzzy
-#| msgid "Create Video"
-msgid "Create Collection"
-msgstr "Crear Video"
-
-#: killay/admin/views/videos.py:230
-#, fuzzy, python-brace-format
-#| msgid "Page \"{self.object.title}\" was created"
-msgid "Collection \"{self.object}\" was created"
-msgstr "Página \"{self.object.username}\" fue creada"
-
-#: killay/admin/views/videos.py:252
-msgid "Video Categories"
-msgstr "Categorías de video"
-
-#: killay/admin/views/videos.py:262
-msgid "Create Category"
-msgstr "Crear categoría"
-
-#: killay/admin/views/videos.py:265
-#, fuzzy, python-brace-format
-#| msgid "Category \"{self.object}\" was created"
-msgid "Category \"{self.object}\" was created"
-msgstr "Categoría \"{self.object.username}\" fue creada"
-
-#: killay/admin/views/videos.py:291
-#, fuzzy, python-brace-format
-#| msgid "Category \"{self.object}\" was updated"
-msgid "Category \"{self.object}\" was updated"
-msgstr "Categoría \"{self.object.username}\" fue actualizada"
-
-#: killay/admin/views/videos.py:306
-msgid "Video People"
-msgstr "Gente en videos"
-
-#: killay/admin/views/videos.py:316
-#, fuzzy
-#| msgid "Create Page"
-msgid "Create Person"
-msgstr "Crear Página"
-
-#: killay/admin/views/videos.py:319
-#, fuzzy, python-brace-format
-#| msgid "Page \"{self.object.title}\" was created"
-msgid "Person \"{self.object}\" was created"
-msgstr "Página \"{self.object.username}\" fue creada"
-
-#: killay/admin/views/videos.py:339
-msgid "Video Keywords"
-msgstr "Palabras Clave"
-
-#: killay/admin/views/videos.py:349
-#, fuzzy
-#| msgid "Create User"
-msgid "Create Keyword"
-msgstr "Crear Usuario"
-
-#: killay/admin/views/videos.py:352
-#, fuzzy, python-brace-format
-#| msgid "Page \"{self.object.title}\" was created"
-msgid "Keyword \"{self.object}\" was created"
-msgstr "Página \"{self.object.username}\" fue creada"
 
 #: killay/archives/lib/constants.py:5
 msgid "archive"
@@ -950,7 +747,7 @@ msgstr "Nombre del Archivo"
 #: killay/archives/lib/constants.py:9 killay/archives/lib/constants.py:43
 #: killay/archives/lib/constants.py:79 killay/archives/lib/constants.py:97
 #: killay/archives/lib/constants.py:115 killay/archives/managers.py:18
-#: killay/pages/lib/constants.py:9 killay/videos/models.py:264
+#: killay/pages/lib/constants.py:9
 msgid "Slug"
 msgstr "Slug"
 
@@ -988,11 +785,11 @@ msgstr "Restringido a estos lugares"
 msgid "If the archive is restricted it will be visible only in these places"
 msgstr "Si el archivo es restringido será visible únicamente en estos lugares"
 
-#: killay/archives/lib/constants.py:37 killay/videos/models.py:286
+#: killay/archives/lib/constants.py:37
 msgid "collection"
 msgstr "colección"
 
-#: killay/archives/lib/constants.py:38 killay/videos/models.py:287
+#: killay/archives/lib/constants.py:38
 msgid "collections"
 msgstr "colecciones"
 
@@ -1033,18 +830,16 @@ msgid "If the collection is restricted it will be visible only in these places"
 msgstr ""
 "Si la colección es restringida será visible únicamente en estos lugares"
 
-#: killay/archives/lib/constants.py:71 killay/videos/models.py:309
+#: killay/archives/lib/constants.py:71
 msgid "category"
 msgstr "categoría"
 
-#: killay/archives/lib/constants.py:72 killay/videos/models.py:310
+#: killay/archives/lib/constants.py:72
 msgid "categories"
 msgstr "categorías"
 
 #: killay/archives/lib/constants.py:73 killay/archives/lib/constants.py:158
-#: killay/pages/lib/constants.py:34 killay/videos/models.py:242
-#: killay/videos/models.py:305 killay/videos/models.py:330
-#: killay/videos/models.py:355
+#: killay/pages/lib/constants.py:34
 msgid "Collection"
 msgstr "Colección"
 
@@ -1064,11 +859,11 @@ msgstr "Slug de la categoría, debe ser única en el sitio"
 msgid "Description of the category"
 msgstr "Descripción de la categoría"
 
-#: killay/archives/lib/constants.py:93 killay/videos/models.py:334
+#: killay/archives/lib/constants.py:93
 msgid "person"
 msgstr "persona"
 
-#: killay/archives/lib/constants.py:94 killay/videos/models.py:335
+#: killay/archives/lib/constants.py:94
 msgid "people"
 msgstr "gente"
 
@@ -1084,11 +879,11 @@ msgstr "Slug de la persona, debe ser único en el sitio"
 msgid "Description of the person"
 msgstr "Descripción de la persona"
 
-#: killay/archives/lib/constants.py:111 killay/videos/models.py:359
+#: killay/archives/lib/constants.py:111
 msgid "keyword"
 msgstr "palabra clave"
 
-#: killay/archives/lib/constants.py:112 killay/videos/models.py:360
+#: killay/archives/lib/constants.py:112
 msgid "keywords"
 msgstr "palabras claves"
 
@@ -1125,9 +920,6 @@ msgid "pieces"
 msgstr "piezas"
 
 #: killay/archives/lib/constants.py:142
-#: killay/templates/admin/videos/video_categorization.html:13
-#: killay/templates/admin/videos/video_sequences_list.html:17
-#: killay/templates/videos/video_detail.html:63 killay/videos/models.py:17
 msgid "Code"
 msgstr "Código"
 
@@ -1137,11 +929,6 @@ msgstr "Código de la pieza, debe ser único en el sitio"
 
 #: killay/archives/lib/constants.py:144 killay/archives/lib/constants.py:179
 #: killay/pages/lib/constants.py:7
-#: killay/templates/admin/videos/video_categorization.html:16
-#: killay/templates/admin/videos/video_form.html:20
-#: killay/templates/admin/videos/video_sequences_list.html:20
-#: killay/templates/videos/video_detail.html:66 killay/videos/models.py:70
-#: killay/videos/models.py:196
 msgid "Title"
 msgstr "Título"
 
@@ -1149,7 +936,7 @@ msgstr "Título"
 msgid "Title of the piece"
 msgstr "Título de la pieza"
 
-#: killay/archives/lib/constants.py:146 killay/videos/models.py:23
+#: killay/archives/lib/constants.py:146
 msgid "Thumb"
 msgstr "Miniatura"
 
@@ -1209,7 +996,7 @@ msgstr "sequencias"
 msgid "Title of piece sequence"
 msgstr "Título de secuencia de pieza"
 
-#: killay/archives/lib/constants.py:181 killay/videos/models.py:198
+#: killay/archives/lib/constants.py:181
 msgid "Content"
 msgstr "Contenido"
 
@@ -1217,7 +1004,7 @@ msgstr "Contenido"
 msgid "Tex content of piece sequence"
 msgstr "Contenido de texto de la secuencia de pieza"
 
-#: killay/archives/lib/constants.py:183 killay/videos/models.py:199
+#: killay/archives/lib/constants.py:183
 msgid "Initiation"
 msgstr "Inicio"
 
@@ -1225,7 +1012,7 @@ msgstr "Inicio"
 msgid "Initiation time of piece sequence"
 msgstr "Tiempo de inicio de la sequencia de pieza"
 
-#: killay/archives/lib/constants.py:185 killay/videos/models.py:200
+#: killay/archives/lib/constants.py:185
 msgid "End"
 msgstr "Fin"
 
@@ -1241,7 +1028,7 @@ msgstr "proveedor"
 msgid "providers"
 msgstr "proveedores"
 
-#: killay/archives/lib/constants.py:192 killay/videos/models.py:111
+#: killay/archives/lib/constants.py:192
 msgid "Active"
 msgstr "Activo"
 
@@ -1293,7 +1080,6 @@ msgstr ""
 "documento o sonido"
 
 #: killay/archives/lib/constants.py:214
-#: killay/templates/admin/videos/video_form.html:69 killay/videos/models.py:112
 msgid "Online"
 msgstr "En línea"
 
@@ -1310,7 +1096,6 @@ msgid "piece metadatas"
 msgstr "metadatos de piezas"
 
 #: killay/archives/lib/constants.py:243
-#: killay/templates/videos/video_detail.html:70 killay/videos/models.py:72
 msgid "Event"
 msgstr "Evento"
 
@@ -1323,7 +1108,6 @@ msgid "Description of the piece"
 msgstr "Descripción de la pieza"
 
 #: killay/archives/lib/constants.py:247
-#: killay/templates/videos/video_detail.html:85 killay/videos/models.py:76
 msgid "Description Date"
 msgstr "Fecha de la descripción"
 
@@ -1336,7 +1120,6 @@ msgid "Location related to the piece"
 msgstr "Locación relacionada con la pieza"
 
 #: killay/archives/lib/constants.py:251
-#: killay/templates/videos/video_detail.html:95 killay/videos/models.py:81
 msgid "Duration"
 msgstr "Duración"
 
@@ -1345,7 +1128,6 @@ msgid "Piece duration if applicable"
 msgstr "Duración de la pieza si aplica"
 
 #: killay/archives/lib/constants.py:253
-#: killay/templates/videos/video_detail.html:75 killay/videos/models.py:83
 msgid "Register Date"
 msgstr "Fecha de registro"
 
@@ -1354,7 +1136,6 @@ msgid "Register date of the piece"
 msgstr "Fecha de registro de la pieza"
 
 #: killay/archives/lib/constants.py:255
-#: killay/templates/videos/video_detail.html:100 killay/videos/models.py:86
 msgid "Register Author"
 msgstr "Autor del registro"
 
@@ -1363,7 +1144,6 @@ msgid "Author of the piece record"
 msgstr "Author del registro de la pieza"
 
 #: killay/archives/lib/constants.py:257
-#: killay/templates/videos/video_detail.html:105 killay/videos/models.py:89
 msgid "Productor"
 msgstr "Productor"
 
@@ -1372,7 +1152,6 @@ msgid "Productor of the piece"
 msgstr "Productor de la pieza"
 
 #: killay/archives/lib/constants.py:259
-#: killay/templates/videos/video_detail.html:110 killay/videos/models.py:91
 msgid "Notes"
 msgstr "Notas"
 
@@ -1381,7 +1160,6 @@ msgid "Notes related to the piece"
 msgstr "Notas relacionadas con la pieza"
 
 #: killay/archives/lib/constants.py:261
-#: killay/templates/videos/video_detail.html:115 killay/videos/models.py:93
 msgid "Archivist Notes"
 msgstr "Notas del archivero"
 
@@ -1392,7 +1170,6 @@ msgid "Archivist notes of the piece"
 msgstr "Notas del archivero sobre la pieza"
 
 #: killay/archives/lib/constants.py:263
-#: killay/templates/videos/video_detail.html:120 killay/videos/models.py:96
 msgid "Documentary Unit"
 msgstr "Unidad documental"
 
@@ -1401,7 +1178,6 @@ msgid "Documentary unit of the piece"
 msgstr "Unidad documental de la pieza"
 
 #: killay/archives/lib/constants.py:265
-#: killay/templates/videos/video_detail.html:125 killay/videos/models.py:99
 msgid "Language"
 msgstr "Lenguaje"
 
@@ -1410,7 +1186,6 @@ msgid "Language of the piece"
 msgstr "Lenguaje de la pieza"
 
 #: killay/archives/lib/constants.py:267
-#: killay/templates/videos/video_detail.html:130 killay/videos/models.py:102
 msgid "Original Format"
 msgstr "Formato original"
 
@@ -1475,14 +1250,12 @@ msgid "Description of the place address"
 msgstr "Descripción de la dirección del lugar"
 
 #: killay/archives/managers.py:6 killay/pages/lib/constants.py:13
-#: killay/templates/admin/videos/video_form.html:23
-#: killay/users/lib/constants.py:5 killay/videos/models.py:20
+#: killay/users/lib/constants.py:5
 msgid "Created at"
 msgstr "Creado en"
 
 #: killay/archives/managers.py:7 killay/pages/lib/constants.py:14
-#: killay/templates/admin/videos/video_form.html:26
-#: killay/users/lib/constants.py:6 killay/videos/models.py:21
+#: killay/users/lib/constants.py:6
 msgid "Updated at"
 msgstr "Editado en"
 
@@ -1584,74 +1357,20 @@ msgstr "Página"
 msgid "Link"
 msgstr "Enlace"
 
-#: killay/templates/admin/components/field_image_input.html:27
-msgid "Upload"
-msgstr "Subir"
-
-#: killay/templates/admin/formset_list.html:58
-msgid "Total"
-msgstr "Total"
-
-#: killay/templates/admin/formset_list.html:58
-msgid " for the search"
-msgstr " para la búsqueda"
-
-#: killay/templates/admin/generic_delete.html:12
-#, fuzzy, python-format
-msgid "Are you sure you want to delete \"%(object)s\"?"
-msgstr "Estás seguro que quieres eliminar \"%(object)s\"?"
-
-#: killay/templates/admin/site_configuration.html:17
-#: killay/templates/admin/videos/video_form.html:38
-msgid "System fields"
-msgstr "Campos del sistema"
-
-#: killay/templates/admin/site_configuration.html:39
-msgid "Social Media"
-msgstr "Redes Sociales"
-
-#: killay/templates/admin/videos/video_form.html:59
-msgid "Video Providers"
-msgstr "Proveedores de Video"
-
-#: killay/templates/admin/videos/video_form.html:107
-msgid "Watch"
-msgstr "Ver"
-
-#: killay/templates/admin/videos/video_form.html:145
-msgid "Metadata"
-msgstr "Metadatos"
-
-#: killay/templates/admin/videos/video_sequences_list.html:30
-msgid "Order"
-msgstr "Orden"
-
 #: killay/templates/components/footer.html:21
 #: killay/templates/components/footer.html:34
 msgid "It is not visible"
 msgstr "No es visible"
 
-#: killay/templates/components/navbar-mobile.html:40
-#: killay/templates/components/navbar.html:66 killay/viewer/lib/constants.py:5
-#: killay/viewer/lib/constants.py:21
-msgid "All"
-msgstr "Todos"
+#: killay/users/forms.py:28
+msgid "This username has already been taken."
+msgstr ""
 
-#: killay/templates/components/navbar-mobile.html:52
-#: killay/templates/components/navbar.html:24 killay/viewer/lib/constants.py:7
-msgid "Log Out"
-msgstr "Cerrar sesión"
-
-#: killay/templates/components/navbar-mobile.html:57
-#: killay/templates/components/navbar.html:29 killay/viewer/lib/constants.py:6
-msgid "Log In"
-msgstr "Acceder"
-
-#: killay/templates/users/login.html:10
+#: killay/users/templates/users/login.html:9
 msgid "Your username and password didn't match. Please try again."
 msgstr "Usuario y contraseña no coinciden. Por favor intenta de nuevo."
 
-#: killay/templates/users/login.html:20
+#: killay/users/templates/users/login.html:19
 msgid ""
 "Your account doesn't have access to this page. To proceed, please login with "
 "an account that has access."
@@ -1659,21 +1378,21 @@ msgstr ""
 "Tu cuenta no tiene acceso a esta página. Para proceder, favor logearse con "
 "una cuenta con acceso."
 
-#: killay/templates/users/login.html:27
+#: killay/users/templates/users/login.html:26
 msgid "Please login to see this page."
 msgstr "Favor acceder para ver esta página."
 
-#: killay/templates/users/login.html:47
+#: killay/users/templates/users/login.html:46
 msgid "Restore password"
 msgstr "Reestablecer contraseña"
 
-#: killay/templates/users/password_change_form.html:16
-#: killay/templates/users/password_reset_confirm.html:21
-#: killay/templates/users/user_form.html:39
+#: killay/users/templates/users/password_change_form.html:16
+#: killay/users/templates/users/password_reset_confirm.html:21
+#: killay/users/templates/users/user_form.html:39
 msgid "Change Password"
 msgstr "Cambiar Contraseña"
 
-#: killay/templates/users/password_reset_confirm.html:10
+#: killay/users/templates/users/password_reset_confirm.html:10
 #, python-format
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
@@ -1684,16 +1403,16 @@ msgstr ""
 "sido usado. Por favor, requerir un nuevo <a href=\"%(passwd_reset_url)s"
 "\">reinicio de contraseña </a>."
 
-#: killay/templates/users/password_reset_form.html:5
-#: killay/templates/users/password_reset_form.html:19
+#: killay/users/templates/users/password_reset_form.html:5
+#: killay/users/templates/users/password_reset_form.html:19
 msgid "Password Reset"
 msgstr "Recuperación de Contraseña"
 
-#: killay/templates/users/password_reset_form.html:14
+#: killay/users/templates/users/password_reset_form.html:14
 msgid "You are authenticated"
 msgstr "Ya estás autentificado"
 
-#: killay/templates/users/password_reset_form.html:21
+#: killay/users/templates/users/password_reset_form.html:21
 msgid ""
 "Forgotten your password? Enter your e-mail address below, and we'll send you "
 "an e-mail allowing you to reset it."
@@ -1701,109 +1420,42 @@ msgstr ""
 "¿Perdiste tu contraseña? Ingresa tu dirección de correo, y te enviaremos  un "
 "correo para que puedas reestablecerla."
 
-#: killay/templates/users/password_reset_form.html:26
+#: killay/users/templates/users/password_reset_form.html:26
 msgid "Reset My Password"
 msgstr "Reestablecer contraseña"
 
-#: killay/templates/users/user_form.html:20
+#: killay/users/templates/users/user_form.html:20
 msgid "Update user"
 msgstr "Editar usuario"
-
-#: killay/templates/videos/video_detail.html:45
-msgid "No video provider"
-msgstr "Sin proveedor de Video"
-
-#: killay/templates/videos/video_list.html:5
-msgid "Result for"
-msgstr "Resultados para"
-
-#: killay/users/forms.py:28
-msgid "This username has already been taken."
-msgstr ""
 
 #: killay/users/views.py:30
 #, python-brace-format
 msgid "User {self.object.username} updated"
 msgstr "Usuario {self.object.username} editado"
 
-#: killay/users/views.py:62
+#: killay/users/views.py:67
 msgid "We have sent you an e-mail with your reset link"
 msgstr "Hemos enviado un correo con un enlace de reestablecimiento"
 
-#: killay/users/views.py:75 killay/users/views.py:87
+#: killay/users/views.py:80 killay/users/views.py:92
 msgid "Your password is now changed."
 msgstr "Tu contraseña ha sido cambiada"
-
-#: killay/videos/models.py:33
-msgid "video"
-msgstr "video"
-
-#: killay/videos/models.py:34
-msgid "videos"
-msgstr "videos"
-
-#: killay/videos/models.py:106
-msgid "video metadata"
-msgstr "Metadatos de video"
-
-#: killay/videos/models.py:107
-msgid "video metadatas"
-msgstr "Metadatos de videos"
-
-#: killay/videos/models.py:113
-msgid "Checked at"
-msgstr "Verificado en"
-
-#: killay/videos/models.py:116
-msgid "Ply Embed ID"
-msgstr ""
-
-#: killay/videos/models.py:119
-msgid "Ply Provider"
-msgstr "Proveedores Ply"
-
-#: killay/videos/models.py:127 killay/videos/models.py:128
-#, fuzzy
-#| msgid "No video provider"
-msgid "video provider"
-msgstr "Sin proveedor de Video"
-
-#: killay/videos/models.py:203
-#, fuzzy
-#| msgid "Video Sequences"
-msgid "video sequence"
-msgstr "Sequencias de Video"
-
-#: killay/videos/models.py:204
-#, fuzzy
-#| msgid "Video Sequences"
-msgid "video sequences"
-msgstr "Sequencias de Video"
-
-#: killay/videos/models.py:255
-#, fuzzy
-#| msgid "Categorization"
-msgid "video categorization"
-msgstr "Categorización"
-
-#: killay/videos/models.py:256
-#, fuzzy
-#| msgid "Categorization"
-msgid "video categorizations"
-msgstr "Categorización"
-
-#: killay/videos/views.py:103
-msgid "Not collection found"
-msgstr ""
-
-#: killay/videos/views.py:145
-#, python-brace-format
-msgid "Videos with \"{self.query_search}\" not founded."
-msgstr "No fueron encontrados videos con \"{self.query_search}\""
 
 #: killay/viewer/apps.py:7
 msgid "Viewer"
 msgstr "Visualizador"
+
+#: killay/viewer/lib/constants.py:5 killay/viewer/lib/constants.py:21
+msgid "All"
+msgstr "Todos"
+
+#: killay/viewer/lib/constants.py:6
+msgid "Log In"
+msgstr "Acceder"
+
+#: killay/viewer/lib/constants.py:7
+msgid "Log Out"
+msgstr "Cerrar sesión"
 
 #: killay/viewer/lib/constants.py:15
 msgid "Scope"
@@ -1924,3 +1576,203 @@ msgstr "Persona"
 #: killay/viewer/lib/constants.py:142
 msgid "Keyword"
 msgstr "Palabra Clave"
+
+#~ msgid "{self.model._meta.verbose_name} \"{self.object}\" was updated"
+#~ msgstr "{self.model._meta.verbose_name} \"{self.object}\" fue editado"
+
+#, fuzzy
+#~| msgid "{self.model._meta.verbose_name} \"{self.object}\" was updated"
+#~ msgid "Update {self.object._meta.verbose_name} {self.object}"
+#~ msgstr "{self.model._meta.verbose_name} \"{self.object}\" fue editado"
+
+#~ msgid "{self.model._meta.verbose_name} \"{self.object}\" was deleted"
+#~ msgstr "{self.model._meta.verbose_name} \"{self.object}\" se eliminó"
+
+#~ msgid "Delete {self.model._meta.verbose_name}"
+#~ msgstr "Eliminar {self.model._meta.verbose_name}"
+
+#~ msgid "Error saving Video"
+#~ msgstr "Error guardando el video"
+
+#, fuzzy
+#~| msgid "No video provider"
+#~ msgid "Not video found"
+#~ msgstr "Sin proveedor de Video"
+
+#, fuzzy
+#~| msgid "Delete {self.model._meta.verbose_name}"
+#~ msgid "{self.model._meta.verbose_name} "
+#~ msgstr "Eliminar {self.model._meta.verbose_name}"
+
+#, fuzzy
+#~| msgid "Delete {self.model._meta.verbose_name}"
+#~ msgid "Error saving {self.model._meta.verbose_name} "
+#~ msgstr "Eliminar {self.model._meta.verbose_name}"
+
+#~ msgid "Create Video"
+#~ msgstr "Crear Video"
+
+#~ msgid "Categorization"
+#~ msgstr "Categorización"
+
+#~ msgid "Video not exists"
+#~ msgstr "Video no existe"
+
+#~ msgid "Video [{self.object.code}] saved successfully"
+#~ msgstr "Video [{self.object.code}] guardado exitosamente"
+
+#~ msgid "Video Sequences"
+#~ msgstr "Sequencias de Video"
+
+#, fuzzy
+#~| msgid "Video Sequences"
+#~ msgid "Create Video Sequence"
+#~ msgstr "Sequencias de Video"
+
+#, fuzzy
+#~| msgid "Page \"{self.object.title}\" was created"
+#~ msgid "Video Sequence \"{self.object.title}\" was created"
+#~ msgstr "Página \"{self.object.username}\" fue creada"
+
+#~ msgid "Video categorization saved successfully"
+#~ msgstr "Categorización de video guardada exitosamente"
+
+#~ msgid "Error saving video categorization"
+#~ msgstr "Error guardando la categorización de video"
+
+#, fuzzy
+#~| msgid "Video People"
+#~ msgid "Video Collections"
+#~ msgstr "Gente en videos"
+
+#, fuzzy
+#~| msgid "Create Video"
+#~ msgid "Create Collection"
+#~ msgstr "Crear Video"
+
+#, fuzzy
+#~| msgid "Page \"{self.object.title}\" was created"
+#~ msgid "Collection \"{self.object}\" was created"
+#~ msgstr "Página \"{self.object.username}\" fue creada"
+
+#~ msgid "Video Categories"
+#~ msgstr "Categorías de video"
+
+#~ msgid "Create Category"
+#~ msgstr "Crear categoría"
+
+#, fuzzy
+#~| msgid "Category \"{self.object}\" was created"
+#~ msgid "Category \"{self.object}\" was created"
+#~ msgstr "Categoría \"{self.object.username}\" fue creada"
+
+#, fuzzy
+#~| msgid "Category \"{self.object}\" was updated"
+#~ msgid "Category \"{self.object}\" was updated"
+#~ msgstr "Categoría \"{self.object.username}\" fue actualizada"
+
+#~ msgid "Video People"
+#~ msgstr "Gente en videos"
+
+#, fuzzy
+#~| msgid "Create Page"
+#~ msgid "Create Person"
+#~ msgstr "Crear Página"
+
+#, fuzzy
+#~| msgid "Page \"{self.object.title}\" was created"
+#~ msgid "Person \"{self.object}\" was created"
+#~ msgstr "Página \"{self.object.username}\" fue creada"
+
+#~ msgid "Video Keywords"
+#~ msgstr "Palabras Clave"
+
+#, fuzzy
+#~| msgid "Create User"
+#~ msgid "Create Keyword"
+#~ msgstr "Crear Usuario"
+
+#, fuzzy
+#~| msgid "Page \"{self.object.title}\" was created"
+#~ msgid "Keyword \"{self.object}\" was created"
+#~ msgstr "Página \"{self.object.username}\" fue creada"
+
+#~ msgid "Total"
+#~ msgstr "Total"
+
+#~ msgid " for the search"
+#~ msgstr " para la búsqueda"
+
+#, fuzzy
+#~ msgid "Are you sure you want to delete \"%(object)s\"?"
+#~ msgstr "Estás seguro que quieres eliminar \"%(object)s\"?"
+
+#~ msgid "System fields"
+#~ msgstr "Campos del sistema"
+
+#~ msgid "Social Media"
+#~ msgstr "Redes Sociales"
+
+#~ msgid "Video Providers"
+#~ msgstr "Proveedores de Video"
+
+#~ msgid "Watch"
+#~ msgstr "Ver"
+
+#~ msgid "Metadata"
+#~ msgstr "Metadatos"
+
+#~ msgid "Order"
+#~ msgstr "Orden"
+
+#~ msgid "No video provider"
+#~ msgstr "Sin proveedor de Video"
+
+#~ msgid "Result for"
+#~ msgstr "Resultados para"
+
+#~ msgid "video"
+#~ msgstr "video"
+
+#~ msgid "videos"
+#~ msgstr "videos"
+
+#~ msgid "video metadata"
+#~ msgstr "Metadatos de video"
+
+#~ msgid "video metadatas"
+#~ msgstr "Metadatos de videos"
+
+#~ msgid "Checked at"
+#~ msgstr "Verificado en"
+
+#~ msgid "Ply Provider"
+#~ msgstr "Proveedores Ply"
+
+#, fuzzy
+#~| msgid "No video provider"
+#~ msgid "video provider"
+#~ msgstr "Sin proveedor de Video"
+
+#, fuzzy
+#~| msgid "Video Sequences"
+#~ msgid "video sequence"
+#~ msgstr "Sequencias de Video"
+
+#, fuzzy
+#~| msgid "Video Sequences"
+#~ msgid "video sequences"
+#~ msgstr "Sequencias de Video"
+
+#, fuzzy
+#~| msgid "Categorization"
+#~ msgid "video categorization"
+#~ msgstr "Categorización"
+
+#, fuzzy
+#~| msgid "Categorization"
+#~ msgid "video categorizations"
+#~ msgstr "Categorización"
+
+#~ msgid "Videos with \"{self.query_search}\" not founded."
+#~ msgstr "No fueron encontrados videos con \"{self.query_search}\""

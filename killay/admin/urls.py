@@ -13,7 +13,6 @@ from killay.admin.views.content_manager import keywords as keywords_views
 from killay.admin.views.content_manager import pieces as pieces_views
 from killay.admin.views.content_manager import places as places_views
 
-from killay.admin.views import videos as videos_views
 from killay.admin.views import users as users_views
 from killay.admin.views import pages as pages_views
 
@@ -292,91 +291,6 @@ urlpatterns += [
     ),
 ]
 
-
-urlpatterns += [
-    path("videos/~create/", view=videos_views.video_create_view, name="videos_create"),
-    path(
-        "videos/~collections/",
-        view=videos_views.video_collections_view,
-        name="videos_collections",
-    ),
-    path(
-        "videos/~collections/create/",
-        view=videos_views.video_collection_create_view,
-        name="videos_collection_create",
-    ),
-    path(
-        "videos/~collections/<str:slug>/",
-        view=videos_views.video_collection_update_view,
-        name="videos_collection_update",
-    ),
-    path(
-        "videos/~categories/",
-        view=videos_views.video_categories_view,
-        name="videos_categories",
-    ),
-    path(
-        "videos/~categories/create/",
-        view=videos_views.video_category_create_view,
-        name="videos_category_create",
-    ),
-    path(
-        "videos/~categories/c/<str:collection>/<str:slug>/",
-        view=videos_views.video_category_update_view,
-        name="videos_category_update",
-    ),
-    path("videos/~people/", view=videos_views.video_people_view, name="videos_people"),
-    path(
-        "videos/~people/create/",
-        view=videos_views.video_person_create_view,
-        name="videos_person_create",
-    ),
-    path(
-        "videos/~people/c/<str:collection>/<str:slug>/",
-        view=videos_views.video_person_update_view,
-        name="videos_person_update",
-    ),
-    path(
-        "videos/~keywords/",
-        view=videos_views.video_keywords_view,
-        name="videos_keywords",
-    ),
-    path(
-        "videos/~keywords/create/",
-        view=videos_views.video_keyword_create_view,
-        name="videos_keyword_create",
-    ),
-    path(
-        "videos/~keywords/c/<str:collection>/<str:slug>/",
-        view=videos_views.video_keyword_update_view,
-        name="videos_keyword_update",
-    ),
-    path(
-        "videos/c/<str:collection>/<str:slug>/~sequences/create/",
-        view=videos_views.video_sequences_create_view,
-        name="videos_sequences_create",
-    ),
-    path(
-        "videos/c/<str:collection>/<str:slug>/~sequences/",
-        view=videos_views.video_sequences_list_view,
-        name="videos_sequences_list",
-    ),
-    path(
-        "videos/c/<str:collection>/<str:slug>/~categorization/",
-        view=videos_views.video_categorization_view,
-        name="videos_categorization",
-    ),
-    path(
-        "videos/c/<str:collection>/<str:slug>/~delete/",
-        view=videos_views.video_delete_view,
-        name="videos_delete",
-    ),
-    path(
-        "videos/c/<str:collection>/<str:slug>/~update/",
-        view=videos_views.video_update_view,
-        name="videos_update",
-    ),
-]
 
 # Users Views
 

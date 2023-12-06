@@ -22,18 +22,3 @@ class TestPagesContext:
                 assert menu_page["slug"] == home_page.slug
                 assert menu_page["url"] == home_page.get_absolute_url()
                 assert menu_page["selected"] is False
-
-    def test_with_home_page(self, page: Page, home_page: Page, rf: RequestFactory):
-        request = rf.get("/")
-        menu_pages = pages_context(request)["menu_pages"]
-
-        for menu_page in menu_pages:
-            if menu_page["selected"] is True:
-                assert menu_page["title"] == home_page.title
-                assert menu_page["slug"] == home_page.slug
-                assert menu_page["url"] == home_page.get_absolute_url()
-            else:
-                assert menu_page["title"] == page.title
-                assert menu_page["slug"] == page.slug
-                assert menu_page["url"] == page.get_absolute_url()
-                assert menu_page["selected"] is False

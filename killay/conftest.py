@@ -12,27 +12,6 @@ from killay.users.tests.factories import UserFactory, UserAdminFactory
 from killay.pages.models import Page
 from killay.pages.tests.factories import PageFactory, HomePageFactory
 
-from killay.videos.models import (
-    Video,
-    VideoCategorization,
-    VideoCategory,
-    VideoCollection,
-    VideoKeyword,
-    VideoPerson,
-    VideoProvider,
-    VideoSequence,
-)
-from killay.videos.tests.factories import (
-    VideoFactory,
-    VideoCategorizationFactory,
-    VideoCategoryFactory,
-    VideoCollectionFactory,
-    VideoKeywordFactory,
-    VideoPersonFactory,
-    VideoProviderFactory,
-    VideoSequenceFactory,
-)
-
 
 @pytest.fixture
 def rf_msg(rf):
@@ -72,68 +51,6 @@ def page() -> Page:
 @pytest.fixture
 def home_page() -> Page:
     return HomePageFactory()
-
-
-@pytest.fixture
-def video() -> Video:
-    return VideoFactory()
-
-
-@pytest.fixture
-def video_provider(video: Video) -> VideoProvider:
-    return VideoProviderFactory(video=video)
-
-
-@pytest.fixture
-def video_providers(video: Video) -> VideoProvider:
-    return VideoProviderFactory.create_batch(5, video=video)
-
-
-@pytest.fixture
-def video_collection() -> VideoCollection:
-    return VideoCollectionFactory()
-
-
-@pytest.fixture
-def video_category(video_collection: VideoCollection) -> VideoCategory:
-    return VideoCategoryFactory(collection=video_collection)
-
-
-@pytest.fixture
-def video_person(video_collection: VideoCollection) -> VideoPerson:
-    return VideoPersonFactory(collection=video_collection)
-
-
-@pytest.fixture
-def video_keyword(video_collection: VideoCollection) -> VideoKeyword:
-    return VideoKeywordFactory(collection=video_collection)
-
-
-@pytest.fixture
-def video_categorization(
-    video: Video,
-    video_collection: VideoCollection,
-    video_category: VideoCategory,
-    video_person: VideoPerson,
-    video_keyword: VideoKeyword,
-) -> VideoCategorization:
-    return VideoCategorizationFactory(
-        video=video,
-        collection=video_collection,
-        categories=(video_category,),
-        people=(video_person,),
-        keywords=(video_keyword,),
-    )
-
-
-@pytest.fixture
-def video_sequence(video: Video) -> VideoSequence:
-    return VideoSequenceFactory(video_id=video.id)  # ini=5, end=15)
-
-
-@pytest.fixture
-def video_sequences(video: Video) -> List[VideoSequence]:
-    return VideoSequenceFactory.create_batch(5, video_id=video.id)
 
 
 @pytest.fixture

@@ -112,14 +112,6 @@ class Page(models.Model):
         help_text=PageConstants.FIELD_IS_TITLE_VISIBLE_IN_BODY_HELP_TEXT,
         default=False,
     )
-    # to deprecate
-    collection_site = models.ForeignKey(
-        "videos.VideoCollection",
-        on_delete=models.CASCADE,
-        related_name="pages",
-        null=True,
-        blank=True,
-    )
 
     class Meta:
         unique_together = ["slug", "site"]
@@ -134,9 +126,7 @@ class Page(models.Model):
         return f"{self.title} <{self.slug}>"
 
     def get_absolute_url(self):
-        if self.is_home:
-            return reverse("home")
-        elif self.kind == PageConstants.KIND_LINK:
+        if self.kind == PageConstants.KIND_LINK:
             return self.redirect_to
         return reverse("pages:detail", kwargs={"slug": self.slug})
 

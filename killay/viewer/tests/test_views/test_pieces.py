@@ -6,7 +6,7 @@ from killay.archives.tests import recipes as archives_recipes
 
 @pytest.mark.django_db
 class TestPieceListView:
-    path = "/viewer/pieces/"
+    path = "/pieces/"
 
     def test_default(self, client):
         piece = archives_recipes.piece_recipe.make()
@@ -51,7 +51,7 @@ class TestPieceListView:
 
 @pytest.mark.django_db
 class TestPieceDetailView:
-    path = "/viewer/pieces/{slug}/"
+    path = "/pieces/{slug}/"
 
     def test_video(self, client):
         piece = archives_recipes.piece_recipe.make(kind=PieceConstants.KIND_VIDEO)

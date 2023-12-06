@@ -7,7 +7,7 @@ from killay.viewer.lib.constants import ViewerConstants
 
 @pytest.mark.django_db
 class TestArchiveList:
-    path = "/viewer/archives/"
+    path = "/archives/"
 
     def test_response(self, client, site_configuration):
         assert site_configuration.viewer.scope == ViewerConstants.SCOPE_ALL
@@ -28,7 +28,7 @@ class TestArchiveList:
 
 @pytest.mark.django_db
 class TestArchiveDetailView:
-    path = "/viewer/archives/{slug}/"
+    path = "/archives/{slug}/"
 
     def test_response(self, client, site_configuration):
         assert site_configuration.viewer.scope == ViewerConstants.SCOPE_ALL
@@ -45,4 +45,4 @@ class TestArchiveDetailView:
 
         response = client.get(self.path.format(slug=collection.archive.slug))
         assert response.status_code == 302
-        assert response.url == "/viewer/pieces/"
+        assert response.url == "/pieces/"

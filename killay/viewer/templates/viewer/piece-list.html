@@ -24,7 +24,7 @@
       {% for piece in page_obj %}
         <a
           class="ui video-selector" href="{{piece.code}}"
-          style="{% if piece.thumb %}background-image: url('{{piece.thumb.url}}');{% else %}background-color: #dedede;{% endif %}"
+          style="{% if piece.thumb_url %}background-image: url('{{piece.thumb_url}}');{% else %}background-color: #dedede;{% endif %}"
         >
           {% if not piece.is_published %}
             <div class="not-public-label ui icon">

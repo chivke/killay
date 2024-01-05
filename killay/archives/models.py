@@ -305,6 +305,20 @@ class Piece(TimeBase):
     def active_provider(self) -> "Provider":
         return self.providers.filter(active=True).first()
 
+    @property
+    def thumb_url(self):
+        thumb_url = self.thumb.url if self.thumb else None
+        if thumb_url or self.kind != PieceConstants.KIND_VIDEO:
+            return thumb_url
+        active_provider = self.active_provider
+        if (
+            active_provider
+            and active_provider.plyr_provider == ProviderConstants.YOUTUBE
+        ):
+            return ProviderConstants.THUMB_YOUTUBE_TEMPLATE.format(
+                code=active_provider.ply_embed_id
+            )
+
 
 class Sequence(TimeBase):
     piece = models.ForeignKey(Piece, on_delete=models.CASCADE, related_name="sequences")

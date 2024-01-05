@@ -20,7 +20,7 @@
     <h2 class="ui header dividing">{{archive_data.collections.label}}</h2>
     <div class="ui link cards">
       {% for collection in archive_data.collections.items %}
-        <div class="card">
+        <a class="card" href="{% url 'viewer:piece_list' %}?collection={{collection.slug}}">
           <div class="image">
             <img src="{{collection.image}}">
           </div>
@@ -32,7 +32,7 @@
               {{collection.description}}
             </div>
           </div>
-        </div>
+        </a>
       {% endfor %}
     </div>
   </div>

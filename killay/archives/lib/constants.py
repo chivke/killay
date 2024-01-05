@@ -219,7 +219,7 @@ class ProviderConstants:
     PLYR_PROVIDER_LIST = [YOUTUBE, VIMEO]
     PLYR_PROVIDER_CHOICES = [(YOUTUBE, "Youtube"), (VIMEO, "Vimeo")]
     URL_TEMPLATE = {
-        YOUTUBE: ("https://player.{plyr_provider}.com/embed/{ply_embed_id}"),
+        YOUTUBE: ("https://{plyr_provider}.com/embed/{ply_embed_id}"),
         VIMEO: ("https://player.{plyr_provider}.com/video/{ply_embed_id}"),
     }
     URL_PLYR_TEMPLATE = {

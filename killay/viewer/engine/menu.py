@@ -92,7 +92,8 @@ class MenuBase(PipelineBase):
                 and not self.cursor.get("type") == "page"
             ),
         }
-        category_links.append(all_pieces)
+        if category_links:
+            category_links.append(all_pieces)
         return category_links
 
     def _get_archive_page_links(self, archive_id: int) -> List[Dict]:

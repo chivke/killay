@@ -10,5 +10,5 @@ openpyxl==3.1.2  # https://openpyxl.readthedocs.io/en/stable/
 # ------
 django==3.2.23 # https://www.djangoproject.com/
 django-environ==0.11.2  # https://github.com/joke2k/django-environ
-django-model-utils==4.0.0  # https://github.com/jazzband/django-model-utils
+django-model-utils==4.5.1  # https://github.com/jazzband/django-model-utils
 django-quill-editor==0.1.22  # https://github.com/LeeHanYeong/django-quill-editor

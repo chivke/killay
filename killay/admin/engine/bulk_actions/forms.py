@@ -7,7 +7,10 @@ from django.urls import reverse
 
 from openpyxl import load_workbook
 
-from killay.admin.engine.bulk_actions.executors import PieceCreateExecutor
+from killay.admin.engine.bulk_actions.executors import (
+    PieceCreateExecutor,
+    ExecutionError,
+)
 from killay.admin.engine.bulk_actions.serializers import PieceCreateSerializer
 from killay.admin.lib.constants import BulkActionConstants
 
@@ -44,7 +47,11 @@ class BulkActionForm(forms.Form):
         executor_class = self.executors[self.action_type]
         data_list = self.cleaned_data["xls_file_data"]
         executor = executor_class(data_list=data_list)
-        return executor.run()
+        try:
+            returned = executor.run()
+        except ExecutionError as error:
+            raise ValidationError({"unknown": error.data["message"]})
+        return returned
 
     def _validate_xls_file(self, action_type, xls_file) -> dict:
         data_list = self._get_file_data_list(xls_file=xls_file)

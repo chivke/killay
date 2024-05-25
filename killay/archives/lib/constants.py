@@ -233,7 +233,7 @@ class ProviderConstants:
             "title=false&amp;speed=true&amp;transparent=0&amp;gesture=media"
         ),
     }
-    YOUTUBE_ID_REGEX = r"https:\/\/[w.]*youtube.com/watch\?v=([A-Za-z0-9]*)"
+    YOUTUBE_ID_REGEX = r"https:\/\/[w.]*youtube.com/watch\?v=([A-Za-z0-9-_]*)"
     VIMEO_ID_REGEX = r"https:\/\/[w.]*vimeo.com/([0-9]*)"
     THUMB_YOUTUBE_TEMPLATE = "https://i.ytimg.com/vi/{code}/sddefault.jpg"
 

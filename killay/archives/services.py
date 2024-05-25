@@ -49,21 +49,20 @@ def _bulk_add_many_to_many_by_list_text(
     unique_names = set()
     for parent_id, related_names in data_list:
         unique_names = unique_names | set([name.strip() for name in related_names])
+    name_slug_map = {slugify(name): name for name in unique_names}
     current_instances = related_model.objects_in_site.filter(
-        name__in=list(unique_names)
+        slug__in=list(name_slug_map)
     )
     current_map = {obj.name.lower().strip(): obj for obj in current_instances}
     current_slug_map = {obj.slug: obj for obj in current_instances}
-    name_slug_map = {
-        slugify(name): name
-        for name in unique_names
+    name_slug_map = {slugify(name): name for name in unique_names}
+    instances_for_create = [
+        related_model(name=name, slug=slug)
+        for slug, name in name_slug_map.items()
         if (
             name.lower().strip() not in current_map
             and slugify(name) not in current_slug_map
         )
-    }
-    instances_for_create = [
-        related_model(name=name, slug=slug) for slug, name in name_slug_map.items()
     ]
     related_model.objects_in_site.bulk_create(objs=instances_for_create)
     created_instances = related_model.objects_in_site.filter(

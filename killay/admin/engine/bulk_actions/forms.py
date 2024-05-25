@@ -83,7 +83,8 @@ class BulkActionForm(forms.Form):
         data_list = []
         for row in list(woorksheet.iter_rows())[1:]:
             data = {fields[index]: cell.value for index, cell in enumerate(row)}
-            data_list.append(data)
+            if any(bool(value) for field, value in data.items()):
+                data_list.append(data)
         return data_list
 
     def get_file_headers_context(self) -> dict:

@@ -52,18 +52,21 @@ def _bulk_add_many_to_many_by_list_text(
     current_instances = related_model.objects_in_site.filter(
         name__in=list(unique_names)
     )
-    current_map = {obj.name.lower(): obj for obj in current_instances}
+    current_map = {obj.name.lower().strip(): obj for obj in current_instances}
     current_slug_map = {obj.slug: obj for obj in current_instances}
     instances_for_create = [
         related_model(name=name, slug=slugify(name))
         for name in unique_names
-        if (name.lower() not in current_map and slugify(name) not in current_slug_map)
+        if (
+            name.lower().strip() not in current_map
+            and slugify(name) not in current_slug_map
+        )
     ]
     related_model.objects_in_site.bulk_create(objs=instances_for_create)
     created_instances = related_model.objects_in_site.filter(
         slug__in=[obj.slug for obj in instances_for_create]
     )
-    created_map = {obj.name.lower(): obj for obj in created_instances}
+    created_map = {obj.name.lower().strip(): obj for obj in created_instances}
     created_slug_map = {obj.slug: obj for obj in created_instances}
     instances = []
     through_class = getattr(parent_model, through_field_name).through
@@ -71,7 +74,7 @@ def _bulk_add_many_to_many_by_list_text(
     for parent_id, related_names in data_list:
         related_ids = set()
         for name in related_names:
-            name_lower = name.lower()
+            name_lower = name.lower().strip()
             if name_lower in current_map:
                 related_ids.add(current_map[name_lower].id)
                 continue

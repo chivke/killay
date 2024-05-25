@@ -48,7 +48,7 @@ def _bulk_add_many_to_many_by_list_text(
 ):
     unique_names = set()
     for parent_id, related_names in data_list:
-        unique_names = unique_names | set(related_names)
+        unique_names = unique_names | set([name.strip() for name in related_names])
     current_instances = related_model.objects_in_site.filter(
         name__in=list(unique_names)
     )
@@ -74,14 +74,14 @@ def _bulk_add_many_to_many_by_list_text(
     for parent_id, related_names in data_list:
         related_ids = set()
         for name in related_names:
-            # name_lower = name.lower().strip()
-            # if name_lower in current_map:
-            #     related_ids.add(current_map[name_lower].id)
-            #     continue
+            name_lower = name.lower().strip()
+            if name_lower in current_map:
+                related_ids.add(current_map[name_lower].id)
+                continue
 
-            # if name_lower in created_map:
-            #     related_ids.add(created_map[name_lower].id)
-            #     continue
+            if name_lower in created_map:
+                related_ids.add(created_map[name_lower].id)
+                continue
 
             slug = slugify(name)
             if slug in current_slug_map:

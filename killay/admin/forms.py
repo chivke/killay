@@ -146,6 +146,7 @@ class ArchiveForm(forms.ModelForm):
             "places",
             "description",
             "position",
+            "image",
         ]
 
     description = forms.CharField(
@@ -158,6 +159,10 @@ class ArchiveForm(forms.ModelForm):
         help_text=ArchiveConstants.FIELD_PLACES_HELP_TEXT,
         queryset=Place.objects_in_site.all(),
         widget=forms.SelectMultiple(attrs={"class": "ui fluid dropdown"}),
+        required=False,
+    )
+    image = forms.ImageField(
+        help_text=ArchiveConstants.FIELD_IMAGE_HELP_TEXT,
         required=False,
     )
 
@@ -196,6 +201,7 @@ class CollectionForm(forms.ModelForm):
             "places",
             "description",
             "position",
+            "image",
         ]
 
     archive = forms.ModelChoiceField(
@@ -227,6 +233,10 @@ class CollectionForm(forms.ModelForm):
     position = forms.IntegerField(
         label=CollectionConstants.FIELD_POSITION,
         help_text=CollectionConstants.FIELD_POSITION_HELP_TEXT,
+    )
+    image = forms.ImageField(
+        help_text=CollectionConstants.FIELD_IMAGE_HELP_TEXT,
+        required=False,
     )
 
 

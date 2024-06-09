@@ -22,7 +22,7 @@ class ContentSerializer:
         default_image = static("images/default-background.svg")
         archive_data = {
             **archive.__dict__,
-            "image": archive.image or default_image,
+            "image": archive.image.url if archive.image else default_image,
             "link": reverse(pattern, kwargs={"slug": archive.slug}),
         }
         collections = self.get_collections_by_archive_id(archive_id=archive.id)
@@ -69,6 +69,8 @@ class ContentSerializer:
         instances_data = []
         for instance in instances:
             instance_data = instance.__dict__
+            if "image" in instance_data:
+                instance_data["image"] = instance.image.url if instance.image else None
             kwargs = {field: getattr(instance, field) for field in link_fields}
             instance_data["link"] = link_template.format(base_url=base_url, **kwargs)
             instances_data.append(instance_data)

@@ -4,7 +4,7 @@ Pillow==8.4  # https://github.com/python-pillow/Pillow
 argon2-cffi==20.1.0  # https://github.com/hynek/argon2_cffi
 uvicorn==0.16  # https://github.com/encode/uvicorn
 mysqlclient==2.1.1  # https://pypi.org/project/mysqlclient/
-openpyxl==3.1.2  # https://openpyxl.readthedocs.io/en/stable/
+openpyxl==3.1.4  # https://openpyxl.readthedocs.io/en/stable/
 
 # Django
 # ------
